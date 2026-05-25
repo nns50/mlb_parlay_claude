@@ -39,6 +39,10 @@ generic "team X is favored" reasoning — verify each leg against the data.
 - Target true combined win probability ≥ 33% for a +200 parlay
 - For a 3-leg parlay each leg should average ~70% true win prob
 - Check correlation between legs (don't blindly stack team ML + pitcher K prop)
+- For pitcher K-Over legs in a parlay, check alt K lines (e.g. Over 7.5 instead
+  of the standard 8.5). If the standard line sits near 50/50, the alt line is
+  usually the safer parlay leg even at -150 to -200; reserve the +EV standard
+  line for stand-alone bets
 - Confirm each leg's odds at a real sportsbook — never estimate
 - If the user asks for ~+200, calculate the actual decimal product and show it
 
@@ -54,7 +58,10 @@ generic "team X is favored" reasoning — verify each leg against the data.
 1. Pull today's schedule with confirmed probable pitchers — CROSS-CHECK probables
    from at least 2 sources (MLB.com + a beat-writer/preview article). Headlines
    often name multiple pitchers in a series preview; don't assume the first name
-   mentioned is starting today
+   mentioned is starting today. Also verify the pitcher → team attribution
+   explicitly: search-result summaries can list "Pitcher A vs Pitcher B" with the
+   names attributed to the wrong sides. Cross-check each pitcher's actual team
+   before building a leg
 2. For each candidate pitcher leg, run the pitcher-prop checklist
 3. For each candidate hitter leg, check recent form + slump news
 4. For each candidate ML/spread, verify SP quality and lineup health
