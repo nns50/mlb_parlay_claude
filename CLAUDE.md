@@ -9,10 +9,17 @@ generic "team X is favored" reasoning — verify each leg against the data.
 ### Pitcher props — verify before recommending
 - Starter vs. swingman/opener status (e.g. how many of their appearances this
   season are actual starts vs. relief). A "starter" with <50% of appearances as
-  starts has a pitch-count ceiling that kills Over K props.
+  starts has a pitch-count ceiling that kills Over K props. VERIFY the role
+  claim against a current source (player's MLB.com page, FanGraphs game log)
+  before using it to accept or reject a leg — a false role call (e.g. labeling
+  an established starter "recently called up reliever") invalidates the entire
+  leg analysis. Burned on 5/25/26 with a wrong call on Nolan McLean.
 - Recent IP per start (last 3-5 starts) — does their workload support the K line?
 - Season K/9 AND recent-form K/9 — flag if they diverge
-- Opposing lineup K-rate vs. that pitcher's handedness, not just overall team rate
+- Opposing lineup K-rate vs. that pitcher's handedness, not just overall team rate.
+  AUTO-FADE K Overs against known contact-heavy lineups even when the pitcher is
+  elite-K (Royals burned a Will Warren 10.6+ K/9 Over with 3 Ks on 5/25/26;
+  verify current K% rank for Royals/Astros/Guardians/D-backs before any K-Over leg)
 - Manager's recent hook tendency (quick hook = lower K ceiling)
 - Park and weather (cold/wind-in helps Ks, hot/wind-out hurts)
 - Last meeting vs. same opponent if recent
