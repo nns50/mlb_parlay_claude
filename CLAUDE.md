@@ -174,13 +174,23 @@ generic "team X is favored" reasoning — verify each leg against the data.
 6. List rejected candidates with reasons
 7. Flag any uncertainty and recommend re-checking lines at game time
 
+## Git workflow
+- Always commit, push, AND merge updates — never just commit. After any
+  change to `parlays/*.md` or `CLAUDE.md`, the full cycle is: commit →
+  push to the feature branch → open PR → squash-merge to main. Don't stop
+  at commit; the user expects main to reflect the latest state by the end
+  of every turn. If a merge conflict appears (typically after a prior
+  squash-merge made the branch diverge), resolve by saving the latest
+  working-tree state, resetting the branch to origin/main, re-applying the
+  state, and force-pushing — then merge.
+
 ## Learning and retrospectives
 
 ### Per-parlay logging
 - After building a parlay, save the analysis to `parlays/YYYY-MM-DD.md` in this
-  repo and commit + push it. The file should include: each leg with odds, the
-  per-leg reasoning, true win prob estimate, the combined payout math,
-  rejected candidates with reasons, and a `Result` section starting as TBD.
+  repo and commit + push + MERGE it. The file should include: each leg with
+  odds, the per-leg reasoning, true win prob estimate, the combined payout
+  math, rejected candidates with reasons, and a `Result` section starting as TBD.
 - When the user reports outcomes (e.g. "the Brewers ML hit", "Misi only got
   6 Ks"), update that day's file with per-leg results and a short
   retrospective. If something surprising burned us or worked, capture a
