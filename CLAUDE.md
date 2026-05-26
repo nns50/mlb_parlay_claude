@@ -119,6 +119,14 @@ generic "team X is favored" reasoning — verify each leg against the data.
   of the standard 8.5). If the standard line sits near 50/50, the alt line is
   usually the safer parlay leg even at -150 to -200; reserve the +EV standard
   line for stand-alone bets
+- BUT — never estimate alt-K prices when computing parlay payouts. Pull the
+  exact alt price from a real book before publishing the decimal math. Books
+  routinely juice the one-K-lower alt to -300 to -500 on elite-K arms that
+  have a 100%-recent-Over-rate at that threshold (5/26/26 burn: Burns alt 5.5
+  was estimated at ~-185 but the user's book priced it ~-400; the parlay
+  paid +103, not the published +221). If the alt comes back juicier than the
+  estimate, EITHER move that leg back to the standard line (accepting lower
+  hit rate for better payout) OR drop the leg entirely.
 - Confirm each leg's odds at a real sportsbook — never estimate
 - If the user asks for ~+200, calculate the actual decimal product and show it
 
