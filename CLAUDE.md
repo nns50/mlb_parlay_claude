@@ -160,6 +160,13 @@ generic "team X is favored" reasoning — verify each leg against the data.
      parlay file. Reference burn: 5/26/26 assumed Sheehan (LAD) and Gordon
      (COL) from yesterday; actual matchup was Lauer (LAD debut) vs Freeland.
      LAD ML moved from -320 to -235 and the true win-prob estimate moved with it.
+   - WHEN A PITCHER SWAP IS FLAGGED MID-ANALYSIS, immediately pull the new
+     pitcher's CURRENT-SEASON ERA, WHIP, recent form, and K/9. Do NOT estimate
+     from career numbers or from how the pitcher looked at their last team.
+     Reference burn: 5/26/26 Lauer was correctly identified as the LAD starter
+     but his current-season ERA (6.69) was estimated at ~4.30 from career.
+     That mis-estimate cost ~5pp on the Dodgers true win-prob, and the parlay
+     was framed as "roughly fair" when it was actually slightly -EV.
 2. For each candidate pitcher leg, run the pitcher-prop checklist
 3. For each candidate hitter leg, check recent form + slump news
 4. For each candidate ML/spread, verify SP quality and lineup health
