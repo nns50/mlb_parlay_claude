@@ -14,6 +14,9 @@ generic "team X is favored" reasoning — verify each leg against the data.
   before using it to accept or reject a leg — a false role call (e.g. labeling
   an established starter "recently called up reliever") invalidates the entire
   leg analysis. Burned on 5/25/26 with a wrong call on Nolan McLean.
+  ALSO AUTO-FADE K Overs on designated openers (planned 1-2 IP, followed by
+  bulk reliever). Verify the "starter" is going for length, not an opener day,
+  via team beat reporter or recent rotation pattern.
 - Recent IP per start (last 3-5 starts) — does their workload support the K line?
 - Season K/9 AND recent-form K/9 — flag if they diverge
 - Opposing lineup K-rate vs. that pitcher's handedness, not just overall team rate.
@@ -22,14 +25,31 @@ generic "team X is favored" reasoning — verify each leg against the data.
   verify current K% rank for Royals/Astros/Guardians/D-backs before any K-Over leg)
 - Manager's recent hook tendency (quick hook = lower K ceiling)
 - Park and weather (cold/wind-in helps Ks, hot/wind-out hurts)
-- Last meeting vs. same opponent if recent
+- Home-plate umpire's K-rate / zone tendencies. K-friendly umps inflate
+  K Overs; tight-zone umps suppress them. Check the scheduled HP ump
+  before any K-Over leg (e.g. Umpire Scorecards, Baseball Savant umpire
+  splits). A bad zone is a hidden killer of an otherwise sharp K-Over.
+- Last meeting vs. same opponent within ~14 days. Hitters adjust on the
+  second look in a short window — K rates typically drop 10-15% in the
+  second meeting. If the SP faced the same lineup in the last 14 days,
+  downgrade K-Over confidence by one tier (or fade entirely if the prior
+  start went heavily Over — the adjustment effect compounds).
 
 ### Hitter props — verify before recommending
+- CONFIRM the official lineup is posted (~2-3 hours pre-game) before
+  locking any hitter prop. A hitter on the bench cannot go Over 0.5
+  hits. Getaway-day games and back-to-backs often see regulars rested
+  without notice. If recommending pre-lineup, flag the leg as "PENDING
+  LINEUP — re-verify before bet" rather than locking it in.
 - Recent form (last 10-15 games), not just season slash line. CRITICAL: a hitter
   in a documented slump is NOT a safe "Over 0.5 hits" play regardless of season avg
 - Check for active slump narratives (news coverage of cold streaks)
 - Splits vs. opposing starter's handedness
 - Batting order slot (PA volume matters)
+- Batter-vs-pitcher (BvP) career numbers: only weight if sample is
+  ≥30 PAs in the last 3 years. Below that the sample is noise — do not
+  justify a hitter Over with "4-for-9 lifetime" type lines. Small-sample
+  BvP that LOOKS bad is also not a fade signal on its own.
 - Park factors and weather
 - Bullpen matchup if starter exits early
 
@@ -74,6 +94,14 @@ generic "team X is favored" reasoning — verify each leg against the data.
 ### Parlay construction rules
 - Target true combined win probability ≥ 33% for a +200 parlay
 - For a 3-leg parlay each leg should average ~70% true win prob
+- DEFAULT TO ONE LEG PER GAME. Multiple legs from the same game (e.g.
+  team ML + that team's pitcher K Over + that team's hitter prop) are
+  correlated and must be priced as a Same Game Parlay by the book —
+  taking them at independent-leg odds is a hidden mispricing IN THE
+  BOOK'S FAVOR (the implied win prob is lower than the standalone odds
+  suggest). Only stack same-game legs if (a) the book offers an
+  explicit SGP price, OR (b) the combined-prob estimate has been
+  manually adjusted down for the correlation.
 - Check correlation between legs (don't blindly stack team ML + pitcher K prop)
 - For pitcher K-Over legs in a parlay, check alt K lines (e.g. Over 7.5 instead
   of the standard 8.5). If the standard line sits near 50/50, the alt line is
