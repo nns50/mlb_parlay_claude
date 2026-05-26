@@ -41,6 +41,15 @@ generic "team X is favored" reasoning — verify each leg against the data.
 - Travel, day-after-night, getaway day spots
 - Line movement vs. opener (sharp money signal)
 - Modeled win probability if available — flag if it's below ~60% for a heavy fav
+- Current team trends NOT captured by season record: last 7-10 game run
+  differential, runs-per-game over last 7 days, bullpen ERA over last 14
+  days, frequency of close/1-run games recently, current win/loss streak.
+  A team can be 33-20 by record but grinding out 1-run wins lately — same
+  ML price, very different in-game comfort. Apply to BOTH sides of the
+  matchup: a 20-34 underdog that's gone 6-4 over its last 10 with a hot
+  bullpen is a different bet than its record suggests. Reference burn:
+  5/25/26 Dodgers ML -310 cashed but trailed into the 7th; the record
+  oversold the comfort level.
 
 ### Parlay construction rules
 - Target true combined win probability ≥ 33% for a +200 parlay
