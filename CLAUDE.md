@@ -59,6 +59,17 @@ generic "team X is favored" reasoning — verify each leg against the data.
   session before using): **Cubs, Rangers**. Fade or downgrade these as
   parlay legs when they appear as ML favorites until their recent form
   recovers.
+- ACTIVELY SCAN each day's slate for new candidates fitting this pattern,
+  in BOTH directions:
+    - "Was hot, now cold" — add to the fade watch list above
+    - "Was cold, now quietly hot" — note as potential underdog value
+      (good record-vs-form mismatch in the bettor's favor)
+  When a new team is identified during analysis, update the watch list
+  in this file and commit the change (one-line PR is fine) so the next
+  session inherits it. When a watched team's form recovers (last-15
+  back above .550 with positive run differential), remove it from the
+  list with a commit explaining the reason and the date — keeping the
+  list current is part of the routine, not an optional step.
 
 ### Parlay construction rules
 - Target true combined win probability ≥ 33% for a +200 parlay
