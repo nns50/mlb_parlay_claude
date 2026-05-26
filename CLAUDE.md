@@ -76,10 +76,11 @@ generic "team X is favored" reasoning — verify each leg against the data.
   10-15. The market price still reflects the earlier hot streak, so
   betting them as favorites is overpriced. Always check the last-15-games
   record and run differential, not just the season line.
-  Current watch list (as of 5/25/26 per user observation, RE-VERIFY each
-  session before using): **Cubs, Rangers**. Fade or downgrade these as
-  parlay legs when they appear as ML favorites until their recent form
-  recovers.
+  Current watch list (RE-VERIFY each session before using):
+  - **Fade as favorites — "was hot, now cold"**: Cubs (5/25/26, still
+    fading — 9-game losing streak as of 5/26/26), Rangers (5/25/26)
+  - **Value as underdogs — "quietly hot"**: Pirates (added 5/26/26 —
+    won 9 straight vs Cubs, improved offense from Cruz/Reynolds/O'Hearn)
 - ACTIVELY SCAN each day's slate for new candidates fitting this pattern,
   in BOTH directions:
     - "Was hot, now cold" — add to the fade watch list above
