@@ -60,6 +60,13 @@ generic "team X is favored" reasoning — verify each leg against the data.
   unknown) rather than guessing
 - If a leg looks borderline, say so — don't oversell
 - Show the actual decimal math for the combined payout, not just "approximately +200"
+- NEVER frame a leg as "safe", "easy", "lock", or "free money" regardless of
+  price. Use the actual win-probability number, and explicitly flag in-game
+  variance factors (e.g. starter ERA > 4.50, weak bullpen, opponent on a hot
+  run-scoring streak). A heavy-fav ML at -310 is still ~25% to lose and the
+  margin of a win is a separate dimension from W/L. Burned trust on 5/25/26
+  framing Dodgers ML as "the safer high-probability choice" — LAD trailed
+  into the 7th before winning.
 
 ### Default routine for "daily MLB parlay" requests
 1. Pull today's schedule with confirmed probable pitchers — CROSS-CHECK probables
