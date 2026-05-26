@@ -152,7 +152,14 @@ generic "team X is favored" reasoning — verify each leg against the data.
    mentioned is starting today. Also verify the pitcher → team attribution
    explicitly: search-result summaries can list "Pitcher A vs Pitcher B" with the
    names attributed to the wrong sides. Cross-check each pitcher's actual team
-   before building a leg
+   before building a leg.
+   - ALSO: do NOT reuse yesterday's pitcher assumptions for the same series.
+     Rotations rotate, mid-series acquisitions debut, and the same teams often
+     start completely different SPs the next day. Re-verify probables fresh
+     each session from the live source — never carry over from yesterday's
+     parlay file. Reference burn: 5/26/26 assumed Sheehan (LAD) and Gordon
+     (COL) from yesterday; actual matchup was Lauer (LAD debut) vs Freeland.
+     LAD ML moved from -320 to -235 and the true win-prob estimate moved with it.
 2. For each candidate pitcher leg, run the pitcher-prop checklist
 3. For each candidate hitter leg, check recent form + slump news
 4. For each candidate ML/spread, verify SP quality and lineup health
