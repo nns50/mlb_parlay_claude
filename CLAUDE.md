@@ -32,8 +32,9 @@ generic "team X is favored" reasoning — verify each leg against the data.
 - Last meeting vs. same opponent within ~14 days. Hitters adjust on the
   second look in a short window — K rates typically drop 10-15% in the
   second meeting. If the SP faced the same lineup in the last 14 days,
-  downgrade K-Over confidence by one tier (or fade entirely if the prior
-  start went heavily Over — the adjustment effect compounds).
+  downgrade K-Over confidence by one tier (or two tiers if the prior
+  start went heavily Over — the adjustment effect compounds). Do NOT
+  auto-fade entirely; a 70% leg becoming ~60% is still bettable.
 
 ### Hitter props — verify before recommending
 - CONFIRM the official lineup is posted (~2-3 hours pre-game) before
@@ -94,15 +95,25 @@ generic "team X is favored" reasoning — verify each leg against the data.
 ### Parlay construction rules
 - Target true combined win probability ≥ 33% for a +200 parlay
 - For a 3-leg parlay each leg should average ~70% true win prob
-- DEFAULT TO ONE LEG PER GAME. Multiple legs from the same game (e.g.
-  team ML + that team's pitcher K Over + that team's hitter prop) are
-  correlated and must be priced as a Same Game Parlay by the book —
-  taking them at independent-leg odds is a hidden mispricing IN THE
-  BOOK'S FAVOR (the implied win prob is lower than the standalone odds
-  suggest). Only stack same-game legs if (a) the book offers an
-  explicit SGP price, OR (b) the combined-prob estimate has been
-  manually adjusted down for the correlation.
-- Check correlation between legs (don't blindly stack team ML + pitcher K prop)
+- Same-game leg stacking is correlation-sign dependent. Don't default
+  to "always stack" or "never stack" — identify the SIGN first:
+    - POSITIVELY correlated (team ML + their SP's K Over; team total
+      Over + team ML; F5 Under + Game Under): at independent-leg odds
+      this is +EV for the bettor (true combined prob > the product
+      of standalone probs). Books offer SGP pricing to reclaim this
+      edge — when SGP is offered, compare the SGP price to the
+      independent product and take whichever pays more. Today's
+      Brewers ML + Misi K Over (5/25/26) was a positively-correlated
+      stack that cashed at independent pricing.
+    - NEGATIVELY correlated (team ML + opposing SP's K Over; team
+      total Over + opposing team ML): at independent-leg odds the
+      true combined prob is LOWER than the product implies — either
+      skip the stack or downgrade the combined-prob estimate manually
+      when building the parlay.
+    - Unclear correlation: default to one leg per game.
+  And when describing positively correlated stacks in the analysis,
+  the correlation should UP-adjust the combined-prob estimate, not
+  down-adjust it (the 5/25/26 parlay file mis-described this).
 - For pitcher K-Over legs in a parlay, check alt K lines (e.g. Over 7.5 instead
   of the standard 8.5). If the standard line sits near 50/50, the alt line is
   usually the safer parlay leg even at -150 to -200; reserve the +EV standard
