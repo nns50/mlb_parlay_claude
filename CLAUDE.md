@@ -50,6 +50,15 @@ generic "team X is favored" reasoning — verify each leg against the data.
   bullpen is a different bet than its record suggests. Reference burn:
   5/25/26 Dodgers ML -310 cashed but trailed into the 7th; the record
   oversold the comfort level.
+- SPECIFICALLY watch for "was hot, now cold" teams — clubs that built a
+  strong record in the first 30-40 games but have gone cold in the last
+  10-15. The market price still reflects the earlier hot streak, so
+  betting them as favorites is overpriced. Always check the last-15-games
+  record and run differential, not just the season line.
+  Current watch list (as of 5/25/26 per user observation, RE-VERIFY each
+  session before using): **Cubs, Rangers**. Fade or downgrade these as
+  parlay legs when they appear as ML favorites until their recent form
+  recovers.
 
 ### Parlay construction rules
 - Target true combined win probability ≥ 33% for a +200 parlay
