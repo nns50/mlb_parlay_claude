@@ -76,10 +76,11 @@ generic "team X is favored" reasoning — verify each leg against the data.
   10-15. The market price still reflects the earlier hot streak, so
   betting them as favorites is overpriced. Always check the last-15-games
   record and run differential, not just the season line.
-  Current watch list (as of 5/25/26 per user observation, RE-VERIFY each
-  session before using): **Cubs, Rangers**. Fade or downgrade these as
-  parlay legs when they appear as ML favorites until their recent form
-  recovers.
+  Current watch list (RE-VERIFY each session before using):
+  - **Fade as favorites — "was hot, now cold"**: Cubs (5/25/26, still
+    fading — 9-game losing streak as of 5/26/26), Rangers (5/25/26)
+  - **Value as underdogs — "quietly hot"**: Pirates (added 5/26/26 —
+    won 9 straight vs Cubs, improved offense from Cruz/Reynolds/O'Hearn)
 - ACTIVELY SCAN each day's slate for new candidates fitting this pattern,
   in BOTH directions:
     - "Was hot, now cold" — add to the fade watch list above
@@ -118,6 +119,14 @@ generic "team X is favored" reasoning — verify each leg against the data.
   of the standard 8.5). If the standard line sits near 50/50, the alt line is
   usually the safer parlay leg even at -150 to -200; reserve the +EV standard
   line for stand-alone bets
+- BUT — never estimate alt-K prices when computing parlay payouts. Pull the
+  exact alt price from a real book before publishing the decimal math. Books
+  routinely juice the one-K-lower alt to -300 to -500 on elite-K arms that
+  have a 100%-recent-Over-rate at that threshold (5/26/26 burn: Burns alt 5.5
+  was estimated at ~-185 but the user's book priced it ~-400; the parlay
+  paid +103, not the published +221). If the alt comes back juicier than the
+  estimate, EITHER move that leg back to the standard line (accepting lower
+  hit rate for better payout) OR drop the leg entirely.
 - Confirm each leg's odds at a real sportsbook — never estimate
 - If the user asks for ~+200, calculate the actual decimal product and show it
 
@@ -143,7 +152,14 @@ generic "team X is favored" reasoning — verify each leg against the data.
    mentioned is starting today. Also verify the pitcher → team attribution
    explicitly: search-result summaries can list "Pitcher A vs Pitcher B" with the
    names attributed to the wrong sides. Cross-check each pitcher's actual team
-   before building a leg
+   before building a leg.
+   - ALSO: do NOT reuse yesterday's pitcher assumptions for the same series.
+     Rotations rotate, mid-series acquisitions debut, and the same teams often
+     start completely different SPs the next day. Re-verify probables fresh
+     each session from the live source — never carry over from yesterday's
+     parlay file. Reference burn: 5/26/26 assumed Sheehan (LAD) and Gordon
+     (COL) from yesterday; actual matchup was Lauer (LAD debut) vs Freeland.
+     LAD ML moved from -320 to -235 and the true win-prob estimate moved with it.
 2. For each candidate pitcher leg, run the pitcher-prop checklist
 3. For each candidate hitter leg, check recent form + slump news
 4. For each candidate ML/spread, verify SP quality and lineup health
