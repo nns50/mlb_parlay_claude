@@ -213,9 +213,14 @@ the user can override at game-time if they want.
      Rotations rotate, mid-series acquisitions debut, and the same teams often
      start completely different SPs the next day. Re-verify probables fresh
      each session from the live source — never carry over from yesterday's
-     parlay file. Reference burn: 5/26/26 assumed Sheehan (LAD) and Gordon
-     (COL) from yesterday; actual matchup was Lauer (LAD debut) vs Freeland.
-     LAD ML moved from -320 to -235 and the true win-prob estimate moved with it.
+     parlay file, AND do NOT accept a search-result attribution that lists
+     yesterday's matchup (article headlines often surface "Yankees vs Royals
+     5/26" in a 5/27 search and the first-pass scan can latch onto it).
+     Reference burns: 5/26/26 assumed Sheehan/Gordon (yesterday's pitchers);
+     actual was Lauer/Freeland. 5/27/26 assumed Schlittler/Falter from a
+     5/26 article; actual was Cole (TJ-return) vs Cameron — completely
+     different pitching profile that collapsed the NYY ML edge from +11pp
+     to ~0pp.
    - WHEN A PITCHER SWAP IS FLAGGED MID-ANALYSIS, immediately pull the new
      pitcher's CURRENT-SEASON ERA, WHIP, recent form, and K/9. Do NOT estimate
      from career numbers or from how the pitcher looked at their last team.
