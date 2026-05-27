@@ -155,6 +155,17 @@ generic "team X is favored" reasoning — verify each leg against the data.
   payout — AND substitute the spread (-1.5 RL) for the ML to recover
   payout.** The spread is the only knob with enough range to keep a
   parlay near +200 when the matchup is this lopsided.
+  **BUT — when the market has already moved the spread to -150 or
+  worse**, the spread is also priced into "fairly safe" territory and
+  the substitution rule above doesn't recover the payout. Reference
+  burn: same 5/27/26 LAD/COL game, LAD -1.5 RL came in at -172
+  (market 63.2% vs true ~60% — fair). At that point the +EV pivots
+  to the UP-alt of the OPPOSING pitcher's K Over (Sanchez Over 7.5 K
+  at +182, market 35.5% vs true ~58%). The market over-anchors on
+  the favorite-team narrative and under-prices the opposing pitcher's
+  standalone K dominance. In heavy-mismatch matchups, check the
+  opposing pitcher's UP-alt K line BEFORE assuming the spread is the
+  payout-recovery knob.
 
 ### Safety-vs-EV tiebreaker (for unattended runs)
 When a leg has a real tradeoff between a safer "deeper alt" line and a more
