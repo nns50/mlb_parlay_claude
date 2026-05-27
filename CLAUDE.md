@@ -140,6 +140,21 @@ generic "team X is favored" reasoning — verify each leg against the data.
   was overconfident; actual probability was closer to 50-55%.
 - Confirm each leg's odds at a real sportsbook — never estimate
 - If the user asks for ~+200, calculate the actual decimal product and show it
+- **Heavy-mismatch matchups blow up the alt-K + favorite-ML recipe.** When the
+  model's true win prob on the favorite is ≥70% AND the pitcher matchup is a
+  clear edge (e.g. ace vs bottom-tier offense), expect ALL the standard
+  recipe legs to be priced much heavier than estimates: ML often -350 to -500,
+  one-K-lower alt often -800 to -1300, two-K-lower alt -250 to -400. The
+  "deeper alt for safety" rule then destroys parlay payout, because the
+  market has already priced the safety into the line. Reference burn:
+  5/27/26 LAD/COL — Ohtani vs Sugano. My estimates: LAD ML -230, Ohtani
+  Over 4.5 K -275, Sanchez Over 5.5 K -180. Actual book: -420, -1250, -275.
+  Build B as published would have paid -125 instead of +200. **In these
+  heavy-mismatch matchups, use the STANDARD K line (the "value alt"),
+  not the deeper alt — the deeper alt becomes a near-lock at zero
+  payout — AND substitute the spread (-1.5 RL) for the ML to recover
+  payout.** The spread is the only knob with enough range to keep a
+  parlay near +200 when the matchup is this lopsided.
 
 ### Safety-vs-EV tiebreaker (for unattended runs)
 When a leg has a real tradeoff between a safer "deeper alt" line and a more
