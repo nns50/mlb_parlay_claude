@@ -127,6 +127,17 @@ generic "team X is favored" reasoning — verify each leg against the data.
   paid +103, not the published +221). If the alt comes back juicier than the
   estimate, EITHER move that leg back to the standard line (accepting lower
   hit rate for better payout) OR drop the leg entirely.
+- For K-Over legs on pitchers with STRUCTURAL pitch-count uncertainty (Tommy
+  John return, MLB debut, post-IL return, opener-conversion, manager's
+  documented quick hook), drop ONE alt deeper than the "value" line even at
+  heavy juice. The standard K/9-based "value" alt assumes a normal start-length
+  distribution; these pitchers' start-length distribution has a left tail the
+  raw K/9 number can't see. Reference burn: 5/26/26 Strider (TJ return, 4 starts
+  back) — recommended Over 5.5 K at -132 as the "value leg" (+15pp edge per my
+  model); user overrode to Over 4.5 K at ~-625; Strider finished with exactly
+  5 Ks, so 4.5 cashed and 5.5 would have busted. The user's variance-respecting
+  choice saved the parlay (+216 vs $0). My true-prob estimate of 72% on Over 5.5
+  was overconfident; actual probability was closer to 50-55%.
 - Confirm each leg's odds at a real sportsbook — never estimate
 - If the user asks for ~+200, calculate the actual decimal product and show it
 
