@@ -221,10 +221,43 @@ the user can override at game-time if they want.
   repo and commit + push + MERGE it. The file should include: each leg with
   odds, the per-leg reasoning, true win prob estimate, the combined payout
   math, rejected candidates with reasons, and a `Result` section starting as TBD.
-- When the user reports outcomes (e.g. "the Brewers ML hit", "Misi only got
-  6 Ks"), update that day's file with per-leg results and a short
-  retrospective. If something surprising burned us or worked, capture a
-  one-line lesson in the file.
+
+### Multi-run-per-day logging (scheduled cron)
+- The routine runs 3× daily via cron (09:00, 11:00, 17:00 ET as of 5/26/26).
+  Each run produces its own build of the parlay using fresh slate data
+  (lineups posted, line movement, late scratches all evolve through the day).
+- **One file per day, append-only.** If `parlays/YYYY-MM-DD.md` already
+  exists when a run starts, APPEND a new `## Run HH:MM ET — Build [A|B|C]`
+  block below the existing content. Do NOT overwrite earlier runs — each
+  run's build is a record of what the slate looked like at that time.
+- File schema:
+  ```
+  # Parlay — YYYY-MM-DD (Day)
+  ## Daily slate context           (shared once; updated by each run if needed)
+  ---
+  ## Run 09:00 ET — Build A        (first run appends)
+  ## Run 11:00 ET — Build B        (second run appends)
+  ## Run 17:00 ET — Build C        (third run appends)
+  ---
+  ## Played build                  (filled in by user at night)
+  ## Result                        (filled in once games settle)
+  ```
+- Each run's block contains the standard per-parlay logging fields: legs,
+  per-leg reasoning, true win prob, combined math, rejected candidates,
+  pre-bet checklist, run-specific notes.
+- Each subsequent run should briefly compare to the prior run's build —
+  if Build B refines Build A's legs based on new info (lineup posted,
+  line moved), note the diff in B's "Run-specific notes."
+
+### Reporting outcomes for multi-run days
+- When the user reports at night which build they played (e.g. "I went with
+  Build B with Strider swapped to 4.5 K"), locate that build, mark it as
+  `**[CHOSEN BY USER]**` in its header, fill in the `## Played build`
+  section, and write the per-leg result + retrospective under `## Result`.
+- Lessons from the played build feed the Promoting-recurring-lessons rule.
+  Lessons from rejected builds STILL count if today's outcome shows my
+  analysis was wrong on those legs (e.g. Build A's pick lost where I'd
+  said it was 80%, that's a calibration lesson even though we didn't bet it).
 
 ### Session-start review
 - At the start of any session where the user might ask for a parlay, scan the
