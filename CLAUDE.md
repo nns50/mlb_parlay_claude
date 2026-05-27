@@ -228,12 +228,30 @@ the user can override at game-time if they want.
      but his current-season ERA (6.69) was estimated at ~4.30 from career.
      That mis-estimate cost ~5pp on the Dodgers true win-prob, and the parlay
      was framed as "roughly fair" when it was actually slightly -EV.
-2. For each candidate pitcher leg, run the pitcher-prop checklist
-3. For each candidate hitter leg, check recent form + slump news
-4. For each candidate ML/spread, verify SP quality and lineup health
-5. Construct parlay, show per-leg odds and combined payout math
-6. List rejected candidates with reasons
-7. Flag any uncertainty and recommend re-checking lines at game time
+2. **Slate-wide value scan (MANDATORY before narrowing to final legs).**
+   Enumerate EVERY game on today's slate and identify at least one
+   value candidate per game across all bet types: ML, spread, total,
+   team total, pitcher K-Over AND K-Under, hitter props. Do NOT
+   tunnel-vision on the headline matchups (e.g. an Ohtani / Burns /
+   Skenes start) without first scanning the full slate. The best
+   value often hides in mid-slate games — weak-SP team-total plays,
+   K-Over arms vs slumping lineups, contrarian underdog MLs, K-Under
+   on a pitcher with structural pitch-count uncertainty. Produce a
+   game-by-game value scan TABLE (one row per game, value candidate
+   identified or "no edge") BEFORE narrowing to the final 2-3 legs.
+   Reference burn: 5/27/26 — initial Builds A/B/C only deep-dove on
+   LAD/COL and PHI/SD; user had to explicitly ask "did you check all
+   games?" to surface Logan Gilbert K-Over (SEA/ATH), Yankees/KC
+   Cole/Cameron matchup (which then turned out to be a price-trap),
+   COL/CLE/CHC team-total Unders, and several other angles. The
+   tunnel-vision cost a full conversational round-trip the user
+   shouldn't have had to drive.
+3. For each candidate pitcher leg, run the pitcher-prop checklist
+4. For each candidate hitter leg, check recent form + slump news
+5. For each candidate ML/spread, verify SP quality and lineup health
+6. Construct parlay, show per-leg odds and combined payout math
+7. List rejected candidates with reasons
+8. Flag any uncertainty and recommend re-checking lines at game time
 
 ## Git workflow
 - Always commit, push, AND merge updates — never just commit. After any
