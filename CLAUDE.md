@@ -141,6 +141,25 @@ generic "team X is favored" reasoning — verify each leg against the data.
 - Confirm each leg's odds at a real sportsbook — never estimate
 - If the user asks for ~+200, calculate the actual decimal product and show it
 
+### Safety-vs-EV tiebreaker (for unattended runs)
+When a leg has a real tradeoff between a safer "deeper alt" line and a more
++EV "value" line (e.g. Strider Over 4.5 K at -625 vs Over 5.5 K at -132),
+**default to the safer line** in unattended/scheduled sessions. The user
+isn't there to confirm a judgment call, and today's reference burn (5/26/26
+Strider) showed that the model's edge estimate can be wrong in ways the K/9
+number can't see.
+
+**Override the safety default and take the EV play ONLY when ALL of these hold:**
+1. The pitcher has NO structural pitch-count uncertainty (not TJ-return,
+   not MLB debut, not post-IL, not opener-conversion, not quick-hook manager)
+2. Recent sample is 10+ starts at normal length (≥5 IP avg)
+3. Modeled edge on the value line is ≥ +8pp
+4. Opposing lineup K% and HP umpire are not negative signals
+
+If any of those fail, take the safer alt and accept the lower payout.
+Document the choice in the parlay file under "Build-iteration notes" so
+the user can override at game-time if they want.
+
 ### Transparency requirements
 - ALWAYS show the per-leg reasoning, not just the picks
 - ALWAYS list legs considered AND rejected, with the reason for rejection
