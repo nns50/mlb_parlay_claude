@@ -355,7 +355,11 @@ the user can override at game-time if they want.
 ## Notifications and email drafts
 - After completing an MLB parlay analysis, send a push notification with the
   summary unless the user says otherwise
-- When the user asks to "draft an email with Gmail" — this environment does not
-  have a Gmail integration, so save the draft to a file in /home/user/ and
-  display the contents inline. Tell the user once that Gmail MCP isn't configured;
-  don't repeat the disclaimer every time.
+- When the user asks to "draft an email with Gmail" — the Gmail MCP connector
+  IS configured in this environment (confirmed working 5/27/26). Use the
+  `mcp__Gmail__create_draft` tool to create the draft directly in the user's
+  Gmail account (to/subject/body). The tool may be deferred at session start —
+  load it via ToolSearch ("select:mcp__Gmail__create_draft") before calling.
+  Also show the draft contents inline so the user can see what was created.
+  Only fall back to saving a file in /home/user/ if the Gmail MCP server is
+  genuinely disconnected (ToolSearch returns no match) — and say so once.
