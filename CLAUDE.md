@@ -77,10 +77,15 @@ generic "team X is favored" reasoning — verify each leg against the data.
   betting them as favorites is overpriced. Always check the last-15-games
   record and run differential, not just the season line.
   Current watch list (RE-VERIFY each session before using):
-  - **Fade as favorites — "was hot, now cold"**: Cubs (5/25/26, still
-    fading — 9-game losing streak as of 5/26/26), Rangers (5/25/26)
-  - **Value as underdogs — "quietly hot"**: Pirates (added 5/26/26 —
-    won 9 straight vs Cubs, improved offense from Cruz/Reynolds/O'Hearn)
+  - **Fade as favorites — "was hot, now cold"**: Cubs (5/25/26; 10-game
+    skid SNAPPED 5/27/26 with a 10-4 win at PIT — Happ 3-run HR/5 RBI, but
+    one win after 0-10 doesn't recover form; KEEP on fade list until last-15
+    climbs back above .550), Rangers (5/25/26; lost again 5/27/26, 4-3 to
+    HOU on a Yordan 8th-inning HR — fade confirmed)
+  - **Value as underdogs — "quietly hot"**: Pirates (added 5/26/26 — won 9
+    straight vs Cubs; but the run ENDED 5/27/26, lost 10-4 to CHC, gave up a
+    6-run inning — "quietly hot" tag is COOLING, re-verify last-15 before
+    treating as underdog value again)
 - ACTIVELY SCAN each day's slate for new candidates fitting this pattern,
   in BOTH directions:
     - "Was hot, now cold" — add to the fade watch list above
