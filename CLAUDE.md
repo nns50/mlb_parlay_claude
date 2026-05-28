@@ -151,6 +151,25 @@ generic "team X is favored" reasoning — verify each leg against the data.
   5 Ks, so 4.5 cashed and 5.5 would have busted. The user's variance-respecting
   choice saved the parlay (+216 vs $0). My true-prob estimate of 72% on Over 5.5
   was overconfident; actual probability was closer to 50-55%.
+  - REFINEMENT (5/27/26 Cole): the structural-uncertainty fade is about
+    START-LENGTH variance, NOT a downgrade of the pitcher's per-pitch K ability.
+    Do NOT let a single throttled ramp-up start collapse your estimate of an
+    elite arm's stuff. Separate the two axes: (a) start length / pitch cap =
+    genuinely uncertain on a TJ/debut/IL return → still fade the K-Over on a
+    parlay or take the deeper alt; (b) per-pitch whiff rate = anchor it to the
+    pitcher's established true talent, NOT to one small-sample outing. Reference:
+    in Build D (5/27) I let Cole's 2-K first start back drag my estimate of his
+    K ability down to "diminished arm," then dropped Yankees ML true win prob to
+    ~60% partly on that. Two starts back he went 10 K in 79 pitches, 0 BB, FB
+    96.3 mph avg / 98.4 top — velocity back to pre-TJ baseline, 10 K against a
+    K-resistant KC lineup, his first 10-K game since before the surgery. The
+    velocity + whiff-efficiency (10 K on 79 pitches can't be a called-strike
+    grind) confirmed the stuff was back. The pitch cap was still real (pulled at
+    79 pitches / 6.2 IP), so the start-length fade held — but I had over-corrected
+    the NYY ML down; with stuff back it deserved ~68-70%, making the -156 real
+    value (and it cashed). CHECK CONFIRMED-VELOCITY before assuming a returning
+    arm's K rate is suppressed: if velo is back to baseline, model the K rate at
+    true talent with a capped pitch count, not at the ramp-up start's counting line.
 - Confirm each leg's odds at a real sportsbook — never estimate
 - If the user asks for ~+200, calculate the actual decimal product and show it
 - **Heavy-mismatch matchups blow up the alt-K + favorite-ML recipe.** When the
