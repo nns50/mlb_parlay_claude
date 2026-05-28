@@ -351,6 +351,39 @@ the user can override at game-time if they want.
   lessons. Apply lessons before building today's parlay. If a recent result
   is still TBD, ask the user whether the parlay cashed before building a new one.
 
+### Prior-day full-slate review (MANDATORY on the morning / 09:00 ET run)
+- The 09:00 ET run is the first of the day. Before building today's parlay, do
+  a complete retrospective of EVERY game played the day before — not just the
+  legs we bet or the headline matchups. This is a standing step, not an
+  on-request one (added 5/28/26 at user request).
+- Procedure:
+  1. Pull every final score from the prior day. Use WebSearch, not WebFetch —
+     ESPN/MLB/FOX/CBS all return HTTP 403 to WebFetch; targeted WebSearch
+     queries ("Team A Team B <date> final score recap") reliably return the
+     finals and pitcher lines. Watch for stale results: searches for a given
+     series often surface the PRIOR day's game, so confirm the date on each.
+  2. Build a one-row-per-game table (final, winning/losing pitcher, any notable
+     K line) covering the whole slate.
+  3. For each game, check it against the routine's active reads:
+     - K-Over/Under outcomes for any notable arm (did the AUTO-FADE lineups
+       — Royals/Astros/Guardians/D-backs — suppress an elite arm's Ks? did an
+       ace-vs-soft-lineup K-Over hit?).
+     - Fade-list teams (did they lose as expected?) and value/"quietly hot"
+       teams (did the underdog angle pay?).
+     - Any candidate legs I REJECTED — did the rejection validate or was it a
+       miss? (calibration both ways.)
+     - New "was hot, now cold" or "was cold, now quietly hot" candidates.
+  4. Update the watch list in CLAUDE.md per the existing watch-list rule, and
+     promote any lesson that now has 2–3 occurrences.
+  5. Write the review into the PRIOR day's `parlays/YYYY-MM-DD.md` under a
+     `## Full-slate review` section (table + findings), then commit → push →
+     merge. If that day's parlay was still TBD, also settle its `## Result`
+     using the finals you just pulled.
+- Keep it findings-focused: the point is calibration (which rules held, which
+  missed), not a box-score dump. Surface 3-6 genuine takeaways, like the
+  5/27 review (three ace-vs-soft-lineup K-Overs hit; Astros AUTO-FADE held
+  deGrom to 6 K; Elder's 1.97-ERA FIP-flag rejection validated).
+
 ### Promoting recurring lessons
 - When the same lesson appears in 2–3 different `parlays/*.md` files, promote
   it into the core routine in `CLAUDE.md` (the relevant checklist or rule).
