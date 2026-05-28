@@ -96,6 +96,19 @@ generic "team X is favored" reasoning — verify each leg against the data.
 ### Parlay construction rules
 - Target true combined win probability ≥ 33% for a +200 parlay
 - For a 3-leg parlay each leg should average ~70% true win prob
+- **Avoid -350-or-worse ML legs as parlay anchors for a +200 target.** A
+  heavy-fav ML (e.g. -420) contributes almost nothing to the payout (decimal
+  ~1.24) while still carrying ~20% bust risk, which forces the rest of the
+  ticket to take on excessive risk to reach +200. Price efficiency matters as
+  much as raw hit rate when building a payout-targeted parlay. When a steep fav
+  is your instinct, first look for a better-priced anchor (~-150 to -200, ~60-65%
+  true win prob) from another game that delivers comparable safety with far more
+  payout contribution. Reference win: 5/27/26 — I anchored Builds E/F on LAD ML
+  -420; the user correctly faded it as poor value and substituted Yankees ML
+  -156, and the +210 ticket (NYY ML + Sanchez Over 6.5 K) cashed. I had even
+  surfaced that exact NYY combo in Build D before talking myself back into the
+  heavy LAD anchor on hit-rate grounds. Don't default to the heavy-fav ML three
+  days running (5/25 -310, 5/26 -235, 5/27 -420) — lead with the value anchor.
 - Same-game leg stacking is correlation-sign dependent. Don't default
   to "always stack" or "never stack" — identify the SIGN first:
     - POSITIVELY correlated (team ML + their SP's K Over; team total
