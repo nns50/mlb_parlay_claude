@@ -74,6 +74,19 @@ generic "team X is favored" reasoning — verify each leg against the data.
 - Travel, day-after-night, getaway day spots
 - Line movement vs. opener (sharp money signal)
 - Modeled win probability if available — flag if it's below ~60% for a heavy fav
+- **DECOMPOSE the favorite's model win-prob: "good team" vs "bad opponent."**
+  A model can list a favorite at 60-62% purely because the OPPONENT's starter is
+  awful — that is NOT the same as "this is a team you can trust to win." Before
+  anchoring ANY favorite ML, display its OWN season record AND last-15 form
+  RIGHT NEXT TO the model number, and explicitly ask: is this number driven by
+  the favorite being good, or just by the opponent being bad? If it's
+  opponent-driven AND the favorite is a sub-.500 / poorly-playing team, fade it
+  as an anchor — trust the "this team has been bad" read over the inflated
+  number. Reference burn: 5/28/26 Tigers ML -130 was 62% only because G-Rod
+  (10.61 ERA) was awful; Detroit itself had been playing badly and got blown out
+  7-1. The gut read ("they've been bad") was correct and the number was
+  misleading. Make the favorite's own record/form a REQUIRED, visible field in
+  every build so this check happens before locking, not after losing.
 - Current team trends NOT captured by season record: last 7-10 game run
   differential, runs-per-game over last 7 days, bullpen ERA over last 14
   days, frequency of close/1-run games recently, current win/loss streak.
