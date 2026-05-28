@@ -57,6 +57,18 @@ generic "team X is favored" reasoning — verify each leg against the data.
 ### Moneyline / spread — verify before recommending
 - Starting pitcher matchup quality (ERA, xFIP, recent form — not just season ERA)
 - Starting pitcher's HR rate and first-inning issues
+- **The FAVORITE's OWN starter ERA is a hard ceiling on ML safety.** A model can
+  list a team at 60-62% purely because the OPPONENT's starter is worse, but if
+  the favorite's own SP carries a bad ERA (~5.00+), the game is a high-variance
+  shootout, not a safe anchor — the favorite can be blown out even as the
+  "right" side. DISCOUNT the favorite ML by ~5pp and DO NOT use it as a parlay
+  anchor when its own starter's ERA is ~5.00+. Especially when BOTH starters are
+  bad ("two-bad-SP shootout"), treat the game as a coin-flip-plus, not a 60%
+  leg. Reference burn: 5/28/26 Tigers ML -130 (Flaherty 5.94 ERA vs G-Rod 10.61)
+  — I rated it ~61% and made it the ANCHOR; DET lost 7-1. I had even flagged
+  "Flaherty leaky → live but uncomfortable" and still anchored on it. The flagged
+  risk WAS the outcome — when you name a blow-out risk on the favorite's starter,
+  let it move the number, don't just note it.
 - Bullpen rest/availability — major factor for spread covers
 - Lineup health (key bats in/out)
 - Travel, day-after-night, getaway day spots
@@ -90,7 +102,10 @@ generic "team X is favored" reasoning — verify each leg against the data.
     and leads MLB in WPA since 5/9, beat CWS 5-3 on 5/26. The "Twins use an
     opener + worst-bullpen" narrative is now stale — their pen is a recent
     strength, so DON'T over-lay a price on an opponent facing the Twins'
-    bullpen game)
+    bullpen game. CAVEAT (5/28/26): the quietly-hot tag does NOT override a
+    confirmed ace-at-home matchup — MIN got beat 6-1+ by Davis Martin (1.14
+    home ERA) on 5/28; a clear pitching edge beats a recent-form narrative.
+    Keep them on the value list for NEUTRAL/soft matchups, not vs an ace.)
 - ACTIVELY SCAN each day's slate for new candidates fitting this pattern,
   in BOTH directions:
     - "Was hot, now cold" — add to the fade watch list above
