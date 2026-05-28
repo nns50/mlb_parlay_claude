@@ -85,7 +85,12 @@ generic "team X is favored" reasoning — verify each leg against the data.
   - **Value as underdogs — "quietly hot"**: Pirates (added 5/26/26 — won 9
     straight vs Cubs; but the run ENDED 5/27/26, lost 10-4 to CHC, gave up a
     6-run inning — "quietly hot" tag is COOLING, re-verify last-15 before
-    treating as underdog value again)
+    treating as underdog value again); Twins (added 5/28/26 — 10 of last 15;
+    bullpen was 2nd-WORST (5.81 ERA) through 5/8 but ranks 4th-BEST (2.05 ERA)
+    and leads MLB in WPA since 5/9, beat CWS 5-3 on 5/26. The "Twins use an
+    opener + worst-bullpen" narrative is now stale — their pen is a recent
+    strength, so DON'T over-lay a price on an opponent facing the Twins'
+    bullpen game)
 - ACTIVELY SCAN each day's slate for new candidates fitting this pattern,
   in BOTH directions:
     - "Was hot, now cold" — add to the fade watch list above
