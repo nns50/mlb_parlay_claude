@@ -304,6 +304,19 @@ the user can override at game-time if they want.
      but his current-season ERA (6.69) was estimated at ~4.30 from career.
      That mis-estimate cost ~5pp on the Dodgers true win-prob, and the parlay
      was framed as "roughly fair" when it was actually slightly -EV.
+   - ALSO applies to NON-swapped, correctly-named pitchers: an aggregate
+     season stat line can be FROZEN at a prior start. Always cross-check a
+     pitcher's season ERA/WHIP against a DATE-STAMPED current source (today's
+     game-day preview or the start-by-start game log), not just a stat
+     aggregate, before using it — a 2-start-old line badly misreads an arm in
+     a recent hot/cold swing. Reference burn: 5/29/26 Imanaga — the 09:00 run
+     used his 2.32 ERA (his line frozen as of his May 13 start); he was then
+     shelled twice (8 R vs MIL, then 6 IP/7 ER/3 HR vs HOU on 5/24), so his
+     CURRENT ERA was 4.04. The stale number made the writeup call him "the
+     cleanest K profile on the board." NOTE the K-Over leg still held — he
+     struck out 6 even in the 5/24 shelling — so separate the axes: stale ERA
+     killed the run-prevention read, but per-pitch K stuff was intact (cf. the
+     Cole/Skenes refinement above).
 2. **Slate-wide value scan (MANDATORY before narrowing to final legs).**
    Enumerate EVERY game on today's slate and identify at least one
    value candidate per game across all bet types: ML, spread, total,
