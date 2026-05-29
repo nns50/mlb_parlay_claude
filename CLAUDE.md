@@ -434,7 +434,12 @@ the user can override at game-time if they want.
 - At the start of any session where the user might ask for a parlay, scan the
   3 most recent `parlays/*.md` files for filled-in results and captured
   lessons. Apply lessons before building today's parlay. If a recent result
-  is still TBD, ask the user whether the parlay cashed before building a new one.
+  is still TBD, **SELF-SETTLE it first by pulling the finals via WebSearch**
+  (the prior-day full-slate review below already does this on the 09:00 run) —
+  do NOT wait on the user. Mark the played ticket W/L with per-leg outcomes +
+  retrospective. Only ask the user as a fallback if the finals genuinely can't
+  be confirmed (game suspended/postponed, or search can't surface a result).
+  User confirmed 5/29/26: the scheduled 09:00 run should check results itself.
 
 ### Prior-day full-slate review (MANDATORY on the morning / 09:00 ET run)
 - The 09:00 ET run is the first of the day. Before building today's parlay, do
