@@ -6,6 +6,37 @@ When the user asks for an MLB parlay pick (or any MLB betting analysis), ALWAYS 
 full in-depth checklist below BEFORE recommending any leg. Do not rely on
 generic "team X is favored" reasoning — verify each leg against the data.
 
+### MANDATORY SP-data-freshness field (gates EVERY starting-pitcher leg)
+This applies to ANY leg that leans on a starting pitcher — a K prop AND an
+ML/spread/total read built on SP quality. A run may NOT recommend OR reject an
+SP-based leg until this field is filled in and shown in the build. It is a hard
+gate, not a guideline.
+
+For each SP referenced in a build, the writeup MUST include a checked line in
+this exact form:
+
+  - [ ] **SP DATA FRESHNESS — <Pitcher>:** ERA <x.xx> / WHIP <x.xx> / season K/9
+        <x.x>, pulled from <date-stamped source> dated <YYYY-MM-DD>; **CONFIRMED
+        the line includes the pitcher's most recent start** (last start: <date>
+        vs <opp> — <IP/ER/K>). Recent-form K/9 over last 3-5 starts: <x.x>.
+
+Rules:
+- The source MUST be date-stamped to today's slate (a game-day preview, a recent
+  game story, or a start-by-start game log) — NOT a bare stat aggregate, which
+  can be frozen at a prior start. Cross-check against a 2nd source when the
+  numbers look off or sources disagree.
+- If you cannot confirm the line is current (no date-stamped source found, or two
+  sources conflict and can't be reconciled), mark the stat **UNVERIFIED** and
+  treat the leg as **PENDING — do not lock**, rather than guessing.
+- This field is REQUIRED even when the pitcher was NOT swapped and is correctly
+  named — staleness hits established starters in hot/cold swings too.
+- Reference burn: 5/29/26 Imanaga — the 09:00 run used a 2.32 ERA frozen at his
+  May 13 start while his CURRENT ERA was 4.04 after two shellings (8 R vs MIL,
+  then 6 IP/7 ER/3 HR vs HOU on 5/24). A filled freshness field catches this
+  PRE-publish. (Note: K rate can stay intact even when ERA craters — he K'd 6
+  in the 5/24 shelling — so verify, then separate the run-prevention axis from
+  the per-pitch-K axis; see the Cole/Skenes refinement below.)
+
 ### Pitcher props — verify before recommending
 - Starter vs. swingman/opener status (e.g. how many of their appearances this
   season are actual starts vs. relief). A "starter" with <50% of appearances as
@@ -335,9 +366,11 @@ the user can override at game-time if they want.
    COL/CLE/CHC team-total Unders, and several other angles. The
    tunnel-vision cost a full conversational round-trip the user
    shouldn't have had to drive.
-3. For each candidate pitcher leg, run the pitcher-prop checklist
+3. For each candidate pitcher leg, fill in the MANDATORY SP-data-freshness field,
+   then run the pitcher-prop checklist
 4. For each candidate hitter leg, check recent form + slump news
-5. For each candidate ML/spread, verify SP quality and lineup health
+5. For each candidate ML/spread, fill in the MANDATORY SP-data-freshness field for
+   the relevant starter(s), then verify SP quality and lineup health
 6. Construct parlay, show per-leg odds and combined payout math
 7. List rejected candidates with reasons
 8. Flag any uncertainty and recommend re-checking lines at game time
