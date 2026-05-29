@@ -215,6 +215,22 @@ Rules:
   paid +103, not the published +221). If the alt comes back juicier than the
   estimate, EITHER move that leg back to the standard line (accepting lower
   hit rate for better payout) OR drop the leg entirely.
+- **A surprisingly LONG price on a liquid prop is information, not a gift —
+  defer to the market over your raw model.** When the posted price implies a
+  probability far below your model's estimate on a mainstream, liquid market
+  (e.g. a plus-money Over on a high-K/9 arm), the gap almost always means the
+  market is pricing something your model can't see — usually start-length /
+  short-leash risk the raw K/9 number hides (cf. the Strider structural rule
+  below). Books do NOT leave 15-20pp on a liquid K prop. Treat the line as a
+  hard prior: shade your estimate toward the market, do NOT bet it as "free
+  value," and re-derive the leg's true prob from BOTH posted lines when you
+  have them. Reference burn: 5/29/26 Imanaga — I rated Over 5.5 K ~68%, but the
+  book had it +120 (~44%) with Over 4.5 K at -200 (~64%); the two prices pinned
+  a coin-flip distribution (median ~5 K) and exposed my 68% as overconfident.
+  The phantom edge had anchored the whole "best win chance" ticket. RELATEDLY,
+  decompose EVERY favorite's model number even on non-headline mid-slate games
+  (same date: Astros ML 55.4% was a 25-32 team propped up by a thin-sample hot
+  SP vs the 33-20 Brewers — the decompose rule flagged it only once I ran it).
 - For K-Over legs on pitchers with STRUCTURAL pitch-count uncertainty (Tommy
   John return, MLB debut, post-IL return, opener-conversion, manager's
   documented quick hook), drop ONE alt deeper than the "value" line even at
