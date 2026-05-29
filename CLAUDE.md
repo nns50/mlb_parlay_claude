@@ -102,23 +102,29 @@ generic "team X is favored" reasoning — verify each leg against the data.
   betting them as favorites is overpriced. Always check the last-15-games
   record and run differential, not just the season line.
   Current watch list (RE-VERIFY each session before using):
-  - **Fade as favorites — "was hot, now cold"**: Cubs (5/25/26; 10-game
-    skid SNAPPED 5/27/26 with a 10-4 win at PIT — Happ 3-run HR/5 RBI, but
-    one win after 0-10 doesn't recover form; KEEP on fade list until last-15
-    climbs back above .550), Rangers (5/25/26; lost again 5/27/26, 4-3 to
-    HOU on a Yordan 8th-inning HR — fade confirmed)
-  - **Value as underdogs — "quietly hot"**: Pirates (added 5/26/26 — won 9
-    straight vs Cubs; but the run ENDED 5/27/26, lost 10-4 to CHC, gave up a
-    6-run inning — "quietly hot" tag is COOLING, re-verify last-15 before
-    treating as underdog value again); Twins (added 5/28/26 — 10 of last 15;
-    bullpen was 2nd-WORST (5.81 ERA) through 5/8 but ranks 4th-BEST (2.05 ERA)
-    and leads MLB in WPA since 5/9, beat CWS 5-3 on 5/26. The "Twins use an
-    opener + worst-bullpen" narrative is now stale — their pen is a recent
-    strength, so DON'T over-lay a price on an opponent facing the Twins'
-    bullpen game. CAVEAT (5/28/26): the quietly-hot tag does NOT override a
-    confirmed ace-at-home matchup — MIN got beat 6-1+ by Davis Martin (1.14
-    home ERA) on 5/28; a clear pitching edge beats a recent-form narrative.
-    Keep them on the value list for NEUTRAL/soft matchups, not vs an ace.)
+  - **Fade as favorites — "was hot, now cold" / just plain cold**: Cubs
+    (5/25/26; 0-10 skid then WON 3 straight 5/27-5/28 incl. beating Skenes 7-2
+    on 5/28 — recovering, but KEEP on fade-as-fav list until last-15 climbs
+    back above .550), Rangers (5/25/26; fade RE-CONFIRMED 5/28 — lost 5-1 to
+    HOU, dropped 6 of last 7, season-worst 6 games under .500), **Tigers
+    (ADDED 5/28/26 — 22-35, 4-18 since May 4, lost 7 straight series; the
+    5/28 Tigers ML -130 anchor got blown out 7-1. Do NOT lay a price on DET as
+    a favorite; the market keeps overrating them off the season-opening record
+    and a soft-schedule SP line)**
+  - **Value as underdogs — "quietly hot"**: White Sox (ADDED 5/28/26 — 29-27,
+    won 12 of last 18, beat MIN 6-2 behind Davis Martin (8-1) on 5/28, run diff
+    back to even for the first time since Opening Day; a genuinely improving
+    club the market still prices soft); Pirates (added 5/26/26 — "quietly hot"
+    tag now COLD: lost 10-4 (5/27) and 7-2 (5/28) to the Cubs, run ended —
+    treat as neutral, NOT underdog value, until it re-heats); Twins (added
+    5/28/26 — quietly-hot tag now COOLING: just lost 3 of 4 to CWS incl. 6-2 on
+    5/28. Bullpen-strength-since-5/9 read still holds, but the offense went
+    quiet — keep only as soft-matchup value, and remember the 5/28 CAVEAT: the
+    tag does NOT override a confirmed ace-at-home, MIN got beat 6-1 by Davis
+    Martin (1.14 home ERA). A clear pitching edge beats a recent-form narrative.)
+    Honorable-mention watch: Angels (surging — won 5 of 6 incl. 2 of 3 at DET
+    through 5/28) and Astros (won 6 of last 7 through 5/28, but Astros stay an
+    AUTO-FADE K-Over lineup — back them on ML/total only, never opposing K-Over).
 - ACTIVELY SCAN each day's slate for new candidates fitting this pattern,
   in BOTH directions:
     - "Was hot, now cold" — add to the fade watch list above
