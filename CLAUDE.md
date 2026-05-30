@@ -137,11 +137,14 @@ Rules:
     (5/25/26; 0-10 skid then WON 3 straight 5/27-5/28 incl. beating Skenes 7-2
     on 5/28 — recovering, but KEEP on fade-as-fav list until last-15 climbs
     back above .550), Rangers (5/25/26; fade RE-CONFIRMED 5/28 — lost 5-1 to
-    HOU, dropped 6 of last 7, season-worst 6 games under .500), **Tigers
-    (ADDED 5/28/26 — 22-35, 4-18 since May 4, lost 7 straight series; the
-    5/28 Tigers ML -130 anchor got blown out 7-1. Do NOT lay a price on DET as
-    a favorite; the market keeps overrating them off the season-opening record
-    and a soft-schedule SP line)**
+    HOU, dropped 6 of last 7, season-worst 6 games under .500; **DOWNGRADED to
+    NEUTRAL-lean 5/30 — fade MISSED 5/29, TEX blew out KC 9-1 at home behind
+    Kolek; re-verify last-15 form before fading TEX as a favorite again**),
+    **Tigers (ADDED 5/28/26 — 22-35, 4-18 since May 4, lost 7 straight series; the
+    5/28 Tigers ML -130 anchor got blown out 7-1; fade RE-VALIDATED 5/29 — DET
+    lost 4-3 to CWS. Do NOT lay a price on DET as a favorite; the market keeps
+    overrating them off the season-opening record and a soft-schedule SP line.
+    NOTE 5/30: DET favored AGAIN at -130 with Framber Valdez (4.28) — fade live)**
   - **Value as underdogs — "quietly hot"**: White Sox (ADDED 5/28/26 — 29-27,
     won 12 of last 18, beat MIN 6-2 behind Davis Martin (8-1) on 5/28, run diff
     back to even for the first time since Opening Day; a genuinely improving
