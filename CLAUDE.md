@@ -54,6 +54,20 @@ Rules:
   AUTO-FADE K Overs against known contact-heavy lineups even when the pitcher is
   elite-K (Royals burned a Will Warren 10.6+ K/9 Over with 3 Ks on 5/25/26;
   verify current K% rank for Royals/Astros/Guardians/D-backs before any K-Over leg)
+- **WHENEVER a K-Over is auto-faded OR rejected, evaluate the K-UNDER as a
+  candidate and LOG its price in the slate scan — do not just decline the Over.**
+  The same signals that kill a K-Over (contact-heavy lineup, 2nd-meeting-within-14d
+  adjustment, opener/short-leash/TJ-return/debut start-length tail, tight-zone HP
+  ump, manager quick hook) are exactly the signals that make the K-Under the
+  +EV side. The default lean is toward Overs because the public bets "things to
+  happen" and that bias shades Over prices UP — value frequently sits on the
+  Under. BUT keep the Under honest before betting it: (a) the Under has a fat
+  right tail (one dominant start busts it, unlike an Over which only busts on a
+  dud), (b) books often ALREADY price the suppression (a juiced Under = no edge —
+  pull the real number), and (c) Unders correlate awkwardly with ML legs (a
+  low-K pitcher can still win on weak contact), so they're usually better as
+  STANDALONES than as parlay floor legs. Net: price the Under every time, bet it
+  when the suppression isn't already in the line, and prefer it standalone.
 - Manager's recent hook tendency (quick hook = lower K ceiling)
 - Park and weather (cold/wind-in helps Ks, hot/wind-out hurts)
 - Home-plate umpire's K-rate / zone tendencies. K-friendly umps inflate
