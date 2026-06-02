@@ -306,6 +306,25 @@ Rules:
   standalone K dominance. In heavy-mismatch matchups, check the
   opposing pitcher's UP-alt K line BEFORE assuming the spread is the
   payout-recovery knob.
+  **AND — a −1.5 RL on the heavy favorite carries the favorite's FULL ML
+  loss probability PLUS the margin (win-by-2) risk — it is NOT a "safe
+  blowout knob."** The bad underdog can win OUTRIGHT, which loses the run
+  line by the maximum. A 22-38-class team still wins ~35-40% of games as a
+  dog — enough to torch a −1.5 laid against it. When the RL is the only way
+  to reach +200, re-price it as (P[fav wins by 2+]) ≈ (P[fav ML] − ~12-15pp),
+  and weigh that the dog is a live outright-win team, not dead money — do NOT
+  treat "best record vs worst record" as a near-lock cover. Reference burn:
+  6/1/26 — recommended (and user played) SEA ML + **TB −1.5 RL +118/+124** to
+  clear +200; TB (36-20, best AL record) **LOST 10-9 outright at home to DET
+  (22-38)**, busting the ticket. EVERY build that day had flagged the all-ML
+  **SEA + MIN +179** two-legger as the genuine best chance — and it WOULD HAVE
+  CASHED (both won). The +200 chase via the run line is exactly what lost.
+  This re-validates the 5/30 "don't dress a coin-flip as a best-chance +200"
+  rule WITH MONEY: when the highest-floor ticket lands just under +200, take
+  it rather than bolt on a payout knob that drops the floor ~6pp AND can lose
+  outright. Also: "fade DET as a FAVORITE" (they stay 22-38 class) is NOT the
+  same as "safe to lay runs against DET" — a fade-list team winning outright
+  as a dog is its own trap.
 
 ### Safety-vs-EV tiebreaker (for unattended runs)
 When a leg has a real tradeoff between a safer "deeper alt" line and a more
