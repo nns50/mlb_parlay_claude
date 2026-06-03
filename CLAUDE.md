@@ -6,6 +6,34 @@ When the user asks for an MLB parlay pick (or any MLB betting analysis), ALWAYS 
 full in-depth checklist below BEFORE recommending any leg. Do not rely on
 generic "team X is favored" reasoning — verify each leg against the data.
 
+### MANDATORY game-status verification (HARD GATE — do not skip)
+A WebSearch result's *narrative summary* is NOT a primary source. The search engine
+routinely **conflates adjacent games in a series and mis-stamps the date** — it will hand
+back a "final score" for a game that has NOT been played, often reusing the prior day's box
+score and even mislabeling the weekday. NEVER declare a game **final**, mark a result, or
+**remove a game from the board as "already played"** based on a search summary alone.
+
+Before treating ANY game as final (whether settling a prior-day result OR excluding a game
+from today's build), confirm AT LEAST TWO of these independent checks:
+1. **Day-of-week ↔ date consistency.** If the summary says "Tuesday" but the date is a
+   Wednesday, the data is corrupted — discard it. (Burn: 6/3/26 — a "SEA won 7-2 final"
+   summary called 6/3 "Tuesday"; 6/3 was Wednesday. It was the 6/2 8-3 game re-stamped.)
+2. **Live pregame line still posted?** If sportsbooks are still offering a pregame moneyline
+   (e.g. "SEA -136/-154, numberFire 60.6%"), the game has **NOT started** — books pull
+   pregame lines once first pitch happens. A live line = treat as upcoming, full stop.
+3. **First-pitch time vs. plausibility.** Note the scheduled ET first pitch; a 3:40 ET game
+   "final" claimed at midday is impossible.
+4. **Box-score detail cross-check.** If a "final" reuses the exact HR/pitcher lines you
+   already logged for the PRIOR day, it's a re-stamp, not a new result.
+
+If the checks conflict or you cannot confirm, treat the game as **NOT FINAL / status
+unknown** and say so — do NOT guess a result, and do NOT drop a still-bettable value leg on
+the false belief it already played. When the user asserts a game hasn't played, **believe
+them and re-verify** rather than defending the bad pull. Reference burn: 6/3/26 — I twice
+called the SEA/NYM game a 7-2 final off a hallucinated summary and dropped SEA (the slate's
+best value anchor) from the build; the user caught it both times. The live pregame line and
+the day-of-week mismatch each independently proved it hadn't played.
+
 ### MANDATORY SP-data-freshness field (gates EVERY starting-pitcher leg)
 This applies to ANY leg that leans on a starting pitcher — a K prop AND an
 ML/spread/total read built on SP quality. A run may NOT recommend OR reject an
