@@ -325,6 +325,17 @@ Rules:
   outright. Also: "fade DET as a FAVORITE" (they stay 22-38 class) is NOT the
   same as "safe to lay runs against DET" — a fade-list team winning outright
   as a dog is its own trap.
+  **CONFIRMATION 6/2/26 (the rule paying off the OTHER way, also with money):**
+  user played the 2-leg all-ML **SEA ML + MIL ML (~+158)** and WON (SEA beat NYM
+  3-2 in 10; MIL beat SF 8-3, Harrison 12 K) — deliberately declining the 3-leg
+  **+270** that added **NYY ML (Schlittler -215/-230)** to reach +200. That +200
+  ticket **WOULD HAVE BUSTED**: the Yankees lost **9-4 to CLE** — the 1.50-ERA AL
+  ERA-leader (the ticket's "highest-floor" leg) got tagged for 9 by the
+  contact-heavy Guardians. So the lesson now has BOTH signs in money: 6/1 the +200
+  chase COST us, 6/2 declining it SAVED us. Corollary worth internalizing: the
+  heavy-ace "safest-looking" leg is exactly the one that busted — a short price is
+  not a lock, and a known contact lineup (CLE) can beat an elite-K arm on the
+  SCOREBOARD (9 runs), not just suppress his K-Over.
 
 ### Safety-vs-EV tiebreaker (for unattended runs)
 When a leg has a real tradeoff between a safer "deeper alt" line and a more
