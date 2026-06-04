@@ -1,3 +1,5 @@
 mlb_parlay_email_draft.txt
 *.tmp
 .DS_Store
+__pycache__/
+*.pyc
