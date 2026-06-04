@@ -7,6 +7,17 @@ full in-depth checklist below BEFORE recommending any leg. Do not rely on
 generic "team X is favored" reasoning — verify each leg against the data.
 
 ### MANDATORY game-status verification (HARD GATE — do not skip)
+**PREFERRED authoritative source: `tools/mlb_api.sh` (MLB StatsAPI).** When reachable
+(`tools/mlb_api.sh check` → OK), use `tools/mlb_api.sh status|slate|finals <date>` to read game
+state deterministically — `abstractGameState` (Preview/Live/Final) + `detailedState` settle the
+gate with no inference, and `finals` settles prior-day results in one call. A `Final` there IS a
+real final; a `Preview`/`Pre-Game`/`Warmup` means NOT started. Likewise `findpitcher`→`pitcher`/
+`gamelog` fill the SP-freshness gate (current line + most-recent start) authoritatively.
+**As of 2026-06-04 the StatsAPI is BLOCKED by this environment's network allowlist** (the script
+preflights and prints BLOCKED); to enable it, allowlist `statsapi.mlb.com` in the environment's
+network policy (set at environment creation — https://code.claude.com/docs/en/claude-code-on-the-web).
+**Until `check` returns OK, fall back to the 2-source WebSearch gate below** (still mandatory).
+
 A WebSearch result's *narrative summary* is NOT a primary source. The search engine
 routinely **conflates adjacent games in a series and mis-stamps the date** — it will hand
 back a "final score" for a game that has NOT been played, often reusing the prior day's box
@@ -589,9 +600,10 @@ the user can override at game-time if they want.
   legs we bet or the headline matchups. This is a standing step, not an
   on-request one (added 5/28/26 at user request).
 - Procedure:
-  1. Pull every final score from the prior day. Use WebSearch, not WebFetch —
-     ESPN/MLB/FOX/CBS all return HTTP 403 to WebFetch; targeted WebSearch
-     queries ("Team A Team B <date> final score recap") reliably return the
+  1. Pull every final score from the prior day. **If `tools/mlb_api.sh check` returns OK, use
+     `tools/mlb_api.sh finals <yesterday>` (authoritative, one call).** Otherwise use WebSearch,
+     not WebFetch — ESPN/MLB/FOX/CBS (and statsapi.mlb.com) all return HTTP 403 to WebFetch;
+     targeted WebSearch queries ("Team A Team B <date> final score recap") reliably return the
      finals and pitcher lines. Watch for stale results: searches for a given
      series often surface the PRIOR day's game, so confirm the date on each.
   2. Build a one-row-per-game table (final, winning/losing pitcher, any notable
