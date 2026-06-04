@@ -8,18 +8,21 @@ and **pitcher season lines + start-by-start game logs**. Use it to resolve the
 game-status gate and the SP-freshness gate without inferring from search prose.
 
 ### Status: BLOCKED in this environment (as of 2026-06-04)
-The environment's egress is an **allowlist**, and `statsapi.mlb.com` is not on it
-(direct `curl` and `WebFetch` both return HTTP 403 at the proxy in ~30ms; `api.github.com`
-returns 200). The script **preflights reachability** and prints a `BLOCKED` message with
-guidance instead of returning garbage — so the parlay routine falls back to the 2-source
-WebSearch game-status gate automatically.
+The environment's egress is an **allowlist** enforced by a proxy that denies non-listed hosts
+with `HTTP 403` + header `x-deny-reason: host_not_allowed` (confirmed for `statsapi.mlb.com` and
+`www.mlb.com`; `api.github.com` passes). The script **preflights reachability** and prints a
+`BLOCKED` message with guidance instead of returning garbage — so the parlay routine falls back
+to the 2-source WebSearch game-status gate automatically.
 
 ### To enable it
-Allowlist `statsapi.mlb.com` in the environment's **network policy**, which is chosen when
-the environment is created. See the docs:
-https://code.claude.com/docs/en/claude-code-on-the-web
+1. Allowlist `*.mlb.com` (or `statsapi.mlb.com`) in the environment's **network policy** —
+   chosen when the environment is created. https://code.claude.com/docs/en/claude-code-on-the-web
+2. **Start a NEW Claude Code web session.** The policy is applied at environment/session startup;
+   a running container does NOT hot-reload an updated allowlist, so the edit only takes effect in a
+   fresh session. (Confirmed 2026-06-04: editing the policy mid-session left the live proxy still
+   returning `host_not_allowed` for `*.mlb.com`.)
 
-Once allowlisted, `./tools/mlb_api.sh check` returns `OK` and every subcommand works with no
+In the new session, `./tools/mlb_api.sh check` returns `OK` and every subcommand works with no
 code change. (The script is written against well-documented stable StatsAPI endpoints but has
 **not been validated against live data in this environment** because the API is blocked here —
 sanity-check the first live run, especially the `gamelog`/`pitcher` jq paths, and use `raw` to
