@@ -38,6 +38,13 @@ Fix the environment the routine actually uses:
 4. **Save changes.** The policy applies **from the next run / a brand-new session** — a running
    container does NOT hot-reload (a mid-session edit leaves the live proxy still denying `*.mlb.com`).
 
+> **Simpler alternative — Network access → Full** (any domain) instead of Custom: unblocks the
+> StatsAPI with nothing to maintain. Trade-off: it grants the *autonomous* routine unrestricted
+> outbound egress, and that routine ingests untrusted external text each run (web-search results,
+> GitHub comments/CI logs) — the allowlist is the blast-radius limiter. **Custom + `*.mlb.com`
+> (+ defaults) is preferred** because it scopes the routine to exactly the hosts it needs; Full is
+> a valid, lower-effort choice. Same three rules apply either way (right environment / Save / new session).
+
 Then verify with `./tools/mlb_api.sh check`:
 - `OK` → live; prefer the StatsAPI for the status gate, prior-day `finals`, and SP-freshness this session.
 - `BLOCKED … host_not_allowed` → the custom domain still isn't in THIS environment's active policy.
