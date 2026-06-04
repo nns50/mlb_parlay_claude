@@ -242,6 +242,10 @@ No qualifying play → NO BET, balance carries. Update `bankroll.md` (commit/pus
    candidate per game across ML/spread/total/team-total/K-Over/K-Under/hitter props (or "no edge").
    Don't tunnel on headline arms — best value hides mid-slate. Produce the scan TABLE before the final
    legs. (burn 5/27 tunnel-vision cost a full conversational round-trip)
+   - **Hunt softer markets, not just ML.** ML and standard K-props on headline arms are the MOST efficient
+     markets on the board — fighting ~4% vig for +1-2pp. Totals, team-totals, and alt lines are structurally
+     softer and barely scanned. **Surface ≥1 total or team-total read per game** (use `weather` for wind/temp
+     and the SP-quality reads), so the search points where edge actually hides, not just at the chalk. (Codified 6/4/26.)
 3. Each pitcher leg → fill SP-freshness, run the pitcher-prop checklist.
 4. Each hitter leg → recent form + slump news.
 5. Each ML/spread → SP-freshness for the relevant starter(s) + SP quality + lineup health.
@@ -331,6 +335,11 @@ the outcome shows the analysis was wrong (calibration both ways).
 
 ### `results_log.md` — log + settle EVERY run
 - On build: a row per recommended leg (price + TrueP + ImplP + Edge; Played=N). Pull the price from a book.
+- **Grade the PROCESS at bet time, separate from W/L.** Add a one-field grade written BEFORE the result —
+  was this leg +EV given what we knew (price shopped, edge cleared the gate, no unmanaged structural risk)?
+  A losing +EV bet is a GOOD bet; a winning -EV bet is a LEAK. Logging this stops the retrospectives from
+  reading the result back into the analysis ("fade missed → over-correct"). Grade on decision quality, settle
+  on outcome — never conflate them. (Codified 6/4/26.)
 - **Log the WHOLE value scan, not just bets.** Every value candidate the slate scan surfaces gets a row
   (TrueP + no-vig ImplP + closing line later), bet or not. This 4-5×'s the calibration sample for free and
   is the only way claims like "the 56-61% band is overbet" graduate past the n=5 story stage. (Codified 6/4/26.)
@@ -356,6 +365,11 @@ the outcome shows the analysis was wrong (calibration both ways).
   calibration tables MATCH its output. `calib.py` warns "if these differ, the file is stale" — a settle that
   doesn't reconcile lets the ledger silently drift, which corrupts the very signals we build off. If they
   differ, the prose is wrong; fix the prose. (Codified 6/4/26.)
+- **Track STANDALONE vs PARLAY EV separately — prove the parlay tax, don't just assert it.** Split the
+  ROI/CLV rollup into two buckets: single +EV plays vs parlay tickets. Doctrine *claims* parlays are near
+  -EV chalk+vig; this MEASURES it. If standalones run +EV/+CLV while parlays stay negative over a real sample,
+  that's the evidence to retire the daily +200 habit (or keep it eyes-open as entertainment). Tag each row
+  STANDALONE or PARLAY so `calib.py` can break it out. (Codified 6/4/26.)
 - **Apply the calibration signals BEFORE building** — but only once the bucket clears the noise bar (see
   Promoting lessons; an n=5 band is a story, not a rule).
 
