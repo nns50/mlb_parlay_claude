@@ -53,13 +53,13 @@ P(4 straight wins in an attempt) ≈ 0.60⁴ ≈ **13%** → expect ~8 attempts 
 
 | Attempt | Date | Roll | Balance before | Bet (leg @ book, decimal) | True% | Result | Balance after | Note |
 |---------|------|------|----------------|---------------------------|-------|--------|---------------|------|
-| 1 | — | 1 | $10.00 | _TBD — set on next build_ | | TBD | | opening balance |
+| 1 | 6/4 | 1 | $10.00 | ATL ML −205 (FanDuel, 1.488) | 67% | TBD | TBD | only leg clearing min-edge (+2.4pp); 62-66% band; not a fade team |
 
 ---
 
 ## Running totals (update on every settle)
 
-- **Current:** Attempt **1**, balance **$10.00**, roll 1 pending (0 wins this attempt).
+- **Current:** Attempt **1**, balance **$10.00**, **roll 1 = ATL ML −205 (1.488), pending settle 6/4** (0 wins this attempt). Win → ~$14.88.
 - **Attempts completed:** 0 · **Targets hit (4 wins):** 0 · **Busts:** 0 · **Best run:** — wins
 - **Total real risk (attempts × $10):** **$10.00** at stake so far · **Total withdrawn:** $0.00
 - **Net P/L (withdrawn − deposited):** **$0.00**
