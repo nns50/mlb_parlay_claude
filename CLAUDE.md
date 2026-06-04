@@ -559,11 +559,23 @@ the user can override at game-time if they want.
 - When a watch-list team's form/role changes, update it in `fades.md` (not in CLAUDE.md prose) —
   `fades.md` is the single source of truth for what is active right now.
 
+### Results & calibration ledger — `results_log.md` (log + settle EVERY run)
+- `results_log.md` is the quantitative track record: every recommended/played leg with its price,
+  my **true-prob estimate**, the **closing price (CLV)**, and the **result**. It measures
+  calibration (do my "70%" legs hit ~70%?), hit rate/ROI by bet type, and closing-line value.
+- **On every build:** add a row per recommended leg (price + TrueP + ImplP + Edge; Played=N).
+  Pull the bet price from a real book — never estimate.
+- **At/near close:** record the closing price and compute CLV (`+` if the line moved to our side).
+- **On every settle:** set Result, flip Played=Y for legs actually played, update the rollup
+  tallies + calibration buckets. Commit it in the same cycle as the parlay/fade files.
+- **Apply the early calibration signals before building** (e.g. if the ~58-60% ML-favorite band is
+  running cold, shade mid-tier home favorites down a few pp) — that's the whole point of the ledger.
+
 ### Session-start review
 - At the start of any session where the user might ask for a parlay, scan the
   3 most recent `parlays/*.md` files for filled-in results and captured
-  lessons, AND read `fades.md` (above) to load the active fades. Apply lessons before
-  building today's parlay. If a recent result
+  lessons, AND read `fades.md` + `results_log.md` (above) to load the active fades and the
+  calibration signals. Apply lessons before building today's parlay. If a recent result
   is still TBD, **SELF-SETTLE it first by pulling the finals via WebSearch**
   (the prior-day full-slate review below already does this on the 09:00 run) —
   do NOT wait on the user. Mark the played ticket W/L with per-leg outcomes +
@@ -593,14 +605,14 @@ the user can override at game-time if they want.
      - Any candidate legs I REJECTED — did the rejection validate or was it a
        miss? (calibration both ways.)
      - New "was hot, now cold" or "was cold, now quietly hot" candidates.
-  4. **Update `fades.md`:** for every active fade entry that touched a game played yesterday,
-     append a dated W/L to its log, bump the tally, update Last validated, and apply any
-     status transition (ACTIVE/NEUTRAL/RETIRED) + add NEW entries for fresh patterns. Then
-     promote any lesson that now has 2–3 occurrences into the CLAUDE.md doctrine.
+  4. **Update `fades.md` AND `results_log.md`:** for `fades.md`, append a dated W/L to every active
+     entry that touched a game played yesterday, bump tallies, transition status, add NEW entries.
+     For `results_log.md`, set Result on yesterday's logged legs, record closing prices/CLV, update
+     the rollup record + calibration buckets. Then promote any lesson with 2–3 occurrences into doctrine.
   5. Write the review into the PRIOR day's `parlays/YYYY-MM-DD.md` under a
      `## Full-slate review` section (table + findings), then commit → push →
-     merge (include `fades.md` in the same cycle). If that day's parlay was still TBD, also
-     settle its `## Result` using the finals you just pulled.
+     merge (include `fades.md` and `results_log.md` in the same cycle). If that day's parlay was
+     still TBD, also settle its `## Result` using the finals you just pulled.
 - Keep it findings-focused: the point is calibration (which rules held, which
   missed), not a box-score dump. Surface 3-6 genuine takeaways, like the
   5/27 review (three ace-vs-soft-lineup K-Overs hit; Astros AUTO-FADE held
