@@ -41,8 +41,7 @@ Do not lay a price on these as favorites. Re-verify last-15 form each session.
 
 | ID | Team | Reason | Added | Last val | Fade log (most-recent first) | Status |
 |----|------|--------|-------|----------|------------------------------|--------|
-| A1 | **Cubs** | 0-10 skid, then won 3 straight (5/27-5/28 incl. beating Skenes 7-2). Recovering but L15 still < .550 | 5/25/26 | 6/3/26 | _seed_ | **ACTIVE (watch)** — retire when L15 > .550 |
-| A2 | **Rangers** | Fade RE-CONFIRMED 5/28 (lost 5-1 HOU, 6 of 7); but MISSED 5/29 (blew out KC 9-1) | 5/25/26 | 5/30/26 | L (5/29 won 9-1) · W (5/28 lost) | **NEUTRAL** — re-verify L15 before fading |
+| A1 | **Cubs** | **ICE COLD: L15 3-12 (.200), −25 run diff (6/4).** The 5/27-28 "recovering" blip did NOT hold — 32-29 but cratering | 5/25/26 | **6/4/26** | **W (6/4: L15 3-12 → fade reaffirmed)** | **ACTIVE** — fade-as-fav firmly on; retire only if L15 > .550 |
 | A3 | **Tigers** | 22-35, 4-18 since May 4; 5/28 -130 anchor blown out 7-1; 5/29 lost 4-3 CWS | 5/28/26 | 6/3/26 | **L (6/3 swept TB, won 7-2 as DOG)** · W (5/29 lost) · W (5/28 lost) | **ACTIVE-as-fav but ⚠️ HEATING** — do NOT lay runs against them as a dog (see corollary) |
 
 > **Corollary (added 6/3/26):** "Fade as FAVORITE" ≠ "safe to bet AGAINST." A fade-list team can
@@ -56,9 +55,9 @@ standalone, not parlay-floor legs.
 
 | ID | Team | Reason | Added | Last val | Value log | Status |
 |----|------|--------|-------|----------|-----------|--------|
-| B1 | **White Sox** | 29-27, won 12 of 18; run diff back to even first time since Opening Day | 5/28/26 | 5/28/26 | W (5/28 beat MIN 6-2) | **ACTIVE** |
-| B2 | **Pirates** | "Quietly hot" tag went COLD — lost 10-4 & 7-2 to Cubs (5/27-5/28) | 5/26/26 | 5/28/26 | L · L (run ended) | **NEUTRAL** — re-heat before re-listing |
-| B3 | **Twins** | Quietly-hot COOLING — lost 3 of 4 to CWS; offense quiet. Pen still strong since 5/9 | 5/28/26 | 5/28/26 | L (5/28 lost 6-2) | **NEUTRAL (soft-matchup only)** |
+| B1 | **White Sox** | 33-29; **L15 9-6 (.600), +23 run diff (6/4)** — genuinely good, market still soft | 5/28/26 | **6/4/26** | **W (6/4: L15 9-6/.600, +23)** · W (5/28 beat MIN 6-2) | **ACTIVE** — tag strengthened |
+| B2 | **Pirates** | **RE-HEATED: L10 7-3, W4 streak, +35 run diff, 33-28 (6/4)** — the late-May cold blip is over | 5/26/26 | **6/4/26** | **W-reheat (6/4: 7-3 L10, W4, +35)** · L · L (5/27-28 cold) | **ACTIVE** — underdog value (dog = standalone, not parlay floor) |
+| B3 | **Twins** | Still cold — **L10 3-7, −24 run diff (6/4)**; offense quiet, pen ok | 5/28/26 | **6/4/26** | L (6/4: L10 3-7) · L (5/28 lost 6-2) | **NEUTRAL (soft-matchup only)** |
 | B4 | **Tigers** | NEW 6/3: heating as a dog — swept TB, beat elite Martínez. Watch for dog-value flip | 6/3/26 | 6/3/26 | W (6/3 won 7-2 as +122 dog) | **WATCH (emerging dog value)** |
 | B5 | Angels / Astros | Honorable mention — surging; Astros stay AUTO-FADE K-Over (back on ML/total only) | 5/28/26 | — | _seed_ | **WATCH** |
 
@@ -99,7 +98,11 @@ Not team fades, but recurring data errors to actively guard against each run.
 ---
 
 ## Retired (kept for history)
-_(none yet — move entries here with date + reason when the rationale no longer holds)_
+- **A2 — Rangers (fade-as-favorite)** — RETIRED **6/4/26**. The "was-hot-now-cold / just-bad" premise no
+  longer holds: **L15 8-7, L10 6-4, W5 active streak, +11 run diff.** L15 .533 is a hair under the strict
+  .550 retire bar, but the fade was already NEUTRAL, had **missed its last test** (5/29 — TEX blew out KC
+  9-1), and the club is clearly trending up — no longer a team to fade when favored. Re-add only if they
+  relapse to a sub-.450 last-15. (Validated via `mlb_api.sh standings`/`teamform`.)
 
 ---
 
@@ -109,7 +112,14 @@ _(none yet — move entries here with date + reason when the rationale no longer
 - **C1 (contact-lineup K-Over):** 2-1 — real but variance-heavy; don't hard-fade one-suppressor aces.
 - **C2 (2nd-meeting K-Over):** 0-1 — downgrade-only, not a reject.
 - **C6 (meta — over-faded aces):** correction installed after 3 straight misses (Sanchez, Burns, Harrison).
+- **A1 (Cubs as fav):** reaffirmed 6/4 — L15 3-12 (.200), −25 run diff. Strongest active team-fade.
+- **A2 (Rangers as fav):** **RETIRED 6/4** — recovered (L15 8-7, L10 6-4, W5, +11).
 - **A3 (Tigers as fav):** 2-1 — but now winning as a dog (do not lay runs against).
+- **B1 (White Sox dog value):** confirmed 6/4 — L15 9-6 (.600), +23 run diff.
+- **B2 (Pirates dog value):** **re-heated 6/4** — L10 7-3, W4, +35; back to ACTIVE.
+
+> _6/4/26: the A/B re-verifications above were run deterministically via the new `tools/mlb_api.sh
+> standings` + `teamform` (last-15 W-L + run differential), not WebSearch — first live use of the helper._
 
 > _Seed note (6/3/26): logs marked "_seed_" had no clean test yet; fill them on the next run that
 > touches the entry. Tallies will firm up as the registry accrues dated results._
