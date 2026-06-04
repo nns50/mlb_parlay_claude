@@ -223,7 +223,15 @@ Save each build to `parlays/YYYY-MM-DD.md` (commit/push/merge). Include: the gat
 slate-wide scan, each leg + odds + per-leg reasoning + true-prob, the three tiers + combined math,
 rejected candidates with reasons, and a `Result` section starting TBD.
 
-### Multi-run-per-day (cron 09:00 / 11:00 / 17:00 ET)
+### Multi-run-per-day (cron 3× ET)
+- **Run timing — align to the lineup gate.** Lineups post ~2-3h pre-game (≈4-5pm ET for a 7pm slate), so
+  any run before that CAN'T clear the hitter-prop lineup gate and is always "PENDING LINEUP." The cron has
+  historically fired 09:00 / 11:00 / 17:00 ET — but **09:00 and 11:00 are both pre-lineup, so the 11:00 run
+  duplicates the 09:00 read.** Recommended windows (re-time in the routine's cron config — it lives there,
+  not in this repo):
+    - **~09:00 ET** — prior-day full-slate review + settle + the slate-wide value scan (no lineups needed).
+    - **~15:30 ET** — lineup lock for early/evening games + the close-to-first-pitch CLV pull.
+    - **~18:30 ET** — late/west-coast lineups + final line check before first pitch.
 - **One file per day, append-only.** If today's file exists, APPEND `## Run HH:MM ET — Build [A|B|C]`;
   never overwrite an earlier run (each is a record of the slate at that time).
 - Schema:
