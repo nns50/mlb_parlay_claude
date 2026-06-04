@@ -28,6 +28,7 @@
 #   tools/mlb_api.sh findpitcher "<name>"       # resolve a pitcher name -> personId
 #   tools/mlb_api.sh lineups [YYYY-MM-DD]       # batting orders per game (CONFIRMED or PENDING ~2-3h pre-game)
 #   tools/mlb_api.sh ump [YYYY-MM-DD]           # HP umpire per game (from StatsAPI officials; pre-game = PENDING)
+#   tools/mlb_api.sh weather [YYYY-MM-DD]       # condition/temp/wind + venue per game (totals/K signal; near first pitch)
 #   tools/mlb_api.sh splits <id|abbr|name> [Y]  # team K% vs LHP and vs RHP (K-Over handedness gate)
 #   tools/mlb_api.sh standings [SEASON]         # division standings: W-L, pct, GB, L10, streak, run diff
 #   tools/mlb_api.sh teamform <id|abbr|name> [N]# last-N results: W-L + run differential (fade re-verify)
@@ -258,6 +259,30 @@ cmd_ump() {
     )'
 }
 
+cmd_weather() {
+  local d="${1:-$(_default_date)}"
+  _fetch "schedule?sportId=1&date=$d&hydrate=weather,team,venue" \
+  | jq -r --arg d "$d" '
+    # retractable-roof / domed parks — wind often moot when closed; flag so it is not over-read
+    (["Tropicana Field","Rogers Centre","Daikin Park","Minute Maid Park","Globe Life Field",
+      "Chase Field","American Family Field","loanDepot park","T-Mobile Park"]) as $domes
+    | "=== Weather " + $d + " (populates near first pitch; empty = pre-game) ===",
+      "  Wind \"Out\" boosts totals/HR (hurts K-Over); \"In\" suppresses; cold air suppresses carry.",
+      "",
+    (.dates[]?.games[]? |
+      ( (.teams.away.team.abbreviation // .teams.away.team.name) + " @ "
+        + (.teams.home.team.abbreviation // .teams.home.team.name)
+        + "  @ " + (.venue.name // "?")
+        + (if (.venue.name as $v | $domes | index($v)) then " [retractable/dome]" else "" end)
+        + "  →  "
+        + (if ((.weather // {}) | length) > 0
+           then (.weather.condition // "?") + ", " + (.weather.temp // "?") + "°F, wind " + (.weather.wind // "?")
+           else "PENDING (pre-game)"
+           end)
+      )
+    )'
+}
+
 cmd_splits() {
   local arg="${1:?usage: splits <teamId|abbr|name> [year]}"
   local season; season="$(_season_of "${2:-}")"
@@ -380,14 +405,15 @@ main() {
     findpitcher) cmd_findpitcher "$@";;
     lineups)     cmd_lineups "$@";;
     ump)         cmd_ump "$@";;
+    weather)     cmd_weather "$@";;
     splits)      cmd_splits "$@";;
     standings)   cmd_standings "$@";;
     teamform)    cmd_teamform "$@";;
     findteam)    cmd_findteam "$@";;
     raw)         cmd_raw "$@";;
     ""|-h|--help|help)
-      sed -n '2,43p' "$0";;
-    *) die "unknown subcommand: $sub (try: check slate status finals pitcher gamelog findpitcher lineups ump splits standings teamform findteam raw)";;
+      sed -n '2,44p' "$0";;
+    *) die "unknown subcommand: $sub (try: check slate status finals pitcher gamelog findpitcher lineups ump weather splits standings teamform findteam raw)";;
   esac
 }
 main "$@"

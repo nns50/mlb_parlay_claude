@@ -20,9 +20,12 @@ CLAUDE.md is crisp **doctrine**; those files are **live data**. Burn tags below 
   and SP-freshness (`findpitcher`→`pitcher`/`gamelog`) — authoritative, no inference; tell the user
   it's live. `BLOCKED` → fall back to the 2-source WebSearch gate below.
 - Commands: `check` · `status|slate|finals <date>` · `findpitcher "<name>"` · `pitcher <id> <year>` ·
-  `gamelog <id> <year>` · `lineups <date>` · `ump <date>` · `splits <team> [year]` ·
+  `gamelog <id> <year>` · `lineups <date>` · `ump <date>` · `weather <date>` · `splits <team> [year]` ·
   `standings` · `teamform <team> [N]`. (As of 6/4/26 the user allowlisted `*.mlb.com`; it activates
   only in a NEW session, so `check` is how each session learns whether it's on.)
+- **Session open:** `tools/session_start.sh` runs the mechanical open in one shot (check + yesterday
+  finals + standings + which recent parlays are still TBD + every fade's status). `tools/calib.py`
+  recomputes the calibration bands / units-ROI / by-type record from `results_log.md` (read-only).
 
 ### Pre-publish GATE HEADER — every build opens with this; a ✗ blocks the dependent leg
 | Gate | ✓/⚠/✗ | Evidence |
@@ -90,7 +93,8 @@ Hard gate: may not recommend OR reject an SP leg until this is filled and shown,
   (juiced Under = no edge — pull the real number), (c) correlates awkwardly with ML legs → usually a
   STANDALONE, not a parlay floor.
 - **Manager hook tendency** (quick hook = lower K ceiling).
-- **Park/weather** (cold/wind-in helps Ks; hot/wind-out hurts).
+- **Park/weather** (cold/wind-in helps Ks; hot/wind-out hurts) — `weather <date>` for wind direction +
+  temp + dome flag (live near first pitch; empty pre-game).
 - **HP umpire** K-rate/zone — check before any K-Over (a tight zone is a hidden Over-killer). Use
   `ump <date>` for the assignment (StatsAPI: live once in-progress; pre-game shows PENDING + WebSearch hint).
 - **2nd meeting within ~14d:** hitters adjust, K rate drops ~10-15% → downgrade K-Over one tier (two
@@ -105,7 +109,7 @@ Hard gate: may not recommend OR reject an SP leg until this is filled and shown,
 - Splits vs the SP's handedness; batting-order slot (PA volume).
 - **BvP:** weight only if ≥30 PA in last 3 yrs; below that it's noise (both ways — small-sample bad
   BvP isn't a fade signal either).
-- Park/weather; bullpen matchup if the starter exits early.
+- Park/weather (`weather <date>` — wind out/in + temp); bullpen matchup if the starter exits early.
 
 ### Moneyline / spread — verify before recommending
 - SP matchup quality (ERA, xFIP, recent form — not just season ERA); HR rate; first-inning issues.
@@ -276,10 +280,12 @@ the outcome shows the analysis was wrong (calibration both ways).
   mid-tier home favorites down a few pp).
 
 ### Session-start review
+0. **Run `tools/session_start.sh`** — one shot for steps 1-3's mechanical part (check + yesterday
+   finals + standings + which recent parlays are TBD + every fade's status). Then do the judgment below.
 1. **Run `./tools/mlb_api.sh check`.** OK → prefer it (game-status / finals / SP-freshness) all
-   session, tell the user it's live. BLOCKED → WebSearch gate.
+   session, tell the user it's live. BLOCKED → WebSearch gate. (session_start.sh runs this for you.)
 2. Scan the 3 most-recent `parlays/*.md` for results + lessons; read `fades.md` + `results_log.md`.
-   Apply lessons before building.
+   Apply lessons before building. Run `tools/calib.py` for the fresh bands/ROI/by-type read.
 3. Any TBD recent result → **self-settle it first** via `finals` (or the 2-source WebSearch gate);
    mark the ticket W/L + retrospective. Only ask the user if a final genuinely can't be confirmed
    (game suspended/postponed). (User confirmed 5/29: the scheduled 09:00 run self-settles.)
