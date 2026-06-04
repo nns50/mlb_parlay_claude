@@ -10,8 +10,8 @@ game-status gate and the SP-freshness gate without inferring from search prose.
 ### Status: LIVE ✅ (confirmed reachable 2026-06-04, this session)
 The user allowlisted `*.mlb.com` on the environment and a **new session** picked it up, so
 `./tools/mlb_api.sh check` now returns `OK`. The `slate` / `status` / `finals` / `pitcher` / `gamelog` /
-`standings` / `teamform` commands have all been **validated against live data**. **Always run `check` at
-session start** — it's the deterministic way a fresh session learns whether the policy is active this run.
+`lineups` / `ump` / `splits` / `standings` / `teamform` commands have all been **validated against live data**.
+**Always run `check` at session start** — it's the deterministic way a fresh session learns whether the policy is active this run.
 
 **If `check` ever returns `BLOCKED` again** (e.g. the routine runs against a different environment whose
 policy lacks the rule), the proxy denies non-allowlisted hosts with `HTTP 403` + `x-deny-reason:
@@ -30,6 +30,9 @@ tools/mlb_api.sh finals  [YYYY-MM-DD]        # final scores only (prior-day sett
 tools/mlb_api.sh pitcher <personId> [SEASON] # season ERA/WHIP/IP/K/K9/GS/W-L
 tools/mlb_api.sh gamelog <personId> [SEASON] # start-by-start log (date, opp, IP, ER, K, BB)
 tools/mlb_api.sh findpitcher "<name>"        # resolve a name -> personId
+tools/mlb_api.sh lineups [YYYY-MM-DD]        # batting orders per game (CONFIRMED or PENDING ~2-3h pre-game)
+tools/mlb_api.sh ump     [YYYY-MM-DD]        # HP umpire per game (StatsAPI officials; pre-game = PENDING)
+tools/mlb_api.sh splits  <id|abbr|name> [Y]  # team K% vs LHP and vs RHP (K-Over handedness gate)
 tools/mlb_api.sh standings [SEASON]          # division standings: W-L, pct, GB, L10, streak, run diff
 tools/mlb_api.sh teamform <id|abbr|name> [N] # last-N results: W-L + run differential (fade re-verify)
 tools/mlb_api.sh findteam "<name|abbr>"      # resolve a team name/abbr -> teamId
@@ -43,6 +46,12 @@ tools/mlb_api.sh raw "schedule?sportId=1&date=2026-06-04"   # raw JSON passthrou
 - **Prior-day settle:** `finals <yesterday>` returns every final score in one call.
 - **SP-freshness gate:** `findpitcher` → `pitcher`/`gamelog` give the current season line AND the
   most-recent start (date/opp/IP/ER/K), exactly what the freshness field requires.
+- **Lineup gate:** `lineups <date>` shows confirmed batting orders (or PENDING when not yet posted).
+  Run at ~15:30 ET; if PENDING, hitter-prop legs cannot be locked.
+- **HP umpire gate:** `ump <date>` returns the HP ump name per game once games are in-progress. Pre-game
+  (09:00 run): outputs PENDING with a WebSearch fallback hint for early assignment lookup.
+- **K% by handedness (K-Over gate):** `splits <team>` returns team K% vs LHP and vs RHP from StatsAPI
+  batting splits — deterministic replacement for manual K% research before K-Over legs.
 - **Fade re-verification (`fades.md`):** `standings` gives every team's W-L / L10 / streak / run diff in
   one call, and `teamform <team> [N]` gives a precise last-N record + run differential — deterministic
   input for the "re-verify last-15 form each session" requirement (replaces manual WebSearch).
