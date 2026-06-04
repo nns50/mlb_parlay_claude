@@ -583,6 +583,12 @@ the user can override at game-time if they want.
   running cold, shade mid-tier home favorites down a few pp) — that's the whole point of the ledger.
 
 ### Session-start review
+- **FIRST, run `./tools/mlb_api.sh check`.** If it returns `OK`, the MLB StatsAPI is reachable —
+  PREFER it for the game-status gate, prior-day settle (`finals`), and SP-freshness (`pitcher`/
+  `gamelog`) for the rest of the session, and tell the user it's live. If it returns `BLOCKED`,
+  fall back to the WebSearch gate. (Context for a fresh session: as of 2026-06-04 the helper was
+  built and blocked by the egress allowlist; the user then allowlisted `*.mlb.com`, which only
+  takes effect in a NEW session — so this check is how a new session confirms whether it's now on.)
 - At the start of any session where the user might ask for a parlay, scan the
   3 most recent `parlays/*.md` files for filled-in results and captured
   lessons, AND read `fades.md` + `results_log.md` (above) to load the active fades and the
