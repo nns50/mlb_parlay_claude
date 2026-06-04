@@ -11,6 +11,9 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 - **Result** = W / L / Push / TBD. **Played** = Y if on the user's actual ticket, N if recommended/rejected only.
 - **Close** = closing American price; **CLV** = did the line move toward our side (closing ImplP > bet ImplP)?
   `+` good / `−` bad / `—` not captured. *(CLV capture starts now; pre-6/4 rows are `—`.)*
+- **Stake / Return / P-L** = units staked, units returned (stake × decimal on a win, 0 on a loss), and
+  net P/L (units). Tracked per *ticket* in the rollup → running units & ROI. **Log the real stake each
+  night;** pre-6/4 rows assume flat 1u (labeled) so there's an immediate read.
 - TrueP marked `*` = reconstructed after the fact (not explicitly logged that day) → excluded from
   the calibration buckets below to keep them honest.
 
@@ -19,9 +22,13 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 ## Logging protocol (run EVERY session)
 1. **On build:** add a row for each recommended leg (Played=N) with price, TrueP, ImplP, Edge.
    **Pull and record the bet price from a real book — never estimate** (same rule as the parlay routine).
-2. **At/near close:** record the **closing price** and compute CLV. (If betting live, log the price you got.)
-3. **On settle:** set Result (W/L/Push), flip Played=Y for legs the user actually played, update the
-   rollup tallies. Self-settle via finals on the 09:00 review like the parlay files.
+2. **At/near close (HARD step — do it on the run closest to first pitch):** record the **closing price**
+   and compute CLV (`+` if the line moved to our side). CLV is the best single +EV signal at this sample
+   size — capture it even on legs we don't bet. *(No odds API yet, so this is a manual book pull; if an
+   `odds_api.sh` helper is ever added it automates.)*
+3. **On settle:** set Result (W/L/Push), flip Played=Y for legs the user actually played, and for each
+   **played ticket** record **stake + return** → update the units/ROI rollup. Self-settle via
+   `mlb_api.sh finals` on the 09:00 review like the parlay files.
 4. **Commit** this file in the same commit→push→PR→squash-merge cycle as the parlay/fade files.
 
 ---
@@ -67,22 +74,26 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 
 ## Rollup / calibration (update on each settle)
 
-### Played-ticket record (parlays)
-| Date | Ticket | Payout | Result |
-|------|--------|--------|--------|
-| 5/25 | LAD ML + MIL ML + Misi O7.5K | +221 | ✅ WON |
-| 5/26 | LAD ML + Burns O6.5K + Strider O4.5K | +216 | ✅ WON |
-| 5/27 | NYY ML + Sanchez O6.5K | +210 | ✅ WON |
-| 5/28 | Tigers ML (anchor) + … | — | ❌ LOST |
-| 5/29 | LAD ML + HOU ML | +269 | ❌ LOST |
-| 5/30 | CLE ML + SD ML | +209 | ❌ LOST |
-| 5/31 | MIL −1.5 RL + NYY ML | +263 | ✅ WON |
-| 6/1 | SEA ML + TB −1.5 RL | ~+240 | ❌ LOST |
-| 6/2 | SEA ML + MIL ML | ~+158 | ✅ WON |
-| 6/3 | SEA ML + PHI ML | ~+183 | ❌ LOST |
+### Played-ticket record (parlays) — units @ flat 1u (see caveat)
+| Date | Ticket | Odds | Stake(u) | Return(u) | P/L(u) | Result |
+|------|--------|------|----------|-----------|--------|--------|
+| 5/25 | LAD ML + MIL ML + Misi O7.5K | +221 | 1.00 | 3.21 | +2.21 | ✅ WON |
+| 5/26 | LAD ML + Burns O6.5K + Strider O4.5K | +216 | 1.00 | 3.16 | +2.16 | ✅ WON |
+| 5/27 | NYY ML + Sanchez O6.5K | +210 | 1.00 | 3.10 | +2.10 | ✅ WON |
+| 5/28 | Tigers ML (anchor) + … | — | 1.00 | 0.00 | −1.00 | ❌ LOST |
+| 5/29 | LAD ML + HOU ML | +269 | 1.00 | 0.00 | −1.00 | ❌ LOST |
+| 5/30 | CLE ML + SD ML | +209 | 1.00 | 0.00 | −1.00 | ❌ LOST |
+| 5/31 | MIL −1.5 RL + NYY ML | +263 | 1.00 | 3.63 | +2.63 | ✅ WON |
+| 6/1 | SEA ML + TB −1.5 RL | ~+240 | 1.00 | 0.00 | −1.00 | ❌ LOST |
+| 6/2 | SEA ML + MIL ML | ~+158 | 1.00 | 2.58 | +1.58 | ✅ WON |
+| 6/3 | SEA ML + PHI ML | ~+183 | 1.00 | 0.00 | −1.00 | ❌ LOST |
 
-**Parlay record: 5 W – 5 L** over 5/25–6/3. (ROI requires the staked/returned amounts — start logging
-stake per ticket to compute units.)
+**Record: 5 W – 5 L. Units @ flat 1u: staked 10.00, returned 15.68 → P/L +5.68u, ROI +56.8%.**
+
+> ⚠️ **Read this ROI as noise, not signal.** n=10 is variance-dominated and the +56.8% is carried by two
+> ~+260 hits (5/31, 5/25); a single different bounce flips it. Stakes here are **assumed flat 1u** (not
+> actually logged) — log the real stake each night so this becomes a true number. **This is exactly why
+> CLV (above) matters more than ROI at this sample** — beat the close consistently and the ROI follows.
 
 ### Calibration buckets (explicitly-logged TrueP legs only; `*` rows excluded)
 | Predicted band | Legs | Won | Hit% | Read |
@@ -102,7 +113,12 @@ stake per ticket to compute units.)
 > 3. **Run-line legs are 1-1** (MIL −1.5 W; TB −1.5 L outright) — the D3 construction fade (RL vs a
 >    live dog) is the one that lost. Consistent with the registry.
 
-### To start capturing (going forward)
-- **CLV** — record closing price on every logged leg; it's the best single +EV signal.
-- **Stake/return per ticket** — to compute real ROI/units, not just W-L.
-- **Bet-type ROI** — once CLV + stakes accrue, break ROI out by ML-fav / K-Over / RL / hitter-prop.
+### Now capturing / still to capture
+- **Stake + units/ROI** — now in the ticket rollup (flat-1u assumed pre-6/4; **log the real stake going
+  forward** so ROI stops being an assumption).
+- **CLV** — hard step at the run closest to first pitch; the single best +EV signal at this sample size.
+  Still a manual book pull (no odds API).
+- **Bet-type ROI** — once CLV + real stakes accrue, break ROI out by ML-fav / K-Over / RL / hitter-prop.
+  Early hint from the data: **K-Overs are 5-for-5 played AND 5-for-5 on the ones we faded** (the edge),
+  while the **56–61% ML-fav band is hitting 40%** (overbet). The 3-tier output exists to surface the
+  K-Over standalone as the real product, not just the +200 parlay.

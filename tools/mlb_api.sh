@@ -26,6 +26,9 @@
 #   tools/mlb_api.sh pitcher <personId> [SEASON]# season pitching line (ERA/WHIP/K) + last start
 #   tools/mlb_api.sh gamelog <personId> [SEASON]# start-by-start pitching game log
 #   tools/mlb_api.sh findpitcher "<name>"       # resolve a pitcher name -> personId
+#   tools/mlb_api.sh standings [SEASON]         # division standings: W-L, pct, GB, L10, streak, run diff
+#   tools/mlb_api.sh teamform <id|abbr|name> [N]# last-N results: W-L + run differential (fade re-verify)
+#   tools/mlb_api.sh findteam "<name|abbr>"     # resolve a team name/abbr -> teamId
 #   tools/mlb_api.sh raw "<api-path-and-query>" # raw JSON passthrough (e.g. "schedule?sportId=1")
 #
 # Dates default to today (local). SEASON defaults to the year of the date arg / today.
@@ -186,6 +189,84 @@ cmd_gamelog() {
     )'
 }
 
+# resolve a team name/abbreviation -> teamId (echoes the first match's id)
+_resolve_team() {
+  local q="${1:-}"
+  [[ "$q" =~ ^[0-9]+$ ]] && { echo "$q"; return 0; }
+  _fetch "teams?sportId=1" \
+  | jq -r --arg q "$q" '
+      ($q|ascii_upcase) as $Q
+      | .teams[]
+      | select((.abbreviation|ascii_upcase) == $Q
+               or (.name|ascii_upcase|contains($Q))
+               or (.teamName|ascii_upcase|contains($Q)))
+      | .id' | head -1
+}
+
+cmd_findteam() {
+  local q="${1:?usage: findteam \"<name|abbr>\"}"
+  _fetch "teams?sportId=1" \
+  | jq -r --arg q "$q" '
+      ($q|ascii_upcase) as $Q
+      | .teams[]
+      | select((.abbreviation|ascii_upcase) == $Q
+               or (.name|ascii_upcase|contains($Q))
+               or (.teamName|ascii_upcase|contains($Q)))
+      | "\(.id)\t\(.abbreviation)\t\(.name)"'
+}
+
+cmd_standings() {
+  local season; season="$(_season_of "${1:-}")"
+  _fetch "standings?leagueId=103,104&season=$season&standingsTypes=regularSeason" \
+  | jq -r '
+    ({"200":"AL West","201":"AL East","202":"AL Central",
+      "203":"NL West","204":"NL East","205":"NL Central"}) as $div
+    | .records[]
+    | ("\n=== " + ($div[(.division.id|tostring)] // ("division "+(.division.id|tostring))) + " ==="),
+      ( .teamRecords[]
+        | . as $t
+        | ([ $t.records.splitRecords[]? | select(.type=="lastTen") ] | first) as $l10
+        | "  " + (($t.divisionRank // "?")|tostring) + ". "
+          + ($t.team.name)
+          + "  " + ($t.wins|tostring) + "-" + ($t.losses|tostring)
+          + " (" + ($t.winningPercentage // "?") + ")"
+          + "  GB " + ($t.gamesBack // "-")
+          + "  L10 " + (($l10.wins // "?")|tostring) + "-" + (($l10.losses // "?")|tostring)
+          + "  " + ($t.streak.streakCode // "-")
+          + "  RDiff " + (if (($t.runDifferential // 0) >= 0) then "+" else "" end) + (($t.runDifferential // 0)|tostring)
+      )'
+}
+
+cmd_teamform() {
+  local arg="${1:?usage: teamform <teamId|abbr|name> [N]}"
+  local n="${2:-10}"
+  local id; id="$(_resolve_team "$arg")"
+  [[ -n "$id" ]] || die "could not resolve team '$arg' (try a teamId or an abbreviation like DET)"
+  local start end
+  start="$(date -d '25 days ago' +%F)"; end="$(date +%F)"
+  _fetch "schedule?sportId=1&teamId=$id&startDate=$start&endDate=$end&hydrate=team,linescore" \
+  | jq -r --argjson n "$n" --arg id "$id" '
+    [ .dates[]?.games[]?
+      | select(.status.abstractGameState=="Final")
+      | select(.teams.home.score != null and .teams.away.score != null) ]
+    | sort_by(.officialDate) | reverse | .[0:$n] | reverse
+    | map(
+        . as $g
+        | ($g.teams.home.team.id == ($id|tonumber)) as $home
+        | (if $home then $g.teams.home.score else $g.teams.away.score end) as $ts
+        | (if $home then $g.teams.away.score else $g.teams.home.score end) as $os
+        | (if $home then $g.teams.away.team.abbreviation else $g.teams.home.team.abbreviation end) as $opp
+        | { date: $g.officialDate, loc: (if $home then "vs" else " @" end),
+            opp: $opp, ts: $ts, os: $os, win: ($ts > $os), diff: ($ts - $os) } )
+    | (map(select(.win)) | length) as $w
+    | (length - $w) as $l
+    | (map(.diff) | add // 0) as $rd
+    | "team " + $id + " last " + (length|tostring) + ": " + ($w|tostring) + "-" + ($l|tostring)
+      + "   run diff " + (if $rd>=0 then "+" else "" end) + ($rd|tostring),
+      ( .[] | "  " + .date + "  " + .loc + " " + .opp + "  "
+              + (if .win then "W" else "L" end) + " " + (.ts|tostring) + "-" + (.os|tostring) )'
+}
+
 cmd_raw() {
   local path="${1:?usage: raw \"<api-path-and-query>\"}"
   _fetch "$path" | jq .
@@ -201,10 +282,13 @@ main() {
     pitcher)     cmd_pitcher "$@";;
     gamelog)     cmd_gamelog "$@";;
     findpitcher) cmd_findpitcher "$@";;
+    standings)   cmd_standings "$@";;
+    teamform)    cmd_teamform "$@";;
+    findteam)    cmd_findteam "$@";;
     raw)         cmd_raw "$@";;
     ""|-h|--help|help)
       sed -n '2,40p' "$0";;
-    *) die "unknown subcommand: $sub (try: check slate status finals pitcher gamelog findpitcher raw)";;
+    *) die "unknown subcommand: $sub (try: check slate status finals pitcher gamelog findpitcher standings teamform findteam raw)";;
   esac
 }
 main "$@"
