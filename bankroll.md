@@ -17,7 +17,9 @@ regular slate plays in `results_log.md`.
 ## Rules
 
 1. **Stake = the whole balance, every roll** (true full rollover).
-2. **Per-roll pick = the single safest +EV favorite on the slate** (~60%, the -150/-200 zone):
+2. **Per-roll pick = the single safest +EV favorite on the WHOLE board, chosen INDEPENDENTLY of the
+   daily parlay** (~60%, the -150/-200 zone) — it's whichever qualifying favorite has the highest floor,
+   even if it's not one of the parlay legs:
    - MUST clear the **min-edge gate** (devigged edge ≥ +2pp) and **all** pre-publish gates
      (game-status not started, SP-freshness, lineup posted if it's a hitter prop, real-book price).
    - MUST NOT be a team on the `fades.md` **A list** (fade-as-favorite) — never roll the bankroll on a
