@@ -167,6 +167,10 @@ Hard gate: may not recommend OR reject an SP leg until this is filled and shown,
     NYY ML → fades.md C3)
 - Confirm each leg's odds at a real book — never estimate. If the user asks ~+200, show the actual
   decimal product.
+- **Line-shop every leg across ≥2-3 books; bet the BEST available number.** Taking the best of −198 vs
+  −207 is ~+1pp of EV — *larger than most edges we hunt by analysis*, and free. The min-edge gate is
+  computed against the BEST price found, and the chosen book is logged. Not shopping is the same as
+  conceding edge we worked to find. (Codified 6/4/26 — highest-ROI non-tooling fix.)
 - **Heavy-mismatch matchups (fav ≥70% AND clear SP edge) blow up the alt-K + fav-ML recipe** — ML
   -350/-500, one-lower alt -800/-1300; the "deeper alt for safety" becomes a zero-payout near-lock.
   Use the STANDARD K line and substitute the -1.5 RL for the ML to recover payout. (burn 5/27 LAD/COL
@@ -198,6 +202,15 @@ when unattended. Override to the EV play ONLY if ALL hold: (1) no structural pit
 (2) 10+ recent starts at ≥5 IP avg, (3) modeled edge ≥ +8pp on the value line, (4) opposing K% and HP
 ump not negative. Any fail → safer alt, lower payout. Document the choice in the build. (burn 5/26
 Strider — the safer 4.5K saved the ticket)
+
+### Staking — size by edge, log the REAL stake (kills the fake-ROI problem)
+- Define 1 unit = 1% of the regular-play bankroll. **Size with ¼-Kelly off the devigged edge**, capped at
+  2u/leg: a +2.5pp edge and a +1pp edge must NOT get the same money. A near-zero-edge "floor leg" in a parlay
+  is action, not an investment — size it down or don't bet it standalone.
+- **Log the ACTUAL stake on every leg** (not assumed flat-1u). ROI is fiction until stakes are real — that's
+  why the +56.8% ROI is flagged as noise. With real stakes + ¼-Kelly the bankroll curve becomes a true number.
+- Parlays: stake the COMBINED ¼-Kelly of the parlay's own edge (usually small/negative — most parlays are
+  near -EV chalk+vig), not the sum of the legs. (Codified 6/4/26.)
 
 ### $10 rollover bankroll (active staking experiment → `bankroll.md`)
 Separate from unit-staking the regular plays. **Start $10; bet the WHOLE balance each roll on the day's
@@ -298,6 +311,9 @@ the outcome shows the analysis was wrong (calibration both ways).
 
 ### `results_log.md` — log + settle EVERY run
 - On build: a row per recommended leg (price + TrueP + ImplP + Edge; Played=N). Pull the price from a book.
+- **Log the WHOLE value scan, not just bets.** Every value candidate the slate scan surfaces gets a row
+  (TrueP + no-vig ImplP + closing line later), bet or not. This 4-5×'s the calibration sample for free and
+  is the only way claims like "the 56-61% band is overbet" graduate past the n=5 story stage. (Codified 6/4/26.)
 - **ImplP is NO-VIG — devig before computing Edge.** Take BOTH sides' raw implied probs, divide each by
   their sum (the overround); that's the no-vig prob. **Edge = TrueP − no-vig ImplP.** Measuring against the
   raw price distorts edge (overstates favorites — e.g. -310 reads 75.6% raw but ~73% no-vig). One-sided prop
@@ -305,8 +321,16 @@ the outcome shows the analysis was wrong (calibration both ways).
 - **Pre-register TrueP at BET TIME — never reconstruct it.** A back-filled estimate leaks the result and is
   calibration-invalid. Write the number before the game. If you genuinely didn't, mark it `*` (legacy) and it
   is EXCLUDED from calibration. **Goal: zero new `*` rows** — half the historical sample (11 of 21) was wasted this way.
-- At/near close: closing price + CLV — **the best +EV signal at this sample size** (converges far faster than
-  ROI); capture it even on legs we don't bet.
+- **TrueP METHOD — derive it, don't vibe it (so calibration isn't circular).** Anchor to a reproducible
+  baseline, then apply documented adjustments: (1) start from the market NO-VIG prob (or a public projection
+  — FanGraphs game odds); (2) apply PRE-SET, written adjustments with fixed magnitudes (e.g. ace-edge +3pp,
+  own-SP ERA >5 −5pp, contact-lineup K-Over −1 tier, 2nd-meeting −1 tier); (3) the result is TrueP. Calibration
+  then measures the ADJUSTMENTS, which is the thing worth measuring. A bare gut number is the `*`-equivalent of
+  TrueP. (Codified 6/4/26.)
+- **CLV is MANDATORY, not optional — capture the closing line for EVERY logged leg** (bet or not), at/near
+  first pitch — **the best +EV signal at this sample size** (converges far faster than ROI). The CLV column
+  going blank is the biggest measurement leak we have; a row without a closing line is half-logged. CLV `+` if
+  the line moved to our side (closing no-vig ImplP > bet no-vig ImplP).
 - On settle: set Result, flip Played=Y for legs played, update rollups + calibration buckets (verify with `calib.py`).
 - **Apply the calibration signals BEFORE building** — but only once the bucket clears the noise bar (see
   Promoting lessons; an n=5 band is a story, not a rule).
