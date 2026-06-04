@@ -2,654 +2,299 @@
 
 ## MLB parlay analysis routine
 
-When the user asks for an MLB parlay pick (or any MLB betting analysis), ALWAYS run the
-full in-depth checklist below BEFORE recommending any leg. Do not rely on
-generic "team X is favored" reasoning — verify each leg against the data.
+When the user asks for an MLB parlay (or any MLB betting analysis), run the full checklist
+below BEFORE recommending any leg. Never rely on "team X is favored" reasoning — verify each
+leg against data.
 
-### MANDATORY game-status verification (HARD GATE — do not skip)
-**PREFERRED authoritative source: `tools/mlb_api.sh` (MLB StatsAPI).** When reachable
-(`tools/mlb_api.sh check` → OK), use `tools/mlb_api.sh status|slate|finals <date>` to read game
-state deterministically — `abstractGameState` (Preview/Live/Final) + `detailedState` settle the
-gate with no inference, and `finals` settles prior-day results in one call. A `Final` there IS a
-real final; a `Preview`/`Pre-Game`/`Warmup` means NOT started. Likewise `findpitcher`→`pitcher`/
-`gamelog` fill the SP-freshness gate (current line + most-recent start) authoritatively.
-**As of 2026-06-04 the StatsAPI is BLOCKED by this environment's network allowlist** (the script
-preflights and prints BLOCKED); to enable it, allowlist `statsapi.mlb.com` in the environment's
-network policy (set at environment creation — https://code.claude.com/docs/en/claude-code-on-the-web).
-**Until `check` returns OK, fall back to the 2-source WebSearch gate below** (still mandatory).
+**Companion files — read EVERY run; they hold the live data + the full stories behind these rules:**
+- `fades.md` — active fades (team / K-Over / construction / data-trap) with W/L logs. **Single
+  source of truth for what's active now, including the team watch list.**
+- `results_log.md` — calibration & CLV ledger (every leg's true-prob estimate vs result).
+- 3 most-recent `parlays/*.md` — captured lessons + the full narrative of every burn.
 
-A WebSearch result's *narrative summary* is NOT a primary source. The search engine
-routinely **conflates adjacent games in a series and mis-stamps the date** — it will hand
-back a "final score" for a game that has NOT been played, often reusing the prior day's box
-score and even mislabeling the weekday. NEVER declare a game **final**, mark a result, or
-**remove a game from the board as "already played"** based on a search summary alone.
+CLAUDE.md is crisp **doctrine**; those files are **live data**. Burn tags below — e.g.
+`(burn 5/27 LAD/COL → fades.md D2)` — point to the full account; don't re-paste burn narratives here.
 
-Before treating ANY game as final (whether settling a prior-day result OR excluding a game
-from today's build), confirm AT LEAST TWO of these independent checks:
-1. **Day-of-week ↔ date consistency.** If the summary says "Tuesday" but the date is a
-   Wednesday, the data is corrupted — discard it. (Burn: 6/3/26 — a "SEA won 7-2 final"
-   summary called 6/3 "Tuesday"; 6/3 was Wednesday. It was the 6/2 8-3 game re-stamped.)
-2. **Live pregame line still posted?** If sportsbooks are still offering a pregame moneyline
-   (e.g. "SEA -136/-154, numberFire 60.6%"), the game has **NOT started** — books pull
-   pregame lines once first pitch happens. A live line = treat as upcoming, full stop.
-3. **First-pitch time vs. plausibility.** Note the scheduled ET first pitch; a 3:40 ET game
-   "final" claimed at midday is impossible.
-4. **Box-score detail cross-check.** If a "final" reuses the exact HR/pitcher lines you
-   already logged for the PRIOR day, it's a re-stamp, not a new result.
+### Data source — `tools/mlb_api.sh` (StatsAPI), PREFERRED over WebSearch
+- **Run `check` first.** `OK` → use it all session for the game-status gate, prior-day `finals`,
+  and SP-freshness (`findpitcher`→`pitcher`/`gamelog`) — authoritative, no inference; tell the user
+  it's live. `BLOCKED` → fall back to the 2-source WebSearch gate below.
+- Commands: `check` · `status|slate|finals <date>` · `findpitcher "<name>"` · `pitcher <id> <year>` ·
+  `gamelog <id> <year>`. (As of 6/4/26 the user allowlisted `*.mlb.com`; it activates only in a NEW
+  session, so `check` is how each session learns whether it's on.)
 
-If the checks conflict or you cannot confirm, treat the game as **NOT FINAL / status
-unknown** and say so — do NOT guess a result, and do NOT drop a still-bettable value leg on
-the false belief it already played. When the user asserts a game hasn't played, **believe
-them and re-verify** rather than defending the bad pull. Reference burn: 6/3/26 — I twice
-called the SEA/NYM game a 7-2 final off a hallucinated summary and dropped SEA (the slate's
-best value anchor) from the build; the user caught it both times. The live pregame line and
-the day-of-week mismatch each independently proved it hadn't played.
+### Pre-publish GATE HEADER — every build opens with this; a ✗ blocks the dependent leg
+| Gate | ✓/⚠/✗ | Evidence |
+|---|---|---|
+| Game-status confirmed not started | | StatsAPI state, or 2-source check |
+| SP-freshness filled — every SP in ticket | | pitcher/gamelog date-stamped today |
+| Lineups posted (else leg = PENDING) | | |
+| Prices pulled from a real book (not estimated) | | book |
+| `fades.md` consulted + applied | | entry IDs |
+| `results_log.md` calibration applied | | e.g. shade 58-60% ML band |
+| Slate-wide value scan — ALL games | | scan table present |
 
-### MANDATORY SP-data-freshness field (gates EVERY starting-pitcher leg)
-This applies to ANY leg that leans on a starting pitcher — a K prop AND an
-ML/spread/total read built on SP quality. A run may NOT recommend OR reject an
-SP-based leg until this field is filled in and shown in the build. It is a hard
-gate, not a guideline.
+Legend: **✓** pass · **⚠** partial → leg flagged PENDING · **✗** fail → leg cannot be locked.
+Fill this BEFORE showing legs, so a miss is visible pre-publish, not post-loss.
 
-For each SP referenced in a build, the writeup MUST include a checked line in
-this exact form:
+### Game-status verification (HARD GATE)
+- StatsAPI `Final` = real final; `Preview`/`Pre-Game`/`Warmup` = NOT started — settles the gate alone.
+- WebSearch fallback: a search *summary* is NOT primary. The engine conflates adjacent games in a
+  series and mis-stamps dates. Before calling ANY game final (settling a result OR pulling it from
+  the board), confirm ≥2 independent checks:
+  1. Day-of-week ↔ date consistency (mismatch = corrupted, discard).
+  2. Live pregame ML still posted? → game has NOT started, full stop.
+  3. First-pitch time vs. plausibility.
+  4. Box score isn't a re-stamp of the prior day's lines.
+- Conflict / can't confirm → **NOT FINAL / status unknown**; never guess a result, never drop a
+  still-bettable leg as "already played." If the user says it hasn't played, believe them and
+  re-verify. (burn 6/3 SEA "7-2 final" hallucination, caught twice → fades.md E1)
+
+### SP-data-freshness field (gates EVERY SP leg — K prop AND ML/spread/total built on SP quality)
+Hard gate: may not recommend OR reject an SP leg until this is filled and shown, in this exact form:
 
   - [ ] **SP DATA FRESHNESS — <Pitcher>:** ERA <x.xx> / WHIP <x.xx> / season K/9
         <x.x>, pulled from <date-stamped source> dated <YYYY-MM-DD>; **CONFIRMED
         the line includes the pitcher's most recent start** (last start: <date>
         vs <opp> — <IP/ER/K>). Recent-form K/9 over last 3-5 starts: <x.x>.
 
-Rules:
-- The source MUST be date-stamped to today's slate (a game-day preview, a recent
-  game story, or a start-by-start game log) — NOT a bare stat aggregate, which
-  can be frozen at a prior start. Cross-check against a 2nd source when the
-  numbers look off or sources disagree.
-- If you cannot confirm the line is current (no date-stamped source found, or two
-  sources conflict and can't be reconciled), mark the stat **UNVERIFIED** and
-  treat the leg as **PENDING — do not lock**, rather than guessing.
-- This field is REQUIRED even when the pitcher was NOT swapped and is correctly
-  named — staleness hits established starters in hot/cold swings too.
-- Reference burn: 5/29/26 Imanaga — the 09:00 run used a 2.32 ERA frozen at his
-  May 13 start while his CURRENT ERA was 4.04 after two shellings (8 R vs MIL,
-  then 6 IP/7 ER/3 HR vs HOU on 5/24). A filled freshness field catches this
-  PRE-publish. (Note: K rate can stay intact even when ERA craters — he K'd 6
-  in the 5/24 shelling — so verify, then separate the run-prevention axis from
-  the per-pitch-K axis; see the Cole/Skenes refinement below.)
+- Source must be date-stamped to today (game-day preview / recent game story / start-by-start log,
+  or StatsAPI `gamelog`) — NOT a bare aggregate, which can freeze at a prior start. Cross-check a 2nd
+  source if numbers look off.
+- Can't confirm current → mark **UNVERIFIED**, treat the leg **PENDING — do not lock**.
+- Required even for correctly-named, non-swapped starters (staleness hits established arms in
+  hot/cold swings). (burn 5/29 Imanaga 2.32→4.04 ERA, frozen at a May-13 line → fades.md E2)
 
 ### Pitcher props — verify before recommending
-- Starter vs. swingman/opener status (e.g. how many of their appearances this
-  season are actual starts vs. relief). A "starter" with <50% of appearances as
-  starts has a pitch-count ceiling that kills Over K props. VERIFY the role
-  claim against a current source (player's MLB.com page, FanGraphs game log)
-  before using it to accept or reject a leg — a false role call (e.g. labeling
-  an established starter "recently called up reliever") invalidates the entire
-  leg analysis. Burned on 5/25/26 with a wrong call on Nolan McLean.
-  ALSO AUTO-FADE K Overs on designated openers (planned 1-2 IP, followed by
-  bulk reliever). Verify the "starter" is going for length, not an opener day,
-  via team beat reporter or recent rotation pattern.
-- Recent IP per start (last 3-5 starts) — does their workload support the K line?
-- Season K/9 AND recent-form K/9 — flag if they diverge
-- Opposing lineup K-rate vs. that pitcher's handedness, not just overall team rate.
-  AUTO-FADE K Overs against known contact-heavy lineups even when the pitcher is
-  elite-K (Royals burned a Will Warren 10.6+ K/9 Over with 3 Ks on 5/25/26;
-  verify current K% rank for Royals/Astros/Guardians/D-backs before any K-Over leg)
-- **DON'T over-fade a GENUINELY elite-K ace's K-Over off a SINGLE contextual
-  suppressor.** A 2nd-meeting-within-14d downgrade, a mild-but-confirmed-starting
-  illness, or one contact-heavy lineup is, by itself, NOT grounds to HARD-fade or
-  reject an elite arm's K-Over — their raw whiff dominance routinely overrides one
-  suppressor. The fade signals are meant to (a) keep K-Overs OFF a parlay floor
-  (right-tail variance) and (b) trigger the K-Under price check — NOT to label the
-  arm a reject in the analysis. When a single suppressor is present on an elite-K
-  ace: downgrade ONE tier, LOG the K-Over as a **live standalone Over candidate**,
-  pull BOTH the standard and one-lower alt prices, and decide on price — do not
-  reflexively stamp "HARD FADE." Stack the fade only when MULTIPLE independent
-  suppressors pile up (e.g. contact lineup AND confirmed short-leash/opener AND
-  tight-zone ump). Reference burns (all K-Overs we faded that then CASHED):
-  6/3/26 Sanchez 9 K (faded on lone 2nd-meeting), 6/3/26 Burns 9 K (faded on
-  illness+KC-contact, but he went long enough for the K dominance to play),
-  6/2/26 Harrison 12 K (faded as "low-K" off one 2-K outing). Three straight
-  misses on the fade side — the over-fade was the error, not the variance.
-- **WHENEVER a K-Over is auto-faded OR rejected, evaluate the K-UNDER as a
-  candidate and LOG its price in the slate scan — do not just decline the Over.**
-  The same signals that kill a K-Over (contact-heavy lineup, 2nd-meeting-within-14d
-  adjustment, opener/short-leash/TJ-return/debut start-length tail, tight-zone HP
-  ump, manager quick hook) are exactly the signals that make the K-Under the
-  +EV side. The default lean is toward Overs because the public bets "things to
-  happen" and that bias shades Over prices UP — value frequently sits on the
-  Under. BUT keep the Under honest before betting it: (a) the Under has a fat
-  right tail (one dominant start busts it, unlike an Over which only busts on a
-  dud), (b) books often ALREADY price the suppression (a juiced Under = no edge —
-  pull the real number), and (c) Unders correlate awkwardly with ML legs (a
-  low-K pitcher can still win on weak contact), so they're usually better as
-  STANDALONES than as parlay floor legs. Net: price the Under every time, bet it
-  when the suppression isn't already in the line, and prefer it standalone.
-- Manager's recent hook tendency (quick hook = lower K ceiling)
-- Park and weather (cold/wind-in helps Ks, hot/wind-out hurts)
-- Home-plate umpire's K-rate / zone tendencies. K-friendly umps inflate
-  K Overs; tight-zone umps suppress them. Check the scheduled HP ump
-  before any K-Over leg (e.g. Umpire Scorecards, Baseball Savant umpire
-  splits). A bad zone is a hidden killer of an otherwise sharp K-Over.
-- Last meeting vs. same opponent within ~14 days. Hitters adjust on the
-  second look in a short window — K rates typically drop 10-15% in the
-  second meeting. If the SP faced the same lineup in the last 14 days,
-  downgrade K-Over confidence by one tier (or two tiers if the prior
-  start went heavily Over — the adjustment effect compounds). Do NOT
-  auto-fade entirely; a 70% leg becoming ~60% is still bettable.
+- **Role:** starter vs swingman/opener. <50% of appearances as starts = pitch-count ceiling that
+  kills K-Overs. Verify role against a current source before using it to accept OR reject — a false
+  role call invalidates the whole leg. AUTO-FADE K-Overs on designated openers (planned 1-2 IP).
+  (burn 5/25 McLean wrong role call → parlays/2026-05-25.md)
+- **Recent IP/start** (last 3-5): does workload support the K line?
+- **Season K/9 AND recent-form K/9** — flag divergence.
+- **Opposing-lineup K% vs the pitcher's handedness** (not overall team rate). AUTO-FADE K-Overs vs
+  known contact-heavy lineups even for elite-K arms — verify current K% rank for
+  Royals/Astros/Guardians/D-backs first. (→ fades.md C1)
+- **DON'T over-fade a genuinely elite-K ace's K-Over off ONE suppressor** (lone 2nd-meeting,
+  mild-but-starting illness, one contact lineup). Raw whiff dominance routinely overrides a single
+  suppressor. On one suppressor: downgrade ONE tier, LOG the Over as a live standalone candidate,
+  pull both the standard + one-lower alt prices, decide on price — do NOT stamp "HARD FADE." Stack
+  the fade only when MULTIPLE suppressors pile up (contact lineup AND short-leash/opener AND
+  tight-zone ump). (burns 6/3 Sanchez 9K, 6/3 Burns 9K, 6/2 Harrison 12K — all faded, all cashed → fades.md C6)
+- **Whenever a K-Over is faded/rejected, price the K-UNDER and log it.** Same signals (contact
+  lineup, 2nd-meeting, opener/short-leash/TJ-return/debut tail, tight-zone ump, quick hook) make the
+  Under +EV; Over prices are shaded up by public "things to happen" bias. Keep the Under honest:
+  (a) fat right tail (one dominant start busts it), (b) books often already price the suppression
+  (juiced Under = no edge — pull the real number), (c) correlates awkwardly with ML legs → usually a
+  STANDALONE, not a parlay floor.
+- **Manager hook tendency** (quick hook = lower K ceiling).
+- **Park/weather** (cold/wind-in helps Ks; hot/wind-out hurts).
+- **HP umpire** K-rate/zone — check before any K-Over (a tight zone is a hidden Over-killer).
+- **2nd meeting within ~14d:** hitters adjust, K rate drops ~10-15% → downgrade K-Over one tier (two
+  if the prior start went heavily over). Downgrade, don't auto-fade — 70%→~60% is still bettable. (→ fades.md C2)
 
 ### Hitter props — verify before recommending
-- CONFIRM the official lineup is posted (~2-3 hours pre-game) before
-  locking any hitter prop. A hitter on the bench cannot go Over 0.5
-  hits. Getaway-day games and back-to-backs often see regulars rested
-  without notice. If recommending pre-lineup, flag the leg as "PENDING
-  LINEUP — re-verify before bet" rather than locking it in.
-- Recent form (last 10-15 games), not just season slash line. CRITICAL: a hitter
-  in a documented slump is NOT a safe "Over 0.5 hits" play regardless of season avg
-- Check for active slump narratives (news coverage of cold streaks)
-- Splits vs. opposing starter's handedness
-- Batting order slot (PA volume matters)
-- Batter-vs-pitcher (BvP) career numbers: only weight if sample is
-  ≥30 PAs in the last 3 years. Below that the sample is noise — do not
-  justify a hitter Over with "4-for-9 lifetime" type lines. Small-sample
-  BvP that LOOKS bad is also not a fade signal on its own.
-- Park factors and weather
-- Bullpen matchup if starter exits early
+- **Confirm the official lineup is posted** (~2-3h pre-game) before locking — a benched hitter can't
+  go Over 0.5 hits; getaway/back-to-back days rest regulars without notice. Pre-lineup → flag
+  **PENDING LINEUP — re-verify before bet**.
+- **Recent form (last 10-15)**, not just season slash. A documented slump is NOT a safe Over 0.5 hits
+  regardless of season avg — check slump narratives.
+- Splits vs the SP's handedness; batting-order slot (PA volume).
+- **BvP:** weight only if ≥30 PA in last 3 yrs; below that it's noise (both ways — small-sample bad
+  BvP isn't a fade signal either).
+- Park/weather; bullpen matchup if the starter exits early.
 
 ### Moneyline / spread — verify before recommending
-- Starting pitcher matchup quality (ERA, xFIP, recent form — not just season ERA)
-- Starting pitcher's HR rate and first-inning issues
-- **The FAVORITE's OWN starter ERA is a hard ceiling on ML safety.** A model can
-  list a team at 60-62% purely because the OPPONENT's starter is worse, but if
-  the favorite's own SP carries a bad ERA (~5.00+), the game is a high-variance
-  shootout, not a safe anchor — the favorite can be blown out even as the
-  "right" side. DISCOUNT the favorite ML by ~5pp and DO NOT use it as a parlay
-  anchor when its own starter's ERA is ~5.00+. Especially when BOTH starters are
-  bad ("two-bad-SP shootout"), treat the game as a coin-flip-plus, not a 60%
-  leg. Reference burn: 5/28/26 Tigers ML -130 (Flaherty 5.94 ERA vs G-Rod 10.61)
-  — I rated it ~61% and made it the ANCHOR; DET lost 7-1. I had even flagged
-  "Flaherty leaky → live but uncomfortable" and still anchored on it. The flagged
-  risk WAS the outcome — when you name a blow-out risk on the favorite's starter,
-  let it move the number, don't just note it.
-- Bullpen rest/availability — major factor for spread covers
-- Lineup health (key bats in/out)
-- Travel, day-after-night, getaway day spots
-- Line movement vs. opener (sharp money signal)
-- Modeled win probability if available — flag if it's below ~60% for a heavy fav
-- **DECOMPOSE the favorite's model win-prob: "good team" vs "bad opponent."**
-  A model can list a favorite at 60-62% purely because the OPPONENT's starter is
-  awful — that is NOT the same as "this is a team you can trust to win." Before
-  anchoring ANY favorite ML, display its OWN season record AND last-15 form
-  RIGHT NEXT TO the model number, and explicitly ask: is this number driven by
-  the favorite being good, or just by the opponent being bad? If it's
-  opponent-driven AND the favorite is a sub-.500 / poorly-playing team, fade it
-  as an anchor — trust the "this team has been bad" read over the inflated
-  number. Reference burn: 5/28/26 Tigers ML -130 was 62% only because G-Rod
-  (10.61 ERA) was awful; Detroit itself had been playing badly and got blown out
-  7-1. The gut read ("they've been bad") was correct and the number was
-  misleading. Make the favorite's own record/form a REQUIRED, visible field in
-  every build so this check happens before locking, not after losing.
-- Current team trends NOT captured by season record: last 7-10 game run
-  differential, runs-per-game over last 7 days, bullpen ERA over last 14
-  days, frequency of close/1-run games recently, current win/loss streak.
-  A team can be 33-20 by record but grinding out 1-run wins lately — same
-  ML price, very different in-game comfort. Apply to BOTH sides of the
-  matchup: a 20-34 underdog that's gone 6-4 over its last 10 with a hot
-  bullpen is a different bet than its record suggests. Reference burn:
-  5/25/26 Dodgers ML -310 cashed but trailed into the 7th; the record
-  oversold the comfort level.
-- SPECIFICALLY watch for "was hot, now cold" teams — clubs that built a
-  strong record in the first 30-40 games but have gone cold in the last
-  10-15. The market price still reflects the earlier hot streak, so
-  betting them as favorites is overpriced. Always check the last-15-games
-  record and run differential, not just the season line.
-  Current watch list (RE-VERIFY each session before using):
-  - **Fade as favorites — "was hot, now cold" / just plain cold**: Cubs
-    (5/25/26; 0-10 skid then WON 3 straight 5/27-5/28 incl. beating Skenes 7-2
-    on 5/28 — recovering, but KEEP on fade-as-fav list until last-15 climbs
-    back above .550), Rangers (5/25/26; fade RE-CONFIRMED 5/28 — lost 5-1 to
-    HOU, dropped 6 of last 7, season-worst 6 games under .500; **DOWNGRADED to
-    NEUTRAL-lean 5/30 — fade MISSED 5/29, TEX blew out KC 9-1 at home behind
-    Kolek; re-verify last-15 form before fading TEX as a favorite again**),
-    **Tigers (ADDED 5/28/26 — 22-35, 4-18 since May 4, lost 7 straight series; the
-    5/28 Tigers ML -130 anchor got blown out 7-1; fade RE-VALIDATED 5/29 — DET
-    lost 4-3 to CWS. Do NOT lay a price on DET as a favorite; the market keeps
-    overrating them off the season-opening record and a soft-schedule SP line.
-    NOTE 5/30: DET favored AGAIN at -130 with Framber Valdez (4.28) — fade live.
-    **NOTE 6/3/26 — DET is HEATING UP as a DOG: swept TB at Tropicana, won the
-    6/3 finale 7-2 (Melton 8 dominant IP, shelled elite Martínez for 6 R), "put
-    miserable May in the rearview." This does NOT make them a fade-as-fav removal
-    yet (re-verify last-15), BUT it flips the corollary: DET is now live to WIN
-    OUTRIGHT as a dog — do NOT lay runs against them and do NOT treat a DET dog
-    as a free fade. "Fade as favorite" ≠ "safe to bet against." Watch for a
-    move to underdog-value if the run continues.)**
-  - **Value as underdogs — "quietly hot"**: White Sox (ADDED 5/28/26 — 29-27,
-    won 12 of last 18, beat MIN 6-2 behind Davis Martin (8-1) on 5/28, run diff
-    back to even for the first time since Opening Day; a genuinely improving
-    club the market still prices soft); Pirates (added 5/26/26 — "quietly hot"
-    tag now COLD: lost 10-4 (5/27) and 7-2 (5/28) to the Cubs, run ended —
-    treat as neutral, NOT underdog value, until it re-heats); Twins (added
-    5/28/26 — quietly-hot tag now COOLING: just lost 3 of 4 to CWS incl. 6-2 on
-    5/28. Bullpen-strength-since-5/9 read still holds, but the offense went
-    quiet — keep only as soft-matchup value, and remember the 5/28 CAVEAT: the
-    tag does NOT override a confirmed ace-at-home, MIN got beat 6-1 by Davis
-    Martin (1.14 home ERA). A clear pitching edge beats a recent-form narrative.)
-    Honorable-mention watch: Angels (surging — won 5 of 6 incl. 2 of 3 at DET
-    through 5/28) and Astros (won 6 of last 7 through 5/28, but Astros stay an
-    AUTO-FADE K-Over lineup — back them on ML/total only, never opposing K-Over).
-- ACTIVELY SCAN each day's slate for new candidates fitting this pattern,
-  in BOTH directions:
-    - "Was hot, now cold" — add to the fade watch list above
-    - "Was cold, now quietly hot" — note as potential underdog value
-      (good record-vs-form mismatch in the bettor's favor)
-  When a new team is identified during analysis, update the watch list
-  in this file and commit the change (one-line PR is fine) so the next
-  session inherits it. When a watched team's form recovers (last-15
-  back above .550 with positive run differential), remove it from the
-  list with a commit explaining the reason and the date — keeping the
-  list current is part of the routine, not an optional step.
+- SP matchup quality (ERA, xFIP, recent form — not just season ERA); HR rate; first-inning issues.
+- **Favorite's OWN starter ERA is a ceiling on ML safety.** Own SP ~5.00+ → high-variance shootout,
+  can be blown out as the "right" side. Discount the fav ~5pp and DON'T anchor; two-bad-SP game =
+  coin-flip-plus, not a 60% leg. (burn 5/28 DET -130 anchor, Flaherty 5.94, lost 7-1 → fades.md D4)
+- **Decompose the fav's win-prob: "good team" vs "bad opponent."** A number driven only by the
+  opponent's awful SP is NOT "a team you can trust." Display the fav's OWN record + last-15 form next
+  to the model number (flag any heavy fav modeled <60%); if it's opponent-driven AND the fav is
+  sub-.500/cold, fade it as an anchor. (burns 5/28 DET 62% only because G-Rod 10.61; 5/29 Astros 55.4% a 25-32 team)
+- Bullpen rest/availability; lineup health; travel / day-after-night / getaway spots; line movement vs opener.
+- **Current trends not in the record:** last 7-10 run differential, R/G last 7d, bullpen ERA last 14d,
+  recent 1-run-game frequency, W/L streak. Apply to BOTH sides. (burn 5/25 LAD -310 cashed but
+  trailed into the 7th — record oversold the comfort)
+- **Team watch list (fade-as-fav / quietly-hot dog) lives in `fades.md` A/B — read it there and
+  re-verify last-15 each session.** Actively scan each slate for new "was hot, now cold" (fade) and
+  "was cold, now hot" (dog value) teams; add/transition them in `fades.md` (not here) and commit.
 
-### Parlay construction rules
-- Target true combined win probability ≥ 33% for a +200 parlay
-- For a 3-leg parlay each leg should average ~70% true win prob
-- **Avoid -350-or-worse ML legs as parlay anchors for a +200 target.** A
-  heavy-fav ML (e.g. -420) contributes almost nothing to the payout (decimal
-  ~1.24) while still carrying ~20% bust risk, which forces the rest of the
-  ticket to take on excessive risk to reach +200. Price efficiency matters as
-  much as raw hit rate when building a payout-targeted parlay. When a steep fav
-  is your instinct, first look for a better-priced anchor (~-150 to -200, ~60-65%
-  true win prob) from another game that delivers comparable safety with far more
-  payout contribution. Reference win: 5/27/26 — I anchored Builds E/F on LAD ML
-  -420; the user correctly faded it as poor value and substituted Yankees ML
-  -156, and the +210 ticket (NYY ML + Sanchez Over 6.5 K) cashed. I had even
-  surfaced that exact NYY combo in Build D before talking myself back into the
-  heavy LAD anchor on hit-rate grounds. Don't default to the heavy-fav ML three
-  days running (5/25 -310, 5/26 -235, 5/27 -420) — lead with the value anchor.
-- Same-game leg stacking is correlation-sign dependent. Don't default
-  to "always stack" or "never stack" — identify the SIGN first:
-    - POSITIVELY correlated (team ML + their SP's K Over; team total
-      Over + team ML; F5 Under + Game Under): at independent-leg odds
-      this is +EV for the bettor (true combined prob > the product
-      of standalone probs). Books offer SGP pricing to reclaim this
-      edge — when SGP is offered, compare the SGP price to the
-      independent product and take whichever pays more. Today's
-      Brewers ML + Misi K Over (5/25/26) was a positively-correlated
-      stack that cashed at independent pricing.
-    - NEGATIVELY correlated (team ML + opposing SP's K Over; team
-      total Over + opposing team ML): at independent-leg odds the
-      true combined prob is LOWER than the product implies — either
-      skip the stack or downgrade the combined-prob estimate manually
-      when building the parlay.
-    - Unclear correlation: default to one leg per game.
-  And when describing positively correlated stacks in the analysis,
-  the correlation should UP-adjust the combined-prob estimate, not
-  down-adjust it (the 5/25/26 parlay file mis-described this).
-- For pitcher K-Over legs in a parlay, check alt K lines (e.g. Over 7.5 instead
-  of the standard 8.5). If the standard line sits near 50/50, the alt line is
-  usually the safer parlay leg even at -150 to -200; reserve the +EV standard
-  line for stand-alone bets
-- BUT — never estimate alt-K prices when computing parlay payouts. Pull the
-  exact alt price from a real book before publishing the decimal math. Books
-  routinely juice the one-K-lower alt to -300 to -500 on elite-K arms that
-  have a 100%-recent-Over-rate at that threshold (5/26/26 burn: Burns alt 5.5
-  was estimated at ~-185 but the user's book priced it ~-400; the parlay
-  paid +103, not the published +221). If the alt comes back juicier than the
-  estimate, EITHER move that leg back to the standard line (accepting lower
-  hit rate for better payout) OR drop the leg entirely.
-- **A surprisingly LONG price on a liquid prop is information, not a gift —
-  defer to the market over your raw model.** When the posted price implies a
-  probability far below your model's estimate on a mainstream, liquid market
-  (e.g. a plus-money Over on a high-K/9 arm), the gap almost always means the
-  market is pricing something your model can't see — usually start-length /
-  short-leash risk the raw K/9 number hides (cf. the Strider structural rule
-  below). Books do NOT leave 15-20pp on a liquid K prop. Treat the line as a
-  hard prior: shade your estimate toward the market, do NOT bet it as "free
-  value," and re-derive the leg's true prob from BOTH posted lines when you
-  have them. Reference burn: 5/29/26 Imanaga — I rated Over 5.5 K ~68%, but the
-  book had it +120 (~44%) with Over 4.5 K at -200 (~64%); the two prices pinned
-  a coin-flip distribution (median ~5 K) and exposed my 68% as overconfident.
-  The phantom edge had anchored the whole "best win chance" ticket. RELATEDLY,
-  decompose EVERY favorite's model number even on non-headline mid-slate games
-  (same date: Astros ML 55.4% was a 25-32 team propped up by a thin-sample hot
-  SP vs the 33-20 Brewers — the decompose rule flagged it only once I ran it).
-- For K-Over legs on pitchers with STRUCTURAL pitch-count uncertainty (Tommy
-  John return, MLB debut, post-IL return, opener-conversion, manager's
-  documented quick hook), drop ONE alt deeper than the "value" line even at
-  heavy juice. The standard K/9-based "value" alt assumes a normal start-length
-  distribution; these pitchers' start-length distribution has a left tail the
-  raw K/9 number can't see. Reference burn: 5/26/26 Strider (TJ return, 4 starts
-  back) — recommended Over 5.5 K at -132 as the "value leg" (+15pp edge per my
-  model); user overrode to Over 4.5 K at ~-625; Strider finished with exactly
-  5 Ks, so 4.5 cashed and 5.5 would have busted. The user's variance-respecting
-  choice saved the parlay (+216 vs $0). My true-prob estimate of 72% on Over 5.5
-  was overconfident; actual probability was closer to 50-55%.
-  - REFINEMENT (5/27/26 Cole): the structural-uncertainty fade is about
-    START-LENGTH variance, NOT a downgrade of the pitcher's per-pitch K ability.
-    Do NOT let a single throttled ramp-up start collapse your estimate of an
-    elite arm's stuff. Separate the two axes: (a) start length / pitch cap =
-    genuinely uncertain on a TJ/debut/IL return → still fade the K-Over on a
-    parlay or take the deeper alt; (b) per-pitch whiff rate = anchor it to the
-    pitcher's established true talent, NOT to one small-sample outing. Reference:
-    in Build D (5/27) I let Cole's 2-K first start back drag my estimate of his
-    K ability down to "diminished arm," then dropped Yankees ML true win prob to
-    ~60% partly on that. Two starts back he went 10 K in 79 pitches, 0 BB, FB
-    96.3 mph avg / 98.4 top — velocity back to pre-TJ baseline, 10 K against a
-    K-resistant KC lineup, his first 10-K game since before the surgery. The
-    velocity + whiff-efficiency (10 K on 79 pitches can't be a called-strike
-    grind) confirmed the stuff was back. The pitch cap was still real (pulled at
-    79 pitches / 6.2 IP), so the start-length fade held — but I had over-corrected
-    the NYY ML down; with stuff back it deserved ~68-70%, making the -156 real
-    value (and it cashed). CHECK CONFIRMED-VELOCITY before assuming a returning
-    arm's K rate is suppressed: if velo is back to baseline, model the K rate at
-    true talent with a capped pitch count, not at the ramp-up start's counting line.
-- Confirm each leg's odds at a real sportsbook — never estimate
-- If the user asks for ~+200, calculate the actual decimal product and show it
-- **Heavy-mismatch matchups blow up the alt-K + favorite-ML recipe.** When the
-  model's true win prob on the favorite is ≥70% AND the pitcher matchup is a
-  clear edge (e.g. ace vs bottom-tier offense), expect ALL the standard
-  recipe legs to be priced much heavier than estimates: ML often -350 to -500,
-  one-K-lower alt often -800 to -1300, two-K-lower alt -250 to -400. The
-  "deeper alt for safety" rule then destroys parlay payout, because the
-  market has already priced the safety into the line. Reference burn:
-  5/27/26 LAD/COL — Ohtani vs Sugano. My estimates: LAD ML -230, Ohtani
-  Over 4.5 K -275, Sanchez Over 5.5 K -180. Actual book: -420, -1250, -275.
-  Build B as published would have paid -125 instead of +200. **In these
-  heavy-mismatch matchups, use the STANDARD K line (the "value alt"),
-  not the deeper alt — the deeper alt becomes a near-lock at zero
-  payout — AND substitute the spread (-1.5 RL) for the ML to recover
-  payout.** The spread is the only knob with enough range to keep a
-  parlay near +200 when the matchup is this lopsided.
-  **BUT — when the market has already moved the spread to -150 or
-  worse**, the spread is also priced into "fairly safe" territory and
-  the substitution rule above doesn't recover the payout. Reference
-  burn: same 5/27/26 LAD/COL game, LAD -1.5 RL came in at -172
-  (market 63.2% vs true ~60% — fair). At that point the +EV pivots
-  to the UP-alt of the OPPOSING pitcher's K Over (Sanchez Over 7.5 K
-  at +182, market 35.5% vs true ~58%). The market over-anchors on
-  the favorite-team narrative and under-prices the opposing pitcher's
-  standalone K dominance. In heavy-mismatch matchups, check the
-  opposing pitcher's UP-alt K line BEFORE assuming the spread is the
-  payout-recovery knob.
-  **AND — a −1.5 RL on the heavy favorite carries the favorite's FULL ML
-  loss probability PLUS the margin (win-by-2) risk — it is NOT a "safe
-  blowout knob."** The bad underdog can win OUTRIGHT, which loses the run
-  line by the maximum. A 22-38-class team still wins ~35-40% of games as a
-  dog — enough to torch a −1.5 laid against it. When the RL is the only way
-  to reach +200, re-price it as (P[fav wins by 2+]) ≈ (P[fav ML] − ~12-15pp),
-  and weigh that the dog is a live outright-win team, not dead money — do NOT
-  treat "best record vs worst record" as a near-lock cover. Reference burn:
-  6/1/26 — recommended (and user played) SEA ML + **TB −1.5 RL +118/+124** to
-  clear +200; TB (36-20, best AL record) **LOST 10-9 outright at home to DET
-  (22-38)**, busting the ticket. EVERY build that day had flagged the all-ML
-  **SEA + MIN +179** two-legger as the genuine best chance — and it WOULD HAVE
-  CASHED (both won). The +200 chase via the run line is exactly what lost.
-  This re-validates the 5/30 "don't dress a coin-flip as a best-chance +200"
-  rule WITH MONEY: when the highest-floor ticket lands just under +200, take
-  it rather than bolt on a payout knob that drops the floor ~6pp AND can lose
-  outright. Also: "fade DET as a FAVORITE" (they stay 22-38 class) is NOT the
-  same as "safe to lay runs against DET" — a fade-list team winning outright
-  as a dog is its own trap.
-  **CONFIRMATION 6/2/26 (the rule paying off the OTHER way, also with money):**
-  user played the 2-leg all-ML **SEA ML + MIL ML (~+158)** and WON (SEA beat NYM
-  3-2 in 10; MIL beat SF 8-3, Harrison 12 K) — deliberately declining the 3-leg
-  **+270** that added **NYY ML (Schlittler -215/-230)** to reach +200. That +200
-  ticket **WOULD HAVE BUSTED**: the Yankees lost **9-4 to CLE** — the 1.50-ERA AL
-  ERA-leader (the ticket's "highest-floor" leg) got tagged for 9 by the
-  contact-heavy Guardians. So the lesson now has BOTH signs in money: 6/1 the +200
-  chase COST us, 6/2 declining it SAVED us. Corollary worth internalizing: the
-  heavy-ace "safest-looking" leg is exactly the one that busted — a short price is
-  not a lock, and a known contact lineup (CLE) can beat an elite-K arm on the
-  SCOREBOARD (9 runs), not just suppress his K-Over.
+### Parlay construction
+- Target true combined ≥ 33% for +200; a 3-leg should average ~70%/leg.
+- **Avoid -350-or-worse ML anchors for a +200 target** — ~zero payout contribution (~1.24 dec), still
+  ~20% bust, forces the rest of the ticket into excess risk. Prefer a ~-150/-200 (~60-65%) value
+  anchor. (burn 5/27 LAD -420 faded → NYY -156 sub cashed → fades.md D2)
+- **Same-game stacking is correlation-sign dependent:**
+  - POSITIVE (team ML + their SP K-Over; team total Over + ML; F5 Under + Game Under) → +EV at
+    independent odds; if SGP offered, take the better of SGP vs the independent product. Describe
+    positive correlation as UP-adjusting the combined prob. (burn 5/25 stack mis-described as down-adjust)
+  - NEGATIVE (team ML + opposing SP K-Over) → true combined LOWER than the product; skip or
+    down-adjust manually.
+  - Unclear → one leg per game.
+- **K-Over alt lines:** if the standard line is ~50/50, the one-lower alt is usually the safer parlay
+  leg even at -150/-200 (reserve the +EV standard line for standalones). **But never estimate alt
+  prices** — pull the exact alt from a book; books juice the one-K-lower alt to -300/-500 on elite
+  arms. If juicier than expected, revert to the standard line or drop the leg. (burn 5/26 Burns alt
+  5.5 est -185, actual ~-400 → ticket paid +103 not +221)
+- **A surprisingly LONG price on a liquid prop is information — defer to the market.** A posted prob
+  far below your model on a mainstream market means the market sees something you don't (usually
+  start-length/short-leash risk). Shade toward the line; re-derive true prob from BOTH posted lines.
+  (burn 5/29 Imanaga Over 5.5K rated 68% but priced +120/~44%, with O4.5K -200 → median ~5K)
+- **Structural pitch-count uncertainty** (TJ return, debut, post-IL, opener-conversion, quick-hook
+  mgr) → drop ONE alt deeper even at heavy juice; the K/9 number can't see the left tail in start
+  length. (burn 5/26 Strider O5.5K rated 72%, finished exactly 5K → fades.md C3)
+  - **Refinement:** this fades START-LENGTH only, NOT per-pitch K stuff. Don't let one throttled
+    ramp-up start collapse an elite arm's K estimate. If velo is back to baseline, model K at true
+    talent with a capped pitch count. (burn 5/27 Cole — 10K/79 pitches two starts back; I over-cut
+    NYY ML → fades.md C3)
+- Confirm each leg's odds at a real book — never estimate. If the user asks ~+200, show the actual
+  decimal product.
+- **Heavy-mismatch matchups (fav ≥70% AND clear SP edge) blow up the alt-K + fav-ML recipe** — ML
+  -350/-500, one-lower alt -800/-1300; the "deeper alt for safety" becomes a zero-payout near-lock.
+  Use the STANDARD K line and substitute the -1.5 RL for the ML to recover payout. (burn 5/27 LAD/COL
+  — published recipe would've paid -125 not +200)
+  - BUT if the RL is already -150+, it's priced into safe territory too → pivot to the UP-alt of the
+    OPPOSING SP's K-Over (the market under-prices the opposing arm's standalone K dominance). (burn
+    5/27 Sanchez O7.5K +182 vs true ~58%)
+  - AND a -1.5 RL on a heavy fav carries the FULL ML loss prob PLUS win-by-2 risk — NOT a "safe
+    blowout knob." A bad dog wins outright ~35-40%, torching the RL. Re-price as P[fav by 2+] ≈
+    P[fav ML] − ~12-15pp. (burn 6/1 SEA ML + TB -1.5 +118 → TB lost 10-9 outright to DET → fades.md D3)
+- **The +200 chase is the most-validated fade on the board** — don't bolt a 3rd leg / payout knob
+  onto a clean 2-legger to stamp exactly +200; it drops the floor ~15-18pp and the chase leg keeps
+  busting. Take the highest-floor ticket even at +120-180. (burns: 6/1 chase cost us, 6/2 declining
+  the +270 saved us, 6/3 chase leg busted again → fades.md D1)
 
-### Safety-vs-EV tiebreaker (for unattended runs)
-When a leg has a real tradeoff between a safer "deeper alt" line and a more
-+EV "value" line (e.g. Strider Over 4.5 K at -625 vs Over 5.5 K at -132),
-**default to the safer line** in unattended/scheduled sessions. The user
-isn't there to confirm a judgment call, and today's reference burn (5/26/26
-Strider) showed that the model's edge estimate can be wrong in ways the K/9
-number can't see.
+### Always present THREE tiers (honest framing: these parlays are structurally near -EV — chalk + vig)
+Every build presents all three, in this order:
+1. **Best standalone +EV play** — the single sharpest edge on the slate (often a faded ace's K-Over,
+   a K-Under, a dog ML, or a total). Show true-prob vs implied + the edge. **This is where the real
+   value is — lead with it every day**, so the parlay is an eyes-open choice, not the only thing offered.
+2. **Highest-floor 2-leg** — the disciplined parlay (usually clean all-ML), best WIN CHANCE
+   regardless of whether it reaches +200. State the floor %.
+3. **The +200 build** — what the user asked for; show the decimal math AND the floor drop vs Tier 2,
+   and flag that the 3rd leg / payout knob lowers the floor (the money-validated 6/1-6/3 lesson).
 
-**Override the safety default and take the EV play ONLY when ALL of these hold:**
-1. The pitcher has NO structural pitch-count uncertainty (not TJ-return,
-   not MLB debut, not post-IL, not opener-conversion, not quick-hook manager)
-2. Recent sample is 10+ starts at normal length (≥5 IP avg)
-3. Modeled edge on the value line is ≥ +8pp
-4. Opposing lineup K% and HP umpire are not negative signals
+### Safety-vs-EV tiebreaker (unattended runs)
+Real tradeoff between a safer deeper alt and a more +EV value line → **default to the safer line**
+when unattended. Override to the EV play ONLY if ALL hold: (1) no structural pitch-count uncertainty,
+(2) 10+ recent starts at ≥5 IP avg, (3) modeled edge ≥ +8pp on the value line, (4) opposing K% and HP
+ump not negative. Any fail → safer alt, lower payout. Document the choice in the build. (burn 5/26
+Strider — the safer 4.5K saved the ticket)
 
-If any of those fail, take the safer alt and accept the lower payout.
-Document the choice in the parlay file under "Build-iteration notes" so
-the user can override at game-time if they want.
+### Transparency
+- Always show per-leg reasoning, AND legs rejected with reasons.
+- Flag uncertain data (lines/lineup/weather not set) rather than guessing; if borderline, say so.
+- Show the actual decimal math, not "approximately +200."
+- **NEVER** frame a leg as "safe / easy / lock / free money" — use the win-prob number and flag
+  in-game variance (SP ERA >4.50, weak pen, hot opposing offense). A -310 fav is still ~25% to lose;
+  W/L and margin-of-win are separate dimensions. (burn 5/25 LAD framed "safer" — trailed into the 7th)
 
-### Transparency requirements
-- ALWAYS show the per-leg reasoning, not just the picks
-- ALWAYS list legs considered AND rejected, with the reason for rejection
-- ALWAYS flag when data is uncertain (lines not yet posted, lineup not set, weather
-  unknown) rather than guessing
-- If a leg looks borderline, say so — don't oversell
-- Show the actual decimal math for the combined payout, not just "approximately +200"
-- NEVER frame a leg as "safe", "easy", "lock", or "free money" regardless of
-  price. Use the actual win-probability number, and explicitly flag in-game
-  variance factors (e.g. starter ERA > 4.50, weak bullpen, opponent on a hot
-  run-scoring streak). A heavy-fav ML at -310 is still ~25% to lose and the
-  margin of a win is a separate dimension from W/L. Burned trust on 5/25/26
-  framing Dodgers ML as "the safer high-probability choice" — LAD trailed
-  into the 7th before winning.
-
-### Default routine for "daily MLB parlay" requests
-1. Pull today's schedule with confirmed probable pitchers — CROSS-CHECK probables
-   from at least 2 sources (MLB.com + a beat-writer/preview article). Headlines
-   often name multiple pitchers in a series preview; don't assume the first name
-   mentioned is starting today. Also verify the pitcher → team attribution
-   explicitly: search-result summaries can list "Pitcher A vs Pitcher B" with the
-   names attributed to the wrong sides. Cross-check each pitcher's actual team
-   before building a leg.
-   - ALSO: do NOT reuse yesterday's pitcher assumptions for the same series.
-     Rotations rotate, mid-series acquisitions debut, and the same teams often
-     start completely different SPs the next day. Re-verify probables fresh
-     each session from the live source — never carry over from yesterday's
-     parlay file, AND do NOT accept a search-result attribution that lists
-     yesterday's matchup (article headlines often surface "Yankees vs Royals
-     5/26" in a 5/27 search and the first-pass scan can latch onto it).
-     Reference burns: 5/26/26 assumed Sheehan/Gordon (yesterday's pitchers);
-     actual was Lauer/Freeland. 5/27/26 assumed Schlittler/Falter from a
-     5/26 article; actual was Cole (TJ-return) vs Cameron — completely
-     different pitching profile that collapsed the NYY ML edge from +11pp
-     to ~0pp.
-   - WHEN A PITCHER SWAP IS FLAGGED MID-ANALYSIS, immediately pull the new
-     pitcher's CURRENT-SEASON ERA, WHIP, recent form, and K/9. Do NOT estimate
-     from career numbers or from how the pitcher looked at their last team.
-     Reference burn: 5/26/26 Lauer was correctly identified as the LAD starter
-     but his current-season ERA (6.69) was estimated at ~4.30 from career.
-     That mis-estimate cost ~5pp on the Dodgers true win-prob, and the parlay
-     was framed as "roughly fair" when it was actually slightly -EV.
-   - ALSO applies to NON-swapped, correctly-named pitchers: an aggregate
-     season stat line can be FROZEN at a prior start. Always cross-check a
-     pitcher's season ERA/WHIP against a DATE-STAMPED current source (today's
-     game-day preview or the start-by-start game log), not just a stat
-     aggregate, before using it — a 2-start-old line badly misreads an arm in
-     a recent hot/cold swing. Reference burn: 5/29/26 Imanaga — the 09:00 run
-     used his 2.32 ERA (his line frozen as of his May 13 start); he was then
-     shelled twice (8 R vs MIL, then 6 IP/7 ER/3 HR vs HOU on 5/24), so his
-     CURRENT ERA was 4.04. The stale number made the writeup call him "the
-     cleanest K profile on the board." NOTE the K-Over leg still held — he
-     struck out 6 even in the 5/24 shelling — so separate the axes: stale ERA
-     killed the run-prevention read, but per-pitch K stuff was intact (cf. the
-     Cole/Skenes refinement above).
-2. **Slate-wide value scan (MANDATORY before narrowing to final legs).**
-   Enumerate EVERY game on today's slate and identify at least one
-   value candidate per game across all bet types: ML, spread, total,
-   team total, pitcher K-Over AND K-Under, hitter props. Do NOT
-   tunnel-vision on the headline matchups (e.g. an Ohtani / Burns /
-   Skenes start) without first scanning the full slate. The best
-   value often hides in mid-slate games — weak-SP team-total plays,
-   K-Over arms vs slumping lineups, contrarian underdog MLs, K-Under
-   on a pitcher with structural pitch-count uncertainty. Produce a
-   game-by-game value scan TABLE (one row per game, value candidate
-   identified or "no edge") BEFORE narrowing to the final 2-3 legs.
-   Reference burn: 5/27/26 — initial Builds A/B/C only deep-dove on
-   LAD/COL and PHI/SD; user had to explicitly ask "did you check all
-   games?" to surface Logan Gilbert K-Over (SEA/ATH), Yankees/KC
-   Cole/Cameron matchup (which then turned out to be a price-trap),
-   COL/CLE/CHC team-total Unders, and several other angles. The
-   tunnel-vision cost a full conversational round-trip the user
-   shouldn't have had to drive.
-3. For each candidate pitcher leg, fill in the MANDATORY SP-data-freshness field,
-   then run the pitcher-prop checklist
-4. For each candidate hitter leg, check recent form + slump news
-5. For each candidate ML/spread, fill in the MANDATORY SP-data-freshness field for
-   the relevant starter(s), then verify SP quality and lineup health
-6. Construct parlay, show per-leg odds and combined payout math
-7. List rejected candidates with reasons
-8. Flag any uncertainty and recommend re-checking lines at game time
+### Default routine for "daily MLB parlay"
+1. **Probables — cross-check ≥2 sources** (MLB.com/StatsAPI + a beat preview); verify each
+   pitcher→team attribution. Do NOT carry over yesterday's probables or accept a search hit that
+   surfaces yesterday's matchup. (burns 5/26 Lauer/Freeland, 5/27 Cole/Cameron → fades.md E3)
+   - Swap flagged mid-analysis → immediately pull the NEW pitcher's current-season ERA/WHIP/K/9/form;
+     never estimate from career. (burn 5/26 Lauer 6.69 est ~4.30 from career)
+   - Even for correctly-named arms, cross-check the season line against a date-stamped current source
+     — aggregates freeze. (burn 5/29 Imanaga → fades.md E2)
+2. **Slate-wide value scan (MANDATORY, before narrowing).** Enumerate EVERY game; identify one value
+   candidate per game across ML/spread/total/team-total/K-Over/K-Under/hitter props (or "no edge").
+   Don't tunnel on headline arms — best value hides mid-slate. Produce the scan TABLE before the final
+   legs. (burn 5/27 tunnel-vision cost a full conversational round-trip)
+3. Each pitcher leg → fill SP-freshness, run the pitcher-prop checklist.
+4. Each hitter leg → recent form + slump news.
+5. Each ML/spread → SP-freshness for the relevant starter(s) + SP quality + lineup health.
+6. Build the THREE tiers (above); show per-leg odds + combined decimal math.
+7. List rejected candidates with reasons.
+8. Flag uncertainty; recommend re-checking lines + lineups at game time.
 
 ## Git workflow
-- Always commit, push, AND merge updates — never just commit. After any
-  change to `parlays/*.md` or `CLAUDE.md`, the full cycle is: commit →
-  push to the feature branch → open PR → squash-merge to main. Don't stop
-  at commit; the user expects main to reflect the latest state by the end
-  of every turn. If a merge conflict appears (typically after a prior
-  squash-merge made the branch diverge), resolve by saving the latest
-  working-tree state, resetting the branch to origin/main, re-applying the
-  state, and force-pushing — then merge.
+Always commit, push, AND merge — never just commit. After any change to `parlays/*.md`, `fades.md`,
+`results_log.md`, or `CLAUDE.md`: commit → push to the feature branch → open PR → squash-merge to
+main. Main should reflect the latest by end of turn. Merge conflict (branch diverged after a prior
+squash-merge) → save the working tree, reset to origin/main, re-apply the state, force-push, then merge.
 
-## Learning and retrospectives
+## Learning & retrospectives
 
 ### Per-parlay logging
-- After building a parlay, save the analysis to `parlays/YYYY-MM-DD.md` in this
-  repo and commit + push + MERGE it. The file should include: each leg with
-  odds, the per-leg reasoning, true win prob estimate, the combined payout
-  math, rejected candidates with reasons, and a `Result` section starting as TBD.
+Save each build to `parlays/YYYY-MM-DD.md` (commit/push/merge). Include: the gate header, the
+slate-wide scan, each leg + odds + per-leg reasoning + true-prob, the three tiers + combined math,
+rejected candidates with reasons, and a `Result` section starting TBD.
 
-### Multi-run-per-day logging (scheduled cron)
-- The routine runs 3× daily via cron (09:00, 11:00, 17:00 ET as of 5/26/26).
-  Each run produces its own build of the parlay using fresh slate data
-  (lineups posted, line movement, late scratches all evolve through the day).
-- **One file per day, append-only.** If `parlays/YYYY-MM-DD.md` already
-  exists when a run starts, APPEND a new `## Run HH:MM ET — Build [A|B|C]`
-  block below the existing content. Do NOT overwrite earlier runs — each
-  run's build is a record of what the slate looked like at that time.
-- File schema:
+### Multi-run-per-day (cron 09:00 / 11:00 / 17:00 ET)
+- **One file per day, append-only.** If today's file exists, APPEND `## Run HH:MM ET — Build [A|B|C]`;
+  never overwrite an earlier run (each is a record of the slate at that time).
+- Schema:
   ```
   # Parlay — YYYY-MM-DD (Day)
-  ## Daily slate context           (shared once; updated by each run if needed)
+  ## Daily slate context          (shared; each run updates if needed)
   ---
-  ## Run 09:00 ET — Build A        (first run appends)
-  ## Run 11:00 ET — Build B        (second run appends)
-  ## Run 17:00 ET — Build C        (third run appends)
+  ## Run HH:MM ET — Build X
+     ### Pre-publish gate (table)
+     ### Slate-wide value scan (table)
+     ### Tier 1 — best standalone  |  Tier 2 — highest-floor 2-leg  |  Tier 3 — +200 build
+     ### Per-leg SP-freshness + reasoning
+     ### Legs rejected
+     ### Run-specific notes (diff vs the prior build)
   ---
-  ## Played build                  (filled in by user at night)
-  ## Result                        (filled in once games settle)
+  ## Played build                 (user fills at night)
+  ## Result                       (filled once games settle)
   ```
-- Each run's block contains the standard per-parlay logging fields: legs,
-  per-leg reasoning, true win prob, combined math, rejected candidates,
-  pre-bet checklist, run-specific notes.
-- Each subsequent run should briefly compare to the prior run's build —
-  if Build B refines Build A's legs based on new info (lineup posted,
-  line moved), note the diff in B's "Run-specific notes."
+- Each later run briefly diffs the prior build (lineup posted, line moved).
 
-### Reporting outcomes for multi-run days
-- When the user reports at night which build they played (e.g. "I went with
-  Build B with Strider swapped to 4.5 K"), locate that build, mark it as
-  `**[CHOSEN BY USER]**` in its header, fill in the `## Played build`
-  section, and write the per-leg result + retrospective under `## Result`.
-- Lessons from the played build feed the Promoting-recurring-lessons rule.
-  Lessons from rejected builds STILL count if today's outcome shows my
-  analysis was wrong on those legs (e.g. Build A's pick lost where I'd
-  said it was 80%, that's a calibration lesson even though we didn't bet it).
+### Reporting outcomes (multi-run)
+User reports which build they played → mark its header `**[CHOSEN BY USER]**`, fill `## Played build`,
+write per-leg result + retrospective under `## Result`. Lessons from rejected builds still count if
+the outcome shows the analysis was wrong (calibration both ways).
 
-### Fade registry — `fades.md` (consult + validate EVERY run)
-- `fades.md` is the canonical living list of every active fade (team fades, K-Over fades,
-  parlay-construction fades, data/status traps), each with its reason, date added, and a
-  running W/L validation log. **This file holds the live entries; CLAUDE.md holds the doctrine.**
-- **Every run, before building:** read `fades.md` and apply the active entries. Do NOT lay a
-  price on a fade-as-favorite team, or HARD-fade an entry, without checking its recent log/status.
-- **Every settle (09:00 prior-day review AND any user-reported result):** for each active entry
-  that touched a settled game, append a dated **W** (fade was correct) or **L** (fade missed) to
-  its log, bump the tally, update **Last validated**, and transition status per the file's
-  protocol (ACTIVE→NEUTRAL when a log decays to ~.500; NEUTRAL→RETIRED when the reason no longer
-  holds; add NEW entries for fresh patterns). Then commit → push → PR → squash-merge `fades.md`
-  alongside the parlay file.
-- When a watch-list team's form/role changes, update it in `fades.md` (not in CLAUDE.md prose) —
-  `fades.md` is the single source of truth for what is active right now.
+### `fades.md` — consult + validate EVERY run
+- Before building: read it, apply active entries; don't lay a price on a fade-as-fav team (or
+  HARD-fade an entry) without checking its recent log/status.
+- Every settle: for each active entry touching a settled game, append a dated **W** (fade correct) /
+  **L** (fade missed), bump the tally, update Last-validated, transition status (ACTIVE→NEUTRAL at
+  ~.500; NEUTRAL→RETIRED when the reason lapses; add NEW for fresh patterns). Commit in the same cycle.
+- It's the single source of truth for the team watch list — update it there, not in CLAUDE.md prose.
 
-### Results & calibration ledger — `results_log.md` (log + settle EVERY run)
-- `results_log.md` is the quantitative track record: every recommended/played leg with its price,
-  my **true-prob estimate**, the **closing price (CLV)**, and the **result**. It measures
-  calibration (do my "70%" legs hit ~70%?), hit rate/ROI by bet type, and closing-line value.
-- **On every build:** add a row per recommended leg (price + TrueP + ImplP + Edge; Played=N).
-  Pull the bet price from a real book — never estimate.
-- **At/near close:** record the closing price and compute CLV (`+` if the line moved to our side).
-- **On every settle:** set Result, flip Played=Y for legs actually played, update the rollup
-  tallies + calibration buckets. Commit it in the same cycle as the parlay/fade files.
-- **Apply the early calibration signals before building** (e.g. if the ~58-60% ML-favorite band is
-  running cold, shade mid-tier home favorites down a few pp) — that's the whole point of the ledger.
+### `results_log.md` — log + settle EVERY run
+- On build: a row per recommended leg (price + TrueP + ImplP + Edge; Played=N). Pull the price from a book.
+- At/near close: closing price + CLV.
+- On settle: set Result, flip Played=Y for legs played, update rollups + calibration buckets.
+- **Apply the calibration signals BEFORE building** (e.g. the 58-60% ML-fav band running cold → shade
+  mid-tier home favorites down a few pp).
 
 ### Session-start review
-- **FIRST, run `./tools/mlb_api.sh check`.** If it returns `OK`, the MLB StatsAPI is reachable —
-  PREFER it for the game-status gate, prior-day settle (`finals`), and SP-freshness (`pitcher`/
-  `gamelog`) for the rest of the session, and tell the user it's live. If it returns `BLOCKED`,
-  fall back to the WebSearch gate. (Context for a fresh session: as of 2026-06-04 the helper was
-  built and blocked by the egress allowlist; the user then allowlisted `*.mlb.com`, which only
-  takes effect in a NEW session — so this check is how a new session confirms whether it's now on.)
-- At the start of any session where the user might ask for a parlay, scan the
-  3 most recent `parlays/*.md` files for filled-in results and captured
-  lessons, AND read `fades.md` + `results_log.md` (above) to load the active fades and the
-  calibration signals. Apply lessons before building today's parlay. If a recent result
-  is still TBD, **SELF-SETTLE it first by pulling the finals via WebSearch**
-  (the prior-day full-slate review below already does this on the 09:00 run) —
-  do NOT wait on the user. Mark the played ticket W/L with per-leg outcomes +
-  retrospective. Only ask the user as a fallback if the finals genuinely can't
-  be confirmed (game suspended/postponed, or search can't surface a result).
-  User confirmed 5/29/26: the scheduled 09:00 run should check results itself.
+1. **Run `./tools/mlb_api.sh check`.** OK → prefer it (game-status / finals / SP-freshness) all
+   session, tell the user it's live. BLOCKED → WebSearch gate.
+2. Scan the 3 most-recent `parlays/*.md` for results + lessons; read `fades.md` + `results_log.md`.
+   Apply lessons before building.
+3. Any TBD recent result → **self-settle it first** via `finals` (or the 2-source WebSearch gate);
+   mark the ticket W/L + retrospective. Only ask the user if a final genuinely can't be confirmed
+   (game suspended/postponed). (User confirmed 5/29: the scheduled 09:00 run self-settles.)
 
-### Prior-day full-slate review (MANDATORY on the morning / 09:00 ET run)
-- The 09:00 ET run is the first of the day. Before building today's parlay, do
-  a complete retrospective of EVERY game played the day before — not just the
-  legs we bet or the headline matchups. This is a standing step, not an
-  on-request one (added 5/28/26 at user request).
-- Procedure:
-  1. Pull every final score from the prior day. **If `tools/mlb_api.sh check` returns OK, use
-     `tools/mlb_api.sh finals <yesterday>` (authoritative, one call).** Otherwise use WebSearch,
-     not WebFetch — ESPN/MLB/FOX/CBS (and statsapi.mlb.com) all return HTTP 403 to WebFetch;
-     targeted WebSearch queries ("Team A Team B <date> final score recap") reliably return the
-     finals and pitcher lines. Watch for stale results: searches for a given
-     series often surface the PRIOR day's game, so confirm the date on each.
-  2. Build a one-row-per-game table (final, winning/losing pitcher, any notable
-     K line) covering the whole slate.
-  3. For each game, check it against the routine's active reads:
-     - K-Over/Under outcomes for any notable arm (did the AUTO-FADE lineups
-       — Royals/Astros/Guardians/D-backs — suppress an elite arm's Ks? did an
-       ace-vs-soft-lineup K-Over hit?).
-     - Fade-list teams (did they lose as expected?) and value/"quietly hot"
-       teams (did the underdog angle pay?).
-     - Any candidate legs I REJECTED — did the rejection validate or was it a
-       miss? (calibration both ways.)
-     - New "was hot, now cold" or "was cold, now quietly hot" candidates.
-  4. **Update `fades.md` AND `results_log.md`:** for `fades.md`, append a dated W/L to every active
-     entry that touched a game played yesterday, bump tallies, transition status, add NEW entries.
-     For `results_log.md`, set Result on yesterday's logged legs, record closing prices/CLV, update
-     the rollup record + calibration buckets. Then promote any lesson with 2–3 occurrences into doctrine.
-  5. Write the review into the PRIOR day's `parlays/YYYY-MM-DD.md` under a
-     `## Full-slate review` section (table + findings), then commit → push →
-     merge (include `fades.md` and `results_log.md` in the same cycle). If that day's parlay was
-     still TBD, also settle its `## Result` using the finals you just pulled.
-- Keep it findings-focused: the point is calibration (which rules held, which
-  missed), not a box-score dump. Surface 3-6 genuine takeaways, like the
-  5/27 review (three ace-vs-soft-lineup K-Overs hit; Astros AUTO-FADE held
-  deGrom to 6 K; Elder's 1.97-ERA FIP-flag rejection validated).
+### Prior-day full-slate review (MANDATORY on the 09:00 run)
+Before building, retrospect EVERY game from the prior day (not just bet/headline legs):
+1. Pull all finals — `tools/mlb_api.sh finals <yesterday>` if OK, else targeted WebSearch
+   (ESPN/MLB/CBS return 403 to WebFetch; "Team A Team B <date> final score recap" works). Watch for
+   stale/prior-day results.
+2. One-row-per-game table (final, W/L pitcher, notable K line).
+3. Check each vs active reads: K-Over/Under on notable arms (did the contact-lineup AUTO-FADEs
+   suppress an ace? did an ace-vs-soft K-Over hit?); fade-list teams; value / quietly-hot dogs; any
+   leg I REJECTED (validate or miss); new hot→cold / cold→hot teams.
+4. Update `fades.md` + `results_log.md` (W/L logs, settles, CLV, buckets); promote any lesson seen
+   2-3× into doctrine.
+5. Write the review into the PRIOR day's file under `## Full-slate review` (table + 3-6 findings);
+   commit/push/merge with fades + results_log. Settle that day's `## Result` if still TBD.
+Keep it findings-focused (calibration: which rules held, which missed), not a box-score dump.
 
 ### Promoting recurring lessons
-- When the same lesson appears in 2–3 different `parlays/*.md` files, promote
-  it into the core routine in `CLAUDE.md` (the relevant checklist or rule).
-  Reference the dates in the commit message so the lesson's history is
-  traceable.
+Same lesson in 2-3 different `parlays/*.md` → promote into the relevant CLAUDE.md rule (cite the dates
+in the commit). When a burn graduates to an active fade/calibration entry, its full narrative lives in
+`fades.md` / `results_log.md` / the dated parlay file — CLAUDE.md keeps only the crisp rule + the burn tag.
 
-## Notifications and email drafts
-- After completing an MLB parlay analysis, send a push notification with the
-  summary unless the user says otherwise
-- When the user asks to "draft an email with Gmail" — the Gmail MCP connector
-  IS configured in this environment (confirmed working 5/27/26). Use the
-  `mcp__Gmail__create_draft` tool to create the draft directly in the user's
-  Gmail account (to/subject/body). The tool may be deferred at session start —
-  load it via ToolSearch ("select:mcp__Gmail__create_draft") before calling.
-  Also show the draft contents inline so the user can see what was created.
-  Only fall back to saving a file in /home/user/ if the Gmail MCP server is
-  genuinely disconnected (ToolSearch returns no match) — and say so once.
+## Notifications & email
+- After a parlay analysis, send a push notification with the summary unless the user says otherwise.
+- "Draft an email with Gmail" → the Gmail MCP connector IS configured (confirmed 5/27/26). Load
+  `mcp__Gmail__create_draft` via ToolSearch, create the draft (to/subject/body), and show it inline.
+  Fall back to a file in /home/user/ only if the server is genuinely disconnected (say so once).
