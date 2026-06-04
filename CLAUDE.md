@@ -10,6 +10,8 @@ leg against data.
 - `fades.md` — active fades (team / K-Over / construction / data-trap) with W/L logs. **Single
   source of truth for what's active now, including the team watch list.**
 - `results_log.md` — calibration & CLV ledger (every leg's true-prob estimate vs result).
+- `bankroll.md` — the $10 rollover-ladder ledger (current balance + rules). Read for the live balance
+  before picking the bankroll bet.
 - 3 most-recent `parlays/*.md` — captured lessons + the full narrative of every burn.
 
 CLAUDE.md is crisp **doctrine**; those files are **live data**. Burn tags below — e.g.
@@ -197,6 +199,15 @@ when unattended. Override to the EV play ONLY if ALL hold: (1) no structural pit
 ump not negative. Any fail → safer alt, lower payout. Document the choice in the build. (burn 5/26
 Strider — the safer 4.5K saved the ticket)
 
+### $10 rollover bankroll (active staking experiment → `bankroll.md`)
+Separate from unit-staking the regular plays. **Start $10; bet the WHOLE balance each roll on the day's
+single safest qualifying favorite; roll the full return; 4 consecutive wins → STOP & withdraw; any loss
+→ restart at $10.** Full rollover is median-bust / jackpot-tail, capped at $10/attempt — full honest
+framing + live ledger live in `bankroll.md`. Each build: surface the **bankroll bet** = the single
+highest-floor favorite that clears the min-edge gate (devigged ≥ +2pp) AND is **not** a `fades.md`
+A-list (fade-as-fav) team; prefer 62-66% ace-edge favs over the soft 56-61% band; single leg, no parlay.
+No qualifying play → NO BET, balance carries. Update `bankroll.md` (commit/push/merge) on build + settle.
+
 ### Transparency
 - Always show per-leg reasoning, AND legs rejected with reasons.
 - Flag uncertain data (lines/lineup/weather not set) rather than guessing; if borderline, say so.
@@ -225,6 +236,8 @@ Strider — the safer 4.5K saved the ticket)
 7. Build the THREE tiers (above) from qualifying legs; show per-leg odds + combined decimal math.
 8. List rejected candidates with reasons.
 9. Flag uncertainty; recommend re-checking lines + lineups at game time.
+10. **$10 rollover bankroll** (`bankroll.md`): pick the bankroll bet (single safest qualifying favorite,
+    not an A-list fade), log the roll + current balance, and update the ledger/running totals.
 
 ## Git workflow
 Always commit, push, AND merge — never just commit. After any change to `parlays/*.md`, `fades.md`,
