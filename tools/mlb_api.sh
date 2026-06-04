@@ -26,6 +26,9 @@
 #   tools/mlb_api.sh pitcher <personId> [SEASON]# season pitching line (ERA/WHIP/K) + last start
 #   tools/mlb_api.sh gamelog <personId> [SEASON]# start-by-start pitching game log
 #   tools/mlb_api.sh findpitcher "<name>"       # resolve a pitcher name -> personId
+#   tools/mlb_api.sh lineups [YYYY-MM-DD]       # batting orders per game (CONFIRMED or PENDING ~2-3h pre-game)
+#   tools/mlb_api.sh ump [YYYY-MM-DD]           # HP umpire per game (from StatsAPI officials; pre-game = PENDING)
+#   tools/mlb_api.sh splits <id|abbr|name> [Y]  # team K% vs LHP and vs RHP (K-Over handedness gate)
 #   tools/mlb_api.sh standings [SEASON]         # division standings: W-L, pct, GB, L10, streak, run diff
 #   tools/mlb_api.sh teamform <id|abbr|name> [N]# last-N results: W-L + run differential (fade re-verify)
 #   tools/mlb_api.sh findteam "<name|abbr>"     # resolve a team name/abbr -> teamId
@@ -189,6 +192,99 @@ cmd_gamelog() {
     )'
 }
 
+cmd_lineups() {
+  local d="${1:-$(_default_date)}"
+  _fetch "schedule?sportId=1&date=$d&hydrate=lineups,team,probablePitcher" \
+  | jq -r --arg d "$d" '
+    "=== Lineups " + $d + " (✓ = posted; PENDING = not yet; posts ~2-3h pre-game) ===",
+    (
+      .dates[]?.games[]? |
+      "",
+      ( (.teams.away.team.abbreviation // .teams.away.team.name) + " @ "
+        + (.teams.home.team.abbreviation // .teams.home.team.name)
+        + "  SP: " + (.teams.away.probablePitcher.fullName // "TBD")
+        + " vs " + (.teams.home.probablePitcher.fullName // "TBD")
+      ),
+      (
+        (.lineups.awayPlayers // []) as $awp |
+        if ($awp | length) > 0 then
+          "  AWAY ✓ " + ($awp | length | tostring) + " batters:",
+          ($awp | to_entries[] |
+            "    " + ((.key+1)|tostring) + ". "
+            + (.value.useName // .value.fullName)
+            + " (" + (.value.primaryPosition.abbreviation // "?") + ")"
+          )
+        else "  AWAY: PENDING"
+        end
+      ),
+      (
+        (.lineups.homePlayers // []) as $hmp |
+        if ($hmp | length) > 0 then
+          "  HOME ✓ " + ($hmp | length | tostring) + " batters:",
+          ($hmp | to_entries[] |
+            "    " + ((.key+1)|tostring) + ". "
+            + (.value.useName // .value.fullName)
+            + " (" + (.value.primaryPosition.abbreviation // "?") + ")"
+          )
+        else "  HOME: PENDING"
+        end
+      )
+    )'
+}
+
+cmd_ump() {
+  local d="${1:-$(_default_date)}"
+  _fetch "schedule?sportId=1&date=$d&hydrate=officials,team" \
+  | jq -r --arg d "$d" '
+    "=== HP Umpires " + $d + " ===",
+    "  Note: StatsAPI officials populate once a game is in-progress.",
+    "  Pre-game: search \"[date] home plate umpire assignments MLB\" to get crew early.",
+    "",
+    (.dates[]?.games[]? |
+      ( (.teams.away.team.abbreviation // .teams.away.team.name) + " @ "
+        + (.teams.home.team.abbreviation // .teams.home.team.name)
+        + "  →  "
+        + (
+            (.officials // [] | map(select(.officialType == "Home Plate")) | first) as $hp |
+            if $hp != null then
+              "HP: " + $hp.official.fullName
+              + (if .status.abstractGameState == "Final" then " [Final]"
+                 elif .status.abstractGameState == "Live" then " [In Progress]"
+                 else "" end)
+            else "PENDING (pre-game)"
+            end
+          )
+      )
+    )'
+}
+
+cmd_splits() {
+  local arg="${1:?usage: splits <teamId|abbr|name> [year]}"
+  local season; season="$(_season_of "${2:-}")"
+  local id; id="$(_resolve_team "$arg")"
+  [[ -n "$id" ]] || die "could not resolve team '$arg' (try an abbreviation like SEA or DET)"
+  echo "=== Batting K% vs pitcher handedness — team $id, $season ==="
+  echo "  (league avg ~22%; >25% = contact-limited [K-Over suppressor]; <18% = contact-heavy)"
+  for hand in vr vl; do
+    local label
+    [[ "$hand" == "vr" ]] && label="vs RHP" || label="vs LHP"
+    _fetch "teams/$id/stats?stats=statSplits&group=hitting&season=$season&sitCodes=$hand" \
+    | jq -r --arg label "$label" '
+        .stats[0]?.splits[0]?.stat as $s |
+        if $s == null then "  " + $label + ": no data"
+        else
+          ($s.strikeOuts // 0) as $k |
+          ($s.plateAppearances // 1) as $pa |
+          ($k / $pa * 100 | floor) as $pct |
+          "  " + $label + ": " + ($k|tostring) + " K / " + ($pa|tostring) + " PA = " + ($pct|tostring) + "% K"
+          + "   avg " + ($s.avg // "?") + "  obp " + ($s.obp // "?")
+          + (if $pct >= 25 then "  ⚠ HIGH — contact-limited"
+             elif $pct <= 18 then "  ⚠ LOW — contact-heavy"
+             else "" end)
+        end'
+  done
+}
+
 # resolve a team name/abbreviation -> teamId (echoes the first match's id)
 _resolve_team() {
   local q="${1:-}"
@@ -282,13 +378,16 @@ main() {
     pitcher)     cmd_pitcher "$@";;
     gamelog)     cmd_gamelog "$@";;
     findpitcher) cmd_findpitcher "$@";;
+    lineups)     cmd_lineups "$@";;
+    ump)         cmd_ump "$@";;
+    splits)      cmd_splits "$@";;
     standings)   cmd_standings "$@";;
     teamform)    cmd_teamform "$@";;
     findteam)    cmd_findteam "$@";;
     raw)         cmd_raw "$@";;
     ""|-h|--help|help)
-      sed -n '2,40p' "$0";;
-    *) die "unknown subcommand: $sub (try: check slate status finals pitcher gamelog findpitcher standings teamform findteam raw)";;
+      sed -n '2,43p' "$0";;
+    *) die "unknown subcommand: $sub (try: check slate status finals pitcher gamelog findpitcher lineups ump splits standings teamform findteam raw)";;
   esac
 }
 main "$@"

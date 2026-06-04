@@ -20,15 +20,16 @@ CLAUDE.md is crisp **doctrine**; those files are **live data**. Burn tags below 
   and SP-freshness (`findpitcher`→`pitcher`/`gamelog`) — authoritative, no inference; tell the user
   it's live. `BLOCKED` → fall back to the 2-source WebSearch gate below.
 - Commands: `check` · `status|slate|finals <date>` · `findpitcher "<name>"` · `pitcher <id> <year>` ·
-  `gamelog <id> <year>`. (As of 6/4/26 the user allowlisted `*.mlb.com`; it activates only in a NEW
-  session, so `check` is how each session learns whether it's on.)
+  `gamelog <id> <year>` · `lineups <date>` · `ump <date>` · `splits <team> [year]` ·
+  `standings` · `teamform <team> [N]`. (As of 6/4/26 the user allowlisted `*.mlb.com`; it activates
+  only in a NEW session, so `check` is how each session learns whether it's on.)
 
 ### Pre-publish GATE HEADER — every build opens with this; a ✗ blocks the dependent leg
 | Gate | ✓/⚠/✗ | Evidence |
 |---|---|---|
 | Game-status confirmed not started | | StatsAPI state, or 2-source check |
 | SP-freshness filled — every SP in ticket | | pitcher/gamelog date-stamped today |
-| Lineups posted (else leg = PENDING) | | |
+| Lineups posted (else leg = PENDING) | | `lineups <date>` — CONFIRMED or PENDING |
 | Prices pulled from a real book (not estimated) | | book |
 | `fades.md` consulted + applied | | entry IDs |
 | `results_log.md` calibration applied | | e.g. shade 58-60% ML band |
@@ -72,9 +73,10 @@ Hard gate: may not recommend OR reject an SP leg until this is filled and shown,
   (burn 5/25 McLean wrong role call → parlays/2026-05-25.md)
 - **Recent IP/start** (last 3-5): does workload support the K line?
 - **Season K/9 AND recent-form K/9** — flag divergence.
-- **Opposing-lineup K% vs the pitcher's handedness** (not overall team rate). AUTO-FADE K-Overs vs
-  known contact-heavy lineups even for elite-K arms — verify current K% rank for
-  Royals/Astros/Guardians/D-backs first. (→ fades.md C1)
+- **Opposing-lineup K% vs the pitcher's handedness** (not overall team rate). Use `splits <team>` for
+  the deterministic number (vs RHP / vs LHP from StatsAPI, ~22% = league avg, ≥25% = contact-limited,
+  ≤18% = contact-heavy). AUTO-FADE K-Overs vs contact-heavy lineups even for elite-K arms — verify the
+  watch list (Royals/Astros/Guardians/D-backs) with `splits` before defaulting to it. (→ fades.md C1)
 - **DON'T over-fade a genuinely elite-K ace's K-Over off ONE suppressor** (lone 2nd-meeting,
   mild-but-starting illness, one contact lineup). Raw whiff dominance routinely overrides a single
   suppressor. On one suppressor: downgrade ONE tier, LOG the Over as a live standalone candidate,
@@ -89,14 +91,15 @@ Hard gate: may not recommend OR reject an SP leg until this is filled and shown,
   STANDALONE, not a parlay floor.
 - **Manager hook tendency** (quick hook = lower K ceiling).
 - **Park/weather** (cold/wind-in helps Ks; hot/wind-out hurts).
-- **HP umpire** K-rate/zone — check before any K-Over (a tight zone is a hidden Over-killer).
+- **HP umpire** K-rate/zone — check before any K-Over (a tight zone is a hidden Over-killer). Use
+  `ump <date>` for the assignment (StatsAPI: live once in-progress; pre-game shows PENDING + WebSearch hint).
 - **2nd meeting within ~14d:** hitters adjust, K rate drops ~10-15% → downgrade K-Over one tier (two
   if the prior start went heavily over). Downgrade, don't auto-fade — 70%→~60% is still bettable. (→ fades.md C2)
 
 ### Hitter props — verify before recommending
-- **Confirm the official lineup is posted** (~2-3h pre-game) before locking — a benched hitter can't
-  go Over 0.5 hits; getaway/back-to-back days rest regulars without notice. Pre-lineup → flag
-  **PENDING LINEUP — re-verify before bet**.
+- **Confirm the official lineup is posted** (~2-3h pre-game) before locking — use `lineups <date>` for
+  deterministic gate (CONFIRMED/PENDING). A benched hitter can't go Over 0.5 hits; getaway/back-to-back
+  days rest regulars without notice. Pre-lineup → flag **PENDING LINEUP — re-verify before bet**.
 - **Recent form (last 10-15)**, not just season slash. A documented slump is NOT a safe Over 0.5 hits
   regardless of season avg — check slump narratives.
 - Splits vs the SP's handedness; batting-order slot (PA volume).
