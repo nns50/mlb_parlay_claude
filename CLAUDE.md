@@ -34,8 +34,10 @@ CLAUDE.md is crisp **doctrine**; those files are **live data**. Burn tags below 
 | SP-freshness filled — every SP in ticket | | pitcher/gamelog date-stamped today |
 | Lineups posted (else leg = PENDING) | | `lineups <date>` — CONFIRMED or PENDING |
 | Prices pulled from a real book (not estimated) | | book |
+| Edge computed NO-VIG + clears min-edge gate | | devigged TrueP−ImplP ≥ +2pp std / +3-4pp anchor |
+| TrueP pre-registered (not reconstructed) | | written pre-game; no new `*` rows |
 | `fades.md` consulted + applied | | entry IDs |
-| `results_log.md` calibration applied | | e.g. shade 58-60% ML band |
+| `results_log.md` calibration applied | | `calib.py` buckets; act only on N≥20-30 signals (else directional) |
 | Slate-wide value scan — ALL games | | scan table present |
 
 Legend: **✓** pass · **⚠** partial → leg flagged PENDING · **✗** fail → leg cannot be locked.
@@ -129,6 +131,11 @@ Hard gate: may not recommend OR reject an SP leg until this is filled and shown,
   "was cold, now hot" (dog value) teams; add/transition them in `fades.md` (not here) and commit.
 
 ### Parlay construction
+- **Minimum-edge gate (a leg must clear the vig to qualify).** Using the NO-VIG implied prob, a leg
+  qualifies only if devigged edge (TrueP − no-vig ImplP) is **≥ +2pp standalone / ≥ +3-4pp to anchor a
+  parlay**. Below that it's action, not value. **A slate with nothing clearing the bar → "NO BET" is a
+  valid, correct output** — still show the scan + the closest looks (flagged -EV), but don't manufacture a
+  daily ticket. The daily-parlay + one-candidate-per-game habit creates pressure to force a play; resist it.
 - Target true combined ≥ 33% for +200; a 3-leg should average ~70%/leg.
 - **Avoid -350-or-worse ML anchors for a +200 target** — ~zero payout contribution (~1.24 dec), still
   ~20% bust, forces the rest of the ticket into excess risk. Prefer a ~-150/-200 (~60-65%) value
@@ -213,9 +220,11 @@ Strider — the safer 4.5K saved the ticket)
 3. Each pitcher leg → fill SP-freshness, run the pitcher-prop checklist.
 4. Each hitter leg → recent form + slump news.
 5. Each ML/spread → SP-freshness for the relevant starter(s) + SP quality + lineup health.
-6. Build the THREE tiers (above); show per-leg odds + combined decimal math.
-7. List rejected candidates with reasons.
-8. Flag uncertainty; recommend re-checking lines + lineups at game time.
+6. Apply the **minimum-edge gate** (devigged) — drop legs that don't clear it. If NOTHING clears,
+   the honest output is **NO BET** (show the scan + closest -EV looks, don't force a ticket).
+7. Build the THREE tiers (above) from qualifying legs; show per-leg odds + combined decimal math.
+8. List rejected candidates with reasons.
+9. Flag uncertainty; recommend re-checking lines + lineups at game time.
 
 ## Git workflow
 Always commit, push, AND merge — never just commit. After any change to `parlays/*.md`, `fades.md`,
@@ -274,10 +283,18 @@ the outcome shows the analysis was wrong (calibration both ways).
 
 ### `results_log.md` — log + settle EVERY run
 - On build: a row per recommended leg (price + TrueP + ImplP + Edge; Played=N). Pull the price from a book.
-- At/near close: closing price + CLV.
-- On settle: set Result, flip Played=Y for legs played, update rollups + calibration buckets.
-- **Apply the calibration signals BEFORE building** (e.g. the 58-60% ML-fav band running cold → shade
-  mid-tier home favorites down a few pp).
+- **ImplP is NO-VIG — devig before computing Edge.** Take BOTH sides' raw implied probs, divide each by
+  their sum (the overround); that's the no-vig prob. **Edge = TrueP − no-vig ImplP.** Measuring against the
+  raw price distorts edge (overstates favorites — e.g. -310 reads 75.6% raw but ~73% no-vig). One-sided prop
+  with no posted other side → subtract ~half the typical hold (~2-3pp) as an estimate and flag it.
+- **Pre-register TrueP at BET TIME — never reconstruct it.** A back-filled estimate leaks the result and is
+  calibration-invalid. Write the number before the game. If you genuinely didn't, mark it `*` (legacy) and it
+  is EXCLUDED from calibration. **Goal: zero new `*` rows** — half the historical sample (11 of 21) was wasted this way.
+- At/near close: closing price + CLV — **the best +EV signal at this sample size** (converges far faster than
+  ROI); capture it even on legs we don't bet.
+- On settle: set Result, flip Played=Y for legs played, update rollups + calibration buckets (verify with `calib.py`).
+- **Apply the calibration signals BEFORE building** — but only once the bucket clears the noise bar (see
+  Promoting lessons; an n=5 band is a story, not a rule).
 
 ### Session-start review
 0. **Run `tools/session_start.sh`** — one shot for steps 1-3's mechanical part (check + yesterday
@@ -299,16 +316,23 @@ Before building, retrospect EVERY game from the prior day (not just bet/headline
 3. Check each vs active reads: K-Over/Under on notable arms (did the contact-lineup AUTO-FADEs
    suppress an ace? did an ace-vs-soft K-Over hit?); fade-list teams; value / quietly-hot dogs; any
    leg I REJECTED (validate or miss); new hot→cold / cold→hot teams.
-4. Update `fades.md` + `results_log.md` (W/L logs, settles, CLV, buckets); promote any lesson seen
-   2-3× into doctrine.
+4. Update `fades.md` + `results_log.md` (W/L logs, settles, CLV, buckets); promote lessons per the
+   tiered bar (process lesson → 2-3×; hit-rate claim → N≥20-30, else flag as directional only).
 5. Write the review into the PRIOR day's file under `## Full-slate review` (table + 3-6 findings);
    commit/push/merge with fades + results_log. Settle that day's `## Result` if still TBD.
 Keep it findings-focused (calibration: which rules held, which missed), not a box-score dump.
 
-### Promoting recurring lessons
-Same lesson in 2-3 different `parlays/*.md` → promote into the relevant CLAUDE.md rule (cite the dates
-in the commit). When a burn graduates to an active fade/calibration entry, its full narrative lives in
-`fades.md` / `results_log.md` / the dated parlay file — CLAUDE.md keeps only the crisp rule + the burn tag.
+### Promoting recurring lessons (the bar scales with claim TYPE — don't enshrine noise)
+- **Process / logical lessons** (a construction recipe, a data-trap gate — e.g. the +200 chase, a
+  re-stamped-final trap): promote after **2-3 sightings**. These are logic, not probability; a few
+  clean confirmations are enough.
+- **Probabilistic / hit-rate claims** ("the 58-60% ML band is overbet," "K-Overs vs contact lineups hit
+  X%"): noise until **N≥20-30 decided legs** in that bucket (check `calib.py`). Below that, keep them as a
+  flagged **"early signal — directional only,"** NOT doctrine, and do not size bets off them. n=5 is a
+  coin-flip story. (This is why the current 56-61% "overbet" read stays a watch-flag, not a rule.)
+- Cite the dates in the commit. When a burn graduates to an active fade/calibration entry, its full
+  narrative lives in `fades.md` / `results_log.md` / the dated parlay file — CLAUDE.md keeps only the
+  crisp rule + the burn tag.
 
 ## Notifications & email
 - After a parlay analysis, send a push notification with the summary unless the user says otherwise.
