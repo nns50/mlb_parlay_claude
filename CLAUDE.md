@@ -544,10 +544,26 @@ the user can override at game-time if they want.
   analysis was wrong on those legs (e.g. Build A's pick lost where I'd
   said it was 80%, that's a calibration lesson even though we didn't bet it).
 
+### Fade registry — `fades.md` (consult + validate EVERY run)
+- `fades.md` is the canonical living list of every active fade (team fades, K-Over fades,
+  parlay-construction fades, data/status traps), each with its reason, date added, and a
+  running W/L validation log. **This file holds the live entries; CLAUDE.md holds the doctrine.**
+- **Every run, before building:** read `fades.md` and apply the active entries. Do NOT lay a
+  price on a fade-as-favorite team, or HARD-fade an entry, without checking its recent log/status.
+- **Every settle (09:00 prior-day review AND any user-reported result):** for each active entry
+  that touched a settled game, append a dated **W** (fade was correct) or **L** (fade missed) to
+  its log, bump the tally, update **Last validated**, and transition status per the file's
+  protocol (ACTIVE→NEUTRAL when a log decays to ~.500; NEUTRAL→RETIRED when the reason no longer
+  holds; add NEW entries for fresh patterns). Then commit → push → PR → squash-merge `fades.md`
+  alongside the parlay file.
+- When a watch-list team's form/role changes, update it in `fades.md` (not in CLAUDE.md prose) —
+  `fades.md` is the single source of truth for what is active right now.
+
 ### Session-start review
 - At the start of any session where the user might ask for a parlay, scan the
   3 most recent `parlays/*.md` files for filled-in results and captured
-  lessons. Apply lessons before building today's parlay. If a recent result
+  lessons, AND read `fades.md` (above) to load the active fades. Apply lessons before
+  building today's parlay. If a recent result
   is still TBD, **SELF-SETTLE it first by pulling the finals via WebSearch**
   (the prior-day full-slate review below already does this on the 09:00 run) —
   do NOT wait on the user. Mark the played ticket W/L with per-leg outcomes +
@@ -577,12 +593,14 @@ the user can override at game-time if they want.
      - Any candidate legs I REJECTED — did the rejection validate or was it a
        miss? (calibration both ways.)
      - New "was hot, now cold" or "was cold, now quietly hot" candidates.
-  4. Update the watch list in CLAUDE.md per the existing watch-list rule, and
-     promote any lesson that now has 2–3 occurrences.
+  4. **Update `fades.md`:** for every active fade entry that touched a game played yesterday,
+     append a dated W/L to its log, bump the tally, update Last validated, and apply any
+     status transition (ACTIVE/NEUTRAL/RETIRED) + add NEW entries for fresh patterns. Then
+     promote any lesson that now has 2–3 occurrences into the CLAUDE.md doctrine.
   5. Write the review into the PRIOR day's `parlays/YYYY-MM-DD.md` under a
      `## Full-slate review` section (table + findings), then commit → push →
-     merge. If that day's parlay was still TBD, also settle its `## Result`
-     using the finals you just pulled.
+     merge (include `fades.md` in the same cycle). If that day's parlay was still TBD, also
+     settle its `## Result` using the finals you just pulled.
 - Keep it findings-focused: the point is calibration (which rules held, which
   missed), not a box-score dump. Surface 3-6 genuine takeaways, like the
   5/27 review (three ace-vs-soft-lineup K-Overs hit; Astros AUTO-FADE held
