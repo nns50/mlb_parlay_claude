@@ -40,21 +40,51 @@ have curl || die "curl not found"
 have jq   || die "jq not found"
 
 # --- reachability preflight ---------------------------------------------------
-# Returns 0 if the StatsAPI is reachable, 2 if blocked by the egress policy.
+# Returns 0 if the StatsAPI is reachable (HTTP 200), 2 otherwise. Distinguishes the
+# THREE failure modes so the verdict is actionable, not a bare "403":
+#   (a) host_not_allowed  -> the egress allowlist does NOT include *.mlb.com in THIS
+#       session/run. This is the expected block until the environment policy is fixed.
+#   (b) 000 / timeout     -> a real network error, not an allowlist denial.
+#   (c) other non-200     -> host reachable but rate-limiting/erroring, or odd proxy state.
 _check() {
-  local code
-  code=$(curl -sS -m "$TIMEOUT" -o /dev/null -w '%{http_code}' "$BASE/teams?sportId=1" 2>/dev/null || echo "000")
+  local hdrs code deny
+  hdrs="$(mktemp)"
+  code=$(curl -sS -m "$TIMEOUT" -o /dev/null -D "$hdrs" -w '%{http_code}' "$BASE/teams?sportId=1" 2>/dev/null || echo "000")
+  deny=$(grep -i '^x-deny-reason:' "$hdrs" 2>/dev/null | awk '{print $2}' | tr -d '\r' || true)
+  rm -f "$hdrs"
   if [[ "$code" == "200" ]]; then
     return 0
   fi
-  cat >&2 <<EOF
-BLOCKED: statsapi.mlb.com returned HTTP $code (egress policy / unreachable).
-  This environment's network allowlist does not currently include statsapi.mlb.com.
-  To enable authoritative MLB data, allowlist statsapi.mlb.com in the environment's
-  network policy (set at environment-creation time):
-    https://code.claude.com/docs/en/claude-code-on-the-web
-  Until then, use the 2-source WebSearch game-status gate from CLAUDE.md.
+  if [[ "$deny" == "host_not_allowed" ]]; then
+    cat >&2 <<EOF
+BLOCKED: statsapi.mlb.com denied AT THE EGRESS PROXY (HTTP $code, x-deny-reason: host_not_allowed).
+  The cloud environment's network allowlist does NOT include *.mlb.com in THIS session/run.
+  (Trusted-default hosts like pypi.org / github still pass — only mlb.com is missing, so this
+   is a missing custom-domain entry, not a blanket no-network policy.)
+  FIX (per https://code.claude.com/docs/en/claude-code-on-the-web#network-access):
+    Edit the environment used by BOTH your interactive sessions AND the parlay routine ->
+    Network access = Custom -> Allowed domains: add  *.mlb.com  ->
+    CHECK "Also include default list of common package managers" -> Save changes ->
+    start a NEW session / next routine run (the policy applies at startup, never mid-session).
+  If it is STILL blocked in a fresh session: you likely edited a different environment than the
+  routine/session uses, or didn't click Save, or the session started before the save landed.
+  Until OK, use the 2-source WebSearch game-status gate from CLAUDE.md.
 EOF
+  elif [[ "$code" == "000" ]]; then
+    cat >&2 <<EOF
+BLOCKED: could not reach statsapi.mlb.com (no HTTP response / timeout) — a network error,
+  NOT an allowlist denial (no x-deny-reason header was returned). Check connectivity and retry.
+  Until OK, use the 2-source WebSearch game-status gate from CLAUDE.md.
+EOF
+  else
+    cat >&2 <<EOF
+BLOCKED: statsapi.mlb.com returned HTTP $code with no 'host_not_allowed' deny header.
+  Not the usual allowlist block — the host may be up but rate-limiting/erroring, or the proxy
+  returned an unexpected status. Inspect the raw response with:
+    tools/mlb_api.sh raw "teams?sportId=1"
+  Until confirmed, use the 2-source WebSearch game-status gate from CLAUDE.md.
+EOF
+  fi
   return 2
 }
 
@@ -68,7 +98,12 @@ _default_date() { date +%F; }
 _season_of()    { echo "${1:-$(date +%F)}" | cut -d- -f1; }
 
 cmd_check() {
-  if _check; then echo "OK: statsapi.mlb.com reachable."; else return 2; fi
+  if _check; then
+    echo "OK: statsapi.mlb.com reachable — authoritative game-status / finals / SP data is LIVE."
+    echo "    Prefer it for the game-status gate, prior-day settle, and SP-freshness this session."
+  else
+    return 2
+  fi
 }
 
 cmd_slate() {
