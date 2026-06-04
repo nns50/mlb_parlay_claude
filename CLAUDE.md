@@ -82,6 +82,22 @@ Rules:
   AUTO-FADE K Overs against known contact-heavy lineups even when the pitcher is
   elite-K (Royals burned a Will Warren 10.6+ K/9 Over with 3 Ks on 5/25/26;
   verify current K% rank for Royals/Astros/Guardians/D-backs before any K-Over leg)
+- **DON'T over-fade a GENUINELY elite-K ace's K-Over off a SINGLE contextual
+  suppressor.** A 2nd-meeting-within-14d downgrade, a mild-but-confirmed-starting
+  illness, or one contact-heavy lineup is, by itself, NOT grounds to HARD-fade or
+  reject an elite arm's K-Over — their raw whiff dominance routinely overrides one
+  suppressor. The fade signals are meant to (a) keep K-Overs OFF a parlay floor
+  (right-tail variance) and (b) trigger the K-Under price check — NOT to label the
+  arm a reject in the analysis. When a single suppressor is present on an elite-K
+  ace: downgrade ONE tier, LOG the K-Over as a **live standalone Over candidate**,
+  pull BOTH the standard and one-lower alt prices, and decide on price — do not
+  reflexively stamp "HARD FADE." Stack the fade only when MULTIPLE independent
+  suppressors pile up (e.g. contact lineup AND confirmed short-leash/opener AND
+  tight-zone ump). Reference burns (all K-Overs we faded that then CASHED):
+  6/3/26 Sanchez 9 K (faded on lone 2nd-meeting), 6/3/26 Burns 9 K (faded on
+  illness+KC-contact, but he went long enough for the K dominance to play),
+  6/2/26 Harrison 12 K (faded as "low-K" off one 2-K outing). Three straight
+  misses on the fade side — the over-fade was the error, not the variance.
 - **WHENEVER a K-Over is auto-faded OR rejected, evaluate the K-UNDER as a
   candidate and LOG its price in the slate scan — do not just decline the Over.**
   The same signals that kill a K-Over (contact-heavy lineup, 2nd-meeting-within-14d
@@ -186,7 +202,14 @@ Rules:
     5/28 Tigers ML -130 anchor got blown out 7-1; fade RE-VALIDATED 5/29 — DET
     lost 4-3 to CWS. Do NOT lay a price on DET as a favorite; the market keeps
     overrating them off the season-opening record and a soft-schedule SP line.
-    NOTE 5/30: DET favored AGAIN at -130 with Framber Valdez (4.28) — fade live)**
+    NOTE 5/30: DET favored AGAIN at -130 with Framber Valdez (4.28) — fade live.
+    **NOTE 6/3/26 — DET is HEATING UP as a DOG: swept TB at Tropicana, won the
+    6/3 finale 7-2 (Melton 8 dominant IP, shelled elite Martínez for 6 R), "put
+    miserable May in the rearview." This does NOT make them a fade-as-fav removal
+    yet (re-verify last-15), BUT it flips the corollary: DET is now live to WIN
+    OUTRIGHT as a dog — do NOT lay runs against them and do NOT treat a DET dog
+    as a free fade. "Fade as favorite" ≠ "safe to bet against." Watch for a
+    move to underdog-value if the run continues.)**
   - **Value as underdogs — "quietly hot"**: White Sox (ADDED 5/28/26 — 29-27,
     won 12 of last 18, beat MIN 6-2 behind Davis Martin (8-1) on 5/28, run diff
     back to even for the first time since Opening Day; a genuinely improving
