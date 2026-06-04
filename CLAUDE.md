@@ -204,8 +204,9 @@ Separate from unit-staking the regular plays. **Start $10; bet the WHOLE balance
 single safest qualifying favorite; roll the full return; 4 consecutive wins → STOP & withdraw; any loss
 → restart at $10.** Full rollover is median-bust / jackpot-tail, capped at $10/attempt — full honest
 framing + live ledger live in `bankroll.md`. Each build: surface the **bankroll bet** = the single
-highest-floor favorite that clears the min-edge gate (devigged ≥ +2pp) AND is **not** a `fades.md`
-A-list (fade-as-fav) team; prefer 62-66% ace-edge favs over the soft 56-61% band; single leg, no parlay.
+highest-floor favorite **on the whole board, chosen INDEPENDENTLY of the parlay legs**, that clears the
+min-edge gate (devigged ≥ +2pp) AND is **not** a `fades.md` A-list (fade-as-fav) team; prefer 62-66%
+ace-edge favs over the soft 56-61% band; single leg, no parlay.
 No qualifying play → NO BET, balance carries. Update `bankroll.md` (commit/push/merge) on build + settle.
 
 ### Transparency
@@ -236,8 +237,9 @@ No qualifying play → NO BET, balance carries. Update `bankroll.md` (commit/pus
 7. Build the THREE tiers (above) from qualifying legs; show per-leg odds + combined decimal math.
 8. List rejected candidates with reasons.
 9. Flag uncertainty; recommend re-checking lines + lineups at game time.
-10. **$10 rollover bankroll** (`bankroll.md`): pick the bankroll bet (single safest qualifying favorite,
-    not an A-list fade), log the roll + current balance, and update the ledger/running totals.
+10. **$10 rollover bankroll** (`bankroll.md`): pick the bankroll bet (single safest qualifying favorite
+    on the whole board — independent of the parlay, not an A-list fade), log the roll + current balance,
+    and update the ledger/running totals.
 
 ## Git workflow
 Always commit, push, AND merge — never just commit. After any change to `parlays/*.md`, `fades.md`,
