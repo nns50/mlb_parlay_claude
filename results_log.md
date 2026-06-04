@@ -6,29 +6,38 @@ price** (CLV), and the **result** — so we can measure, not guess, how good the
 calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closing-line value.
 
 **Columns.**
-- **TrueP** = my pre-bet true-win-prob estimate. **ImplP** = price's implied prob (no-vig not removed).
-- **Edge** = TrueP − ImplP (pp). Positive = I thought it was value.
+- **TrueP** = my **pre-bet** true-win-prob estimate — **written at bet time, never reconstructed.** A
+  back-filled number leaks the result and is calibration-invalid. Rows I genuinely didn't log pre-game are
+  marked `*` and EXCLUDED from calibration. *Goal: zero new `*` rows* (11 of 21 historical legs were wasted
+  this way → calibration ran on n=10).
+- **ImplP** = the price's **NO-VIG** implied prob. **Devig before logging:** take both sides' raw implied
+  probs and divide each by their sum (the overround); that's the no-vig number. One-sided prop with no
+  posted other side → subtract ~half the typical hold (~2-3pp) and flag the estimate. *(Pre-6/4 rows are
+  still raw-vig and labeled; recompute as they settle.)*
+- **Edge** = TrueP − no-vig ImplP (pp). Positive = value. A leg must clear the **min-edge gate** to be bet:
+  **≥ +2pp standalone / ≥ +3-4pp to anchor a parlay** — below that it's action, not value (a slate clearing
+  nothing = NO BET).
 - **Result** = W / L / Push / TBD. **Played** = Y if on the user's actual ticket, N if recommended/rejected only.
-- **Close** = closing American price; **CLV** = did the line move toward our side (closing ImplP > bet ImplP)?
-  `+` good / `−` bad / `—` not captured. *(CLV capture starts now; pre-6/4 rows are `—`.)*
+- **Close** = closing American price; **CLV** = did the line move toward our side (closing no-vig ImplP >
+  bet no-vig ImplP)? `+` good / `−` bad / `—` not captured. **CLV converges far faster than ROI at this
+  sample — it's the primary scoreboard.** *(Capture starts now; pre-6/4 rows are `—`.)*
 - **Stake / Return / P-L** = units staked, units returned (stake × decimal on a win, 0 on a loss), and
   net P/L (units). Tracked per *ticket* in the rollup → running units & ROI. **Log the real stake each
   night;** pre-6/4 rows assume flat 1u (labeled) so there's an immediate read.
-- TrueP marked `*` = reconstructed after the fact (not explicitly logged that day) → excluded from
-  the calibration buckets below to keep them honest.
 
 ---
 
 ## Logging protocol (run EVERY session)
-1. **On build:** add a row for each recommended leg (Played=N) with price, TrueP, ImplP, Edge.
-   **Pull and record the bet price from a real book — never estimate** (same rule as the parlay routine).
+1. **On build:** add a row for each recommended leg (Played=N) with price, **pre-registered TrueP**,
+   **no-vig ImplP**, Edge. **Pull the price from a real book — never estimate. Devig both sides before
+   computing Edge. Write TrueP BEFORE the game — never reconstruct** (a `*` row is wasted calibration).
 2. **At/near close (HARD step — do it on the run closest to first pitch):** record the **closing price**
-   and compute CLV (`+` if the line moved to our side). CLV is the best single +EV signal at this sample
-   size — capture it even on legs we don't bet. *(No odds API yet, so this is a manual book pull; if an
-   `odds_api.sh` helper is ever added it automates.)*
+   and compute CLV (`+` if the line moved to our side, comparing no-vig probs). **CLV is the primary
+   scoreboard — it converges far faster than ROI at this sample** — capture it even on legs we don't bet.
+   *(No odds API yet, so this is a manual book pull; if an `odds_api.sh` helper is ever added it automates.)*
 3. **On settle:** set Result (W/L/Push), flip Played=Y for legs the user actually played, and for each
    **played ticket** record **stake + return** → update the units/ROI rollup. Self-settle via
-   `mlb_api.sh finals` on the 09:00 review like the parlay files.
+   `mlb_api.sh finals` on the 09:00 review like the parlay files. **Verify the rollups with `tools/calib.py`.**
 4. **Commit** this file in the same commit→push→PR→squash-merge cycle as the parlay/fade files.
 
 ---
