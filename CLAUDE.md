@@ -255,10 +255,16 @@ No qualifying play → NO BET, balance carries. Update `bankroll.md` (commit/pus
     and update the ledger/running totals.
 
 ## Git workflow
-Always commit, push, AND merge — never just commit. After any change to `parlays/*.md`, `fades.md`,
-`results_log.md`, or `CLAUDE.md`: commit → push to the feature branch → open PR → squash-merge to
-main. Main should reflect the latest by end of turn. Merge conflict (branch diverged after a prior
-squash-merge) → save the working tree, reset to origin/main, re-apply the state, force-push, then merge.
+Always commit, push, AND merge — never just commit. Main should reflect the latest by end of turn.
+- **Batch, don't churn.** Group a turn's edits into ONE commit → push → PR → squash-merge at the end of
+  the turn (or per logical milestone), NOT a PR per micro-edit. Per-file merging is what generated the
+  repeated-conflict busywork (6/4: 4 force-push rebases in one session). One merge per turn is the default.
+- **Reset-to-main after every squash-merge.** Squash rewrites history, so the feature branch diverges the
+  instant a PR merges. Immediately after a successful merge — and before the next change — run
+  `git fetch origin main && git reset --hard origin/main` so the next commit starts clean. This PREVENTS the
+  conflict instead of resolving it each time.
+- Merge conflict anyway (branch already diverged) → save the working tree, `reset --soft origin/main`,
+  re-commit the state, force-push, then merge. (Codified 6/4/26.)
 
 ## Learning & retrospectives
 
@@ -276,8 +282,18 @@ rejected candidates with reasons, and a `Result` section starting TBD.
     - **~09:00 ET** — prior-day full-slate review + settle + the slate-wide value scan (no lineups needed).
     - **~15:30 ET** — lineup lock for early/evening games + the close-to-first-pitch CLV pull.
     - **~18:30 ET** — late/west-coast lineups + final line check before first pitch.
+- **CLV capture is OWNED by the near-first-pitch runs (15:30 / 18:30), not the 09:00 build.** The session
+  that builds a bet dies (ephemeral container) before first pitch, so it structurally cannot capture the
+  close — that's the real reason the CLV column is blank, not laziness. The 15:30/18:30 run's FIRST job is
+  to snapshot the closing line for every open leg and fill CLV. ⚠️ This depends on the cron actually firing
+  those windows — **the cron timing lives in the routine's config OUTSIDE this repo; if CLV is still empty,
+  fix the cron, not just this doctrine.** (Codified 6/4/26.)
 - **One file per day, append-only.** If today's file exists, APPEND `## Run HH:MM ET — Build [A|B|C]`;
   never overwrite an earlier run (each is a record of the slate at that time).
+- **Supersede, never edit-in-place.** When a later run revises an earlier recommendation (line moved,
+  leg swapped), APPEND the new row/build and mark the old one `SUPERSEDED → see Run HH:MM` — do NOT
+  silently overwrite the prior row. Same rule in `results_log.md`. The point is an honest audit trail of
+  what was recommended at each time, not a tidy final state. (Codified 6/4/26.)
 - Schema:
   ```
   # Parlay — YYYY-MM-DD (Day)
@@ -308,6 +324,10 @@ the outcome shows the analysis was wrong (calibration both ways).
   **L** (fade missed), bump the tally, update Last-validated, transition status (ACTIVE→NEUTRAL at
   ~.500; NEUTRAL→RETIRED when the reason lapses; add NEW for fresh patterns). Commit in the same cycle.
 - It's the single source of truth for the team watch list — update it there, not in CLAUDE.md prose.
+- **Anchor team fade promote/retire to RUN DIFFERENTIAL over a window, not W-L streaks.** A 15-game W-L
+  record and "W5/L4 streak" are the noisiest metrics on the board — they flip a fade on variance. Gate
+  team-form transitions on run-diff (and underlying rate) via `mlb_api.sh standings`/`teamform`; use the
+  streak only as a tiebreaker, not the trigger. (Codified 6/4/26 — cuts false fade flips.)
 
 ### `results_log.md` — log + settle EVERY run
 - On build: a row per recommended leg (price + TrueP + ImplP + Edge; Played=N). Pull the price from a book.
@@ -331,7 +351,11 @@ the outcome shows the analysis was wrong (calibration both ways).
   first pitch — **the best +EV signal at this sample size** (converges far faster than ROI). The CLV column
   going blank is the biggest measurement leak we have; a row without a closing line is half-logged. CLV `+` if
   the line moved to our side (closing no-vig ImplP > bet no-vig ImplP).
-- On settle: set Result, flip Played=Y for legs played, update rollups + calibration buckets (verify with `calib.py`).
+- On settle: set Result, flip Played=Y for legs played, update rollups + calibration buckets.
+- **RECONCILE with `calib.py` every settle — required, not optional.** Run it and make the prose rollup/
+  calibration tables MATCH its output. `calib.py` warns "if these differ, the file is stale" — a settle that
+  doesn't reconcile lets the ledger silently drift, which corrupts the very signals we build off. If they
+  differ, the prose is wrong; fix the prose. (Codified 6/4/26.)
 - **Apply the calibration signals BEFORE building** — but only once the bucket clears the noise bar (see
   Promoting lessons; an n=5 band is a story, not a rule).
 
