@@ -53,15 +53,16 @@ P(4 straight wins in an attempt) ≈ 0.60⁴ ≈ **13%** → expect ~8 attempts 
 
 | Attempt | Date | Roll | Balance before | Bet (leg @ book, decimal) | True% | Result | Balance after | Note |
 |---------|------|------|----------------|---------------------------|-------|--------|---------------|------|
-| 1 | 6/4 | 1 | $10.00 | ATL ML −205 (FanDuel, 1.488) | 67% | TBD | TBD | only leg clearing min-edge (+2.4pp); 62-66% band; not a fade team |
+| 1 | 6/4 | 1 | $10.00 | ATL ML −205 (FanDuel, 1.488) | 67% | **LOSS** (TOR 7-2) | **$0.00** | bumped to 69% on TOR-bullpen-game logic — backfired (fades D5); **attempt 1 BUSTS** |
+| 2 | (next) | 1 | $10.00 | — fresh $10, pick next qualifying safest fav | — | — | — | restart after attempt 1 bust |
 
 ---
 
 ## Running totals (update on every settle)
 
-- **Current:** Attempt **1**, balance **$10.00**, **roll 1 = ATL ML −205 (1.488), pending settle 6/4** (0 wins this attempt). Win → ~$14.88.
-- **Attempts completed:** 0 · **Targets hit (4 wins):** 0 · **Busts:** 0 · **Best run:** — wins
-- **Total real risk (attempts × $10):** **$10.00** at stake so far · **Total withdrawn:** $0.00
-- **Net P/L (withdrawn − deposited):** **$0.00**
+- **Current:** Attempt **2**, balance **$10.00** (fresh — attempt 1 busted 6/4 on ATL ML −205 loss, TOR 7-2). No roll placed yet.
+- **Attempts completed:** 1 · **Targets hit (4 wins):** 0 · **Busts:** 1 · **Best run:** 0 wins
+- **Total real risk (attempts × $10):** **$10.00** risked · **Total withdrawn:** $0.00
+- **Net P/L (withdrawn − deposited):** **−$10.00** (attempt 1 lost)
 
 > Tracked like `fades.md` / `results_log.md`: any change → commit → push → PR → squash-merge.
