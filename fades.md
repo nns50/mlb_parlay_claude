@@ -84,6 +84,7 @@ Recipes to avoid when building.
 | D2 | **Heavy-fav ML anchors (-350 or worse)** | ~Zero payout contribution, still ~20% bust | 5/27/26 | 5/27/26 | W (5/27 faded LAD -420, NYY sub cashed) | **ACTIVE** |
 | D3 | **−1.5 RL on a heavy fav vs a live dog** | Carries full ML loss prob + win-by-2 risk; dog wins outright ~35-40% | 6/1/26 | 6/1/26 | W (6/1 TB −1.5 lost outright to DET) | **ACTIVE** |
 | D4 | **Favorite ML w/ own SP ERA ~5.00+** (esp. two-bad-SP shootouts) | High-variance; favorite can be blown out as the "right" side | 5/28/26 | 5/28/26 | W (5/28 DET/Flaherty 5.94 anchor lost 7-1) | **ACTIVE** |
+| D5 | **Bullpen-game opponent ≠ ML boost** — do NOT shade a fav UP because the other side has an opener/no real starter | The opposing pen can shut your offense down AND the lineup can tee off on your ace; a no-starter opponent is variance, not a free upgrade | **6/4/26** | **6/4/26** | **W (6/4: bumped ATL 67→69% vs TOR's Fluharty bullpen game; ATL lost 7-2 outright — Sale tagged for 7, TOR pen held ATL to 2)** | **ACTIVE — first sighting; firm rule on a 2nd** |
 
 ## E. Data / status traps (verification gates — fade the BAD DATA, not a team)
 Not team fades, but recurring data errors to actively guard against each run.
@@ -109,9 +110,13 @@ Not team fades, but recurring data errors to actively guard against each run.
 ### Running scoreboard (fades that have been tested)
 - **D1 (+200-chase):** 3-0 ✅ — most reliable fade.
 - **D2/D3/D4 (construction):** 1-0 each ✅.
+- **D5 (bullpen-game ≠ ML boost):** 1-0 ✅ NEW 6/4 — ATL bumped to 69% vs TOR's pen game, lost 7-2.
 - **C1 (contact-lineup K-Over):** 2-1 — real but variance-heavy; don't hard-fade one-suppressor aces.
 - **C2 (2nd-meeting K-Over):** 0-1 — downgrade-only, not a reject.
 - **C6 (meta — over-faded aces):** correction installed after 3 straight misses (Sanchez, Burns, Harrison).
+  ⚠️ **Counter-data 6/4: Sale O6.5K (one mild suppressor, TOR 19% vs LHP) MISSED — 6 K in 5.2 IP.** C6
+  still stands (don't *hard-fade* an ace's over off one suppressor), but the right expression vs one
+  suppressor is the **one-tier-deeper alt (O5.5 would've cashed)**, not the full standard line.
 - **A1 (Cubs as fav):** reaffirmed 6/4 — L15 3-12 (.200), −25 run diff. Strongest active team-fade.
 - **A2 (Rangers as fav):** **RETIRED 6/4** — recovered (L15 8-7, L10 6-4, W5, +11).
 - **A3 (Tigers as fav):** 2-1 — but now winning as a dog (do not lay runs against).
