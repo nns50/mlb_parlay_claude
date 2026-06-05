@@ -82,7 +82,12 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 6/3 | Sanchez K-Over (faded on 2nd-mtg) | K-Over | — | — | — | — | **would-W** (9 K) — fade missed (C2) | N | — |
 | 6/3 | Burns K-Over (faded illness+KC) | K-Over | — | — | — | — | **would-W** (9 K) — fade missed (C1) | N | — |
 | 6/4 | Brewers ML (Crow, vs SF) | ML-fav | -153 | 60% | 58.2% | +1.8 | **would-L** (SF 12-9 — declining the rookie SP was correct) | N | — |
-| 6/4 | Dodgers ML (Wrobleski LHP, @ AZ) | ML-fav | -134 | 55% | 55.1% | −0.1 | TBD — Build C +200 3rd leg (soft: AZ .279/16%K vs LHP, overbet band) | N | — |
+| 6/4 | Dodgers ML (Wrobleski LHP, @ AZ) | ML-fav | -134 | 55% | 55.1% | −0.1 | **L** (AZ 3-2) — Build C +200 3rd leg busted; ~fair price, fav-not-safe | N | — |
+| 6/5 | Mariners ML (Woo, @ DET) | ML-fav | -130 | 59% | 54.3% | **+4.7** | TBD — Tier 1 standalone + Tier 2/3 leg; Woo 3.44 SP edge. Grade: **+EV** | N | — |
+| 6/5 | Dodgers ML (Sasaki, vs LAA) | ML-fav | -200 | 66% | 64.1% | +1.9 | TBD — Tier 2 leg + bankroll bet; NOT bumped for LAA bullpen (D5). Grade: **+EV (thin)** | N | — |
+| 6/5 | Yankees ML (Weathers, vs BOS) | ML-fav | -144 | 56% | 56.7% | −0.7 | TBD — Tier 3 +200 leg; Gray 3.06 duel caps floor. Grade: **~fair/thin -EV** | N | — |
+| 6/5 | Phillies ML (Luzardo, vs CWS) | ML-fav | -188 | 62% | 64.0% | −2.0 | TBD — scan-only; CWS B1 hot dog. Grade: **-EV (pass)** | N | — |
+| 6/5 | D-backs ML (Kelly, vs WSH) | ML-fav | -134 | 50% | 56.7% | −6.7 | TBD — scan-only REJECT; Kelly 5.06 own-SP trap (D4). Grade: **-EV (correct reject)** | N | — |
 
 ---
 

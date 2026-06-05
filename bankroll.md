@@ -54,13 +54,13 @@ P(4 straight wins in an attempt) ≈ 0.60⁴ ≈ **13%** → expect ~8 attempts 
 | Attempt | Date | Roll | Balance before | Bet (leg @ book, decimal) | True% | Result | Balance after | Note |
 |---------|------|------|----------------|---------------------------|-------|--------|---------------|------|
 | 1 | 6/4 | 1 | $10.00 | ATL ML −205 (FanDuel, 1.488) | 67% | **LOSS** (TOR 7-2) | **$0.00** | bumped to 69% on TOR-bullpen-game logic — backfired (fades D5); **attempt 1 BUSTS** |
-| 2 | (next) | 1 | $10.00 | — fresh $10, pick next qualifying safest fav | — | — | — | restart after attempt 1 bust |
+| 2 | 6/5 | 1 | $10.00 | LAD ML −200 (FanDuel, 1.50) | 66% | **TBD** | TBD | safest qualifying fav (40-23/+133, home); **NOT bumped for LAA bullpen game (D5 — exact lesson from attempt 1)**; not A-list fade; +1.9pp |
 
 ---
 
 ## Running totals (update on every settle)
 
-- **Current:** Attempt **2**, balance **$10.00** (fresh — attempt 1 busted 6/4 on ATL ML −205 loss, TOR 7-2). No roll placed yet.
+- **Current:** Attempt **2**, balance **$10.00**, **roll 1 placed 6/5 on LAD ML −200 (TBD)**. On win → $15.00.
 - **Attempts completed:** 1 · **Targets hit (4 wins):** 0 · **Busts:** 1 · **Best run:** 0 wins
 - **Total real risk (attempts × $10):** **$10.00** risked · **Total withdrawn:** $0.00
 - **Net P/L (withdrawn − deposited):** **−$10.00** (attempt 1 lost)

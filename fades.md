@@ -41,7 +41,7 @@ Do not lay a price on these as favorites. Re-verify last-15 form each session.
 
 | ID | Team | Reason | Added | Last val | Fade log (most-recent first) | Status |
 |----|------|--------|-------|----------|------------------------------|--------|
-| A1 | **Cubs** | **ICE COLD: L15 3-12 (.200), −25 run diff (6/4).** The 5/27-28 "recovering" blip did NOT hold — 32-29 but cratering | 5/25/26 | **6/4/26** | **W (6/4: L15 3-12 → fade reaffirmed)** | **ACTIVE** — fade-as-fav firmly on; retire only if L15 > .550 |
+| A1 | **Cubs** | **ICE COLD: L15 3-12 (.200), −25 run diff (6/4).** The 5/27-28 "recovering" blip did NOT hold — 32-29 but cratering | 5/25/26 | **6/5/26** | **L (6/4: beat ATH 7-6 as home fav — one win, L15 still .200)** · W (6/4: L15 3-12 → fade reaffirmed) | **ACTIVE** — fade-as-fav firmly on (L15 .200); retire only if L15 > .550 |
 | A3 | **Tigers** | 22-35, 4-18 since May 4; 5/28 -130 anchor blown out 7-1; 5/29 lost 4-3 CWS | 5/28/26 | 6/3/26 | **L (6/3 swept TB, won 7-2 as DOG)** · W (5/29 lost) · W (5/28 lost) | **ACTIVE-as-fav but ⚠️ HEATING** — do NOT lay runs against them as a dog (see corollary) |
 
 > **Corollary (added 6/3/26):** "Fade as FAVORITE" ≠ "safe to bet AGAINST." A fade-list team can
@@ -56,7 +56,7 @@ standalone, not parlay-floor legs.
 | ID | Team | Reason | Added | Last val | Value log | Status |
 |----|------|--------|-------|----------|-----------|--------|
 | B1 | **White Sox** | 33-29; **L15 9-6 (.600), +23 run diff (6/4)** — genuinely good, market still soft | 5/28/26 | **6/4/26** | **W (6/4: L15 9-6/.600, +23)** · W (5/28 beat MIN 6-2) | **ACTIVE** — tag strengthened |
-| B2 | **Pirates** | **RE-HEATED: L10 7-3, W4 streak, +35 run diff, 33-28 (6/4)** — the late-May cold blip is over | 5/26/26 | **6/4/26** | **W-reheat (6/4: 7-3 L10, W4, +35)** · L · L (5/27-28 cold) | **ACTIVE** — underdog value (dog = standalone, not parlay floor) |
+| B2 | **Pirates** | **RE-HEATED: L10 7-3, W4 streak, +35 run diff, 33-28 (6/4)** — the late-May cold blip is over | 5/26/26 | **6/5/26** | **W (6/4: won 5-1 @ HOU as road dog)** · W-reheat (6/4: 7-3 L10, W4, +35) · L · L (5/27-28 cold) | **ACTIVE** — underdog value (dog = standalone, not parlay floor) |
 | B3 | **Twins** | Still cold — **L10 3-7, −24 run diff (6/4)**; offense quiet, pen ok | 5/28/26 | **6/4/26** | L (6/4: L10 3-7) · L (5/28 lost 6-2) | **NEUTRAL (soft-matchup only)** |
 | B4 | **Tigers** | NEW 6/3: heating as a dog — swept TB, beat elite Martínez. Watch for dog-value flip | 6/3/26 | 6/3/26 | W (6/3 won 7-2 as +122 dog) | **WATCH (emerging dog value)** |
 | B5 | Angels / Astros | Honorable mention — surging; Astros stay AUTO-FADE K-Over (back on ML/total only) | 5/28/26 | — | _seed_ | **WATCH** |
