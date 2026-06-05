@@ -67,9 +67,9 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 6/2 | Brewers ML (vs SF) | ML-fav | ~-145 | ~63%* | 59.2% | +3.8 | **W** (8-3, Harrison 12 K) | Y | — |
 | 6/3 | Mariners ML (vs NYM) | ML-fav | -151 | 60% | 60.2% | −0.2 | **L** (lost 7-1) | Y | — |
 | 6/3 | Phillies ML (vs SD) | ML-fav | -215 | 64% | 68.3% | −4.3 | **W** (3-0, Sanchez 9 K) | Y | — |
-| 6/4 | Braves ML (Sale, vs TOR) | ML-fav | -205 | 67% | 64.6% | +2.4 | TBD | Y | — |
+| 6/4 | Braves ML (Sale, vs TOR) | ML-fav | -205 | 67% | 64.6% | +2.4 | **L** (TOR 7-2 — bullpen game won outright) | Y | — (no odds API) |
 | 6/4 | Phillies ML (Wheeler, vs SD) | ML-fav | -198 | 65% | 63.9% | +1.1 | **W** (6-4, Wheeler 7IP/2ER/8K) | Y | — (no odds API) |
-| 6/4 | Sale Over 6.5 K (vs TOR) | K-Over | -179 | 64% | 61.5% | +2.5 | TBD | Y | — |
+| 6/4 | Sale Over 6.5 K (vs TOR) | K-Over | -179 | 64% | 61.5% | +2.5 | **L** (5.2 IP, 6 K — one-tier-deeper alt O5.5 would've cashed) | Y | — (no odds API) |
 
 ## Recommended but NOT played (calibration both ways)
 
@@ -81,7 +81,7 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 6/3 | Rays ML (vs DET) | ML-fav | -144 | 57% | 59.0% | −2.0 | **L** (swept 7-2) — Build D weak leg, busted | N | — |
 | 6/3 | Sanchez K-Over (faded on 2nd-mtg) | K-Over | — | — | — | — | **would-W** (9 K) — fade missed (C2) | N | — |
 | 6/3 | Burns K-Over (faded illness+KC) | K-Over | — | — | — | — | **would-W** (9 K) — fade missed (C1) | N | — |
-| 6/4 | Brewers ML (Crow, vs SF) | ML-fav | -153 | 60% | 58.2% | +1.8 | would-TBD — declined (rookie SP, superseded by Sale K) | N | — |
+| 6/4 | Brewers ML (Crow, vs SF) | ML-fav | -153 | 60% | 58.2% | +1.8 | **would-L** (SF 12-9 — declining the rookie SP was correct) | N | — |
 | 6/4 | Dodgers ML (Wrobleski LHP, @ AZ) | ML-fav | -134 | 55% | 55.1% | −0.1 | TBD — Build C +200 3rd leg (soft: AZ .279/16%K vs LHP, overbet band) | N | — |
 
 ---
@@ -101,31 +101,40 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 6/1 | SEA ML + TB −1.5 RL | ~+240 | 1.00 | 0.00 | −1.00 | ❌ LOST |
 | 6/2 | SEA ML + MIL ML | ~+158 | 1.00 | 2.58 | +1.58 | ✅ WON |
 | 6/3 | SEA ML + PHI ML | ~+183 | 1.00 | 0.00 | −1.00 | ❌ LOST |
+| 6/4 | PHI ML + ATL ML | +124 | 1.00 | 0.00 | −1.00 | ❌ LOST (PHI W 6-4, **ATL L 7-2** — ATL leg killed it) |
 
-**Record: 5 W – 5 L. Units @ flat 1u: staked 10.00, returned 15.68 → P/L +5.68u, ROI +56.8%.**
+**Record: 5 W – 6 L. Units @ flat 1u: staked 11.00, returned 15.68 → P/L +4.68u, ROI +42.5%.**
+
+> **6/4 standalone (separate from the parlay table):** Sale Over 6.5 K −179 — **LOST** (5.2 IP / 6 K).
+> First K-Over loss in the log (played K-Overs now **5-for-6**). The lone suppressor (TOR 19% K / .213
+> vs LHP) was real, and the **one-tier-deeper alt O5.5 would have cashed** — a live confirmation of the
+> safety-vs-EV tiebreaker (the deeper alt on an unattended K leg).
 
 > ⚠️ **Read this ROI as noise, not signal.** n=10 is variance-dominated and the +56.8% is carried by two
 > ~+260 hits (5/31, 5/25); a single different bounce flips it. Stakes here are **assumed flat 1u** (not
 > actually logged) — log the real stake each night so this becomes a true number. **This is exactly why
 > CLV (above) matters more than ROI at this sample** — beat the close consistently and the ROI follows.
 
-### Calibration buckets (explicitly-logged TrueP legs only; `*` rows excluded)
-| Predicted band | Legs | Won | Hit% | Read |
-|----------------|------|-----|------|------|
-| 50–55% | HOU +100 (50, L), Burns O6.5 (55, W) | 1/2 | 50% | on target (tiny n) |
-| 56–61% | LAD -118 (57, W), TB -144 (57, L), SEA -151 (60, L), SEA -150 6/2 (60, W), DET -130 (61, L) | 2/5 | 40% | **running cold vs 58% predicted — watch for ML-fav overconfidence** |
-| 62–66% | PHI -215 (64, W), LAD -200 (66, W), LAD -235 (66, W) | 3/3 | 100% | small n, but the cleaner ace-edge favorites held |
-| 85–90% | Strider O4.5 (88, W) | 1/1 | 100% | — |
+### Calibration buckets (reconciled to `calib.py` 2026-06-04 late-settle; `*` rows excluded)
+| Band (calib.py) | n | W-L | Hit% | vs mid | Read |
+|----------------|---|-----|------|--------|------|
+| 50–54 | 1 | 0-1 | 0% | 52.5 | HOU +100 (L) — tiny n |
+| 55–59 | 2 | 2-0 | 100% | 57.5 | — |
+| 60–64 | 6 | 3-3 | 50% | 62.5 | **⚠ under (overconfident)** — now incl. Sale O6.5K 64 (L) |
+| 65–69 | 3 | 2-1 | 67% | 67.5 | PHI 65 (W), LAD 66 (W), **ATL 67 (L, 6/4)** |
+| 85–89 | 1 | 1-0 | 100% | 87.5 | Strider O4.5 (W) |
+| **TOTAL** | **13** | **8-5** | | | |
 
 > **Early signals (small samples — treat as directional, not conclusions):**
-> 1. **The ~58-60% ML-favorite band is hitting ~40%, below model.** Possible overconfidence on
->    "home favorite with SP edge" legs (SEA twice, DET, TB all landed here and several lost). If this
->    holds over more samples, shade mid-tier ML favorites DOWN a few pp.
-> 2. **K-Over legs we PLAYED are 5-for-5** (Misi, Burns, Strider, Sanchez ×2 incl. the +182 edge) —
->    and the ones we FADED (Sanchez, Burns 6/3; Harrison 6/2) all hit too. Strongly reinforces the
->    `fades.md` C6 correction: we under-weight elite K stuff.
-> 3. **Run-line legs are 1-1** (MIL −1.5 W; TB −1.5 L outright) — the D3 construction fade (RL vs a
->    live dog) is the one that lost. Consistent with the registry.
+> 1. **The 60-64 band is now 3-3 (50%), under its ~62.5% midpoint** — the ML-favorite-overconfidence
+>    flag persists, and the **65-69 band took its first loss (ATL 67, 6/4)**: a heavy ace-at-home fav
+>    that I'd *bumped* to 69% on "TOR is a bullpen game" logic lost outright 7-2. **Bullpen-game ≠ ML
+>    boost** (new fades.md D5) — do NOT shade a fav UP for a no-starter opponent; the pen can shut your
+>    offense down AND the lineup can tee off on your ace.
+> 2. **Played K-Overs took their first loss → 5-for-6** (Sale O6.5K 6/4, 6 K in 5.2 IP). The lone
+>    suppressor (TOR 19% K / .213 vs LHP) was real and the **one-tier-deeper O5.5 alt would've cashed** —
+>    the safety-vs-EV tiebreaker (deeper alt on an unattended K leg) is validated, not the standard line.
+> 3. **Run-line legs are 1-1** (MIL −1.5 W; TB −1.5 L outright) — D3 (RL vs a live dog) consistent.
 
 ### Now capturing / still to capture
 - **Stake + units/ROI** — now in the ticket rollup (flat-1u assumed pre-6/4; **log the real stake going
@@ -133,6 +142,6 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 - **CLV** — hard step at the run closest to first pitch; the single best +EV signal at this sample size.
   Still a manual book pull (no odds API).
 - **Bet-type ROI** — once CLV + real stakes accrue, break ROI out by ML-fav / K-Over / RL / hitter-prop.
-  Early hint from the data: **K-Overs are 5-for-5 played AND 5-for-5 on the ones we faded** (the edge),
-  while the **56–61% ML-fav band is hitting 40%** (overbet). The 3-tier output exists to surface the
-  K-Over standalone as the real product, not just the +200 parlay.
+  Early hint from the data: **played K-Overs are 5-for-6** (first loss Sale 6/4, where the deeper alt
+  would've cashed), while the **60-64 ML-fav band is 50%** (overbet). The 3-tier output exists to surface
+  the K-Over standalone as the real product, not just the +200 parlay.
