@@ -48,7 +48,8 @@ if   (( 10#$HOUR >= 6  && 10#$HOUR < 12 )); then
 9. Append this run to parlays/YYYY-MM-DD.md as '## Run 11:00 ET — Build A'.
 10. Log all recommended legs in results_log.md with pre-registered TrueP + ImplP + Edge.
 11. Commit → push → open PR → squash-merge → git reset to main per CLAUDE.md git workflow.
-12. Email the build summary: load mcp__Gmail__create_draft via ToolSearch (if not already loaded), then create a draft to icecold67@live.com, subject 'MLB Parlay — [today YYYY-MM-DD] Build A', body: Tier 1 standalone (leg + edge + best price), Tier 2 2-leg (legs + floor%), Tier 3 +200 (legs + combined odds), bankroll bet, any PENDING flags or key warnings. Keep body under 250 words."
+12. Send push notification: load PushNotification via ToolSearch (if not loaded), then send a notification with title 'MLB Parlay Build A — [today date]' and message summarizing Tier 1 standalone leg + edge, Tier 2 floor%, Tier 3 combined odds, bankroll bet; flag any PENDING legs.
+13. Email the build summary: load mcp__Gmail__create_draft via ToolSearch (if not already loaded), then create a draft to icecold67@live.com, subject 'MLB Parlay — [today YYYY-MM-DD] Build A', body: Tier 1 standalone (leg + edge + best price), Tier 2 2-leg (legs + floor%), Tier 3 +200 (legs + combined odds), bankroll bet, any PENDING flags or key warnings. Keep body under 250 words."
 
 elif (( 10#$HOUR >= 12 && 10#$HOUR < 17 )); then
   # Lineup-lock window (fires 12:00–16:59 ET) — catches 16:00 cron slot
@@ -64,7 +65,8 @@ elif (( 10#$HOUR >= 12 && 10#$HOUR < 17 )); then
 6. Update results_log.md with any new or revised legs per the SUPERSEDE protocol.
 7. Confirm or update the bankroll bet if lineup was PENDING at 09:00.
 8. Commit → push → open PR → squash-merge → reset per CLAUDE.md git workflow.
-9. Email the Build B update: load mcp__Gmail__create_draft via ToolSearch (if not loaded), create a draft to icecold67@live.com, subject 'MLB Parlay — [today YYYY-MM-DD] Build B update', body: CLV fills (+ or − for each open leg), lineup upgrades (PENDING→CONFIRMED or still flagged), any superseded legs, current active build. Under 200 words."
+9. Send push notification: load PushNotification via ToolSearch (if not loaded), send with title 'MLB Parlay Build B update — [today date]' and message: CLV fills summary (how many + vs −), any lineup upgrades, whether build changed.
+10. Email the Build B update: load mcp__Gmail__create_draft via ToolSearch (if not loaded), create a draft to icecold67@live.com, subject 'MLB Parlay — [today YYYY-MM-DD] Build B update', body: CLV fills (+ or − for each open leg), lineup upgrades (PENDING→CONFIRMED or still flagged), any superseded legs, current active build. Under 200 words."
 
 else
   BUILD="18"
@@ -76,7 +78,8 @@ else
 4. If anything changed materially, APPEND '## Run 18:30 ET — Build C' to today's parlay file (mark prior build SUPERSEDED if replaced).
 5. Flag any legs to re-check at first pitch.
 6. Commit → push → open PR → squash-merge → reset per CLAUDE.md git workflow.
-7. Email the final check: load mcp__Gmail__create_draft via ToolSearch (if not loaded), create a draft to icecold67@live.com, subject 'MLB Parlay — [today YYYY-MM-DD] Final check', body: late lineup confirmations, remaining CLV fills, final active build legs with prices, any first-pitch re-check flags. Under 200 words."
+7. Send push notification: load PushNotification via ToolSearch (if not loaded), send with title 'MLB Parlay Final check — [today date]' and message: final build legs confirmed, any late lineup updates, first-pitch re-check flags.
+8. Email the final check: load mcp__Gmail__create_draft via ToolSearch (if not loaded), create a draft to icecold67@live.com, subject 'MLB Parlay — [today YYYY-MM-DD] Final check', body: late lineup confirmations, remaining CLV fills, final active build legs with prices, any first-pitch re-check flags. Under 200 words."
 fi
 
 echo "════════════════════════════════════════════════════════"
