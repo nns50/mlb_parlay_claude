@@ -169,6 +169,35 @@ def main():
         push = f" +{p}P" if p else ""
         print(f"   {t:<14} {w}-{l}{push}   {hit:.0f}%")
 
+    # ---- 2b. STANDALONE vs PARLAY split (played legs, by Bucket col) -----------
+    # Tests the doctrine's core claim that parlays run near -EV chalk+vig. Bucket
+    # is the last column (index 10); rows predating the column count as '?'.
+    by_bucket = defaultdict(lambda: [0, 0, 0])  # bucket -> [W, L, Push]
+    for c in played:
+        if len(c) < 9 or c[8].strip().upper() != "Y":
+            continue
+        bkt = c[10].strip().upper() if len(c) > 10 and c[10].strip() else "?"
+        bkt = {"S": "STANDALONE", "P": "PARLAY"}.get(bkt, "untagged")
+        res = parse_result(c[7])
+        if res == "W":
+            by_bucket[bkt][0] += 1
+        elif res == "L":
+            by_bucket[bkt][1] += 1
+        elif res == "Push":
+            by_bucket[bkt][2] += 1
+
+    print("\n-- 2b. STANDALONE vs PARLAY  (played legs — the parlay-tax test) --")
+    for bkt in ("STANDALONE", "PARLAY", "untagged"):
+        if bkt not in by_bucket:
+            continue
+        w, l, p = by_bucket[bkt]
+        dec = w + l
+        hit = (w / dec * 100) if dec else 0.0
+        push = f" +{p}P" if p else ""
+        note = "  (small n — directional)" if dec < 10 else ""
+        print(f"   {bkt:<11} {w}-{l}{push}   {hit:.0f}%{note}")
+    print("   (leg-level hit%; ticket-level ROI is section 3 [parlays] + bankroll.md [standalone ladder])")
+
     # ---- 3. Played-ticket units / ROI -----------------------------------------
     # ticket cols: date, ticket, odds, stake, return, pl, result
     stake_sum = ret_sum = pl_sum = 0.0
@@ -192,7 +221,7 @@ def main():
         else:
             losses += 1
 
-    print("\n-- 3. Played-ticket units / ROI --")
+    print("\n-- 3. Played PARLAY-ticket units / ROI --  (standalone ladder ROI: bankroll.md)")
     if parsed:
         roi = (pl_sum / stake_sum * 100) if stake_sum else 0.0
         print(f"   tickets: {parsed}   record: {wins}-{losses}")

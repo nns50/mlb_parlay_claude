@@ -27,7 +27,16 @@ CLAUDE.md is crisp **doctrine**; those files are **live data**. Burn tags below 
   only in a NEW session, so `check` is how each session learns whether it's on.)
 - **Session open:** `tools/session_start.sh` runs the mechanical open in one shot (check + yesterday
   finals + standings + which recent parlays are still TBD + every fade's status). `tools/calib.py`
-  recomputes the calibration bands / units-ROI / by-type record from `results_log.md` (read-only).
+  recomputes the calibration bands / units-ROI / by-type record / **STANDALONE-vs-PARLAY split** from
+  `results_log.md` (read-only).
+- **Build + settle helpers (use them — don't hand-compute):**
+  - `tools/devig.sh <priceA> <priceB> [TrueP%]` — no-vig probs + Edge + min-edge-gate verdict (kills the
+    by-hand devig slips). One-sided prop: pass a single price (no-vig estimated, flagged).
+  - `tools/truep.py --base-prob <novig%> --adj <names> [--custom "+N:reason"]` — derive a pre-registered
+    TrueP from the market no-vig baseline + FIXED written adjustments (`--list` for the registry), so
+    calibration measures the adjustments, not a gut number. Run `devig.sh` first to get the baseline.
+  - `tools/settle.py [YYYY-MM-DD]` — pulls finals + proposes W/L for every TBD team-side leg that date
+    (props flagged MANUAL). READ-ONLY — apply the proposals + `fades.md`/`bankroll.md`/parlay file by hand.
 
 ### Pre-publish GATE HEADER — every build opens with this; a ✗ blocks the dependent leg
 | Gate | ✓/⚠/✗ | Evidence |
