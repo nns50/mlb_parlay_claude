@@ -36,6 +36,9 @@ ADJUSTMENTS = {
     "contact_lineup":  (-4, "opposing contact-heavy lineup vs a K-Over (~1 tier)"),
     "tight_zone_ump":  (-3, "tight-zone HP umpire suppresses a K-Over"),
     "opp_bullpen_game":(0,  "opponent is a bullpen/opener game — NO boost (fades D5)"),
+    "market_disagrees":(-4, "market price materially below your model on a liquid ML/total (~5+pp gap) — "
+                            "market sees something you don't (start-length risk, lineup, injury); "
+                            "shade toward the line; re-derive TrueP from BOTH posted prices (CLAUDE.md)"),
     "getaway_spot":    (-2, "getaway / day-after-night / heavy-travel letdown spot"),
     "pen_rested_edge": (+2, "clear bullpen rest/quality edge late"),
     # --- Park / weather / umpire (softer-market signal; NOISIER than SP/lineup —
