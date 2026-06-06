@@ -93,6 +93,9 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 6/5 | Yankees ML (Weathers, vs BOS) | ML-fav | -144 | 56% | 56.7% | −0.7 | **L** (lost 5-3) — Tier 3 +200 leg flagged soft; the soft flag was right. Grade: **~fair/thin -EV (correct decline)** | N | = | P |
 | 6/5 | Phillies ML (Luzardo, vs CWS) | ML-fav | -188 | 62% | 64.0% | −2.0 | **W** (won 8-6) — scan-only PASS; CWS B1 dog lost. Grade: **-EV pass (would-W)** | N | — | S |
 | 6/5 | D-backs ML (Kelly, vs WSH) | ML-fav | -134 | 50% | 56.7% | −6.7 | **W (fade)** (AZ lost 1-14) — scan-only REJECT; Kelly 5.06 own-SP trap (D4) validated hard. Grade: **correct reject** | N | — | S |
+| 6/6 | Dodgers ML (Yamamoto, vs LAA) | ML-fav | -182 | 64.7% | 61.7% | +3.0 | TBD — Tier 1 standalone + bankroll roll 2; ace-edge, only value leg on board. Grade: **+EV (clears gate)** | N | — | S |
+| 6/6 | Braves ML (Strider, vs PIT) | ML-fav | -146 | 58.1% | 57.1% | +1.0 | TBD — Tier 2 floor leg; Ashcraft 2.77 offsets Strider → action not value. Grade: **~fair/thin (floor leg only)** | N | — | P |
+| 6/6 | Cardinals ML (Liberatore, vs CIN) | ML-fav | -126 | 54% | 53.7% | +0.3 | TBD — Tier 3 +200-chase 3rd leg; coinflip, ~0 edge (D1). Grade: **-EV chase leg (not recommended)** | N | — | P |
 
 ---
 

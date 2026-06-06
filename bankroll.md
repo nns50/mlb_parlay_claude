@@ -55,13 +55,14 @@ P(4 straight wins in an attempt) ≈ 0.60⁴ ≈ **13%** → expect ~8 attempts 
 |---------|------|------|----------------|---------------------------|-------|--------|---------------|------|
 | 1 | 6/4 | 1 | $10.00 | ATL ML −205 (FanDuel, 1.488) | 67% | **LOSS** (TOR 7-2) | **$0.00** | bumped to 69% on TOR-bullpen-game logic — backfired (fades D5); **attempt 1 BUSTS** |
 | 2 | 6/5 | 1 | $10.00 | LAD ML −188 (FanDuel, 1.532) | 66% | **WIN** (LAD 1-0) | **$15.32** | safest qualifying fav (40-23/+133, home); LAA SP = Detmers; not A-list fade; +3.3pp. **Note: the SAME Dodgers leg LOST inside the user's SEA×LAD parlay — standalone cashed, parlay didn't (parlay tax, live).** |
+| 2 | 6/6 | 2 | $15.32 | LAD ML −182 (FanDuel, 1.549) | 64.7% | **TBD** (LAA vs Yamamoto) | _pending_ | safest qualifying fav on the board again — Yamamoto 2.86 ERA vs LAA (24-39, Kochanowicz 5.23); +3.0pp, not A-list. Win → $15.32×1.549 = **$23.73**. |
 
 ---
 
 ## Running totals (update on every settle)
 
-- **Current:** Attempt **2**, balance **$15.32** (1 win), **roll 2 pending** — pick the next single safest
-  qualifying fav on the 6/6 board (independent, not an A-list fade) when building today.
+- **Current:** Attempt **2**, balance **$15.32** (1 win), **roll 2 LIVE** — bet **LAD ML −182** (Yamamoto vs
+  LAA), the single safest qualifying fav on the 6/6 board (+3.0pp, not A-list). Win → ~$23.73 (then roll 3).
 - **Attempts completed:** 1 · **Targets hit (4 wins):** 0 · **Busts:** 1 · **Best run:** **1 win (active, attempt 2)**
 - **Total real risk (attempts × $10):** **$20.00** risked · **Total withdrawn:** $0.00
 - **Net P/L (withdrawn − deposited):** **−$10.00** (attempt 1 lost $10; attempt 2 live at $15.32, not yet withdrawn)
