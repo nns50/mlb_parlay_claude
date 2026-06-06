@@ -33,8 +33,10 @@ CLAUDE.md is crisp **doctrine**; those files are **live data**. Burn tags below 
   first (needs the env var `ODDS_API_KEY` + `api.the-odds-api.com` allowlisted; activates only in a NEW
   session, like mlb_api). OK → use it for line-shopping (`best h2h|totals|spreads` → best price + book),
   feeding `devig.sh`, and **CLV capture** (`clv <betAmerican> <team>` on the 15:30/18:30 runs). `slate` is
-  cached per run (free-tier budget). **Player props (Ks/hits) stay HAND-PRICED** — limited/quota-heavy on
-  the free tier; the API owns ML/totals/spreads. It improves PRICE + MEASUREMENT, not win probability.
+  cached per run for efficiency. **Player props (Ks/hits) are now API-priced on the paid tier (20K
+  credits/mo)** — use `events [date]` → `props <id> pitcher_strikeouts` for K-leg pricing (~1
+  credit/market/event, ~15 credits for a full-slate prop scan); the API owns ML/totals/spreads/props.
+  It improves PRICE + MEASUREMENT, not win probability.
 - **Build + settle helpers (use them — don't hand-compute):**
   - `tools/devig.sh <priceA> <priceB> [TrueP%]` — no-vig probs + Edge + min-edge-gate verdict (kills the
     by-hand devig slips). One-sided prop: pass a single price (no-vig estimated, flagged).
