@@ -36,17 +36,18 @@ if   (( 10#$HOUR >= 6  && 10#$HOUR < 12 )); then
   # Morning window (fires 6–11:59 ET) — catches 09:00 and 11:00 cron slots
   BUILD="09"
   LABEL="09:00 ET — morning settle + full build"
-  INSTRUCTIONS="Run the 09:00 ET daily MLB parlay routine per CLAUDE.md:
+  INSTRUCTIONS="Run the 11:00 ET daily MLB parlay routine per CLAUDE.md:
 1. Self-settle all TBD results from yesterday: run tools/settle.py, apply W/L to results_log.md + fades.md + bankroll.md.
 2. Run tools/calib.py and apply the fresh calibration bands before building.
 3. Run tools/mlb_api.sh slate today for the full game list.
-4. Do the mandatory slate-wide value scan (ALL games — non-ML markets first per CLAUDE.md).
-5. Fill SP-freshness blocks for every SP in the build.
-6. Build all three tiers: Tier 1 best standalone, Tier 2 highest-floor 2-leg, Tier 3 +200 build.
-7. Pick the bankroll bet (single safest qualifying fav, independent of parlay, not A-list fade).
-8. Append this run to parlays/YYYY-MM-DD.md as '## Run 09:00 ET — Build A'.
-9. Log all recommended legs in results_log.md with pre-registered TrueP + ImplP + Edge.
-10. Commit → push → open PR → squash-merge → git reset to main per CLAUDE.md git workflow."
+4. Run tools/mlb_api.sh lineups today — lineups for early/day games (12pm-2pm ET first pitch) are ALREADY POSTED at 11 ET (post ~2-3h pre-game). Confirm those now; mark evening games PENDING LINEUP (re-checked at 16:00 run).
+5. Do the mandatory slate-wide value scan (ALL games — non-ML markets first per CLAUDE.md).
+6. Fill SP-freshness blocks for every SP in the build.
+7. Build all three tiers: Tier 1 best standalone, Tier 2 highest-floor 2-leg, Tier 3 +200 build. Day-game hitter props with confirmed lineups can be fully locked; evening hitter props stay PENDING.
+8. Pick the bankroll bet (single safest qualifying fav, independent of parlay, not A-list fade).
+9. Append this run to parlays/YYYY-MM-DD.md as '## Run 11:00 ET — Build A'.
+10. Log all recommended legs in results_log.md with pre-registered TrueP + ImplP + Edge.
+11. Commit → push → open PR → squash-merge → git reset to main per CLAUDE.md git workflow."
 
 elif (( 10#$HOUR >= 12 && 10#$HOUR < 17 )); then
   # Lineup-lock window (fires 12:00–16:59 ET) — catches 16:00 cron slot
