@@ -102,6 +102,8 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 6/6 | Dodgers ML (Yamamoto, vs LAA) — Build C | ML-fav | -340 | 78% | 75.7% | +2.3 | TBD — Build C anchor (line −350 → −340); +2.3pp, borderline D2 heavy anchor (payout driven by the correlated K leg). Grade: **+EV (clears gate)** | N | — | P |
 | 6/6 | Yamamoto Over 7.5 K (vs LAA) — Build C | K-Over | +115 | 48% | 45.4% | +2.6 | TBD — Build C Tier 1 standalone + +200 leg; recent 8/8/8/3/10 (4/5 cleared 8K), LAA 25% K vs RHP, first mtg. Needs 8 K (season 8+ = 4/11). Grade: **+EV (high-variance)** | N | — | S |
 | 6/6 | Yamamoto Over 6.5 K alt (vs LAA) — Build C | K-Over alt | -186 | 63% | 60.8% | +2.2 | TBD — Build C Tier-2 safer K expression (needs 7 K). Grade: **+EV thin** | N | — | P |
+| 6/6 | Dodgers ML (Yamamoto, vs LAA) — Build D | ML-fav | -345 | 78% | 75.7% | +2.3 | TBD — Build D final anchor (line −340 → −345); +2.3pp, borderline D2 heavy anchor (payout driven by the correlated K leg). Grade: **+EV (clears gate)** | N | — | P |
+| 6/6 | Yamamoto Over 7.5 K (vs LAA) — Build D | K-Over | +110 | 48% | 44.4% | +3.6 | TBD — Build D Tier 1 standalone + the +171 +200-build leg; best Over +110 (BetRivers). Needs 8 K (season 8+ = 4/11; recent 4/5). Grade: **+EV (high-variance)** | N | — | S |
 
 ---
 
