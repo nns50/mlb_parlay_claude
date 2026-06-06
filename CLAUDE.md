@@ -37,6 +37,9 @@ CLAUDE.md is crisp **doctrine**; those files are **live data**. Burn tags below 
     calibration measures the adjustments, not a gut number. Run `devig.sh` first to get the baseline.
   - `tools/settle.py [YYYY-MM-DD]` — pulls finals + proposes W/L for every TBD team-side leg that date
     (props flagged MANUAL). READ-ONLY — apply the proposals + `fades.md`/`bankroll.md`/parlay file by hand.
+  - `tools/parlay.py --leg TrueP:price --leg TrueP:price [--corr <tier>] [--sgp <price>]` — correlation-
+    aware true combined prob vs the offered price; tells you SGP-vs-independent and the gate verdict.
+    Use it for EVERY parlay (esp. same-game) — it catches when negative correlation makes a ticket -EV.
 
 ### Pre-publish GATE HEADER — every build opens with this; a ✗ blocks the dependent leg
 | Gate | ✓/⚠/✗ | Evidence |
@@ -159,6 +162,11 @@ Hard gate: may not recommend OR reject an SP leg until this is filled and shown,
   - NEGATIVE (team ML + opposing SP K-Over) → true combined LOWER than the product; skip or
     down-adjust manually.
   - Unclear → one leg per game.
+  - **Quantify it with `tools/parlay.py` — don't eyeball.** Feed each leg's TrueP:price + a `--corr`
+    tier (and `--sgp` price if quoted); it returns the correlation-adjusted true combined, the EV vs the
+    independent product AND the SGP, and which to take. **Positively-correlated 2-leggers are the
+    highest-win-chance way to keep a parlay payout** (the diversify-era default) — but the tool also
+    catches when negative correlation quietly makes a ticket -EV though the naive product looked fine.
 - **K-Over alt lines:** if the standard line is ~50/50, the one-lower alt is usually the safer parlay
   leg even at -150/-200 (reserve the +EV standard line for standalones). **But never estimate alt
   prices** — pull the exact alt from a book; books juice the one-K-lower alt to -300/-500 on elite
