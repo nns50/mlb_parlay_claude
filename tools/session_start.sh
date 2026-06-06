@@ -41,6 +41,14 @@ else
   echo "  ⚠ BLOCKED — fall back to the 2-source WebSearch gate (see CLAUDE.md)."
 fi
 
+# 1b. Odds API check — line-shopping / devig / CLV source (optional; needs key + allowlist)
+hdr "1b. Odds API check (line-shop / devig / CLV — optional)"
+if [[ -x "./tools/odds_api.sh" ]]; then
+  ./tools/odds_api.sh check 2>&1 | sed 's/^/  /' || true
+else
+  echo "  (tools/odds_api.sh not present)"
+fi
+
 # 2. Yesterday's finals — input for self-settling any TBD result/fade
 hdr "2. Yesterday's finals ($YESTERDAY) — self-settle TBD results + fades"
 if [[ "$LIVE" == "1" && -n "$YESTERDAY" ]]; then

@@ -61,6 +61,36 @@ tools/mlb_api.sh raw "schedule?sportId=1&date=2026-06-04"   # raw JSON passthrou
   input for the "re-verify last-15 form each session" requirement (replaces manual WebSearch).
 - **Always preferred when reachable; WebSearch gate is the fallback when `check` returns BLOCKED.**
 
+## `odds_api.sh` — live book odds via The Odds API (line-shopping + CLV)
+
+Ends hand-entered prices: pulls every US book's line so the build bets the **best number** (free EV) and
+a near-first-pitch run can **snapshot the close to fill CLV** (the only real edge scoreboard). It does NOT
+raise win probability — it improves PRICE and MEASUREMENT. Mirrors `mlb_api.sh`: a `check` subcommand
+reports whether the policy is live and how much monthly quota remains.
+
+**Requires two things (both on the user):** (1) the environment must allowlist `api.the-odds-api.com`
+(Network access → Custom; applies only in a NEW session); (2) the API key in the env var **`ODDS_API_KEY`**
+(a secret — NEVER commit it).
+
+**Budget (free tier = 500 req/mo).** Cost = (#markets × #regions)/call. `slate` (h2h,totals,spreads × us)
+= 3 credits and returns the WHOLE board, so it's **cached per run** — every leg reads the cache, not the
+API. `events` is free. `props` is per-event and quota-spending — opt-in, it warns before spending.
+
+```
+tools/odds_api.sh check                    # key + reachability + remaining quota
+tools/odds_api.sh slate [date]             # pull+cache h2h/totals/spreads; best-ML table
+tools/odds_api.sh best h2h|totals|spreads [date]   # best line per game per side, with the book
+tools/odds_api.sh game "<team>" [date]     # full book-by-book board for one game
+tools/odds_api.sh events [date]            # event IDs (free; needed for props)
+tools/odds_api.sh props <eventId> pitcher_strikeouts[,batter_hits]   # PER-EVENT props (spends quota!)
+tools/odds_api.sh clv <betAmerican> "<team>" [date]   # closing no-vig vs your bet (ML)
+```
+
+**How it slots in:** at **build** → `best` feeds the best two-sided price into `devig.sh` (min-edge gate vs
+the genuinely best number). At the **15:30 / 18:30 runs** → `clv` snapshots the close for every open leg and
+you write CLV into `results_log.md`. Pairs with `parlay.py` (real prices → real combined EV). Player props
+(Ks/hits) are limited/quota-heavy on the free tier → keep pricing them by hand; the API owns ML/totals/spreads.
+
 ## `session_start.sh` — one-shot session-open digest
 
 Composes the *mechanical* part of the CLAUDE.md "Session-start review" into a single command so the
