@@ -70,6 +70,8 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 6/4 | Braves ML (Sale, vs TOR) | ML-fav | -205 | 67% | 64.6% | +2.4 | **L** (TOR 7-2 — bullpen game won outright) | Y | — (no odds API) |
 | 6/4 | Phillies ML (Wheeler, vs SD) | ML-fav | -198 | 65% | 63.9% | +1.1 | **W** (6-4, Wheeler 7IP/2ER/8K) | Y | — (no odds API) |
 | 6/4 | Sale Over 6.5 K (vs TOR) | K-Over | -179 | 64% | 61.5% | +2.5 | **L** (5.2 IP, 6 K — one-tier-deeper alt O5.5 would've cashed) | Y | — (no odds API) |
+| 6/5 | Mariners ML (Woo, @ DET) | ML-fav | -120 | 59% | 52.2% | **+6.8** | **L** (lost 3-7) — slate's sharpest edge, +EV bet/variance loss. Grade: **+EV (good bet)** | Y | + |
+| 6/5 | Dodgers ML (Sasaki, vs LAA) | ML-fav | -188 | 66% | 62.7% | +3.3 | **W** (won 1-0) — Tier 2 leg + bankroll. Grade: **+EV** | Y | + |
 
 ## Recommended but NOT played (calibration both ways)
 
@@ -83,11 +85,10 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 6/3 | Burns K-Over (faded illness+KC) | K-Over | — | — | — | — | **would-W** (9 K) — fade missed (C1) | N | — |
 | 6/4 | Brewers ML (Crow, vs SF) | ML-fav | -153 | 60% | 58.2% | +1.8 | **would-L** (SF 12-9 — declining the rookie SP was correct) | N | — |
 | 6/4 | Dodgers ML (Wrobleski LHP, @ AZ) | ML-fav | -134 | 55% | 55.1% | −0.1 | **L** (AZ 3-2) — Build C +200 3rd leg busted; ~fair price, fav-not-safe | N | — |
-| 6/5 | Mariners ML (Woo, @ DET) | ML-fav | -130 | 59% | 54.3% | **+4.7** | TBD — Tier 1 standalone + Tier 2/3 leg; Woo 3.44 SP edge. Grade: **+EV** | N | + (17:05: −120 BetMGM avail, line→our side) |
-| 6/5 | Dodgers ML (Sasaki, vs LAA) | ML-fav | -200 | 66% | 64.1% | +1.9 | TBD — Tier 2 leg + bankroll bet; Detmers (not bullpen game). Grade: **+EV (thin)** | N | + (17:05: −188 FD, shortened from −200) |
-| 6/5 | Yankees ML (Weathers, vs BOS) | ML-fav | -144 | 56% | 56.7% | −0.7 | TBD — Tier 3 +200 leg; Gray 3.06 duel caps floor. Grade: **~fair/thin -EV** | N | = (17:05: −144 FD unchanged) |
-| 6/5 | Phillies ML (Luzardo, vs CWS) | ML-fav | -188 | 62% | 64.0% | −2.0 | TBD — scan-only; CWS B1 hot dog. Grade: **-EV (pass)** | N | — |
-| 6/5 | D-backs ML (Kelly, vs WSH) | ML-fav | -134 | 50% | 56.7% | −6.7 | TBD — scan-only REJECT; Kelly 5.06 own-SP trap (D4). Grade: **-EV (correct reject)** | N | — |
+| 6/5 | Mariners ML / Dodgers ML | — | — | — | — | — | **PLAYED → settled in the played-legs table above (SEA L 3-7, LAD W 1-0)** | Y | + |
+| 6/5 | Yankees ML (Weathers, vs BOS) | ML-fav | -144 | 56% | 56.7% | −0.7 | **L** (lost 5-3) — Tier 3 +200 leg flagged soft; the soft flag was right. Grade: **~fair/thin -EV (correct decline)** | N | = |
+| 6/5 | Phillies ML (Luzardo, vs CWS) | ML-fav | -188 | 62% | 64.0% | −2.0 | **W** (won 8-6) — scan-only PASS; CWS B1 dog lost. Grade: **-EV pass (would-W)** | N | — |
+| 6/5 | D-backs ML (Kelly, vs WSH) | ML-fav | -134 | 50% | 56.7% | −6.7 | **W (fade)** (AZ lost 1-14) — scan-only REJECT; Kelly 5.06 own-SP trap (D4) validated hard. Grade: **correct reject** | N | — |
 
 ---
 
@@ -107,8 +108,15 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 6/2 | SEA ML + MIL ML | ~+158 | 1.00 | 2.58 | +1.58 | ✅ WON |
 | 6/3 | SEA ML + PHI ML | ~+183 | 1.00 | 0.00 | −1.00 | ❌ LOST |
 | 6/4 | PHI ML + ATL ML | +124 | 1.00 | 0.00 | −1.00 | ❌ LOST (PHI W 6-4, **ATL L 7-2** — ATL leg killed it) |
+| 6/5 | SEA ML + LAD ML | +181 | 1.00 | 0.00 | −1.00 | ❌ LOST (**SEA L 3-7** — our sharpest edge; LAD W 1-0 — the won leg) |
 
-**Record: 5 W – 6 L. Units @ flat 1u: staked 11.00, returned 15.68 → P/L +4.68u, ROI +42.5%.**
+**Record: 5 W – 7 L. Units @ flat 1u: staked 12.00, returned 15.68 → P/L +3.68u, ROI +30.7%.**
+
+> **6/5 is the parlay tax, on the board:** the LAD leg cashed standalone (bankroll won) but the SEA×LAD
+> *parlay* lost. Two individually-+EV favorites stacked = ~38% combined → the ticket dies the majority of
+> nights regardless of leg quality. Standalone-vs-parlay EV split now reads: **standalone bankroll/Tier-1
+> legs trending +, parlay tickets 5-7 / ROI bleeding toward breakeven** — the doctrine's "parlays are
+> near-EV chalk+vig" claim is accumulating evidence.
 
 > **6/4 standalone (separate from the parlay table):** Sale Over 6.5 K −179 — **LOST** (5.2 IP / 6 K).
 > First K-Over loss in the log (played K-Overs now **5-for-6**). The lone suppressor (TOR 19% K / .213
@@ -120,15 +128,15 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 > actually logged) — log the real stake each night so this becomes a true number. **This is exactly why
 > CLV (above) matters more than ROI at this sample** — beat the close consistently and the ROI follows.
 
-### Calibration buckets (reconciled to `calib.py` 2026-06-04 late-settle; `*` rows excluded)
+### Calibration buckets (reconciled to `calib.py` 2026-06-06 settle; `*` rows excluded)
 | Band (calib.py) | n | W-L | Hit% | vs mid | Read |
 |----------------|---|-----|------|--------|------|
 | 50–54 | 1 | 0-1 | 0% | 52.5 | HOU +100 (L) — tiny n |
-| 55–59 | 2 | 2-0 | 100% | 57.5 | — |
-| 60–64 | 6 | 3-3 | 50% | 62.5 | **⚠ under (overconfident)** — now incl. Sale O6.5K 64 (L) |
-| 65–69 | 3 | 2-1 | 67% | 67.5 | PHI 65 (W), LAD 66 (W), **ATL 67 (L, 6/4)** |
+| 55–59 | 3 | 2-1 | 67% | 57.5 | +SEA 59 (L, 6/5 — sharpest edge, variance loss) |
+| 60–64 | 6 | 3-3 | 50% | 62.5 | **⚠ under (overconfident)** — incl. Sale O6.5K 64 (L) |
+| 65–69 | 4 | 3-1 | 75% | 67.5 | PHI 65 (W), LAD 66 (W ×2, incl 6/5), **ATL 67 (L, 6/4)** |
 | 85–89 | 1 | 1-0 | 100% | 87.5 | Strider O4.5 (W) |
-| **TOTAL** | **13** | **8-5** | | | |
+| **TOTAL** | **15** | **9-6** | | | |
 
 > **Early signals (small samples — treat as directional, not conclusions):**
 > 1. **The 60-64 band is now 3-3 (50%), under its ~62.5% midpoint** — the ML-favorite-overconfidence
