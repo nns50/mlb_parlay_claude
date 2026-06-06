@@ -41,6 +41,7 @@ CLAUDE.md is crisp **doctrine**; those files are **live data**. Burn tags below 
 | `fades.md` consulted + applied | | entry IDs |
 | `results_log.md` calibration applied | | `calib.py` buckets; act only on N≥20-30 signals (else directional) |
 | Slate-wide value scan — ALL games | | scan table present |
+| Non-ML market scanned + leads if best | | ≥1 total/team-total/K/alt read per game; Tier 1 = best edge ANY market, not reflex-ML |
 
 Legend: **✓** pass · **⚠** partial → leg flagged PENDING · **✗** fail → leg cannot be locked.
 Fill this BEFORE showing legs, so a miss is visible pre-publish, not post-loss.
@@ -191,6 +192,9 @@ Every build presents all three, in this order:
 1. **Best standalone +EV play** — the single sharpest edge on the slate (often a faded ace's K-Over,
    a K-Under, a dog ML, or a total). Show true-prob vs implied + the edge. **This is where the real
    value is — lead with it every day**, so the parlay is an eyes-open choice, not the only thing offered.
+   **Bias Tier 1 toward non-ML edges** (totals / team-totals / K / alts) — ML is the most efficient market,
+   so a chalk-ML "best play" usually means we under-scanned the softer markets. Pick ML for Tier 1 only when
+   its devigged edge genuinely beats the best non-ML candidate. (6/6/26 — the diversify-markets directive.)
 2. **Highest-floor 2-leg** — the disciplined parlay (usually clean all-ML), best WIN CHANCE
    regardless of whether it reaches +200. State the floor %.
 3. **The +200 build** — what the user asked for; show the decimal math AND the floor drop vs Tier 2,
@@ -242,10 +246,16 @@ No qualifying play → NO BET, balance carries. Update `bankroll.md` (commit/pus
    candidate per game across ML/spread/total/team-total/K-Over/K-Under/hitter props (or "no edge").
    Don't tunnel on headline arms — best value hides mid-slate. Produce the scan TABLE before the final
    legs. (burn 5/27 tunnel-vision cost a full conversational round-trip)
-   - **Hunt softer markets, not just ML.** ML and standard K-props on headline arms are the MOST efficient
-     markets on the board — fighting ~4% vig for +1-2pp. Totals, team-totals, and alt lines are structurally
-     softer and barely scanned. **Surface ≥1 total or team-total read per game** (use `weather` for wind/temp
-     and the SP-quality reads), so the search points where edge actually hides, not just at the chalk. (Codified 6/4/26.)
+   - **Hunt softer markets, not just ML — NON-ML IS THE DEFAULT HUNT (hard rule, codified 6/6/26).** ML
+     and standard K-props on headline arms are the MOST efficient markets on the board — fighting ~4% vig
+     for +1-2pp. Totals, team-totals, K-Unders, and alt lines are structurally softer and barely scanned.
+     **The scan MUST surface ≥1 non-ML read per game** (a total or team-total at minimum — use `weather` for
+     wind/temp + the SP-quality reads). **Tier 1 defaults to the sharpest edge in ANY market; an ML leg may
+     anchor the build ONLY when its devigged edge is strictly larger than the best non-ML candidate** — ML
+     is no longer the reflex product. The ledger earned this: 18 of 23 played legs were ML-fav (12-6, ~as
+     priced — *efficient, thin edges*), while the single biggest edge ever logged was a K-prop (Sanchez
+     O7.5K +24.5pp). We were fishing the most-efficient pond on repeat. (User-directed 6/6/26 after the
+     all-ML habit became the whole approach.)
 3. Each pitcher leg → fill SP-freshness, run the pitcher-prop checklist.
 4. Each hitter leg → recent form + slump news.
 5. Each ML/spread → SP-freshness for the relevant starter(s) + SP quality + lineup health.
