@@ -55,11 +55,14 @@ fi
 TODAY="$(date +%F)"
 
 # GET with apiKey appended; captures headers to $HDRS_FILE for quota/deny inspection.
-HDRS_FILE=""
+# IMPORTANT: HDRS_FILE is a fixed per-process path (not mktemp inside api_get) so that quota
+# headers written by a subshell invocation of api_get (via raw="$(api_get ...)") are readable
+# by quota_line() in the parent shell — a subshell can write to the same file path even though
+# variable assignments inside $() don't propagate back to the parent.
+HDRS_FILE="${TMPDIR:-/tmp}/odds_api_hdrs_$$"
 api_get() {
   local path="$1" sep
   [[ "$path" == *\?* ]] && sep="&" || sep="?"
-  HDRS_FILE="$(mktemp)"
   curl -sS -m "$TIMEOUT" -D "$HDRS_FILE" "${BASE}/${path}${sep}apiKey=${ODDS_API_KEY}" 2>/dev/null
 }
 quota_line() {

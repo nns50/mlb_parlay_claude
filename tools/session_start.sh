@@ -44,14 +44,32 @@ fi
 # 1b. Odds API check + slate cache warm (line-shop / devig / CLV — optional; needs key + allowlist)
 #     Warming the cache at session open (3 credits) means all `best`/`game`/`clv_capture`
 #     calls for the rest of the session read from cache instantly, at no additional quota cost.
+#     After warming, quota mode is derived from the remaining count and echoed as ODDS_MODE=<mode>
+#     so Claude can read it from this digest and decide whether to use props calls for K-leg pricing.
 hdr "1b. Odds API check + slate cache warm (line-shop / devig / CLV)"
 if [[ -x "./tools/odds_api.sh" ]]; then
   ODDS_STATUS="$(./tools/odds_api.sh check 2>&1)"
   echo "$ODDS_STATUS" | sed 's/^/  /'
   if echo "$ODDS_STATUS" | grep -q "^OK"; then
     echo "  Warming odds slate cache ($TODAY) — 3 credits, valid all session..."
-    ./tools/odds_api.sh slate "$TODAY" 2>&1 | sed 's/^/  /' || true
-    echo "  Cache warm. Use: odds_api.sh best h2h|totals|spreads / game \"<team>\" / clv_capture.py"
+    SLATE_OUT="$(./tools/odds_api.sh slate "$TODAY" 2>&1)" || true
+    echo "$SLATE_OUT" | sed 's/^/  /'
+    # Quota mode derived from remaining credits after the warm call
+    QUOTA_REM=$(echo "$SLATE_OUT" | grep "requests remaining" | grep -oE '[0-9]+' | head -1)
+    QUOTA_REM="${QUOTA_REM:-9999}"
+    if   (( QUOTA_REM < 20 )); then
+      echo "  ⚠ LOW QUOTA (${QUOTA_REM} remaining) — avoid additional API calls this session."
+      echo "  Manual price entry recommended. Do NOT run best/clv without checking first."
+      echo "  ODDS_MODE=low_quota"
+    elif (( QUOTA_REM >= 5000 )); then
+      echo "  Odds API: RICH tier (${QUOTA_REM} remaining) — player props available for K-leg pricing."
+      echo "  K-prop: odds_api.sh events → odds_api.sh props <id> pitcher_strikeouts"
+      echo "  ODDS_MODE=rich"
+    else
+      echo "  Standard (${QUOTA_REM} remaining, free 500/mo). Use: odds_api.sh best h2h|totals|spreads"
+      echo "  Props (K-leg pricing) require the paid tier — hand-price K-props this session."
+      echo "  ODDS_MODE=standard"
+    fi
   fi
 else
   echo "  (tools/odds_api.sh not present)"
@@ -116,6 +134,48 @@ if [[ -f fades.md ]]; then
     }' fades.md
 else
   echo "  (fades.md not found)"
+fi
+
+# 5b. A/B-list team recent form — verify active fade/dog status before building each session.
+#     Only A (fade-as-fav) and B (quietly-hot dog) teams need live teamform; C/D/E are rule fades.
+#     Skip entries with "/" — those are multi-team entries that can't map to a single abbreviation.
+hdr "5b. A/B fade team recent form (last 15 — verify before applying or retiring)"
+if [[ "$LIVE" == "1" && -f fades.md ]]; then
+  declare -A TF_MAP=(
+    ["cubs"]="CHC"        ["white sox"]="CWS"   ["tigers"]="DET"    ["guardians"]="CLE"
+    ["royals"]="KC"       ["twins"]="MIN"        ["brewers"]="MIL"   ["cardinals"]="STL"
+    ["reds"]="CIN"        ["pirates"]="PIT"      ["phillies"]="PHI"  ["nationals"]="WSH"
+    ["braves"]="ATL"      ["mets"]="NYM"         ["marlins"]="MIA"   ["dodgers"]="LAD"
+    ["padres"]="SD"       ["giants"]="SF"        ["rockies"]="COL"   ["mariners"]="SEA"
+    ["rangers"]="TEX"     ["astros"]="HOU"       ["angels"]="LAA"    ["athletics"]="ATH"
+    ["yankees"]="NYY"     ["orioles"]="BAL"      ["rays"]="TB"       ["red sox"]="BOS"
+    ["blue jays"]="TOR"   ["diamondbacks"]="AZ"  ["d-backs"]="AZ"    ["dbacks"]="AZ"
+  )
+  AB_TEAMS=$(awk -F'|' '
+    /^\| *[AB][0-9]+ *\|/ {
+      name=$(NF-6); status=$(NF-1)
+      gsub(/\*\*/, "", name); gsub(/\*\*/, "", status)
+      gsub(/^[[:space:]]+|[[:space:]]+$/, "", name)
+      gsub(/^[[:space:]]+|[[:space:]]+$/, "", status)
+      if (name !~ /\// && status ~ /^ACTIVE/) print tolower(name)
+    }
+  ' fades.md 2>/dev/null)
+  if [[ -z "$AB_TEAMS" ]]; then
+    echo "  (no active A/B entries in fades.md)"
+  else
+    while IFS= read -r team_lc; do
+      [[ -z "$team_lc" ]] && continue
+      abbr="${TF_MAP[$team_lc]:-}"
+      if [[ -z "$abbr" ]]; then
+        echo "  ⚠ '${team_lc}' — no abbreviation mapping (add to TF_MAP in session_start.sh)"
+        continue
+      fi
+      echo "  ── ${team_lc} (${abbr}):"
+      $API teamform "$abbr" 15 2>/dev/null | sed 's/^/    /' || echo "    (teamform unavailable)"
+    done <<< "$AB_TEAMS"
+  fi
+else
+  [[ "$LIVE" != "1" ]] && echo "  (StatsAPI blocked)" || echo "  (fades.md not found)"
 fi
 
 echo
