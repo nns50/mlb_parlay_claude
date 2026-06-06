@@ -117,7 +117,30 @@ tools/truep.py --base-prob 54.3 --adj ace_edge                 # named adjustmen
 tools/truep.py --base-prob 56.7 --custom "-2:Gray duel caps floor"   # ad-hoc, repeatable
 ```
 
+Registry now includes **park / weather / umpire** factors (`wind_out_over`, `wind_in_under`,
+`hitter_park_over`, `pitcher_park_under`, `cold_aids_kover`, `hot_hurts_kover`, `wide_zone_ump_kover`,
+plus the existing `tight_zone_ump`) — softer-market signal from `mlb_api.sh weather`/`ump`. They're
+direction-explicit ("aids <this side>"); they're NOISIER than SP/lineup edges, so keep magnitudes modest
+and don't stack several.
+
 K-prop "tiers" are NOT pp — those move the alt line, not this tool (which is for ML / spread / total / TT).
+
+## `parlay.py` — correlation-aware true combined prob vs the offered price
+
+Parlay legs win ~68% individually but tickets ~42% — the only thing that keeps a real win chance is
+POSITIVE correlation (same-game legs that win together). This computes the naive product, the
+**correlation-adjusted** true combined prob (2-leg pair), the fair odds, and the EV vs both the
+independent-product price and an offered SGP price — then says which to take. It catches the trap where
+NEGATIVE correlation makes a parlay -EV even though the naive product looks fine.
+
+```
+tools/parlay.py --leg 59:-120 --leg 66:-188                  # independent (different games)
+tools/parlay.py --leg 59:-120 --leg 66:-188 --corr moderate  # same-game, positively correlated
+tools/parlay.py --leg 60:-130 --leg 55:+110 --corr moderate --sgp +320   # compare SGP vs independent
+```
+
+Each `--leg` is `TrueP%[:americanPrice]`. `--corr` tiers (2-leg only): `strong/moderate/weak/none` and
+`neg-weak/neg-moderate/neg-strong` (rough ρ; positive = legs win together, negative = legs fight → skip).
 
 ## `settle.py` — match a day's finals to open legs and PROPOSE settle edits
 

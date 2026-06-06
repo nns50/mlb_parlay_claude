@@ -38,6 +38,18 @@ ADJUSTMENTS = {
     "opp_bullpen_game":(0,  "opponent is a bullpen/opener game — NO boost (fades D5)"),
     "getaway_spot":    (-2, "getaway / day-after-night / heavy-travel letdown spot"),
     "pen_rested_edge": (+2, "clear bullpen rest/quality edge late"),
+    # --- Park / weather / umpire (softer-market signal; NOISIER than SP/lineup —
+    #     keep magnitudes modest and don't stack several. Pick the one matching your
+    #     BET DIRECTION; each is framed as "aids <this side>". Use mlb_api.sh weather/ump.)
+    "wind_out_over":       (+4, "wind blowing OUT aids a total/team-total OVER (and HR)"),
+    "wind_in_under":       (+3, "wind IN / cold aids a total/team-total UNDER"),
+    "hitter_park_over":    (+3, "hitter-friendly park aids an OVER"),
+    "pitcher_park_under":  (+3, "pitcher-friendly park aids an UNDER"),
+    "cold_aids_kover":     (+3, "cold / wind-in aids a K-OVER (more whiffs)"),
+    "hot_hurts_kover":     (-3, "hot / wind-out hurts a K-OVER"),
+    "wide_zone_ump_kover": (+2, "wide-zone / high-K HP umpire aids a K-OVER"),
+    # tight_zone_ump (-3, above) is the K-OVER suppressor; for a K/total UNDER a tight
+    # zone HELPS — express that with --custom "+2:tight-zone ump aids the Under".
 }
 
 
