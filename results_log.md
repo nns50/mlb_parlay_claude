@@ -18,6 +18,10 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
   **≥ +2pp standalone / ≥ +3-4pp to anchor a parlay** — below that it's action, not value (a slate clearing
   nothing = NO BET).
 - **Result** = W / L / Push / TBD. **Played** = Y if on the user's actual ticket, N if recommended/rejected only.
+- **Bucket** = **S** (standalone single / bankroll roll) or **P** (rode on a parlay ticket). Lets `calib.py`
+  break out calibration & record by bucket — the measurement that *proves or disproves the parlay tax*
+  (doctrine claims parlays run near -EV chalk+vig; this is how we test it). Going forward the diversify-markets
+  direction should grow the **S** sample (more Tier-1 standalones), so the split becomes real.
 - **Close** = closing American price; **CLV** = did the line move toward our side (closing no-vig ImplP >
   bet no-vig ImplP)? `+` good / `−` bad / `—` not captured. **CLV converges far faster than ROI at this
   sample — it's the primary scoreboard.** *(Capture starts now; pre-6/4 rows are `—`.)*
@@ -44,51 +48,51 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 
 ## Played legs (the calibration core)
 
-| Date | Leg (game) | Type | Price | TrueP | ImplP | Edge | Result | Played | CLV |
-|------|------------|------|-------|-------|-------|------|--------|--------|-----|
-| 5/25 | Dodgers ML (vs COL) | ML-fav | -310 | ~72%* | 75.6% | −3.6 | **W** | Y | — |
-| 5/25 | Brewers ML (vs STL) | ML-fav | -220 | ~65%* | 68.8% | −3.8 | **W** | Y | — |
-| 5/25 | Misiorowski Over 7.5 K (vs STL) | K-Over | ~-150 | ~62%* | 60.0% | +2.0 | **W** (12 K) | Y | — |
-| 5/26 | Dodgers ML (vs COL) | ML-fav | -235 | 66% | 70.1% | −4.1 | **W** | Y | — |
-| 5/26 | Burns Over 6.5 K (vs NYM) | K-Over | -110 | 55% | 52.4% | +2.6 | **W** | Y | — |
-| 5/26 | Strider Over 4.5 K (vs BOS) | K-Over alt | ~-625 | 88% | 86.2% | +1.8 | **W** (exactly 5 K) | Y | — |
-| 5/27 | Yankees ML (vs KC) | ML-fav | -156 | ~63%* | 60.9% | +2.1 | **W** | Y | — |
-| 5/27 | Sanchez Over 6.5 K (vs SD) | K-Over alt | -112 | ~70%* | 52.8% | — | **W** (9 K) | Y | — |
-| 5/28 | Tigers ML (vs LAA) | ML-fav | -130 | 61% | 56.5% | +4.5 | **L** (lost 7-1) | Y | — |
-| 5/29 | Dodgers ML (vs PHI) | ML-fav | -118 | 57% | 54.1% | +2.9 | **W** | Y | — |
-| 5/29 | Astros ML (vs MIL) | ML-dog | +100 | 50% | 50.0% | 0.0 | **L** (lost 5-4 in 10) | Y | — |
-| 5/30 | Guardians ML (vs BOS) | ML-fav | -134 | ~58%* | 57.3% | +0.7 | **L** (lost 9-1) | Y | — |
-| 5/30 | Padres ML (@ WSH) | ML-fav | -130 | ~57%* | 56.5% | +0.5 | **L** (lost 9-4) | Y | — |
-| 5/31 | Brewers −1.5 RL (@ HOU) | Run line | ~+120 | ~48%* | 45.5% | +2.5 | **W** (won 2-0) | Y | — |
-| 5/31 | Yankees ML (@ ATH) | ML-fav | -154 | ~60%* | 60.6% | −0.6 | **W** (13-3 rout) | Y | — |
-| 6/1 | Mariners ML (vs NYM) | ML-fav | ~-150 | ~60% | 60.0% | 0.0 | **W** | Y | — |
-| 6/1 | Rays −1.5 RL (vs DET) | Run line | +118 | ~47%* | 45.9% | +1.1 | **L** (lost 10-9 outright) | Y | — |
-| 6/2 | Mariners ML (vs NYM) | ML-fav | ~-150 | 60% | 60.0% | 0.0 | **W** (3-2 in 10) | Y | — |
-| 6/2 | Brewers ML (vs SF) | ML-fav | ~-145 | ~63%* | 59.2% | +3.8 | **W** (8-3, Harrison 12 K) | Y | — |
-| 6/3 | Mariners ML (vs NYM) | ML-fav | -151 | 60% | 60.2% | −0.2 | **L** (lost 7-1) | Y | — |
-| 6/3 | Phillies ML (vs SD) | ML-fav | -215 | 64% | 68.3% | −4.3 | **W** (3-0, Sanchez 9 K) | Y | — |
-| 6/4 | Braves ML (Sale, vs TOR) | ML-fav | -205 | 67% | 64.6% | +2.4 | **L** (TOR 7-2 — bullpen game won outright) | Y | — (no odds API) |
-| 6/4 | Phillies ML (Wheeler, vs SD) | ML-fav | -198 | 65% | 63.9% | +1.1 | **W** (6-4, Wheeler 7IP/2ER/8K) | Y | — (no odds API) |
-| 6/4 | Sale Over 6.5 K (vs TOR) | K-Over | -179 | 64% | 61.5% | +2.5 | **L** (5.2 IP, 6 K — one-tier-deeper alt O5.5 would've cashed) | Y | — (no odds API) |
-| 6/5 | Mariners ML (Woo, @ DET) | ML-fav | -120 | 59% | 52.2% | **+6.8** | **L** (lost 3-7) — slate's sharpest edge, +EV bet/variance loss. Grade: **+EV (good bet)** | Y | + |
-| 6/5 | Dodgers ML (Sasaki, vs LAA) | ML-fav | -188 | 66% | 62.7% | +3.3 | **W** (won 1-0) — Tier 2 leg + bankroll. Grade: **+EV** | Y | + |
+| Date | Leg (game) | Type | Price | TrueP | ImplP | Edge | Result | Played | CLV | Bucket |
+|------|------------|------|-------|-------|-------|------|--------|--------|-----|--------|
+| 5/25 | Dodgers ML (vs COL) | ML-fav | -310 | ~72%* | 75.6% | −3.6 | **W** | Y | — | P |
+| 5/25 | Brewers ML (vs STL) | ML-fav | -220 | ~65%* | 68.8% | −3.8 | **W** | Y | — | P |
+| 5/25 | Misiorowski Over 7.5 K (vs STL) | K-Over | ~-150 | ~62%* | 60.0% | +2.0 | **W** (12 K) | Y | — | P |
+| 5/26 | Dodgers ML (vs COL) | ML-fav | -235 | 66% | 70.1% | −4.1 | **W** | Y | — | P |
+| 5/26 | Burns Over 6.5 K (vs NYM) | K-Over | -110 | 55% | 52.4% | +2.6 | **W** | Y | — | P |
+| 5/26 | Strider Over 4.5 K (vs BOS) | K-Over alt | ~-625 | 88% | 86.2% | +1.8 | **W** (exactly 5 K) | Y | — | P |
+| 5/27 | Yankees ML (vs KC) | ML-fav | -156 | ~63%* | 60.9% | +2.1 | **W** | Y | — | P |
+| 5/27 | Sanchez Over 6.5 K (vs SD) | K-Over alt | -112 | ~70%* | 52.8% | — | **W** (9 K) | Y | — | P |
+| 5/28 | Tigers ML (vs LAA) | ML-fav | -130 | 61% | 56.5% | +4.5 | **L** (lost 7-1) | Y | — | P |
+| 5/29 | Dodgers ML (vs PHI) | ML-fav | -118 | 57% | 54.1% | +2.9 | **W** | Y | — | P |
+| 5/29 | Astros ML (vs MIL) | ML-dog | +100 | 50% | 50.0% | 0.0 | **L** (lost 5-4 in 10) | Y | — | P |
+| 5/30 | Guardians ML (vs BOS) | ML-fav | -134 | ~58%* | 57.3% | +0.7 | **L** (lost 9-1) | Y | — | P |
+| 5/30 | Padres ML (@ WSH) | ML-fav | -130 | ~57%* | 56.5% | +0.5 | **L** (lost 9-4) | Y | — | P |
+| 5/31 | Brewers −1.5 RL (@ HOU) | Run line | ~+120 | ~48%* | 45.5% | +2.5 | **W** (won 2-0) | Y | — | P |
+| 5/31 | Yankees ML (@ ATH) | ML-fav | -154 | ~60%* | 60.6% | −0.6 | **W** (13-3 rout) | Y | — | P |
+| 6/1 | Mariners ML (vs NYM) | ML-fav | ~-150 | ~60% | 60.0% | 0.0 | **W** | Y | — | P |
+| 6/1 | Rays −1.5 RL (vs DET) | Run line | +118 | ~47%* | 45.9% | +1.1 | **L** (lost 10-9 outright) | Y | — | P |
+| 6/2 | Mariners ML (vs NYM) | ML-fav | ~-150 | 60% | 60.0% | 0.0 | **W** (3-2 in 10) | Y | — | P |
+| 6/2 | Brewers ML (vs SF) | ML-fav | ~-145 | ~63%* | 59.2% | +3.8 | **W** (8-3, Harrison 12 K) | Y | — | P |
+| 6/3 | Mariners ML (vs NYM) | ML-fav | -151 | 60% | 60.2% | −0.2 | **L** (lost 7-1) | Y | — | P |
+| 6/3 | Phillies ML (vs SD) | ML-fav | -215 | 64% | 68.3% | −4.3 | **W** (3-0, Sanchez 9 K) | Y | — | P |
+| 6/4 | Braves ML (Sale, vs TOR) | ML-fav | -205 | 67% | 64.6% | +2.4 | **L** (TOR 7-2 — bullpen game won outright) | Y | — (no odds API) | P |
+| 6/4 | Phillies ML (Wheeler, vs SD) | ML-fav | -198 | 65% | 63.9% | +1.1 | **W** (6-4, Wheeler 7IP/2ER/8K) | Y | — (no odds API) | P |
+| 6/4 | Sale Over 6.5 K (vs TOR) | K-Over | -179 | 64% | 61.5% | +2.5 | **L** (5.2 IP, 6 K — one-tier-deeper alt O5.5 would've cashed) | Y | — (no odds API) | S |
+| 6/5 | Mariners ML (Woo, @ DET) | ML-fav | -120 | 59% | 52.2% | **+6.8** | **L** (lost 3-7) — slate's sharpest edge, +EV bet/variance loss. Grade: **+EV (good bet)** | Y | + | P |
+| 6/5 | Dodgers ML (Sasaki, vs LAA) | ML-fav | -188 | 66% | 62.7% | +3.3 | **W** (won 1-0) — Tier 2 leg + bankroll. Grade: **+EV** | Y | + | P |
 
 ## Recommended but NOT played (calibration both ways)
 
-| Date | Leg (game) | Type | Price | TrueP | ImplP | Edge | Result | Played | CLV |
-|------|------------|------|-------|-------|-------|------|--------|--------|-----|
-| 5/27 | Sanchez Over 7.5 K (vs SD) | K-Over | +182 | ~60% | 35.5% | +24.5 | **W** (9 K) — edge call validated | N | — |
-| 6/2 | Yankees ML (Schlittler, vs CLE) | ML-fav | ~-220 | ~64%* | 68.8% | −4.8 | **L** (9-4) — declined 3rd leg, fade correct | N | — |
-| 6/3 | Dodgers ML (vs ARI) | ML-fav | -200 | 66% | 66.7% | −0.7 | **W** — Build D rec leg | N | — |
-| 6/3 | Rays ML (vs DET) | ML-fav | -144 | 57% | 59.0% | −2.0 | **L** (swept 7-2) — Build D weak leg, busted | N | — |
-| 6/3 | Sanchez K-Over (faded on 2nd-mtg) | K-Over | — | — | — | — | **would-W** (9 K) — fade missed (C2) | N | — |
-| 6/3 | Burns K-Over (faded illness+KC) | K-Over | — | — | — | — | **would-W** (9 K) — fade missed (C1) | N | — |
-| 6/4 | Brewers ML (Crow, vs SF) | ML-fav | -153 | 60% | 58.2% | +1.8 | **would-L** (SF 12-9 — declining the rookie SP was correct) | N | — |
-| 6/4 | Dodgers ML (Wrobleski LHP, @ AZ) | ML-fav | -134 | 55% | 55.1% | −0.1 | **L** (AZ 3-2) — Build C +200 3rd leg busted; ~fair price, fav-not-safe | N | — |
-| 6/5 | Mariners ML / Dodgers ML | — | — | — | — | — | **PLAYED → settled in the played-legs table above (SEA L 3-7, LAD W 1-0)** | Y | + |
-| 6/5 | Yankees ML (Weathers, vs BOS) | ML-fav | -144 | 56% | 56.7% | −0.7 | **L** (lost 5-3) — Tier 3 +200 leg flagged soft; the soft flag was right. Grade: **~fair/thin -EV (correct decline)** | N | = |
-| 6/5 | Phillies ML (Luzardo, vs CWS) | ML-fav | -188 | 62% | 64.0% | −2.0 | **W** (won 8-6) — scan-only PASS; CWS B1 dog lost. Grade: **-EV pass (would-W)** | N | — |
-| 6/5 | D-backs ML (Kelly, vs WSH) | ML-fav | -134 | 50% | 56.7% | −6.7 | **W (fade)** (AZ lost 1-14) — scan-only REJECT; Kelly 5.06 own-SP trap (D4) validated hard. Grade: **correct reject** | N | — |
+| Date | Leg (game) | Type | Price | TrueP | ImplP | Edge | Result | Played | CLV | Bucket |
+|------|------------|------|-------|-------|-------|------|--------|--------|-----|--------|
+| 5/27 | Sanchez Over 7.5 K (vs SD) | K-Over | +182 | ~60% | 35.5% | +24.5 | **W** (9 K) — edge call validated | N | — | S |
+| 6/2 | Yankees ML (Schlittler, vs CLE) | ML-fav | ~-220 | ~64%* | 68.8% | −4.8 | **L** (9-4) — declined 3rd leg, fade correct | N | — | P |
+| 6/3 | Dodgers ML (vs ARI) | ML-fav | -200 | 66% | 66.7% | −0.7 | **W** — Build D rec leg | N | — | P |
+| 6/3 | Rays ML (vs DET) | ML-fav | -144 | 57% | 59.0% | −2.0 | **L** (swept 7-2) — Build D weak leg, busted | N | — | P |
+| 6/3 | Sanchez K-Over (faded on 2nd-mtg) | K-Over | — | — | — | — | **would-W** (9 K) — fade missed (C2) | N | — | S |
+| 6/3 | Burns K-Over (faded illness+KC) | K-Over | — | — | — | — | **would-W** (9 K) — fade missed (C1) | N | — | S |
+| 6/4 | Brewers ML (Crow, vs SF) | ML-fav | -153 | 60% | 58.2% | +1.8 | **would-L** (SF 12-9 — declining the rookie SP was correct) | N | — | P |
+| 6/4 | Dodgers ML (Wrobleski LHP, @ AZ) | ML-fav | -134 | 55% | 55.1% | −0.1 | **L** (AZ 3-2) — Build C +200 3rd leg busted; ~fair price, fav-not-safe | N | — | P |
+| 6/5 | Mariners ML / Dodgers ML | — | — | — | — | — | **PLAYED → settled in the played-legs table above (SEA L 3-7, LAD W 1-0)** | Y | + | P |
+| 6/5 | Yankees ML (Weathers, vs BOS) | ML-fav | -144 | 56% | 56.7% | −0.7 | **L** (lost 5-3) — Tier 3 +200 leg flagged soft; the soft flag was right. Grade: **~fair/thin -EV (correct decline)** | N | = | P |
+| 6/5 | Phillies ML (Luzardo, vs CWS) | ML-fav | -188 | 62% | 64.0% | −2.0 | **W** (won 8-6) — scan-only PASS; CWS B1 dog lost. Grade: **-EV pass (would-W)** | N | — | S |
+| 6/5 | D-backs ML (Kelly, vs WSH) | ML-fav | -134 | 50% | 56.7% | −6.7 | **W (fade)** (AZ lost 1-14) — scan-only REJECT; Kelly 5.06 own-SP trap (D4) validated hard. Grade: **correct reject** | N | — | S |
 
 ---
 

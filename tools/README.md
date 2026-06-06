@@ -90,3 +90,45 @@ tools/calib.py [path/to/results_log.md]   # defaults to ../results_log.md
 - Calibration uses **played** legs with an explicitly-logged TrueP; `*` (reconstructed) rows are excluded,
   matching the ledger's rule. Bands are fixed 5-wide and flagged only at n≥3 (no conclusions from coin-flips).
 - ROI is summed straight from the played-ticket rollup (stake / return / P-L). Run it after each settle.
+- **STANDALONE vs PARLAY split** (section 2b): reads the `Bucket` column (S/P) and breaks out leg-level
+  record by bucket — the parlay-tax test. (Watch the gap: parlay *legs* can win ~68% individually while
+  parlay *tickets* win far less — that gap IS the tax.) Standalone leg-level ROI lives in `bankroll.md`.
+
+## `devig.sh` — no-vig implied prob + edge calculator
+
+Removes the by-hand devig arithmetic from every build (the slips `calib.py` exists to catch). Two prices
+in → no-vig probs + hold; add a TrueP% to get the Edge and the min-edge-gate verdict. One-sided props
+estimate the no-vig at raw − 2.5pp and flag it.
+
+```
+tools/devig.sh <priceA> <priceB> [TrueP%_for_A]   # tools/devig.sh -120 +100 59  → +6.8pp, clears anchor bar
+tools/devig.sh <priceA> [TrueP%_for_A]            # one-sided prop (estimated no-vig, flagged)
+```
+
+## `truep.py` — derive a pre-registered TrueP from baseline + fixed adjustments
+
+Makes the CLAUDE.md TrueP method ("derive it, don't vibe it") mechanical: anchor on the market no-vig
+prob (from `devig.sh`), apply PRE-SET written adjustments with fixed pp magnitudes, get a TrueP whose
+audit trail is the adjustment list — so calibration measures the *adjustments*, not a gut number.
+
+```
+tools/truep.py --list                                          # the adjustment registry
+tools/truep.py --base-prob 54.3 --adj ace_edge                 # named adjustments
+tools/truep.py --base-prob 56.7 --custom "-2:Gray duel caps floor"   # ad-hoc, repeatable
+```
+
+K-prop "tiers" are NOT pp — those move the alt line, not this tool (which is for ML / spread / total / TT).
+
+## `settle.py` — match a day's finals to open legs and PROPOSE settle edits
+
+Automates the error-prone settle lookup: pulls `mlb_api.sh finals <date>`, finds `results_log.md` rows
+that are still TBD for that date, maps each leg's team (by nickname) to its final, and proposes W/L for
+team-side bets (ML / run line / spread). Props / totals / K-legs → flagged **MANUAL**. **READ-ONLY** —
+prints proposals; you apply them (and `fades.md` / `bankroll.md` / the parlay file) so the audit trail
+stays deliberate.
+
+```
+tools/settle.py                 # settle yesterday
+tools/settle.py 2026-06-05      # settle a specific date
+tools/settle.py 2026-06-05 path/to/results_log.md
+```
