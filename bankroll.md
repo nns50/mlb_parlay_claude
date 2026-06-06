@@ -54,15 +54,16 @@ P(4 straight wins in an attempt) ≈ 0.60⁴ ≈ **13%** → expect ~8 attempts 
 | Attempt | Date | Roll | Balance before | Bet (leg @ book, decimal) | True% | Result | Balance after | Note |
 |---------|------|------|----------------|---------------------------|-------|--------|---------------|------|
 | 1 | 6/4 | 1 | $10.00 | ATL ML −205 (FanDuel, 1.488) | 67% | **LOSS** (TOR 7-2) | **$0.00** | bumped to 69% on TOR-bullpen-game logic — backfired (fades D5); **attempt 1 BUSTS** |
-| 2 | 6/5 | 1 | $10.00 | LAD ML −188 (FanDuel, 1.532) | 66% | **TBD** | TBD | safest qualifying fav (40-23/+133, home); price improved −200→−188 by 17:05 run (CLV+); LAA SP = Detmers (not bullpen game); not A-list fade; +3.3pp. On win → $15.32 |
+| 2 | 6/5 | 1 | $10.00 | LAD ML −188 (FanDuel, 1.532) | 66% | **WIN** (LAD 1-0) | **$15.32** | safest qualifying fav (40-23/+133, home); LAA SP = Detmers; not A-list fade; +3.3pp. **Note: the SAME Dodgers leg LOST inside the user's SEA×LAD parlay — standalone cashed, parlay didn't (parlay tax, live).** |
 
 ---
 
 ## Running totals (update on every settle)
 
-- **Current:** Attempt **2**, balance **$10.00**, **roll 1 placed 6/5 on LAD ML −188 (TBD)**. On win → $15.32.
-- **Attempts completed:** 1 · **Targets hit (4 wins):** 0 · **Busts:** 1 · **Best run:** 0 wins
-- **Total real risk (attempts × $10):** **$10.00** risked · **Total withdrawn:** $0.00
-- **Net P/L (withdrawn − deposited):** **−$10.00** (attempt 1 lost)
+- **Current:** Attempt **2**, balance **$15.32** (1 win), **roll 2 pending** — pick the next single safest
+  qualifying fav on the 6/6 board (independent, not an A-list fade) when building today.
+- **Attempts completed:** 1 · **Targets hit (4 wins):** 0 · **Busts:** 1 · **Best run:** **1 win (active, attempt 2)**
+- **Total real risk (attempts × $10):** **$20.00** risked · **Total withdrawn:** $0.00
+- **Net P/L (withdrawn − deposited):** **−$10.00** (attempt 1 lost $10; attempt 2 live at $15.32, not yet withdrawn)
 
 > Tracked like `fades.md` / `results_log.md`: any change → commit → push → PR → squash-merge.
