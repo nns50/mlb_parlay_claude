@@ -15,10 +15,12 @@
 #   • Set the API key as the env var ODDS_API_KEY (a secret — NEVER commit it). `check`
 #     verifies the key and prints remaining monthly quota.
 #
-# BUDGET (the whole game on the free tier = 500 req/mo)
+# BUDGET (paid tier = 20K req/mo; free tier = 500 req/mo)
 #   Quota cost = (#markets × #regions) per call. `slate` (h2h,totals,spreads × us) = 3 credits
 #   and returns the WHOLE board, so it is CACHED per run — every leg reads the cache, not the API.
-#   `events` is free (0). `props` is PER-EVENT and PAID-tier-ish — opt-in, it warns before spending.
+#   `events` is free (0). `props` is PER-EVENT — 1 credit per market per event (pitcher_strikeouts
+#   for a full 15-game slate ≈ 15 credits). Available on the paid tier; session_start.sh sets
+#   ODDS_MODE=rich when ≥5000 credits remain, which gates whether props are used.
 #
 # USAGE
 #   tools/odds_api.sh check                      # key + reachability + remaining quota
