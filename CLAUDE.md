@@ -29,6 +29,12 @@ CLAUDE.md is crisp **doctrine**; those files are **live data**. Burn tags below 
   finals + standings + which recent parlays are still TBD + every fade's status). `tools/calib.py`
   recomputes the calibration bands / units-ROI / by-type record / **STANDALONE-vs-PARLAY split** from
   `results_log.md` (read-only).
+- **Odds source — `tools/odds_api.sh` (The Odds API), PREFERRED over hand-entered prices.** Run `check`
+  first (needs the env var `ODDS_API_KEY` + `api.the-odds-api.com` allowlisted; activates only in a NEW
+  session, like mlb_api). OK → use it for line-shopping (`best h2h|totals|spreads` → best price + book),
+  feeding `devig.sh`, and **CLV capture** (`clv <betAmerican> <team>` on the 15:30/18:30 runs). `slate` is
+  cached per run (free-tier budget). **Player props (Ks/hits) stay HAND-PRICED** — limited/quota-heavy on
+  the free tier; the API owns ML/totals/spreads. It improves PRICE + MEASUREMENT, not win probability.
 - **Build + settle helpers (use them — don't hand-compute):**
   - `tools/devig.sh <priceA> <priceB> [TrueP%]` — no-vig probs + Edge + min-edge-gate verdict (kills the
     by-hand devig slips). One-sided prop: pass a single price (no-vig estimated, flagged).
@@ -188,7 +194,9 @@ Hard gate: may not recommend OR reject an SP leg until this is filled and shown,
 - **Line-shop every leg across ≥2-3 books; bet the BEST available number.** Taking the best of −198 vs
   −207 is ~+1pp of EV — *larger than most edges we hunt by analysis*, and free. The min-edge gate is
   computed against the BEST price found, and the chosen book is logged. Not shopping is the same as
-  conceding edge we worked to find. (Codified 6/4/26 — highest-ROI non-tooling fix.)
+  conceding edge we worked to find. (Codified 6/4/26 — highest-ROI non-tooling fix.) **Do it with
+  `tools/odds_api.sh best <market>`** when live (every US book in one cached call) → pipe into `devig.sh`;
+  fall back to manual book pulls only when `check` is BLOCKED.
 - **Heavy-mismatch matchups (fav ≥70% AND clear SP edge) blow up the alt-K + fav-ML recipe** — ML
   -350/-500, one-lower alt -800/-1300; the "deeper alt for safety" becomes a zero-payout near-lock.
   Use the STANDARD K line and substitute the -1.5 RL for the ML to recover payout. (burn 5/27 LAD/COL
@@ -326,7 +334,9 @@ rejected candidates with reasons, and a `Result` section starting TBD.
 - **CLV capture is OWNED by the near-first-pitch runs (15:30 / 18:30), not the 09:00 build.** The session
   that builds a bet dies (ephemeral container) before first pitch, so it structurally cannot capture the
   close — that's the real reason the CLV column is blank, not laziness. The 15:30/18:30 run's FIRST job is
-  to snapshot the closing line for every open leg and fill CLV. ⚠️ This depends on the cron actually firing
+  to snapshot the closing line for every open leg and fill CLV — **use `tools/odds_api.sh clv <betAmerican>
+  <team>` per open leg** (compare the printed closing no-vig to the leg's logged bet no-vig; CLV + if it
+  rose). ⚠️ This depends on the cron actually firing
   those windows — **the cron timing lives in the routine's config OUTSIDE this repo; if CLV is still empty,
   fix the cron, not just this doctrine.** (Codified 6/4/26.)
 - **One file per day, append-only.** If today's file exists, APPEND `## Run HH:MM ET — Build [A|B|C]`;
