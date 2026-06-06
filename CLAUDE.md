@@ -295,6 +295,11 @@ No qualifying play → NO BET, balance carries. Update `bankroll.md` (commit/pus
 10. **$10 rollover bankroll** (`bankroll.md`): pick the bankroll bet (single safest qualifying favorite
     on the whole board — independent of the parlay, not an A-list fade), log the roll + current balance,
     and update the ledger/running totals.
+11. **Stake capture — ask before closing the build.** When the user confirms they are playing any leg
+    or build ("I'll take this", "logging it", "playing Build A", etc.), immediately ask: **"What's the
+    stake ($)?"** Record `Stake: $X` under `## Played build` in today's parlay file. Do NOT close the
+    build without a confirmed stake — without it the ROI ledger stays fictional. (The ¼-Kelly doctrine
+    is written but unmeasured until real stakes are logged consistently.)
 
 ## Git workflow
 Always commit, push, AND merge — never just commit. Main should reflect the latest by end of turn.
@@ -336,12 +341,13 @@ rejected candidates with reasons, and a `Result` section starting TBD.
     - **~18:30 ET** — late/west-coast lineups + final line check before first pitch.
 - **CLV capture is OWNED by the near-first-pitch runs (15:30 / 18:30), not the 09:00 build.** The session
   that builds a bet dies (ephemeral container) before first pitch, so it structurally cannot capture the
-  close — that's the real reason the CLV column is blank, not laziness. The 15:30/18:30 run's FIRST job is
-  to snapshot the closing line for every open leg and fill CLV — **use `tools/odds_api.sh clv <betAmerican>
-  <team>` per open leg** (compare the printed closing no-vig to the leg's logged bet no-vig; CLV + if it
-  rose). ⚠️ This depends on the cron actually firing
-  those windows — **the cron timing lives in the routine's config OUTSIDE this repo; if CLV is still empty,
-  fix the cron, not just this doctrine.** (Codified 6/4/26.)
+  close — that's the real reason the CLV column is blank, not laziness. **`tools/clv_capture.sh` now
+  auto-runs in `session_start.sh` whenever the ET hour is 15–19**: it scans `results_log.md` for
+  Played=Y + Result=TBD + CLV=— rows and calls `odds_api.sh clv` for each ML/RL leg. Output is
+  READ-ONLY proposals — copy the +/=/-  verdict into the CLV column by hand. ⚠️ This still depends
+  on the cron actually firing at 15:30/18:30 — **the cron timing lives in the routine's config OUTSIDE
+  this repo; if CLV is still blank, fix the cron, not just this doctrine.** (Codified 6/4/26; auto-capture
+  added 6/6/26.)
 - **One file per day, append-only.** If today's file exists, APPEND `## Run HH:MM ET — Build [A|B|C]`;
   never overwrite an earlier run (each is a record of the slate at that time).
 - **Supersede, never edit-in-place.** When a later run revises an earlier recommendation (line moved,
