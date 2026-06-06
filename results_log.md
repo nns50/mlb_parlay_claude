@@ -97,8 +97,11 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 6/6 | Braves ML (Strider, vs PIT) | ML-fav | -146 | 58.1% | 57.1% | +1.0 | **SUPERSEDED → Build B** (line moved −146 → −112 pick'em; ATL no longer a floor leg). Grade: ~fair/thin | N | — | P |
 | 6/6 | Cardinals ML (Liberatore, vs CIN) | ML-fav | -126 | 54% | 53.7% | +0.3 | **SUPERSEDED → Build B** (Build A +200-chase 3rd leg dropped, D1). Grade: -EV chase | N | — | P |
 | 6/6 | Dodgers ML (Yamamoto, vs LAA) — Build B | ML-fav | -350 | 77.7% | 74.7% | +3.0 | TBD — Build B anchor (line re-pulled −350); ace-edge holds at the heavier number. Grade: **+EV (clears gate)** | N | — | P |
-| 6/6 | Yamamoto Over 7.0 K (vs LAA) | K-Over | +142 | 44.8% | 38.8% | +6.0 | TBD — Build B Tier 1 standalone + +200 leg; LAA 25% K vs RHP, recent 8/8/8/3/10. 1-sided price est. Grade: **+EV (high-variance)** | N | — | S |
-| 6/6 | TB ML (McClanahan, @ MIA) | ML-fav | -144 | 58% | 56.7% | +1.3 | TBD — Build B Tier-2 floor leg (under gate). Grade: **~fair/thin (floor only)** | N | — | P |
+| 6/6 | Yamamoto Over 7.0 K (vs LAA) | K-Over | +142 | 44.8% | 38.8% | +6.0 | **SUPERSEDED → Build C** (line moved O7.0 → O7.5; +142 no longer exists). Grade: was +EV | N | — | S |
+| 6/6 | TB ML (McClanahan, @ MIA) | ML-fav | -144 | 58% | 56.7% | +1.3 | **SUPERSEDED → Build C** (game started — status gate fails). Grade: ~fair/thin | N | — | P |
+| 6/6 | Dodgers ML (Yamamoto, vs LAA) — Build C | ML-fav | -340 | 78% | 75.7% | +2.3 | TBD — Build C anchor (line −350 → −340); +2.3pp, borderline D2 heavy anchor (payout driven by the correlated K leg). Grade: **+EV (clears gate)** | N | — | P |
+| 6/6 | Yamamoto Over 7.5 K (vs LAA) — Build C | K-Over | +115 | 48% | 45.4% | +2.6 | TBD — Build C Tier 1 standalone + +200 leg; recent 8/8/8/3/10 (4/5 cleared 8K), LAA 25% K vs RHP, first mtg. Needs 8 K (season 8+ = 4/11). Grade: **+EV (high-variance)** | N | — | S |
+| 6/6 | Yamamoto Over 6.5 K alt (vs LAA) — Build C | K-Over alt | -186 | 63% | 60.8% | +2.2 | TBD — Build C Tier-2 safer K expression (needs 7 K). Grade: **+EV thin** | N | — | P |
 
 ---
 
@@ -119,7 +122,8 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 6/3 | SEA ML + PHI ML | ~+183 | 1.00 | 0.00 | −1.00 | ❌ LOST |
 | 6/4 | PHI ML + ATL ML | +124 | 1.00 | 0.00 | −1.00 | ❌ LOST (PHI W 6-4, **ATL L 7-2** — ATL leg killed it) |
 | 6/5 | SEA ML + LAD ML | +181 | 1.00 | 0.00 | −1.00 | ❌ LOST (**SEA L 3-7** — our sharpest edge; LAD W 1-0 — the won leg) |
-| 6/6 | LAD ML −350 + Yamamoto O7.0K +142 (SGP, +corr) | +211 | — | — | — | TBD (Build B Tier 3; true comb 37.9%, EV +18% — take indep product or SGP ≥ +165) |
+| 6/6 | LAD ML −350 + Yamamoto O7.0K +142 (SGP, +corr) | +211 | — | — | — | **SUPERSEDED → Build C** (O7.0 line gone; recomputed at O7.5) |
+| 6/6 | LAD ML −340 + Yamamoto O7.5K +115 (indep/+corr) | +178 | — | — | — | TBD (Build C Tier 3; true comb 40.5%, EV +12.8% — take indep product or SGP ≥ +147) |
 
 **Record: 5 W – 7 L. Units @ flat 1u: staked 12.00, returned 15.68 → P/L +3.68u, ROI +30.7%.**
 
