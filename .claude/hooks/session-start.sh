@@ -32,8 +32,8 @@ echo ""
 HOUR=$(TZ="America/New_York" date +%H 2>/dev/null || date +%H)
 ET_TIME=$(TZ="America/New_York" date '+%H:%M %Z' 2>/dev/null || date '+%H:%M')
 
-if   (( 10#$HOUR >= 6  && 10#$HOUR < 11 )); then
-  # 09:00 ET window (fires 6–10:59 ET)
+if   (( 10#$HOUR >= 6  && 10#$HOUR < 12 )); then
+  # Morning window (fires 6–11:59 ET) — catches 09:00 and 11:00 cron slots
   BUILD="09"
   LABEL="09:00 ET — morning settle + full build"
   INSTRUCTIONS="Run the 09:00 ET daily MLB parlay routine per CLAUDE.md:
@@ -48,9 +48,9 @@ if   (( 10#$HOUR >= 6  && 10#$HOUR < 11 )); then
 9. Log all recommended legs in results_log.md with pre-registered TrueP + ImplP + Edge.
 10. Commit → push → open PR → squash-merge → git reset to main per CLAUDE.md git workflow."
 
-elif (( 10#$HOUR >= 11 && 10#$HOUR < 17 )); then
-  # 11:00 / 15:30 ET window (fires 11:00–16:59 ET)
-  # NOTE: lineups may still be PENDING before ~15:00 ET — flag them and re-check at the 17:00 run.
+elif (( 10#$HOUR >= 12 && 10#$HOUR < 17 )); then
+  # Lineup-lock window (fires 12:00–16:59 ET) — catches 16:00 cron slot
+  # Lineups typically post ~4-5pm ET for 7pm games; 16:00 catches most of them.
   BUILD="15"
   LABEL="15:30 ET — CLV capture + lineup lock + build update"
   INSTRUCTIONS="Run the 15:30 ET MLB parlay update per CLAUDE.md:
