@@ -108,7 +108,7 @@ Hard gate: may not recommend OR reject an SP leg until this is filled and shown,
 - **DON'T over-fade a genuinely elite-K ace's K-Over off ONE suppressor** (lone 2nd-meeting,
   mild-but-starting illness, one contact lineup). Raw whiff dominance routinely overrides a single
   suppressor. On one suppressor: downgrade ONE tier, LOG the Over as a live standalone candidate,
-  pull both the standard + one-lower alt prices, decide on price — do NOT stamp "HARD FADE." Stack
+  pull both the standard + one-lower alt prices via `tools/odds_api.sh props <eventId> pitcher_strikeouts` (paid tier, ~1 credit) or a book in low-quota mode, decide on price — do NOT stamp "HARD FADE." Stack
   the fade only when MULTIPLE suppressors pile up (contact lineup AND short-leash/opener AND
   tight-zone ump). (burns 6/3 Sanchez 9K, 6/3 Burns 9K, 6/2 Harrison 12K — all faded, all cashed → fades.md C6)
 - **Whenever a K-Over is faded/rejected, price the K-UNDER and log it.** Same signals (contact
@@ -177,7 +177,8 @@ Hard gate: may not recommend OR reject an SP leg until this is filled and shown,
     catches when negative correlation quietly makes a ticket -EV though the naive product looked fine.
 - **K-Over alt lines:** if the standard line is ~50/50, the one-lower alt is usually the safer parlay
   leg even at -150/-200 (reserve the +EV standard line for standalones). **But never estimate alt
-  prices** — pull the exact alt from a book; books juice the one-K-lower alt to -300/-500 on elite
+  prices** — use `tools/odds_api.sh props <eventId> pitcher_strikeouts` (paid tier, ~1 credit/event)
+  or pull from a book in low-quota mode; books juice the one-K-lower alt to -300/-500 on elite
   arms. If juicier than expected, revert to the standard line or drop the leg. (burn 5/26 Burns alt
   5.5 est -185, actual ~-400 → ticket paid +103 not +221)
 - **A surprisingly LONG price on a liquid prop is information — defer to the market.** A posted prob
@@ -279,7 +280,7 @@ No qualifying play → NO BET, balance carries. Update `bankroll.md` (commit/pus
      **The scan MUST surface ≥1 non-ML read per game** (a total or team-total at minimum — use `weather` for
      wind/temp + the SP-quality reads). **Tier 1 defaults to the sharpest edge in ANY market; an ML leg may
      anchor the build ONLY when its devigged edge is strictly larger than the best non-ML candidate** — ML
-     is no longer the reflex product. The ledger earned this: 18 of 23 played legs were ML-fav (12-6, ~as
+     is no longer the reflex product. The ledger earned this: 18 of 26 played legs were ML-fav (12-6, ~as
      priced — *efficient, thin edges*), while the single biggest edge ever logged was a K-prop (Sanchez
      O7.5K +24.5pp). We were fishing the most-efficient pond on repeat. (User-directed 6/6/26 after the
      all-ML habit became the whole approach.)

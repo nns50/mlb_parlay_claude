@@ -165,7 +165,7 @@ cmd_events() {
 
 cmd_props() {
   local eid="${1:?eventId (from `events`)}" markets="${2:?market keys e.g. pitcher_strikeouts}"
-  echo "⚠ PER-EVENT prop call — spends quota (1 credit per market). Markets: $markets" >&2
+  echo "ℹ PER-EVENT prop call — 1 credit/market (paid tier: negligible; free tier: use sparingly). Markets: $markets" >&2
   local raw; raw="$(api_get "sports/${SPORT}/events/${eid}/odds?regions=${REGIONS}&markets=${markets}&oddsFormat=american&dateFormat=iso")"
   quota_line
   echo "$raw" | jq -r '
