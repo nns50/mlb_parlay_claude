@@ -41,13 +41,14 @@ if   (( 10#$HOUR >= 6  && 10#$HOUR < 12 )); then
 2. Run tools/calib.py and apply the fresh calibration bands before building.
 3. Run tools/mlb_api.sh slate today for the full game list.
 4. Run tools/mlb_api.sh lineups today — lineups for early/day games (12pm-2pm ET first pitch) are ALREADY POSTED at 11 ET (post ~2-3h pre-game). Confirm those now; mark evening games PENDING LINEUP (re-checked at 16:00 run).
-5. Do the mandatory slate-wide value scan (ALL games — non-ML markets first per CLAUDE.md).
+5. Do the mandatory slate-wide value scan (ALL games — non-ML markets first per CLAUDE.md). If the session digest above shows ODDS_MODE=rich, also run odds_api.sh events to get event IDs, then odds_api.sh props <id> pitcher_strikeouts for K-prop leg pricing instead of hand-pricing.
 6. Fill SP-freshness blocks for every SP in the build.
 7. Build all three tiers: Tier 1 best standalone, Tier 2 highest-floor 2-leg, Tier 3 +200 build. Day-game hitter props with confirmed lineups can be fully locked; evening hitter props stay PENDING.
 8. Pick the bankroll bet (single safest qualifying fav, independent of parlay, not A-list fade).
 9. Append this run to parlays/YYYY-MM-DD.md as '## Run 11:00 ET — Build A'.
 10. Log all recommended legs in results_log.md with pre-registered TrueP + ImplP + Edge.
-11. Commit → push → open PR → squash-merge → git reset to main per CLAUDE.md git workflow."
+11. Commit → push → open PR → squash-merge → git reset to main per CLAUDE.md git workflow.
+12. Email the build summary: load mcp__Gmail__create_draft via ToolSearch (if not already loaded), then create a draft to icecold67@live.com, subject 'MLB Parlay — [today YYYY-MM-DD] Build A', body: Tier 1 standalone (leg + edge + best price), Tier 2 2-leg (legs + floor%), Tier 3 +200 (legs + combined odds), bankroll bet, any PENDING flags or key warnings. Keep body under 250 words."
 
 elif (( 10#$HOUR >= 12 && 10#$HOUR < 17 )); then
   # Lineup-lock window (fires 12:00–16:59 ET) — catches 16:00 cron slot
@@ -62,7 +63,8 @@ elif (( 10#$HOUR >= 12 && 10#$HOUR < 17 )); then
 5. If any leg or price changed materially, APPEND '## Run 15:30 ET — Build B' to today's parlay file (do NOT overwrite Build A; mark old rows SUPERSEDED).
 6. Update results_log.md with any new or revised legs per the SUPERSEDE protocol.
 7. Confirm or update the bankroll bet if lineup was PENDING at 09:00.
-8. Commit → push → open PR → squash-merge → reset per CLAUDE.md git workflow."
+8. Commit → push → open PR → squash-merge → reset per CLAUDE.md git workflow.
+9. Email the Build B update: load mcp__Gmail__create_draft via ToolSearch (if not loaded), create a draft to icecold67@live.com, subject 'MLB Parlay — [today YYYY-MM-DD] Build B update', body: CLV fills (+ or − for each open leg), lineup upgrades (PENDING→CONFIRMED or still flagged), any superseded legs, current active build. Under 200 words."
 
 else
   BUILD="18"
@@ -73,7 +75,8 @@ else
 3. Run tools/odds_api.sh best h2h today — check for late sharp line moves on active legs.
 4. If anything changed materially, APPEND '## Run 18:30 ET — Build C' to today's parlay file (mark prior build SUPERSEDED if replaced).
 5. Flag any legs to re-check at first pitch.
-6. Commit → push → open PR → squash-merge → reset per CLAUDE.md git workflow."
+6. Commit → push → open PR → squash-merge → reset per CLAUDE.md git workflow.
+7. Email the final check: load mcp__Gmail__create_draft via ToolSearch (if not loaded), create a draft to icecold67@live.com, subject 'MLB Parlay — [today YYYY-MM-DD] Final check', body: late lineup confirmations, remaining CLV fills, final active build legs with prices, any first-pitch re-check flags. Under 200 words."
 fi
 
 echo "════════════════════════════════════════════════════════"
