@@ -63,6 +63,9 @@ P(4 straight wins in an attempt) ≈ 0.60⁴ ≈ **13%** → expect ~8 attempts 
 
 - **Current:** Attempt **2**, balance **$15.32** (1 win), **roll 2 LIVE** — bet **LAD ML −182** (Yamamoto vs
   LAA), the single safest qualifying fav on the 6/6 board (+3.0pp, not A-list). Win → ~$23.73 (then roll 3).
+  - **Build B note (~11 ET):** LAD line re-pulled at **−350** (morning −182 was stale). Roll was *logged* at
+    −182 so it keeps that far-better price — no re-bet. LAD remains the only fav clearing the +2pp gate on the
+    board (MIL out on COL-TBD; ATL slid to −112; TB/NYY under gate) → roll 2 stands as-is.
 - **Attempts completed:** 1 · **Targets hit (4 wins):** 0 · **Busts:** 1 · **Best run:** **1 win (active, attempt 2)**
 - **Total real risk (attempts × $10):** **$20.00** risked · **Total withdrawn:** $0.00
 - **Net P/L (withdrawn − deposited):** **−$10.00** (attempt 1 lost $10; attempt 2 live at $15.32, not yet withdrawn)
