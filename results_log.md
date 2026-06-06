@@ -38,7 +38,7 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 2. **At/near close (HARD step — do it on the run closest to first pitch):** record the **closing price**
    and compute CLV (`+` if the line moved to our side, comparing no-vig probs). **CLV is the primary
    scoreboard — it converges far faster than ROI at this sample** — capture it even on legs we don't bet.
-   *(No odds API yet, so this is a manual book pull; if an `odds_api.sh` helper is ever added it automates.)*
+   *(`tools/odds_api.sh clv <price> "<team>"` automates this per ML leg — or run `tools/clv_capture.py` on the 15:30/18:30 run to batch-propose all open-leg CLV fills in one shot. Props / totals / K-legs remain a manual book pull.)*
 3. **On settle:** set Result (W/L/Push), flip Played=Y for legs the user actually played, and for each
    **played ticket** record **stake + return** → update the units/ROI rollup. Self-settle via
    `mlb_api.sh finals` on the 09:00 review like the parlay files. **Verify the rollups with `tools/calib.py`.**
