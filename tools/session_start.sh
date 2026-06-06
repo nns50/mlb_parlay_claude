@@ -41,10 +41,18 @@ else
   echo "  ⚠ BLOCKED — fall back to the 2-source WebSearch gate (see CLAUDE.md)."
 fi
 
-# 1b. Odds API check — line-shopping / devig / CLV source (optional; needs key + allowlist)
-hdr "1b. Odds API check (line-shop / devig / CLV — optional)"
+# 1b. Odds API check + slate cache warm (line-shop / devig / CLV — optional; needs key + allowlist)
+#     Warming the cache at session open (3 credits) means all `best`/`game`/`clv_capture`
+#     calls for the rest of the session read from cache instantly, at no additional quota cost.
+hdr "1b. Odds API check + slate cache warm (line-shop / devig / CLV)"
 if [[ -x "./tools/odds_api.sh" ]]; then
-  ./tools/odds_api.sh check 2>&1 | sed 's/^/  /' || true
+  ODDS_STATUS="$(./tools/odds_api.sh check 2>&1)"
+  echo "$ODDS_STATUS" | sed 's/^/  /'
+  if echo "$ODDS_STATUS" | grep -q "^OK"; then
+    echo "  Warming odds slate cache ($TODAY) — 3 credits, valid all session..."
+    ./tools/odds_api.sh slate "$TODAY" 2>&1 | sed 's/^/  /' || true
+    echo "  Cache warm. Use: odds_api.sh best h2h|totals|spreads / game \"<team>\" / clv_capture.py"
+  fi
 else
   echo "  (tools/odds_api.sh not present)"
 fi
