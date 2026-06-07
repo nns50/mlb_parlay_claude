@@ -63,7 +63,7 @@ case "$BUILD" in
 16|15)
   LABEL="16:00 ET — CLV capture + lineup lock + build update + user-angle execution"
   PROMPT="Run the 16:00 ET MLB parlay update per CLAUDE.md (2nd of 3 runs: 11:00 / 16:00 / 18:00 ET). This is the lineup-lock + CLV + user-angle run; it UPDATES the 11:00 Build A. Note: the early (~13:35 ET) games are already IN PROGRESS at 16:00 — mark them live-only (their Angle A live-ML is happening now). The session_start.sh digest is already in your context (injected by hook). Steps:
-1. Run tools/clv_capture.py for today — fill the CLV column in results_log.md for all open ML legs.
+1. CLV is AUTO-APPLIED by session_start.sh (clv_capture.py --apply) when the ET hour is 15-19, so today's open ML legs should already have a CLV verdict written. VERIFY the CLV column filled; if any ML row is still blank, run 'python3 tools/clv_capture.py --apply' and confirm. Then re-run tools/calib.py to reconcile. Props/RL stay manual (h2h-only feed).
 2. Run tools/mlb_api.sh lineups today — for any leg still flagged PENDING LINEUP, check if lineups are now posted and upgrade or flag accordingly.
 3. Run tools/mlb_api.sh ump today and tools/mlb_api.sh weather today — update any K-Over/Under or total legs affected by ump or weather changes.
 4. Run tools/odds_api.sh best h2h today — check for material line moves on active legs.
@@ -79,7 +79,7 @@ case "$BUILD" in
 18)
   LABEL="18:00 ET — final CLV + late lineups + line check + live-ML settle"
   PROMPT="Run the 18:00 ET final MLB parlay check per CLAUDE.md (3rd of 3 runs: 11:00 / 16:00 / 18:00 ET). This is the late/west-coast lock + final CLV + live-ML trigger settle. The session_start.sh digest is already in your context (injected by hook). Steps:
-1. Run tools/clv_capture.py for today — update CLV column for any remaining open legs.
+1. CLV auto-applied by session_start.sh (clv_capture.py --apply, ET hour 15-19). VERIFY today's open ML legs have a CLV verdict; run 'python3 tools/clv_capture.py --apply' for any still-blank late/west-coast legs now that their close is set. Re-run tools/calib.py to reconcile.
 2. Run tools/mlb_api.sh lineups today — confirm late/west-coast game lineups; upgrade any remaining PENDING legs to CONFIRMED or flag them.
 3. Run tools/odds_api.sh best h2h today — check for any late sharp line moves.
 3b. USER-ANGLE EXECUTION (results_log.md -> 'User-angle tracking' — directional-only, N<20): finish any Angle B (opposing-SP hits-allowed Over) line pulls for late/west-coast games (props <eventId> pitcher_hits_allowed + pitcher_outs, devig); for live games already underway, settle any Angle A live-ML triggers that fired and record the live price taken vs the pregame ref (the 'live CLV'). Update both Angle tables.

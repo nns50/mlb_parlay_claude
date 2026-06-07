@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 # tools/clv_capture.sh — snapshot closing ML lines for open TBD legs in results_log.md.
 #
+# ⚠ DEPRECATED (6/7/26) — SUPERSEDED BY tools/clv_capture.py --apply.
+#   This script gated on Played=Y, but every cron-RECOMMENDED leg is Played=N, so it
+#   captured nothing → the CLV column stayed permanently blank. session_start.sh now
+#   auto-runs `clv_capture.py --apply` instead (captures bet-OR-recommended, writes the
+#   verdict in-place). Kept only for manual/back-compat use; the Played=Y gate below is
+#   relaxed to match. Prefer the .py.
+#
 # READ-ONLY — prints CLV proposals; apply the +/=/-  verdict to the CLV column by hand.
-# Designed for 15:30 / 18:30 ET near-first-pitch runs.
-# Auto-called from session_start.sh when the ET hour is 15–19.
+# Designed for the 16:00 / 18:00 ET near-first-pitch runs.
 #
 # WHAT IT DOES
 #   Scans results_log.md for rows matching ALL of:
@@ -58,9 +64,9 @@ while IFS= read -r line; do
   [[ -z "$rdate" || "$rdate" == "Date" ]] && continue
   [[ "$rdate" =~ ^[0-9] ]] || continue
 
-  # Gate: today, Played=Y, CLV blank/dash/em-dash, Result contains TBD
+  # Gate: today, CLV blank/dash/em-dash, Result contains TBD (Played=Y gate removed 6/7/26 —
+  # CLV is captured bet-OR-recommended per doctrine; recommended legs are Played=N).
   [[ "$rdate"   == "$TARGET_SHORT" ]]                          || continue
-  [[ "$rplayed" == "Y" ]]                                      || continue
   [[ "$rclv"    == "—" || "$rclv" == "-" || -z "$rclv" ]]     || continue
   [[ "$rresult" =~ TBD ]]                                      || continue
 

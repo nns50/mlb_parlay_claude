@@ -178,20 +178,23 @@ else
   [[ "$LIVE" != "1" ]] && echo "  (StatsAPI blocked)" || echo "  (fades.md not found)"
 fi
 
-# 6. CLV capture — auto-run in the near-first-pitch window (15:00–19:59 ET).
-#    Finds results_log.md rows with Played=Y + Result=TBD + CLV=— for today, then
-#    runs odds_api.sh clv for each ML/RL leg. Output is READ-ONLY proposals.
+# 6. CLV capture — auto-run + AUTO-APPLY in the near-first-pitch window (15:00–19:59 ET).
+#    Uses clv_capture.py (captures bet-OR-recommended legs, NO Played=Y gate) with --apply,
+#    so the CLV column fills automatically on the 16:00/18:00 runs — no manual copy step.
+#    Idempotent: filled rows are skipped, so re-running spends no extra quota. Props/RL stay
+#    manual (h2h-only feed). (Was clv_capture.sh w/ a Played=Y gate that captured nothing —
+#    every recommended leg is Played=N — which is why CLV stayed blank. Fixed 6/7/26.)
 ET_HOUR="$(TZ=America/New_York date +%-H 2>/dev/null || \
            TZ=America/New_York date +%H | sed 's/^0*//')"
 if (( ET_HOUR >= 15 && ET_HOUR <= 19 )); then
   ET_TIME="$(TZ=America/New_York date +%H:%M 2>/dev/null || date +%H:%M)"
-  hdr "6. CLV capture — near-FP window detected (${ET_TIME} ET)"
-  if [[ -x "./tools/clv_capture.sh" && -n "${ODDS_API_KEY:-}" ]]; then
-    bash "./tools/clv_capture.sh" "$TODAY" 2>/dev/null
+  hdr "6. CLV capture + auto-apply — near-FP window detected (${ET_TIME} ET)"
+  if [[ -f "./tools/clv_capture.py" && -n "${ODDS_API_KEY:-}" ]]; then
+    python3 "./tools/clv_capture.py" --apply "$TODAY" 2>/dev/null
   elif [[ -z "${ODDS_API_KEY:-}" ]]; then
     echo "  SKIP: ODDS_API_KEY not set — CLV capture requires the Odds API."
   else
-    echo "  SKIP: tools/clv_capture.sh not found or not executable."
+    echo "  SKIP: tools/clv_capture.py not found."
   fi
 fi
 
