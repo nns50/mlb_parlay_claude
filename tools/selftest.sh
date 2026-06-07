@@ -158,6 +158,15 @@ if eval "$(awk '/^filter_date\(\) \{/{p=1} p{print} p&&/^\}/{exit}' tools/odds_a
   eq "next-day afternoon game excluded from 6/7"            "0" "$(echo "$nxt"  | filter_date 2026-06-07 | jq 'length')"
 else no "extract filter_date from odds_api.sh"; fi
 
+# ── 13b. odds_api quota command + cron reports credits each run (offline) ────
+echo "13b. odds credits reporting"
+OA="$(cat tools/odds_api.sh)"
+has "odds_api.sh has a 'quota' subcommand" "quota)   cmd_quota" "$OA"
+has "odds_api.sh quota uses the FREE /sports endpoint" "FREE: the /sports" "$OA"
+CRED_N="$(grep -c 'Odds API credits remaining' tools/cron_build.sh)"
+[[ "${CRED_N:-0}" -ge 3 ]] && ok "all 3 builds report Odds API credits ($CRED_N mentions)" \
+  || no "all 3 builds report Odds API credits" "only $CRED_N mentions (expect >=3)"
+
 # ── 14. ONLINE (free StatsAPI only): resolver collision regression ───────────
 if [[ $QUICK -eq 0 ]]; then
   echo "14. mlb_api resolver (live StatsAPI — free, no odds quota)"
