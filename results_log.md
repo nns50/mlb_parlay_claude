@@ -199,8 +199,11 @@ Capture: pregame ML vs the live price taken (the "live CLV"), the game state at 
 | Date | Game | Live price | Entry state | Pregame ML (ref) | Result | Live-CLV |
 |------|------|-----------|-------------|------------------|--------|----------|
 | 6/6 | TOR ML (vs BAL) | -191 | led early | ~-132 (open) | **W** (TOR 6-4) | took worse # for safety — live tax, but cashed |
+| 6/7 | LAD (vs LAA, Sheehan/Soriano) | WATCH | re-entry IF trails early | pull at game time | TBD | candidate #1 — strong team, moderate fav; trail early → overshoot |
+| 6/7 | NYY (vs BOS, Suarez LHP) | WATCH | re-entry IF trails early | -160 (open) | TBD | candidate #2 — Suarez tough; early NYY deficit = live value |
+| 6/7 | ATL (vs PIT, rookie Chandler) | WATCH | re-entry IF trails early | -139 (open) | TBD | candidate #3 — if ATL trails the rookie early |
 
-**Angle A record: 1-0.** Watch: live-ML usually means PAYING UP for a lead already in (the −132→−191
+**Angle A record: 1-0** (6/7 = 3 pre-game WATCH candidates, value-re-entry type — execute in-game only). Watch: live-ML usually means PAYING UP for a lead already in (the −132→−191
 move is the "live tax"). The edge case worth proving is the OPPOSITE — a value re-entry when a good team
 falls behind early and the live price overshoots. Flag which type each entry is.
 
@@ -211,7 +214,10 @@ opposing lineup contact quality, result (hits allowed).
 | Date | SP (vs team) | Line | Opp contact read | Result | Hits |
 |------|-------------|------|------------------|--------|------|
 | 6/6 | Kochanowicz O5.5 (vs LAD) | (SGP) | LAD elite offense, K had 6.94 ERA into start | **W** | 6+ (pulled 0.1 IP/6 ER) |
+| 6/7 | Freeland (COL LHP, vs MIL @ Coors) | WATCH — pull line | 8.06 ERA/1.71 WHIP, Coors; MIL 21% K but only .226 vs LHP | TBD | candidate #1 — park+profile cleanest; .226-vs-LHP caveat; low hook risk (eats IP) |
+| 6/7 | Chandler (PIT RHP, @ ATL) | WATCH — pull line | 5.05 ERA/1.53 WHIP rookie; ATL .263/20%K vs RHP (contact) | TBD | candidate #2 — great matchup BUT rookie hook/start-length left tail |
+| 6/7 | Flaherty (DET RHP, vs SEA) | WATCH — pull line | 5.31 ERA/1.60 WHIP but 10.92 K/9; SEA .247/22% | TBD | candidate #3 — high K/9 converts hits→Ks, weakest |
 
-**Angle B record: 1-0.** Watch: (a) hits-allowed correlates with IP — a quick hook (few outs) can CAP
+**Angle B record: 1-0** (6/7 = 3 WATCH candidates; pull the real line + devig near first pitch — Gilbert/PHI passed: opener/start-length unknown). Watch: (a) hits-allowed correlates with IP — a quick hook (few outs) can CAP
 hits even in a blowup, so it has the same left-tail start-length risk as K-Overs; (b) books shade these
 up on public "blowup" narratives. Pull the real number, devig, and treat like a K-Over alt decision.
