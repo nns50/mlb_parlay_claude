@@ -449,6 +449,11 @@ the outcome shows the analysis was wrong (calibration both ways).
 ### Session-start review
 0. **Run `tools/session_start.sh`** — one shot for steps 1-3's mechanical part (check + yesterday
    finals + standings + which recent parlays are TBD + every fade's status). Then do the judgment below.
+   - **Section 0 is the tooling self-test (`tools/selftest.sh`).** If the digest shows
+     **`⛔ SELFTEST FAILED`**, a tool is silently broken — STOP. Do not build, settle, or trust any
+     tool output until it's fixed; run `tools/selftest.sh` for the failing assertion and repair it
+     first. A green `✓ ALL N CHECKS PASSED` is the precondition for trusting the rest of the run.
+     (Added 6/7/26 — the guard against the silent-bug class the full audit uncovered.)
 1. **Run `./tools/mlb_api.sh check`.** OK → prefer it (game-status / finals / SP-freshness) all
    session, tell the user it's live. BLOCKED → WebSearch gate. (session_start.sh runs this for you.)
 2. Scan the 3 most-recent `parlays/*.md` for results + lessons; read `fades.md` + `results_log.md`.
