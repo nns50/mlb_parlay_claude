@@ -183,3 +183,35 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
   Early hint from the data: **played K-Overs are 5-for-6** (first loss Sale 6/4, where the deeper alt
   would've cashed), while the **60-64 ML-fav band is 50%** (overbet). The 3-tier output exists to surface
   the K-Over standalone as the real product, not just the +200 parlay.
+
+---
+
+## User-angle tracking (started 6/7/26 — user request)
+Two angles the user gravitates to that aren't surfaced by the standard build. **Tracking dimension only**
+— these rows ALSO live in the main "Played legs" table (tagged `*` until pre-registered); this section is
+the per-angle scoreboard. Each run: when one of these appears on the board, note it here even if not bet,
+and log W/L on settle. **Both are noise until N≥20-30 — directional only, do NOT size off them yet.**
+
+### Angle A — LIVE moneyline (in-game ML, taken after first pitch)
+The 6/6 TOR leg was a live-ML (−191, taken once TOR led). Thesis to test: does taking a fav's ML LIVE
+(better price after an early lead, or a value re-entry on an early deficit) beat the pregame number?
+Capture: pregame ML vs the live price taken (the "live CLV"), the game state at entry, result.
+| Date | Game | Live price | Entry state | Pregame ML (ref) | Result | Live-CLV |
+|------|------|-----------|-------------|------------------|--------|----------|
+| 6/6 | TOR ML (vs BAL) | -191 | led early | ~-132 (open) | **W** (TOR 6-4) | took worse # for safety — live tax, but cashed |
+
+**Angle A record: 1-0.** Watch: live-ML usually means PAYING UP for a lead already in (the −132→−191
+move is the "live tax"). The edge case worth proving is the OPPOSITE — a value re-entry when a good team
+falls behind early and the live price overshoots. Flag which type each entry is.
+
+### Angle B — opposing-SP hits-allowed OVER (fade-the-bad-matchup hits prop)
+The 6/6 Kochanowicz O5.5 hits cleared when he was shelled (0.1 IP / 6 ER). Thesis: a hits-allowed Over on
+a vulnerable SP vs a strong contact offense is a softer market than the K-props/ML. Capture: SP, line,
+opposing lineup contact quality, result (hits allowed).
+| Date | SP (vs team) | Line | Opp contact read | Result | Hits |
+|------|-------------|------|------------------|--------|------|
+| 6/6 | Kochanowicz O5.5 (vs LAD) | (SGP) | LAD elite offense, K had 6.94 ERA into start | **W** | 6+ (pulled 0.1 IP/6 ER) |
+
+**Angle B record: 1-0.** Watch: (a) hits-allowed correlates with IP — a quick hook (few outs) can CAP
+hits even in a blowup, so it has the same left-tail start-length risk as K-Overs; (b) books shade these
+up on public "blowup" narratives. Pull the real number, devig, and treat like a K-Over alt decision.

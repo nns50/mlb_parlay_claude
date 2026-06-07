@@ -399,6 +399,12 @@ the outcome shows the analysis was wrong (calibration both ways).
 - **Log the WHOLE value scan, not just bets.** Every value candidate the slate scan surfaces gets a row
   (TrueP + no-vig ImplP + closing line later), bet or not. This 4-5×'s the calibration sample for free and
   is the only way claims like "the 56-61% band is overbet" graduate past the n=5 story stage. (Codified 6/4/26.)
+- **User-angle tracking — feed the two buckets every run** (`results_log.md` → "User-angle tracking",
+  started 6/7/26): **(A) live moneyline** (in-game ML — capture pregame ML vs the live price = "live CLV",
+  and flag pay-up-for-a-lead vs value-re-entry-on-deficit), and **(B) opposing-SP hits-allowed Over** (a
+  vulnerable SP vs a contact lineup — treat its left-tail start-length/quick-hook risk like a K-Over alt,
+  pull the real number + devig). When either appears on the board, log a row even if not bet; W/L on settle.
+  **Both are N<20 → directional only, do NOT size off them yet.** (User-requested 6/7/26.)
 - **ImplP is NO-VIG — devig before computing Edge.** Take BOTH sides' raw implied probs, divide each by
   their sum (the overround); that's the no-vig prob. **Edge = TrueP − no-vig ImplP.** Measuring against the
   raw price distorts edge (overstates favorites — e.g. -310 reads 75.6% raw but ~73% no-vig). One-sided prop
