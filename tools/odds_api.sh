@@ -29,7 +29,9 @@
 #   tools/odds_api.sh best    <h2h|totals|spreads> [date]   # best line per game per side (from cache)
 #   tools/odds_api.sh game    "<team>" [date]    # full book-by-book board for one game
 #   tools/odds_api.sh events  [date]             # list event IDs (free; needed for props)
-#   tools/odds_api.sh props   <eventId> <market[,market]>   # PER-EVENT player props (spends quota!)
+#   tools/odds_api.sh props   <eventId> <market[,market] | all | core>  # player props (1 credit/market!)
+#       'all'  = full curated MLB prop universe (~14 credits/event)
+#       'core' = high-value diversify subset (HR/TB/HRR/RBI + K/hits-allowed/ER, ~7 credits/event)
 #   tools/odds_api.sh clv     <betAmerican> "<team>" [date] # closing no-vig vs your bet price (ML)
 #   tools/odds_api.sh raw     "<path-and-query>"            # raw passthrough (apiKey auto-appended)
 #
@@ -41,6 +43,11 @@ BASE="https://api.the-odds-api.com/v4"
 SPORT="baseball_mlb"
 REGIONS="us"
 TIMEOUT=25
+# Curated MLB player-prop universe (verified live via discovery 6/7/26). Cost = 1 credit per
+# market per event, so `all` ≈ 14/event and a full-slate sweep is heavy — gate it (see CLAUDE.md:
+# the prop value sweep is the 16:00 run only). `core` = the softer, higher-value diversify targets.
+PROPS_ALL="batter_home_runs,batter_total_bases,batter_hits,batter_rbis,batter_runs_scored,batter_hits_runs_rbis,batter_singles,batter_doubles,batter_walks,batter_stolen_bases,pitcher_strikeouts,pitcher_hits_allowed,pitcher_earned_runs,pitcher_outs"
+PROPS_CORE="batter_home_runs,batter_total_bases,batter_hits_runs_rbis,batter_rbis,pitcher_strikeouts,pitcher_hits_allowed,pitcher_earned_runs"
 # ET UTC offset, auto-derived (−4 EDT / −5 EST) so the slate-date math is correct year-round.
 _etz="$(TZ=America/New_York date +%z 2>/dev/null || echo -0400)"   # e.g. -0400 / -0500
 ET_OFFSET=$(( 10#${_etz:1:2} )); [[ "${_etz:0:1}" == "-" ]] && ET_OFFSET=$(( -ET_OFFSET ))
@@ -176,8 +183,14 @@ cmd_events() {
 }
 
 cmd_props() {
-  local eid="${1:?eventId (from `events`)}" markets="${2:?market keys e.g. pitcher_strikeouts}"
-  echo "ℹ PER-EVENT prop call — 1 credit/market (paid tier: negligible; free tier: use sparingly). Markets: $markets" >&2
+  local eid="${1:?eventId (from `events`)}" markets="${2:?market keys, or 'all' / 'core'}"
+  # Keyword expansion: 'all' = full curated universe (~14 credits/event), 'core' = high-value subset.
+  case "$markets" in
+    all)  markets="$PROPS_ALL" ;;
+    core) markets="$PROPS_CORE" ;;
+  esac
+  local ncred; ncred=$(( $(tr ',' '\n' <<<"$markets" | grep -c .) ))
+  echo "ℹ PER-EVENT prop call — 1 credit/market = ~${ncred} credits this call. Markets: $markets" >&2
   local raw; raw="$(api_get "sports/${SPORT}/events/${eid}/odds?regions=${REGIONS}&markets=${markets}&oddsFormat=american&dateFormat=iso")"
   quota_line
   echo "$raw" | jq -r '
