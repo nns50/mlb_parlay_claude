@@ -23,7 +23,7 @@ set -uo pipefail
 cd "$(dirname "$0")/.." || exit 1
 
 API="./tools/mlb_api.sh"
-TODAY="${1:-$(date +%F)}"
+TODAY="${1:-$(TZ=America/New_York date +%F)}"   # ET, not the UTC container clock
 # yesterday relative to TODAY (GNU date)
 YESTERDAY="$(date -d "$TODAY - 1 day" +%F 2>/dev/null || date -v-1d -j -f %F "$TODAY" +%F 2>/dev/null || echo "")"
 
@@ -33,6 +33,17 @@ hdr()  { echo; rule; echo " $*"; rule; }
 echo "════════════════════════════════════════════════════════"
 echo "  SESSION-START DIGEST   today=$TODAY  yesterday=$YESTERDAY"
 echo "════════════════════════════════════════════════════════"
+
+# 0. Tooling self-test (offline, ~2s, no quota) — catches a silently-broken tool BEFORE the
+#    routine trusts it. Quiet on pass; LOUD on any failure. (Added 6/7/26 after the audit.)
+hdr "0. Tooling self-test (tools/selftest.sh --quick)"
+if ST_OUT="$(bash tools/selftest.sh --quick 2>&1)"; then
+  echo "  ✓ $(printf '%s' "$ST_OUT" | grep -oE 'ALL [0-9]+ CHECKS PASSED' || echo 'all checks passed')"
+else
+  echo "  ⛔ SELFTEST FAILED — a tool is broken; do NOT trust build output until fixed:"
+  printf '%s\n' "$ST_OUT" | grep -E '✗|FAILED' | sed 's/^/     /'
+  echo "     → run 'tools/selftest.sh' for full detail."
+fi
 
 # 1. StatsAPI reachability — sets whether the live gates are available this session
 hdr "1. StatsAPI check (game-status / finals / SP / fades source)"
