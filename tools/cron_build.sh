@@ -63,6 +63,9 @@ case "$BUILD" in
 2. Run tools/mlb_api.sh lineups today — for any leg still flagged PENDING LINEUP, check if lineups are now posted and upgrade or flag accordingly.
 3. Run tools/mlb_api.sh ump today and tools/mlb_api.sh weather today — update any K-Over/Under or total legs affected by ump or weather changes.
 4. Run tools/odds_api.sh best h2h today — check for material line moves on active legs.
+4b. USER-ANGLE EXECUTION (results_log.md -> 'User-angle tracking' — directional-only, N<20, do NOT size off them):
+   - Angle B (opposing-SP hits-allowed Over): for each WATCH candidate run tools/odds_api.sh events today for the eventId, then tools/odds_api.sh props <eventId> pitcher_hits_allowed (fall back to a manual book pull if the market is unsupported on tier). Devig with tools/devig.sh. Also pull props <eventId> pitcher_outs to gauge the quick-hook / start-length left tail. Log the real line + devigged edge into the Angle B table; flag hook risk.
+   - Angle A (live-ML re-entry): for each WATCH candidate confirm the pregame ref ML (tools/odds_api.sh best h2h) and record the in-game TRIGGER (strong team trails early -> live price overshoots). Live-ML is placed in-game ONLY, so note the trigger + ref price; do not 'lock' it pre-game.
 5. If any leg or price changed materially since the 09:00 build, APPEND a new '## Run 15:30 ET — Build B' section to today's parlays/YYYY-MM-DD.md (do NOT overwrite Build A — mark old legs SUPERSEDED if replaced).
 6. Update results_log.md with new or revised legs per the SUPERSEDE protocol.
 7. Confirm or update the bankroll bet if lineup was PENDING at 09:00.
@@ -75,6 +78,7 @@ case "$BUILD" in
 1. Run tools/clv_capture.py for today — update CLV column for any remaining open legs.
 2. Run tools/mlb_api.sh lineups today — confirm late/west-coast game lineups; upgrade any remaining PENDING legs to CONFIRMED or flag them.
 3. Run tools/odds_api.sh best h2h today — check for any late sharp line moves.
+3b. USER-ANGLE EXECUTION (results_log.md -> 'User-angle tracking' — directional-only, N<20): finish any Angle B (opposing-SP hits-allowed Over) line pulls for late/west-coast games (props <eventId> pitcher_hits_allowed + pitcher_outs, devig); for live games already underway, settle any Angle A live-ML triggers that fired and record the live price taken vs the pregame ref (the 'live CLV'). Update both Angle tables.
 4. If anything materially changed since the last build, APPEND '## Run 18:30 ET — Build C' to today's parlay file (mark prior build SUPERSEDED if replaced).
 5. Flag any legs the user should manually re-check at first pitch.
 6. Commit → push → open PR → squash-merge → reset per CLAUDE.md git workflow."
