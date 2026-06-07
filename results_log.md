@@ -93,10 +93,10 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 6/5 | Yankees ML (Weathers, vs BOS) | ML-fav | -144 | 56% | 56.7% | −0.7 | **L** (lost 5-3) — Tier 3 +200 leg flagged soft; the soft flag was right. Grade: **~fair/thin -EV (correct decline)** | N | = | P |
 | 6/5 | Phillies ML (Luzardo, vs CWS) | ML-fav | -188 | 62% | 64.0% | −2.0 | **W** (won 8-6) — scan-only PASS; CWS B1 dog lost. Grade: **-EV pass (would-W)** | N | — | S |
 | 6/5 | D-backs ML (Kelly, vs WSH) | ML-fav | -134 | 50% | 56.7% | −6.7 | **W (fade)** (AZ lost 1-14) — scan-only REJECT; Kelly 5.06 own-SP trap (D4) validated hard. Grade: **correct reject** | N | — | S |
-| 6/7 | deGrom (TEX) ML (vs CLE) | ML-fav | -140 | 60.1% | 57.1% | +3.0 | TBD (live: TEX 7-0 top 5th) — Build A Tier 1 standalone + bankroll roll 3; ace edge (3.48/10.86 K9). Grade: **+EV (clears gate)** | N | + (live, line ran to −10000) | S |
-| 6/7 | Braves ML (Elder, vs PIT) | ML-fav | -145 | 60% | 57.9% | +2.1 | TBD — Build A Tier 2/3 partner; elite team + Elder 2.63, D5 caution applied. Grade: **+EV (thin)** | N | + 85%cl | P |
+| 6/7 | deGrom (TEX) ML (vs CLE) | ML-fav | -140 | 60.1% | 57.1% | +3.0 | **W** (TEX 10-0, deGrom dealt) — Build A Tier 1 standalone + bankroll roll 3; ace edge (3.48/10.86 K9). Grade: **+EV (clears gate)** | N | + (live, line ran to −10000) | S |
+| 6/7 | Braves ML (Elder, vs PIT) | ML-fav | -145 | 60% | 57.9% | +2.1 | **W** (ATL 3-2 PIT) — Build A Tier 2/3 partner; elite team + Elder 2.63, D5 caution applied. Grade: **+EV (thin)** | N | + 85%cl | P |
 | 6/7 | LAD ML (Sheehan, vs LAA) | ML-fav | -210 | 63% | 66.3% | −3.3 | TBD — scan REJECT (faces ace Soriano 2.72 w/ only Sheehan 4.50; offense-driven heavy price). Grade: **correct reject (−EV)** | N | + 85%cl | P |
-| 6/7 | PHI ML (Nola, vs CWS) | ML-fav | -161 | 53% | 61.5% | −8.5 | TBD — scan REJECT; Nola 5.55 own-SP trap (D4) + CWS B1 dog. Grade: **correct reject** | N | + 85%cl | S |
+| 6/7 | PHI ML (Nola, vs CWS) | ML-fav | -161 | 53% | 61.5% | −8.5 | **W** (PHI 9-5 — would-W; D4 trap fav won this time, fades.md D4 → 3-1) — scan REJECT; Nola 5.55 own-SP trap (D4) + CWS B1 dog. Grade: **correct reject (−EV process); outcome won** | N | + 85%cl | S |
 | 6/6 | Dodgers ML (Yamamoto, vs LAA) | ML-fav | -182 | 64.7% | 61.7% | +3.0 | **W** (LAD 9-2) — Build A Tier 1 + bankroll roll 2 (logged @ −182). Grade: **+EV (clears gate)** | N | — | S |
 | 6/6 | Braves ML (Strider, vs PIT) | ML-fav | -146 | 58.1% | 57.1% | +1.0 | **SUPERSEDED → Build B** (line moved −146 → −112 pick'em; ATL no longer a floor leg). Grade: ~fair/thin | N | — | P |
 | 6/6 | Cardinals ML (Liberatore, vs CIN) | ML-fav | -126 | 54% | 53.7% | +0.3 | **SUPERSEDED → Build B** (Build A +200-chase 3rd leg dropped, D1). Grade: -EV chase | N | — | P |
@@ -137,9 +137,9 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 6/6 | LAD ML −340 + Yamamoto O7.5K +115 (indep/+corr) | +178 | — | — | **L** (Yamamoto 4 K — K leg busted; LAD won) — Build C/D Tier 3 +200 build |
 | 6/6 | **USER** TOR live ML −191 + CLE ML +101 | +206 | $10 | $30.62 | **+$20.62** | ✅ WON (both ML hit; user's own ticket, not a build) |
 | 6/6 | **USER** CLE −5.5 RL + (LAD −1.5 RL + Kochanowicz O5.5 hits SGP) | +289 | $30 | $116.76 | **+$86.76** | ✅ WON all 3 (CLE −5.5, Kocha O5.5 hits, LAD −1.5 final 9-2 by 7). RIDE call correct. |
-| 6/7 | deGrom TEX −140 + ATL −145 (indep, 2 games) | +190 | — | — | — | TBD (Build A Tier 2/3; true comb 36.1%, EV +4.4% — +EV two-favorite, the high-chance +200-area answer) |
+| 6/7 | deGrom TEX −140 + ATL −145 (indep, 2 games) | +190 | 1.00 | 2.90 | +1.90 | ✅ WON (Build A Tier 2/3; TEX 10-0 + ATL 3-2 — both legs cashed; true comb 36.1%, EV +4.4% — the high-chance +200-area answer hit) |
 
-**Record: 5 W – 7 L (recommended builds). Units @ flat 1u: staked 12.00, returned 15.68 → P/L +3.68u, ROI +30.7%.**
+**Record: 6 W – 7 L (recommended builds). Units @ flat 1u: staked 13.00, returned 18.58 → P/L +5.58u, ROI +42.9%.** (6/7 deGrom×ATL +190 WON — both legs.)
 **User's own 6/6 tickets (logged separately, not from a build): Ticket 1 ✅ +$20.62; Ticket 2 2/3 locked, LAD −1.5 live (eff. W).**
 
 > **6/5 is the parlay tax, on the board:** the LAD leg cashed standalone (bankroll won) but the SEA×LAD

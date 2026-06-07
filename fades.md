@@ -42,7 +42,7 @@ Do not lay a price on these as favorites. Re-verify last-15 form each session.
 | ID | Team | Reason | Added | Last val | Fade log (most-recent first) | Status |
 |----|------|--------|-------|----------|------------------------------|--------|
 | A1 | **Cubs** | **Still cold: L15 5-10 (.333), −24 run diff (6/7).** | 5/25/26 | **6/7/26** | **L (6/6: beat SF 3-2 as home fav — fade missed)** · W (6/5: −158 fav, crushed 3-18 by SF) · L (6/4: beat ATH 7-6) · W (6/4: L15 3-12) | **ACTIVE** — fade-as-fav holds (L15 .333, −24); one close win 6/6 within variance |
-| A3 | **Tigers** | L15 6-9, −4 (6/7); 5/28 -130 anchor blown out 7-1 | 5/28/26 | **6/7/26** | **W (6/6: lost 0-4 to SEA, shut out)** · L (6/3 swept TB, won 7-2 as DOG) · W (5/29) · W (5/28) | **ACTIVE-as-fav but ⚠️ HEATING** — do NOT lay runs against them as a dog (see corollary) |
+| A3 | **Tigers** | L15 7-8, −1 (6/7); 5/28 -130 anchor blown out 7-1 | 5/28/26 | **6/7/26** | **L (6/7: beat SEA 5-4 as ~pick'em fav — fade missed; DET took 2 of 3 from hot SEA)** · W (6/6: lost 0-4 to SEA, shut out) · L (6/3 swept TB, won 7-2 as DOG) · W (5/29) · W (5/28) | **NEUTRAL-LEANING — ⚠️ HEATING** (L15 7-8/−1, won the SEA series) — fade-as-fav now 2-2 recent; do NOT lay runs against them as a dog (corollary) |
 
 > **Corollary (added 6/3/26):** "Fade as FAVORITE" ≠ "safe to bet AGAINST." A fade-list team can
 > win outright as a live dog (Tigers swept TB 6/3; TB −1.5 vs DET-class burned 6/1). Never lay a
@@ -55,7 +55,7 @@ standalone, not parlay-floor legs.
 
 | ID | Team | Reason | Added | Last val | Value log | Status |
 |----|------|--------|-------|----------|-----------|--------|
-| B1 | **White Sox** | 34-30; **L15 9-6 (.600), +24 run diff (6/7)** — genuinely good, market still soft | 5/28/26 | **6/7/26** | **W (6/6: won 6-3 @ PHI as dog)** · L (6/5: lost 6-8 @ PHI) · W (6/4: L15 9-6/.600) · W (5/28) | **ACTIVE** — dog value reaffirmed (won as dog 6/6) |
+| B1 | **White Sox** | 34-32; L15 8-7, +15 run diff (6/7) — cooling slightly, lost the PHI series finale | 5/28/26 | **6/7/26** | **L (6/7: lost 5-9 @ PHI as dog — dog value missed)** · W (6/6: won 6-3 @ PHI as dog) · L (6/5: lost 6-8 @ PHI) · W (6/4: L15 9-6/.600) | **NEUTRAL** — dog value cooled (L15 8-7/+15, 1-2 finish @ PHI); downgrade from ACTIVE |
 | B2 | **Pirates** | **COOLING: L15 8-7, +5 run diff, L2 (6/7)** — the re-heat faded; lost both @ ATL | 5/26/26 | **6/7/26** | **L (6/6: lost 3-6 @ ATL as dog)** · L (6/5: lost 3-6 @ ATL) · W (6/4: won 5-1 @ HOU) · W-reheat (6/4) | **NEUTRAL** — dog value cooled (L2 @ ATL, L15 only 8-7/+5); downgrade from ACTIVE |
 | B3 | **Twins** | Still cold — **L10 3-7, −24 run diff (6/4)**; offense quiet, pen ok | 5/28/26 | **6/4/26** | L (6/4: L10 3-7) · L (5/28 lost 6-2) | **NEUTRAL (soft-matchup only)** |
 | B4 | **Tigers** | NEW 6/3: heating as a dog — swept TB, beat elite Martínez. Watch for dog-value flip | 6/3/26 | 6/3/26 | W (6/3 won 7-2 as +122 dog) | **WATCH (emerging dog value)** |
@@ -83,7 +83,7 @@ Recipes to avoid when building.
 | D1 | **The +200-chase 3rd leg** (bolting a leg onto a clean 2-legger to stamp +200) | Drops floor ~15-18pp; the chase leg keeps busting | 5/30/26 | 6/3/26 | **W (6/3 TB chase leg busts, LAD+PHI cashes)** · W (6/2 declining the +270 saved us) · W (6/1 chase cost us) | **ACTIVE — 3-0, strongest fade on the board** |
 | D2 | **Heavy-fav ML anchors (-350 or worse)** | ~Zero payout contribution, still ~20% bust | 5/27/26 | 5/27/26 | W (5/27 faded LAD -420, NYY sub cashed) | **ACTIVE** |
 | D3 | **−1.5 RL on a heavy fav vs a live dog** | Carries full ML loss prob + win-by-2 risk; dog wins outright ~35-40% | 6/1/26 | 6/1/26 | W (6/1 TB −1.5 lost outright to DET) | **ACTIVE** |
-| D4 | **Favorite ML w/ own SP ERA ~5.00+** (esp. two-bad-SP shootouts) | High-variance; favorite can be blown out as the "right" side | 5/28/26 | **6/7/26** | **W (6/6: PHI −136, Painter 5.74 own-SP trap → PHI lost 3-6 to CWS)** · W (6/5: AZ −134, Kelly 5.06 → 1-14) · W (5/28 DET/Flaherty 5.94 → 7-1) | **ACTIVE — 3-0, validated repeatedly** |
+| D4 | **Favorite ML w/ own SP ERA ~5.00+** (esp. two-bad-SP shootouts) | High-variance; favorite can be blown out as the "right" side | 5/28/26 | **6/7/26** | **L (6/7: PHI −161, Nola 5.55 own-SP trap → PHI WON 9-5 vs CWS; trap fav cashed this time)** · W (6/6: PHI −136, Painter 5.74 → lost 3-6) · W (6/5: AZ −134, Kelly 5.06 → 1-14) · W (5/28 DET/Flaherty 5.94 → 7-1) | **ACTIVE — 3-1, still strong** (high-variance gate; the variance cut our way 6/7 — one miss doesn't void it) |
 | D5 | **Bullpen-game opponent ≠ ML boost** — do NOT shade a fav UP because the other side has an opener/no real starter | The opposing pen can shut your offense down AND the lineup can tee off on your ace; a no-starter opponent is variance, not a free upgrade | **6/4/26** | **6/4/26** | **W (6/4: bumped ATL 67→69% vs TOR's Fluharty bullpen game; ATL lost 7-2 outright — Sale tagged for 7, TOR pen held ATL to 2)** | **ACTIVE — first sighting; firm rule on a 2nd** |
 
 ## E. Data / status traps (verification gates — fade the BAD DATA, not a team)
@@ -110,7 +110,7 @@ Not team fades, but recurring data errors to actively guard against each run.
 ### Running scoreboard (fades that have been tested)
 - **D1 (+200-chase):** 3-0 ✅ — most reliable fade.
 - **D2/D3 (construction):** 1-0 each ✅.
-- **D4 (own-SP ERA ~5+ fav):** **3-0 ✅** — 6/6 PHI/Painter 5.74 lost 3-6, 6/5 AZ/Kelly 5.06 blown out 1-14, 5/28 DET/Flaherty; strong gate.
+- **D4 (own-SP ERA ~5+ fav):** **3-1** — 6/6 PHI/Painter 5.74 lost 3-6, 6/5 AZ/Kelly 5.06 blown out 1-14, 5/28 DET/Flaherty; **first miss 6/7 PHI −161/Nola 5.55 WON 9-5** (the variance cut toward the trap fav — expected occasionally in a high-variance gate). Still a strong reject signal.
 - **D5 (bullpen-game ≠ ML boost):** 1-0 ✅ NEW 6/4 — ATL bumped to 69% vs TOR's pen game, lost 7-2.
 - **C1 (contact-lineup K-Over):** 2-1 — real but variance-heavy; don't hard-fade one-suppressor aces.
 - **C2 (2nd-meeting K-Over):** 0-1 — downgrade-only, not a reject.
