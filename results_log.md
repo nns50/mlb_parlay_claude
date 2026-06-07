@@ -104,6 +104,11 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 6/6 | Yamamoto Over 6.5 K alt (vs LAA) — Build C | K-Over alt | -186 | 63% | 60.8% | +2.2 | TBD — Build C Tier-2 safer K expression (needs 7 K). Grade: **+EV thin** | N | — | P |
 | 6/6 | Dodgers ML (Yamamoto, vs LAA) — Build D | ML-fav | -345 | 78% | 75.7% | +2.3 | TBD — Build D final anchor (line −340 → −345); +2.3pp, borderline D2 heavy anchor (payout driven by the correlated K leg). Grade: **+EV (clears gate)** | N | — | P |
 | 6/6 | Yamamoto Over 7.5 K (vs LAA) — Build D | K-Over | +110 | 48% | 44.4% | +3.6 | TBD — Build D Tier 1 standalone + the +171 +200-build leg; best Over +110 (BetRivers). Needs 8 K (season 8+ = 4/11; recent 4/5). Grade: **+EV (high-variance)** | N | — | S |
+| 6/6 | TOR Blue Jays live ML (vs BAL) — USER PLAYED | ML | -191 | * | — | — | **W** (TOR 6-4) — user Ticket 1 leg; live-ML, not in any build | Y | — | P |
+| 6/6 | CLE Guardians ML (vs TEX) — USER PLAYED | ML | +101 | * | — | — | **W** (CLE 6-0) — user Ticket 1 leg; pick'em value side | Y | — | P |
+| 6/6 | CLE Guardians -5.5 RL (vs TEX) — USER PLAYED | RL | -130 | * | — | — | **W** (CLE 6-0, by 6) — user Ticket 2 leg | Y | — | P |
+| 6/6 | LA Dodgers -1.5 RL (vs LAA) — USER PLAYED | RL | (SGP) | * | — | — | TBD (live 9-1 in 4th, effectively W) — user Ticket 2 SGP leg | Y | — | P |
+| 6/6 | Kochanowicz Over 5.5 hits allowed (LAA, vs LAD) — USER PLAYED | Hit-prop | (SGP) | * | — | — | **W** (pulled 0.1 IP / 6 ER, cleared early) — user Ticket 2 SGP leg | Y | — | P |
 
 ---
 
@@ -126,8 +131,11 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 6/5 | SEA ML + LAD ML | +181 | 1.00 | 0.00 | −1.00 | ❌ LOST (**SEA L 3-7** — our sharpest edge; LAD W 1-0 — the won leg) |
 | 6/6 | LAD ML −350 + Yamamoto O7.0K +142 (SGP, +corr) | +211 | — | — | — | **SUPERSEDED → Build C** (O7.0 line gone; recomputed at O7.5) |
 | 6/6 | LAD ML −340 + Yamamoto O7.5K +115 (indep/+corr) | +178 | — | — | — | TBD (Build C Tier 3; true comb 40.5%, EV +12.8% — take indep product or SGP ≥ +147) |
+| 6/6 | **USER** TOR live ML −191 + CLE ML +101 | +206 | $10 | $30.62 | **+$20.62** | ✅ WON (both ML hit; user's own ticket, not a build) |
+| 6/6 | **USER** CLE −5.5 RL + (LAD −1.5 RL + Kochanowicz O5.5 hits SGP) | +289 | $30 | $116.76 | TBD (+$86.76) | 2/3 LOCKED (CLE −5.5, Kocha O5.5 hits W); LAD −1.5 live 9-1 in 4th → effectively W. Cash-out $114.30 offered → RIDE rec |
 
-**Record: 5 W – 7 L. Units @ flat 1u: staked 12.00, returned 15.68 → P/L +3.68u, ROI +30.7%.**
+**Record: 5 W – 7 L (recommended builds). Units @ flat 1u: staked 12.00, returned 15.68 → P/L +3.68u, ROI +30.7%.**
+**User's own 6/6 tickets (logged separately, not from a build): Ticket 1 ✅ +$20.62; Ticket 2 2/3 locked, LAD −1.5 live (eff. W).**
 
 > **6/5 is the parlay tax, on the board:** the LAD leg cashed standalone (bankroll won) but the SEA×LAD
 > *parlay* lost. Two individually-+EV favorites stacked = ~38% combined → the ticket dies the majority of
