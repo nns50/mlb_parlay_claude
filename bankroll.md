@@ -55,19 +55,18 @@ P(4 straight wins in an attempt) ≈ 0.60⁴ ≈ **13%** → expect ~8 attempts 
 |---------|------|------|----------------|---------------------------|-------|--------|---------------|------|
 | 1 | 6/4 | 1 | $10.00 | ATL ML −205 (FanDuel, 1.488) | 67% | **LOSS** (TOR 7-2) | **$0.00** | bumped to 69% on TOR-bullpen-game logic — backfired (fades D5); **attempt 1 BUSTS** |
 | 2 | 6/5 | 1 | $10.00 | LAD ML −188 (FanDuel, 1.532) | 66% | **WIN** (LAD 1-0) | **$15.32** | safest qualifying fav (40-23/+133, home); LAA SP = Detmers; not A-list fade; +3.3pp. **Note: the SAME Dodgers leg LOST inside the user's SEA×LAD parlay — standalone cashed, parlay didn't (parlay tax, live).** |
-| 2 | 6/6 | 2 | $15.32 | LAD ML −182 (FanDuel, 1.549) | 64.7% | **TBD** (LAA vs Yamamoto) | _pending_ | safest qualifying fav on the board again — Yamamoto 2.86 ERA vs LAA (24-39, Kochanowicz 5.23); +3.0pp, not A-list. Win → $15.32×1.549 = **$23.73**. |
+| 2 | 6/6 | 2 | $15.32 | LAD ML −182 (FanDuel, 1.549) | 64.7% | **WIN** (LAD 9-2) | **$23.73** | LAD beat LAA 9-2 (Yamamoto cruised); $15.32×1.549 = $23.73. Roll 2 cashed. |
+| 2 | 6/7 | 3 | $23.73 | deGrom (TEX) ML −140 (BetUS, 1.714) | 60.1% | **TBD** (vs CLE, Cantillo) | _pending_ | safest qualifying fav on the board — deGrom 3.48/10.86 K9 ace edge (+3.0pp), TEX home vs CLE/Cantillo; not A-list fade. Win → $23.73×1.714 = **$40.67** (then roll 4 = target). |
 
 ---
 
 ## Running totals (update on every settle)
 
-- **Current:** Attempt **2**, balance **$15.32** (1 win), **roll 2 LIVE** — bet **LAD ML −182** (Yamamoto vs
-  LAA), the single safest qualifying fav on the 6/6 board (+3.0pp, not A-list). Win → ~$23.73 (then roll 3).
-  - **Build B note (~11 ET):** LAD line re-pulled at **−350** (morning −182 was stale). Roll was *logged* at
-    −182 so it keeps that far-better price — no re-bet. LAD remains the only fav clearing the +2pp gate on the
-    board (MIL out on COL-TBD; ATL slid to −112; TB/NYY under gate) → roll 2 stands as-is.
-- **Attempts completed:** 1 · **Targets hit (4 wins):** 0 · **Busts:** 1 · **Best run:** **1 win (active, attempt 2)**
+- **Current:** Attempt **2**, balance **$23.73** (**2 wins**), **roll 3 LIVE** — bet **deGrom (TEX) ML −140**
+  (vs CLE/Cantillo), the single safest qualifying fav on the 6/7 board (ace edge +3.0pp, not A-list). Win →
+  ~$40.67 (then roll 4 = the target). Roll 2 (LAD −182) **CASHED** 6/6 (LAD 9-2).
+- **Attempts completed:** 1 · **Targets hit (4 wins):** 0 · **Busts:** 1 · **Best run:** **2 wins (active, attempt 2)**
 - **Total real risk (attempts × $10):** **$20.00** risked · **Total withdrawn:** $0.00
-- **Net P/L (withdrawn − deposited):** **−$10.00** (attempt 1 lost $10; attempt 2 live at $15.32, not yet withdrawn)
+- **Net P/L (withdrawn − deposited):** **−$10.00** (attempt 1 lost $10; attempt 2 live at $23.73, not yet withdrawn)
 
 > Tracked like `fades.md` / `results_log.md`: any change → commit → push → PR → squash-merge.

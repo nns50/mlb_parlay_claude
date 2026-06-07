@@ -93,21 +93,25 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 6/5 | Yankees ML (Weathers, vs BOS) | ML-fav | -144 | 56% | 56.7% | −0.7 | **L** (lost 5-3) — Tier 3 +200 leg flagged soft; the soft flag was right. Grade: **~fair/thin -EV (correct decline)** | N | = | P |
 | 6/5 | Phillies ML (Luzardo, vs CWS) | ML-fav | -188 | 62% | 64.0% | −2.0 | **W** (won 8-6) — scan-only PASS; CWS B1 dog lost. Grade: **-EV pass (would-W)** | N | — | S |
 | 6/5 | D-backs ML (Kelly, vs WSH) | ML-fav | -134 | 50% | 56.7% | −6.7 | **W (fade)** (AZ lost 1-14) — scan-only REJECT; Kelly 5.06 own-SP trap (D4) validated hard. Grade: **correct reject** | N | — | S |
-| 6/6 | Dodgers ML (Yamamoto, vs LAA) | ML-fav | -182 | 64.7% | 61.7% | +3.0 | TBD — Build A Tier 1 + bankroll roll 2 (logged @ −182; line later moved to −350). Grade: **+EV (clears gate)** | N | — | S |
+| 6/7 | deGrom (TEX) ML (vs CLE) | ML-fav | -140 | 60.1% | 57.1% | +3.0 | TBD — Build A Tier 1 standalone + bankroll roll 3; ace edge (3.48/10.86 K9). Grade: **+EV (clears gate)** | N | — | S |
+| 6/7 | Braves ML (Elder, vs PIT) | ML-fav | -145 | 60% | 57.9% | +2.1 | TBD — Build A Tier 2/3 partner; elite team + Elder 2.63, D5 caution applied. Grade: **+EV (thin)** | N | — | P |
+| 6/7 | LAD ML (Sheehan, vs LAA) | ML-fav | -210 | 63% | 66.3% | −3.3 | TBD — scan REJECT (faces ace Soriano 2.72 w/ only Sheehan 4.50; offense-driven heavy price). Grade: **correct reject (−EV)** | N | — | P |
+| 6/7 | PHI ML (Nola, vs CWS) | ML-fav | -161 | 53% | 61.5% | −8.5 | TBD — scan REJECT; Nola 5.55 own-SP trap (D4) + CWS B1 dog. Grade: **correct reject** | N | — | S |
+| 6/6 | Dodgers ML (Yamamoto, vs LAA) | ML-fav | -182 | 64.7% | 61.7% | +3.0 | **W** (LAD 9-2) — Build A Tier 1 + bankroll roll 2 (logged @ −182). Grade: **+EV (clears gate)** | N | — | S |
 | 6/6 | Braves ML (Strider, vs PIT) | ML-fav | -146 | 58.1% | 57.1% | +1.0 | **SUPERSEDED → Build B** (line moved −146 → −112 pick'em; ATL no longer a floor leg). Grade: ~fair/thin | N | — | P |
 | 6/6 | Cardinals ML (Liberatore, vs CIN) | ML-fav | -126 | 54% | 53.7% | +0.3 | **SUPERSEDED → Build B** (Build A +200-chase 3rd leg dropped, D1). Grade: -EV chase | N | — | P |
-| 6/6 | Dodgers ML (Yamamoto, vs LAA) — Build B | ML-fav | -350 | 77.7% | 74.7% | +3.0 | TBD — Build B anchor (line re-pulled −350); ace-edge holds at the heavier number. Grade: **+EV (clears gate)** | N | — | P |
+| 6/6 | Dodgers ML (Yamamoto, vs LAA) — Build B | ML-fav | -350 | 77.7% | 74.7% | +3.0 | **W** (LAD 9-2) — Build B anchor. Grade: **+EV (clears gate)** | N | — | P |
 | 6/6 | Yamamoto Over 7.0 K (vs LAA) | K-Over | +142 | 44.8% | 38.8% | +6.0 | **SUPERSEDED → Build C** (line moved O7.0 → O7.5; +142 no longer exists). Grade: was +EV | N | — | S |
 | 6/6 | TB ML (McClanahan, @ MIA) | ML-fav | -144 | 58% | 56.7% | +1.3 | **SUPERSEDED → Build C** (game started — status gate fails). Grade: ~fair/thin | N | — | P |
-| 6/6 | Dodgers ML (Yamamoto, vs LAA) — Build C | ML-fav | -340 | 78% | 75.7% | +2.3 | TBD — Build C anchor (line −350 → −340); +2.3pp, borderline D2 heavy anchor (payout driven by the correlated K leg). Grade: **+EV (clears gate)** | N | — | P |
-| 6/6 | Yamamoto Over 7.5 K (vs LAA) — Build C | K-Over | +115 | 48% | 45.4% | +2.6 | TBD — Build C Tier 1 standalone + +200 leg; recent 8/8/8/3/10 (4/5 cleared 8K), LAA 25% K vs RHP, first mtg. Needs 8 K (season 8+ = 4/11). Grade: **+EV (high-variance)** | N | — | S |
-| 6/6 | Yamamoto Over 6.5 K alt (vs LAA) — Build C | K-Over alt | -186 | 63% | 60.8% | +2.2 | TBD — Build C Tier-2 safer K expression (needs 7 K). Grade: **+EV thin** | N | — | P |
-| 6/6 | Dodgers ML (Yamamoto, vs LAA) — Build D | ML-fav | -345 | 78% | 75.7% | +2.3 | TBD — Build D final anchor (line −340 → −345); +2.3pp, borderline D2 heavy anchor (payout driven by the correlated K leg). Grade: **+EV (clears gate)** | N | — | P |
-| 6/6 | Yamamoto Over 7.5 K (vs LAA) — Build D | K-Over | +110 | 48% | 44.4% | +3.6 | TBD — Build D Tier 1 standalone + the +171 +200-build leg; best Over +110 (BetRivers). Needs 8 K (season 8+ = 4/11; recent 4/5). Grade: **+EV (high-variance)** | N | — | S |
+| 6/6 | Dodgers ML (Yamamoto, vs LAA) — Build C | ML-fav | -340 | 78% | 75.7% | +2.3 | **W** (LAD 9-2) — Build C anchor. Grade: **+EV (clears gate)** | N | — | P |
+| 6/6 | Yamamoto Over 7.5 K (vs LAA) — Build C | K-Over | +115 | 48% | 45.4% | +2.6 | **L** (4 K in 8 IP — cruised to contact in a win) — Build C Tier 1. Grade: **+EV (high-variance, lost; right-tail didn't show)** | N | — | S |
+| 6/6 | Yamamoto Over 6.5 K alt (vs LAA) — Build C | K-Over alt | -186 | 63% | 60.8% | +2.2 | **L** (4 K, needed 7) — Build C Tier-2 safer K expr. Grade: **+EV thin (lost)** | N | — | P |
+| 6/6 | Dodgers ML (Yamamoto, vs LAA) — Build D | ML-fav | -345 | 78% | 75.7% | +2.3 | **W** (LAD 9-2) — Build D final anchor. Grade: **+EV (clears gate)** | N | — | P |
+| 6/6 | Yamamoto Over 7.5 K (vs LAA) — Build D | K-Over | +110 | 48% | 44.4% | +3.6 | **L** (4 K in 8 IP) — Build D Tier 1 + the +171 +200-build leg. Grade: **+EV (high-variance, lost)** | N | — | S |
 | 6/6 | TOR Blue Jays live ML (vs BAL) — USER PLAYED | ML | -191 | * | — | — | **W** (TOR 6-4) — user Ticket 1 leg; live-ML, not in any build | Y | — | P |
 | 6/6 | CLE Guardians ML (vs TEX) — USER PLAYED | ML | +101 | * | — | — | **W** (CLE 6-0) — user Ticket 1 leg; pick'em value side | Y | — | P |
 | 6/6 | CLE Guardians -5.5 RL (vs TEX) — USER PLAYED | RL | -130 | * | — | — | **W** (CLE 6-0, by 6) — user Ticket 2 leg | Y | — | P |
-| 6/6 | LA Dodgers -1.5 RL (vs LAA) — USER PLAYED | RL | (SGP) | * | — | — | TBD (live 9-1 in 4th, effectively W) — user Ticket 2 SGP leg | Y | — | P |
+| 6/6 | LA Dodgers -1.5 RL (vs LAA) — USER PLAYED | RL | (SGP) | * | — | — | **W** (LAD 9-2, won by 7) — user Ticket 2 SGP leg | Y | — | P |
 | 6/6 | Kochanowicz Over 5.5 hits allowed (LAA, vs LAD) — USER PLAYED | Hit-prop | (SGP) | * | — | — | **W** (pulled 0.1 IP / 6 ER, cleared early) — user Ticket 2 SGP leg | Y | — | P |
 
 ---
@@ -130,9 +134,10 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 6/4 | PHI ML + ATL ML | +124 | 1.00 | 0.00 | −1.00 | ❌ LOST (PHI W 6-4, **ATL L 7-2** — ATL leg killed it) |
 | 6/5 | SEA ML + LAD ML | +181 | 1.00 | 0.00 | −1.00 | ❌ LOST (**SEA L 3-7** — our sharpest edge; LAD W 1-0 — the won leg) |
 | 6/6 | LAD ML −350 + Yamamoto O7.0K +142 (SGP, +corr) | +211 | — | — | — | **SUPERSEDED → Build C** (O7.0 line gone; recomputed at O7.5) |
-| 6/6 | LAD ML −340 + Yamamoto O7.5K +115 (indep/+corr) | +178 | — | — | — | TBD (Build C Tier 3; true comb 40.5%, EV +12.8% — take indep product or SGP ≥ +147) |
+| 6/6 | LAD ML −340 + Yamamoto O7.5K +115 (indep/+corr) | +178 | — | — | **L** (Yamamoto 4 K — K leg busted; LAD won) — Build C/D Tier 3 +200 build |
 | 6/6 | **USER** TOR live ML −191 + CLE ML +101 | +206 | $10 | $30.62 | **+$20.62** | ✅ WON (both ML hit; user's own ticket, not a build) |
-| 6/6 | **USER** CLE −5.5 RL + (LAD −1.5 RL + Kochanowicz O5.5 hits SGP) | +289 | $30 | $116.76 | TBD (+$86.76) | 2/3 LOCKED (CLE −5.5, Kocha O5.5 hits W); LAD −1.5 live 9-1 in 4th → effectively W. Cash-out $114.30 offered → RIDE rec |
+| 6/6 | **USER** CLE −5.5 RL + (LAD −1.5 RL + Kochanowicz O5.5 hits SGP) | +289 | $30 | $116.76 | **+$86.76** | ✅ WON all 3 (CLE −5.5, Kocha O5.5 hits, LAD −1.5 final 9-2 by 7). RIDE call correct. |
+| 6/7 | deGrom TEX −140 + ATL −145 (indep, 2 games) | +190 | — | — | — | TBD (Build A Tier 2/3; true comb 36.1%, EV +4.4% — +EV two-favorite, the high-chance +200-area answer) |
 
 **Record: 5 W – 7 L (recommended builds). Units @ flat 1u: staked 12.00, returned 15.68 → P/L +3.68u, ROI +30.7%.**
 **User's own 6/6 tickets (logged separately, not from a build): Ticket 1 ✅ +$20.62; Ticket 2 2/3 locked, LAD −1.5 live (eff. W).**
@@ -201,7 +206,7 @@ Capture: pregame ML vs the live price taken (the "live CLV"), the game state at 
 | 6/6 | TOR ML (vs BAL) | -191 | led early | ~-132 (open) | **W** (TOR 6-4) | took worse # for safety — live tax, but cashed |
 | 6/7 | LAD (vs LAA, Sheehan/Soriano) | WATCH | re-entry IF trails early | pull at game time | TBD | candidate #1 — strong team, moderate fav; trail early → overshoot |
 | 6/7 | NYY (vs BOS, Suarez LHP) | WATCH | re-entry IF trails early | -160 (open) | TBD | candidate #2 — Suarez tough; early NYY deficit = live value |
-| 6/7 | ATL (vs PIT, rookie Chandler) | WATCH | re-entry IF trails early | -139 (open) | TBD | candidate #3 — if ATL trails the rookie early |
+| 6/7 | ATL (vs PIT, Bryce Elder) | WATCH | re-entry IF trails early | -145 (open) | TBD | candidate #3 — **probable is Elder (2.63), not Chandler** (pre-seed corrected); ATL also Build A Tier 2/3 anchor |
 
 **Angle A record: 1-0** (6/7 = 3 pre-game WATCH candidates, value-re-entry type — execute in-game only). Watch: live-ML usually means PAYING UP for a lead already in (the −132→−191
 move is the "live tax"). The edge case worth proving is the OPPOSITE — a value re-entry when a good team
@@ -215,7 +220,7 @@ opposing lineup contact quality, result (hits allowed).
 |------|-------------|------|------------------|--------|------|
 | 6/6 | Kochanowicz O5.5 (vs LAD) | (SGP) | LAD elite offense, K had 6.94 ERA into start | **W** | 6+ (pulled 0.1 IP/6 ER) |
 | 6/7 | Freeland (COL LHP, vs MIL @ Coors) | WATCH — pull line | 8.06 ERA/1.71 WHIP, Coors; MIL 21% K but only .226 vs LHP | TBD | candidate #1 — park+profile cleanest; .226-vs-LHP caveat; low hook risk (eats IP) |
-| 6/7 | Chandler (PIT RHP, @ ATL) | WATCH — pull line | 5.05 ERA/1.53 WHIP rookie; ATL .263/20%K vs RHP (contact) | TBD | candidate #2 — great matchup BUT rookie hook/start-length left tail |
+| 6/7 | ~~Chandler~~ Montgomery (PIT, @ ATL) | VOID | PIT probable = Mason Montgomery, not Chandler (pre-seed wrong) | — | candidate VOID — re-scan Montgomery if pulling the Angle-B line at 16:00 |
 | 6/7 | Flaherty (DET RHP, vs SEA) | WATCH — pull line | 5.31 ERA/1.60 WHIP but 10.92 K/9; SEA .247/22% | TBD | candidate #3 — high K/9 converts hits→Ks, weakest |
 
 **Angle B record: 1-0** (6/7 = 3 WATCH candidates; pull the real line + devig near first pitch — Gilbert/PHI passed: opener/start-length unknown). Watch: (a) hits-allowed correlates with IP — a quick hook (few outs) can CAP
