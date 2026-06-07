@@ -24,6 +24,7 @@
 #
 # USAGE
 #   tools/odds_api.sh check                      # key + reachability + remaining quota
+#   tools/odds_api.sh quota                      # remaining monthly credits (FREE — /sports, 0 cost)
 #   tools/odds_api.sh slate   [YYYY-MM-DD]       # pull+cache h2h/totals/spreads; best-price table
 #   tools/odds_api.sh best    <h2h|totals|spreads> [date]   # best line per game per side (from cache)
 #   tools/odds_api.sh game    "<team>" [date]    # full book-by-book board for one game
@@ -225,8 +226,25 @@ cmd_clv() {
 
 cmd_raw() { local p="${1:?path}"; api_get "$p"; rm -f "$HDRS_FILE"; echo; }
 
+# Remaining monthly credits. FREE: the /sports endpoint returns the quota headers but does
+# NOT consume a credit, so this can be called after every routine run at no cost.
+cmd_quota() {
+  api_get "sports?all=true" >/dev/null 2>&1
+  local rem used
+  rem=$(grep -i '^x-requests-remaining:' "$HDRS_FILE" 2>/dev/null | awk '{print $2}' | tr -d '\r')
+  used=$(grep -i '^x-requests-used:'      "$HDRS_FILE" 2>/dev/null | awk '{print $2}' | tr -d '\r')
+  rm -f "$HDRS_FILE"
+  if [[ -n "$rem" ]]; then
+    echo "Odds API credits — remaining: ${rem}   used this month: ${used:-?}   (as of $(TZ=America/New_York date '+%Y-%m-%d %H:%M ET'))"
+  else
+    echo "Odds API credits — unavailable (no key, or api.the-odds-api.com blocked)."
+    return 1
+  fi
+}
+
 case "${1:-}" in
   check)   cmd_check ;;
+  quota)   cmd_quota ;;
   slate)   shift; cmd_slate "$@" ;;
   best)    shift; cmd_best "$@" ;;
   game)    shift; cmd_game "$@" ;;

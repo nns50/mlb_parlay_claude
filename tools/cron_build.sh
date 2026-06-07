@@ -66,9 +66,10 @@ case "$BUILD" in
 7. Pick the bankroll bet (single safest qualifying fav, independent of parlay, not A-list fade).
 8. Append this run to parlays/YYYY-MM-DD.md as '## Run 11:00 ET — Build A'.
 9. Log all recommended legs in results_log.md with pre-registered TrueP + ImplP + Edge.
-10. Commit → push → open PR → squash-merge → git fetch+reset to main per CLAUDE.md git workflow.
-11. Push notification: load PushNotification via ToolSearch (if needed), send title 'MLB Parlay Build A — <today>' summarizing Tier 1 standalone leg+edge, Tier 2 floor%, Tier 3 combined odds, bankroll bet; flag PENDING legs.
-12. Email: load mcp__Gmail__create_draft via ToolSearch (if needed), draft to icecold67@live.com subject 'MLB Parlay — <today YYYY-MM-DD> Build A', body = the 3 tiers (legs+prices+edges/floor%) + bankroll bet + any PENDING flags, under 250 words."
+10. ODDS API CREDITS: run tools/odds_api.sh quota (FREE — 0 credits) and add a line 'Odds API credits remaining: <N> (used <M> this month)' to this run's section in today's parlay file BEFORE committing so it's captured in the repo record.
+11. Commit → push → open PR → squash-merge → git fetch+reset to main per CLAUDE.md git workflow.
+12. Push notification: load PushNotification via ToolSearch (if needed), send title 'MLB Parlay Build A — <today>' summarizing Tier 1 standalone leg+edge, Tier 2 floor%, Tier 3 combined odds, bankroll bet, Odds API credits remaining; flag PENDING legs.
+13. Email: load mcp__Gmail__create_draft via ToolSearch (if needed), draft to icecold67@live.com subject 'MLB Parlay — <today YYYY-MM-DD> Build A', body = the 3 tiers (legs+prices+edges/floor%) + bankroll bet + Odds API credits remaining + any PENDING flags, under 250 words."
   ;;
 
 16|15)
@@ -84,9 +85,10 @@ case "$BUILD" in
 5. If any leg or price changed materially since the 11:00 build, APPEND a new '## Run 16:00 ET — Build B' section to today's parlays/YYYY-MM-DD.md (do NOT overwrite Build A — mark old legs SUPERSEDED if replaced).
 6. Update results_log.md with new or revised legs per the SUPERSEDE protocol.
 7. Confirm or update the bankroll bet if lineup was PENDING at 11:00.
-8. Commit → push → open PR → squash-merge → reset per CLAUDE.md git workflow.
-9. Push notification: load PushNotification via ToolSearch (if needed), send title 'MLB Parlay Build B update — <today>': CLV fills (count +/−), lineup upgrades, whether the build changed.
-10. Email: load mcp__Gmail__create_draft via ToolSearch (if needed), draft to icecold67@live.com subject 'MLB Parlay — <today YYYY-MM-DD> Build B update', body = CLV fills per open leg, PENDING→CONFIRMED upgrades, superseded legs, current active build, under 200 words."
+8. ODDS API CREDITS: run tools/odds_api.sh quota (FREE — 0 credits) and add 'Odds API credits remaining: <N> (used <M> this month)' to this run's section in today's parlay file BEFORE committing.
+9. Commit → push → open PR → squash-merge → reset per CLAUDE.md git workflow.
+10. Push notification: load PushNotification via ToolSearch (if needed), send title 'MLB Parlay Build B update — <today>': CLV fills (count +/−), lineup upgrades, whether the build changed, Odds API credits remaining.
+11. Email: load mcp__Gmail__create_draft via ToolSearch (if needed), draft to icecold67@live.com subject 'MLB Parlay — <today YYYY-MM-DD> Build B update', body = CLV fills per open leg, PENDING→CONFIRMED upgrades, superseded legs, current active build, Odds API credits remaining, under 200 words."
   ;;
 
 18)
@@ -98,9 +100,10 @@ case "$BUILD" in
 3b. USER-ANGLE EXECUTION (results_log.md -> 'User-angle tracking' — directional-only, N<20): finish any Angle B (opposing-SP hits-allowed Over) line pulls for late/west-coast games (props <eventId> pitcher_hits_allowed + pitcher_outs, devig); for live games already underway, settle any Angle A live-ML triggers that fired and record the live price taken vs the pregame ref (the 'live CLV'). Update both Angle tables.
 4. If anything materially changed since the last build, APPEND '## Run 18:00 ET — Build C' to today's parlay file (mark prior build SUPERSEDED if replaced).
 5. Flag any legs the user should manually re-check at first pitch.
-6. Commit → push → open PR → squash-merge → reset per CLAUDE.md git workflow.
-7. Push notification: load PushNotification via ToolSearch (if needed), send title 'MLB Parlay Final check — <today>': final build legs confirmed, late lineup updates, first-pitch re-check flags.
-8. Email: load mcp__Gmail__create_draft via ToolSearch (if needed), draft to icecold67@live.com subject 'MLB Parlay — <today YYYY-MM-DD> Final check', body = late lineup confirmations, remaining CLV fills, final active build legs+prices, first-pitch re-check flags, under 200 words."
+6. ODDS API CREDITS: run tools/odds_api.sh quota (FREE — 0 credits) and add 'Odds API credits remaining: <N> (used <M> this month)' to this run's section in today's parlay file BEFORE committing.
+7. Commit → push → open PR → squash-merge → reset per CLAUDE.md git workflow.
+8. Push notification: load PushNotification via ToolSearch (if needed), send title 'MLB Parlay Final check — <today>': final build legs confirmed, late lineup updates, first-pitch re-check flags, Odds API credits remaining.
+9. Email: load mcp__Gmail__create_draft via ToolSearch (if needed), draft to icecold67@live.com subject 'MLB Parlay — <today YYYY-MM-DD> Final check', body = late lineup confirmations, remaining CLV fills, final active build legs+prices, first-pitch re-check flags, Odds API credits remaining, under 200 words."
   ;;
 
 *)

@@ -37,6 +37,10 @@ CLAUDE.md is crisp **doctrine**; those files are **live data**. Burn tags below 
   credits/mo)** — use `events [date]` → `props <id> pitcher_strikeouts` for K-leg pricing (~1
   credit/market/event, ~15 credits for a full-slate prop scan); the API owns ML/totals/spreads/props.
   It improves PRICE + MEASUREMENT, not win probability.
+  - **Report remaining credits after EVERY run.** `tools/odds_api.sh quota` (FREE — uses `/sports`, 0
+    credits) prints remaining + used-this-month. Each cron build ends by recording `Odds API credits
+    remaining: <N>` into that run's parlay-file section AND the push notification + email, so monthly
+    burn is always visible and never hits the wall unseen. (User-requested 6/7/26.)
 - **Build + settle helpers (use them — don't hand-compute):**
   - `tools/devig.sh <priceA> <priceB> [TrueP%]` — no-vig probs + Edge + min-edge-gate verdict (kills the
     by-hand devig slips). One-sided prop: pass a single price (no-vig estimated, flagged).
