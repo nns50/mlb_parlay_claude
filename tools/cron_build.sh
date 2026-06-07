@@ -9,17 +9,17 @@
 #   4. The UserPromptSubmit hook fires → injects the session_start.sh digest
 #      automatically → Claude runs the full routine and exits.
 #
-# CRONTAB EXAMPLE (3 runs/day at the recommended ET windows)
-#   # MLB parlay routine — 09:00, 15:30, 18:30 ET (adjust TZ as needed)
-#   0   9  * * * bash /home/user/mlb_parlay_claude/tools/cron_build.sh 09 >> /tmp/mlb_cron.log 2>&1
-#   30 15  * * * bash /home/user/mlb_parlay_claude/tools/cron_build.sh 15 >> /tmp/mlb_cron.log 2>&1
-#   30 18  * * * bash /home/user/mlb_parlay_claude/tools/cron_build.sh 18 >> /tmp/mlb_cron.log 2>&1
+# CRONTAB EXAMPLE (ACTUAL schedule: 3 runs/day at 11:00, 16:00, 18:00 ET — user-confirmed 6/7/26)
+#   # MLB parlay routine — 11:00, 16:00, 18:00 ET (adjust TZ as needed)
+#   0  11  * * * bash /home/user/mlb_parlay_claude/tools/cron_build.sh 11 >> /tmp/mlb_cron.log 2>&1
+#   0  16  * * * bash /home/user/mlb_parlay_claude/tools/cron_build.sh 16 >> /tmp/mlb_cron.log 2>&1
+#   0  18  * * * bash /home/user/mlb_parlay_claude/tools/cron_build.sh 18 >> /tmp/mlb_cron.log 2>&1
 #
 # USAGE
-#   tools/cron_build.sh           # auto-detect build from ET time
-#   tools/cron_build.sh 09        # force the 09:00 morning build
-#   tools/cron_build.sh 15        # force the 15:30 CLV + lineup build
-#   tools/cron_build.sh 18        # force the 18:30 final check
+#   tools/cron_build.sh           # auto-detect build from ET time (11→morning, 16→midday, 18→final)
+#   tools/cron_build.sh 11        # force the 11:00 morning settle + build (alias: 09)
+#   tools/cron_build.sh 16        # force the 16:00 CLV + lineup lock + user-angle build (alias: 15)
+#   tools/cron_build.sh 18        # force the 18:00 final check + live-ML settle
 #
 # REQUIREMENTS
 #   • `claude` CLI on PATH (Claude Code — https://claude.ai/code).
@@ -29,11 +29,15 @@ set -uo pipefail
 cd "$(dirname "$0")/.."
 
 # ── Build type: forced arg OR auto-detect from ET hour ───────────────────────
+# ACTUAL SCHEDULE (user-confirmed 6/7/26): the routine fires 3×/day at 11:00, 16:00, 18:00 ET.
+#   11:00 ET → "morning"  (settle yesterday + full scan + initial 3-tier build; pre-lineup, props PENDING)
+#   16:00 ET → "midday"   (lineup lock for the evening core + CLV + user-angle execution; revise build)
+#   18:00 ET → "final"    (late/west-coast lineups + final CLV + live-ML trigger settle)
 BUILD="${1:-}"
 if [[ -z "$BUILD" ]]; then
   HOUR=$(TZ="America/New_York" date +%H 2>/dev/null || date +%H)
-  if   (( 10#$HOUR >= 6  && 10#$HOUR < 13 )); then BUILD="09"
-  elif (( 10#$HOUR >= 13 && 10#$HOUR < 17 )); then BUILD="15"
+  if   (( 10#$HOUR >= 6  && 10#$HOUR < 14 )); then BUILD="11"
+  elif (( 10#$HOUR >= 14 && 10#$HOUR < 17 )); then BUILD="16"
   else BUILD="18"
   fi
 fi
@@ -41,9 +45,9 @@ fi
 # ── Prompts — each is a self-contained instruction for Claude ─────────────────
 case "$BUILD" in
 
-09|9)
-  LABEL="09:00 ET — morning settle + full build"
-  PROMPT="Run the 09:00 ET daily MLB parlay routine per CLAUDE.md. The session_start.sh digest is already in your context (injected by hook). Steps:
+11|09|9)
+  LABEL="11:00 ET — morning settle + full build (pre-lineup)"
+  PROMPT="Run the 11:00 ET daily MLB parlay routine per CLAUDE.md (first of 3 runs: 11:00 / 16:00 / 18:00 ET). This is the morning build — lineups are NOT posted yet, so hitter/K/prop legs are PENDING LINEUP (the 16:00 run locks them). The session_start.sh digest is already in your context (injected by hook). Steps:
 1. Self-settle all TBD results from yesterday: run tools/settle.py, apply W/L to results_log.md + fades.md + bankroll.md.
 2. Run tools/calib.py and apply the fresh calibration bands before building.
 3. Run tools/mlb_api.sh slate today for the full game list.
@@ -51,14 +55,14 @@ case "$BUILD" in
 5. Fill SP-freshness blocks for every SP in the build.
 6. Build all three tiers: Tier 1 best standalone, Tier 2 highest-floor 2-leg, Tier 3 +200 build.
 7. Pick the bankroll bet (single safest qualifying fav, independent of parlay, not A-list fade).
-8. Append this run to parlays/YYYY-MM-DD.md as '## Run 09:00 ET — Build A'.
+8. Append this run to parlays/YYYY-MM-DD.md as '## Run 11:00 ET — Build A'.
 9. Log all recommended legs in results_log.md with pre-registered TrueP + ImplP + Edge.
 10. Commit → push → open PR → squash-merge → git fetch+reset to main per CLAUDE.md git workflow."
   ;;
 
-15)
-  LABEL="15:30 ET — CLV capture + lineup lock + build update"
-  PROMPT="Run the 15:30 ET MLB parlay update per CLAUDE.md. The session_start.sh digest is already in your context (injected by hook). Steps:
+16|15)
+  LABEL="16:00 ET — CLV capture + lineup lock + build update + user-angle execution"
+  PROMPT="Run the 16:00 ET MLB parlay update per CLAUDE.md (2nd of 3 runs: 11:00 / 16:00 / 18:00 ET). This is the lineup-lock + CLV + user-angle run; it UPDATES the 11:00 Build A. Note: the early (~13:35 ET) games are already IN PROGRESS at 16:00 — mark them live-only (their Angle A live-ML is happening now). The session_start.sh digest is already in your context (injected by hook). Steps:
 1. Run tools/clv_capture.py for today — fill the CLV column in results_log.md for all open ML legs.
 2. Run tools/mlb_api.sh lineups today — for any leg still flagged PENDING LINEUP, check if lineups are now posted and upgrade or flag accordingly.
 3. Run tools/mlb_api.sh ump today and tools/mlb_api.sh weather today — update any K-Over/Under or total legs affected by ump or weather changes.
@@ -66,26 +70,26 @@ case "$BUILD" in
 4b. USER-ANGLE EXECUTION (results_log.md -> 'User-angle tracking' — directional-only, N<20, do NOT size off them):
    - Angle B (opposing-SP hits-allowed Over): for each WATCH candidate run tools/odds_api.sh events today for the eventId, then tools/odds_api.sh props <eventId> pitcher_hits_allowed (fall back to a manual book pull if the market is unsupported on tier). Devig with tools/devig.sh. Also pull props <eventId> pitcher_outs to gauge the quick-hook / start-length left tail. Log the real line + devigged edge into the Angle B table; flag hook risk.
    - Angle A (live-ML re-entry): for each WATCH candidate confirm the pregame ref ML (tools/odds_api.sh best h2h) and record the in-game TRIGGER (strong team trails early -> live price overshoots). Live-ML is placed in-game ONLY, so note the trigger + ref price; do not 'lock' it pre-game.
-5. If any leg or price changed materially since the 09:00 build, APPEND a new '## Run 15:30 ET — Build B' section to today's parlays/YYYY-MM-DD.md (do NOT overwrite Build A — mark old legs SUPERSEDED if replaced).
+5. If any leg or price changed materially since the 11:00 build, APPEND a new '## Run 16:00 ET — Build B' section to today's parlays/YYYY-MM-DD.md (do NOT overwrite Build A — mark old legs SUPERSEDED if replaced).
 6. Update results_log.md with new or revised legs per the SUPERSEDE protocol.
-7. Confirm or update the bankroll bet if lineup was PENDING at 09:00.
+7. Confirm or update the bankroll bet if lineup was PENDING at 11:00.
 8. Commit → push → open PR → squash-merge → reset per CLAUDE.md git workflow."
   ;;
 
 18)
-  LABEL="18:30 ET — final CLV + late lineups + line check"
-  PROMPT="Run the 18:30 ET final MLB parlay check per CLAUDE.md. The session_start.sh digest is already in your context (injected by hook). Steps:
+  LABEL="18:00 ET — final CLV + late lineups + line check + live-ML settle"
+  PROMPT="Run the 18:00 ET final MLB parlay check per CLAUDE.md (3rd of 3 runs: 11:00 / 16:00 / 18:00 ET). This is the late/west-coast lock + final CLV + live-ML trigger settle. The session_start.sh digest is already in your context (injected by hook). Steps:
 1. Run tools/clv_capture.py for today — update CLV column for any remaining open legs.
 2. Run tools/mlb_api.sh lineups today — confirm late/west-coast game lineups; upgrade any remaining PENDING legs to CONFIRMED or flag them.
 3. Run tools/odds_api.sh best h2h today — check for any late sharp line moves.
 3b. USER-ANGLE EXECUTION (results_log.md -> 'User-angle tracking' — directional-only, N<20): finish any Angle B (opposing-SP hits-allowed Over) line pulls for late/west-coast games (props <eventId> pitcher_hits_allowed + pitcher_outs, devig); for live games already underway, settle any Angle A live-ML triggers that fired and record the live price taken vs the pregame ref (the 'live CLV'). Update both Angle tables.
-4. If anything materially changed since the last build, APPEND '## Run 18:30 ET — Build C' to today's parlay file (mark prior build SUPERSEDED if replaced).
+4. If anything materially changed since the last build, APPEND '## Run 18:00 ET — Build C' to today's parlay file (mark prior build SUPERSEDED if replaced).
 5. Flag any legs the user should manually re-check at first pitch.
 6. Commit → push → open PR → squash-merge → reset per CLAUDE.md git workflow."
   ;;
 
 *)
-  echo "ERROR: Unknown build type '$BUILD'. Use 09, 15, or 18." >&2
+  echo "ERROR: Unknown build type '$BUILD'. Use 11, 16, or 18 (aliases 09/15 accepted)." >&2
   exit 1
   ;;
 esac
