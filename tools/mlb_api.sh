@@ -101,7 +101,7 @@ _fetch() {
   curl -sS -m "$TIMEOUT" "$BASE/$1"
 }
 
-_default_date() { date +%F; }
+_default_date() { TZ=America/New_York date +%F; }   # ET, not UTC — container runs UTC; a no-arg call between 8pm-midnight ET would otherwise pull tomorrow's slate
 _season_of()    { echo "${1:-$(date +%F)}" | cut -d- -f1; }
 
 cmd_check() {
@@ -314,14 +314,19 @@ cmd_splits() {
 _resolve_team() {
   local q="${1:-}"
   [[ "$q" =~ ^[0-9]+$ ]] && { echo "$q"; return 0; }
+  # EXACT abbreviation match wins first; only fall back to name/teamName substring when
+  # there is NO abbr hit. (Bug 6/7/26: "LAD" is a substring of "phiLADelphia", so a plain
+  # substring match + head -1 silently resolved LAD -> Phillies/143 instead of Dodgers/119.)
   _fetch "teams?sportId=1" \
   | jq -r --arg q "$q" '
       ($q|ascii_upcase) as $Q
-      | .teams[]
-      | select((.abbreviation|ascii_upcase) == $Q
-               or (.name|ascii_upcase|contains($Q))
-               or (.teamName|ascii_upcase|contains($Q)))
-      | .id' | head -1
+      | .teams as $all
+      | ([ $all[] | select((.abbreviation|ascii_upcase) == $Q) ]) as $exact
+      | (if ($exact|length) > 0 then $exact
+         else [ $all[] | select((.name|ascii_upcase|contains($Q))
+                               or (.teamName|ascii_upcase|contains($Q))) ]
+         end)
+      | .[0].id // empty'
 }
 
 cmd_findteam() {

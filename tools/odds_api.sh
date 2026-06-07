@@ -40,7 +40,9 @@ BASE="https://api.the-odds-api.com/v4"
 SPORT="baseball_mlb"
 REGIONS="us"
 TIMEOUT=25
-ET_OFFSET=-4   # EDT (June); flip to -5 for EST if used off-season
+# ET UTC offset, auto-derived (−4 EDT / −5 EST) so the slate-date math is correct year-round.
+_etz="$(TZ=America/New_York date +%z 2>/dev/null || echo -0400)"   # e.g. -0400 / -0500
+ET_OFFSET=$(( 10#${_etz:1:2} )); [[ "${_etz:0:1}" == "-" ]] && ET_OFFSET=$(( -ET_OFFSET ))
 CACHE_DIR="${TMPDIR:-/tmp}/odds_cache"
 mkdir -p "$CACHE_DIR"
 
@@ -54,7 +56,7 @@ if [[ -z "${ODDS_API_KEY:-}" && -n "${1:-}" && "${1:-}" != "check" ]]; then
   die "ODDS_API_KEY is not set (export it as a secret env var; never commit it)."
 fi
 
-TODAY="$(date +%F)"
+TODAY="$(TZ=America/New_York date +%F)"   # ET, not the UTC container clock
 
 # GET with apiKey appended; captures headers to $HDRS_FILE for quota/deny inspection.
 # IMPORTANT: HDRS_FILE is a fixed per-process path (not mktemp inside api_get) so that quota
@@ -76,10 +78,19 @@ quota_line() {
 }
 deny_reason() { [[ -f "$HDRS_FILE" ]] && grep -i '^x-deny-reason:' "$HDRS_FILE" | awk '{print $2}' | tr -d '\r'; }
 
-# Filter a /odds or /events JSON array to games whose ET date == $1.
+# Filter a /odds or /events JSON array to games belonging to slate-date $1.
+# A game's "slate date" = its ET calendar date, EXCEPT a game whose ET first-pitch is
+# after midnight but before ~6am ET (a late west-coast night game, e.g. 10pm PT = 1am ET
+# next day) belongs to the PRIOR day's slate — matching MLB's officialDate. (Bug 6/7/26:
+# a flat ET-date bucket silently dropped post-midnight-ET west games from slate/best/clv.)
 filter_date() {
   jq --arg d "$1" --argjson off "$ET_OFFSET" \
-     '[ .[] | select((.commence_time|fromdateiso8601 + ($off*3600) | strftime("%Y-%m-%d")) == $d) ]'
+     '[ .[]
+        | (.commence_time | fromdateiso8601 + ($off*3600)) as $et
+        | (if (($et | strftime("%H") | tonumber) < 6)
+           then ($et - 86400 | strftime("%Y-%m-%d"))
+           else ($et | strftime("%Y-%m-%d")) end) as $slate
+        | select($slate == $d) ]'
 }
 
 cmd_check() {
@@ -179,10 +190,20 @@ cmd_props() {
 
 # CLV for a moneyline bet: closing best price both sides → no-vig → vs your bet's raw implied.
 cmd_clv() {
-  local bet="${1:?your bet American price}" team="${2:?team}" date="${3:-$TODAY}" raw
+  local bet="${1:?your bet American price}" team="${2:?team}" date="${3:-$TODAY}" raw games n out
   raw="$(api_get "sports/${SPORT}/odds?regions=${REGIONS}&markets=h2h&oddsFormat=american&dateFormat=iso")"
   quota_line; rm -f "$HDRS_FILE"
-  echo "$raw" | filter_date "$date" | jq -r --arg t "$team" --argjson bet "$bet" '
+  games="$(echo "$raw" | filter_date "$date")"
+  # Guard the silent-miss + ambiguity cases (the bug class that left CLV blank): a team that
+  # matches zero games returns empty (not an error); one that matches >1 game binds the wrong side.
+  n="$(echo "$games" | jq -r --arg t "$team" \
+        '[ .[] | select((.home_team+" "+.away_team)|ascii_downcase|contains($t|ascii_downcase)) ] | length')"
+  if [[ "${n:-0}" -eq 0 ]]; then
+    echo "Could not compute CLV: team \"$team\" matched no game in the $date closing feed (check spelling / use a unique nickname)."; return 0
+  elif [[ "${n:-0}" -gt 1 ]]; then
+    echo "Could not compute CLV: team \"$team\" is ambiguous — matched $n games on $date. Use a unique nickname."; return 0
+  fi
+  out="$(echo "$games" | jq -r --arg t "$team" --argjson bet "$bet" '
     def imp(p): if p>0 then 100/(p+100) else (-p)/((-p)+100) end;
     def sign(p): if p>0 then "+" else "" end;
     .[] | select((.home_team+" "+.away_team)|ascii_downcase|contains($t|ascii_downcase))
@@ -198,7 +219,8 @@ cmd_clv() {
       "  results_log.md (CLV + if closing no-vig > bet no-vig). The line below uses raw bet implied as a",
       "  quick proxy and slightly overstates your side:",
       "  proxy CLV: \(if $novig_close > imp($bet) then "+ (line moved TO your side ✓)" else "− (line moved against you)" end)"
-  ' 2>/dev/null || echo "Could not compute CLV (team not matched / no h2h in feed)."
+  ' 2>/dev/null)"
+  [[ -n "$out" ]] && echo "$out" || echo "Could not compute CLV (no h2h prices in feed for that game)."
 }
 
 cmd_raw() { local p="${1:?path}"; api_get "$p"; rm -f "$HDRS_FILE"; echo; }

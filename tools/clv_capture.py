@@ -118,8 +118,15 @@ def verdict_from_clv_output(out, bet_implp_cell):
     """
     if not out:
         return None
+    # Plausibility guard: reject settled/garbage closing lines (e.g. a -10000 → 97% "close"
+    # the feed returns for an in-progress/ended game) so --apply doesn't write junk CLV.
+    pm = re.search(r"Close best.*?:\s*([+-]?\d+)\s", out)       # the closing American price
+    if pm and abs(int(pm.group(1))) > 2000:
+        return None
     m = re.search(r"no-vig\s+(\d+(?:\.\d+)?)\s*%", out)        # "Close best X: ... no-vig NN%"
     closing = float(m.group(1)) if m else None
+    if closing is not None and (closing >= 95 or closing <= 5):
+        return None
     bet_novig = _pct(bet_implp_cell)
     if closing is not None and bet_novig is not None:
         diff = closing - bet_novig

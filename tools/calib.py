@@ -58,15 +58,23 @@ def table_rows(text, header_substr):
 
 
 def parse_result(s):
-    """W / L / Push from a bold-wrapped result cell like '**W** (12 K)'."""
+    """W / L / Push from a bold-wrapped result cell like '**W** (12 K)' or '**would-L** (...)'.
+
+    Returns None for non-outcome cells (TBD / SUPERSEDED / pointer rows) so they don't leak
+    into the record. (Bug 6/7/26: naive substring matched 'w' in 'would', 'l' in 'Build',
+    counting would-L as W and SUPERSEDED rows as L — the §4 record was inverted/garbage.)
+    """
     m = re.search(r"\*\*(.+?)\*\*", s)
-    seg = m.group(1) if m else s
+    seg = (m.group(1) if m else s).strip()
     low = seg.lower()
+    if any(t in low for t in ("tbd", "superseded", "played →", "played ->", "n/a")):
+        return None
     if "push" in low:
         return "Push"
-    if "w" in low:    # also catches 'would-W'
+    core = re.sub(r"^\s*would-?\s*", "", low)   # strip a leading 'would-' qualifier
+    if re.match(r"w\b", core):                  # first token is W / W (fade) / would-W
         return "W"
-    if "l" in low:
+    if re.match(r"l\b", core):                  # first token is L / would-L
         return "L"
     return None
 
@@ -205,6 +213,15 @@ def main():
     parsed = 0
     for c in tickets:
         if len(c) < 6:
+            continue
+        result = c[6] if len(c) > 6 else ""
+        ticket_txt = c[1] if len(c) > 1 else ""
+        # Skip undecided rows AND dollar-denominated USER tickets — the latter are tracked
+        # separately in the prose, not in the unit-ROI. (Bug 6/7/26: parse_num strips '$', so
+        # $10→$30.62 USER rows + TBD rows were summed into the unit ROI → +213% vs prose +30.7%.)
+        if "tbd" in result.lower():
+            continue
+        if "$" in c[3] or "$" in (c[4] if len(c) > 4 else "") or "user" in ticket_txt.lower():
             continue
         stake = parse_num(c[3])
         ret = parse_num(c[4])

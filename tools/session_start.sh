@@ -9,8 +9,10 @@
 #   goes un-settled or a stale fade gets applied. This composes the MECHANICAL part
 #   into a single command so the open is consistent and nothing is silently dropped.
 #
-#   READ-ONLY. It surfaces the inputs the routine needs; it does not bet, settle, or
-#   mutate any file. The judgment steps (self-settle, apply calibration, slate scan)
+#   MOSTLY READ-ONLY. It surfaces the inputs the routine needs and does not bet, settle,
+#   or build. ONE exception (added 6/7/26): in the near-first-pitch window (ET hour 16-19)
+#   it auto-APPLIES closing-line CLV into results_log.md via `clv_capture.py --apply`
+#   (idempotent, ML legs only). The judgment steps (self-settle, calibration, slate scan)
 #   are still done by the routine after reading this digest.
 #
 # USAGE
@@ -186,7 +188,9 @@ fi
 #    every recommended leg is Played=N — which is why CLV stayed blank. Fixed 6/7/26.)
 ET_HOUR="$(TZ=America/New_York date +%-H 2>/dev/null || \
            TZ=America/New_York date +%H | sed 's/^0*//')"
-if (( ET_HOUR >= 15 && ET_HOUR <= 19 )); then
+# Window start is 16 (the first near-FP cron slot), NOT 15 — a 15:xx session would snapshot a
+# premature "close" hours before first pitch, and the idempotent skip then blocks the real close.
+if (( ET_HOUR >= 16 && ET_HOUR <= 19 )); then
   ET_TIME="$(TZ=America/New_York date +%H:%M 2>/dev/null || date +%H:%M)"
   hdr "6. CLV capture + auto-apply — near-FP window detected (${ET_TIME} ET)"
   if [[ -f "./tools/clv_capture.py" && -n "${ODDS_API_KEY:-}" ]]; then

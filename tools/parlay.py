@@ -54,9 +54,14 @@ def american_from_dec(d):
 
 
 def parse_leg(s):
-    """'59:-120' -> (0.59, -120.0) ; '59' -> (0.59, None)."""
+    """'59:-120' -> (0.59, -120.0) ; '59' -> (0.59, None). TrueP is WHOLE-number percent."""
     tp, _, price = s.partition(":")
-    p = float(tp) / 100.0
+    val = float(tp)
+    # Guard the fraction footgun: '0.6' parses to 0.6% (not 60%) and passes the (0,1) check,
+    # yielding a confidently-wrong -EV verdict with no warning. Require whole-number percent.
+    if val < 1:
+        raise ValueError(f"leg TrueP {tp!r} looks like a fraction — use whole-number percent (e.g. 60, not 0.60)")
+    p = val / 100.0
     if not (0 < p < 1):
         raise ValueError(f"leg TrueP {tp!r} must be a percent in (0,100)")
     return p, (float(price) if price else None)

@@ -33,7 +33,16 @@ cd "$(dirname "$0")/.."
 #   11:00 ET → "morning"  (settle yesterday + full scan + initial 3-tier build; pre-lineup, props PENDING)
 #   16:00 ET → "midday"   (lineup lock for the evening core + CLV + user-angle execution; revise build)
 #   18:00 ET → "final"    (late/west-coast lineups + final CLV + live-ML trigger settle)
-BUILD="${1:-}"
+# Parse args order-independently so `--prompt-only` works WITH or WITHOUT an explicit hour
+# (Bug 6/7/26: a bare `--prompt-only` was taken as the build type and hit the error case).
+PROMPT_ONLY=0
+BUILD=""
+for a in "$@"; do
+  case "$a" in
+    --prompt-only) PROMPT_ONLY=1 ;;
+    *) [[ -z "$BUILD" ]] && BUILD="$a" ;;
+  esac
+done
 if [[ -z "$BUILD" ]]; then
   HOUR=$(TZ="America/New_York" date +%H 2>/dev/null || date +%H)
   if   (( 10#$HOUR >= 6  && 10#$HOUR < 14 )); then BUILD="11"
@@ -57,7 +66,9 @@ case "$BUILD" in
 7. Pick the bankroll bet (single safest qualifying fav, independent of parlay, not A-list fade).
 8. Append this run to parlays/YYYY-MM-DD.md as '## Run 11:00 ET — Build A'.
 9. Log all recommended legs in results_log.md with pre-registered TrueP + ImplP + Edge.
-10. Commit → push → open PR → squash-merge → git fetch+reset to main per CLAUDE.md git workflow."
+10. Commit → push → open PR → squash-merge → git fetch+reset to main per CLAUDE.md git workflow.
+11. Push notification: load PushNotification via ToolSearch (if needed), send title 'MLB Parlay Build A — <today>' summarizing Tier 1 standalone leg+edge, Tier 2 floor%, Tier 3 combined odds, bankroll bet; flag PENDING legs.
+12. Email: load mcp__Gmail__create_draft via ToolSearch (if needed), draft to icecold67@live.com subject 'MLB Parlay — <today YYYY-MM-DD> Build A', body = the 3 tiers (legs+prices+edges/floor%) + bankroll bet + any PENDING flags, under 250 words."
   ;;
 
 16|15)
@@ -73,7 +84,9 @@ case "$BUILD" in
 5. If any leg or price changed materially since the 11:00 build, APPEND a new '## Run 16:00 ET — Build B' section to today's parlays/YYYY-MM-DD.md (do NOT overwrite Build A — mark old legs SUPERSEDED if replaced).
 6. Update results_log.md with new or revised legs per the SUPERSEDE protocol.
 7. Confirm or update the bankroll bet if lineup was PENDING at 11:00.
-8. Commit → push → open PR → squash-merge → reset per CLAUDE.md git workflow."
+8. Commit → push → open PR → squash-merge → reset per CLAUDE.md git workflow.
+9. Push notification: load PushNotification via ToolSearch (if needed), send title 'MLB Parlay Build B update — <today>': CLV fills (count +/−), lineup upgrades, whether the build changed.
+10. Email: load mcp__Gmail__create_draft via ToolSearch (if needed), draft to icecold67@live.com subject 'MLB Parlay — <today YYYY-MM-DD> Build B update', body = CLV fills per open leg, PENDING→CONFIRMED upgrades, superseded legs, current active build, under 200 words."
   ;;
 
 18)
@@ -85,7 +98,9 @@ case "$BUILD" in
 3b. USER-ANGLE EXECUTION (results_log.md -> 'User-angle tracking' — directional-only, N<20): finish any Angle B (opposing-SP hits-allowed Over) line pulls for late/west-coast games (props <eventId> pitcher_hits_allowed + pitcher_outs, devig); for live games already underway, settle any Angle A live-ML triggers that fired and record the live price taken vs the pregame ref (the 'live CLV'). Update both Angle tables.
 4. If anything materially changed since the last build, APPEND '## Run 18:00 ET — Build C' to today's parlay file (mark prior build SUPERSEDED if replaced).
 5. Flag any legs the user should manually re-check at first pitch.
-6. Commit → push → open PR → squash-merge → reset per CLAUDE.md git workflow."
+6. Commit → push → open PR → squash-merge → reset per CLAUDE.md git workflow.
+7. Push notification: load PushNotification via ToolSearch (if needed), send title 'MLB Parlay Final check — <today>': final build legs confirmed, late lineup updates, first-pitch re-check flags.
+8. Email: load mcp__Gmail__create_draft via ToolSearch (if needed), draft to icecold67@live.com subject 'MLB Parlay — <today YYYY-MM-DD> Final check', body = late lineup confirmations, remaining CLV fills, final active build legs+prices, first-pitch re-check flags, under 200 words."
   ;;
 
 *)
@@ -94,15 +109,15 @@ case "$BUILD" in
   ;;
 esac
 
-echo "[cron_build.sh] $(TZ=America/New_York date '+%Y-%m-%d %H:%M %Z') — $LABEL"
-
-# ── Prompt-only mode (for GitHub Actions / external triggers) ─────────────────
-# Pass --prompt-only to print the prompt and exit without invoking Claude.
-# Useful for wiring into a GitHub Action's `prompt:` field or any other runner.
-if [[ "${2:-}" == "--prompt-only" || "${1:-}" == "--prompt-only" ]]; then
+# ── Prompt-only mode (single source of truth for the hook + GitHub Actions) ───
+# Pass --prompt-only to print JUST the prompt and exit (no header, no claude call).
+# The session-start hook consumes this so the build prompts live in ONE place.
+if [[ "$PROMPT_ONLY" == "1" ]]; then
   echo "$PROMPT"
   exit 0
 fi
+
+echo "[cron_build.sh] $(TZ=America/New_York date '+%Y-%m-%d %H:%M %Z') — $LABEL"
 
 # ── Invoke Claude non-interactively ──────────────────────────────────────────
 # NOTE: `claude -p` only works when called OUTSIDE a Claude Code session
