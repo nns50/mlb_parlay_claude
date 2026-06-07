@@ -346,12 +346,14 @@ rejected candidates with reasons, and a `Result` section starting TBD.
 - (Aliases: `cron_build.sh 09`→11, `15`→16 still accepted for back-compat.)
 - **CLV capture is OWNED by the 16:00 + 18:00 ET runs** (both near first pitch), not the 11:00 build. The
   16:00 run grabs the close for the evening core; the 18:00 run grabs the late/west-coast slate. The 11:00 run
-  is too early (close not set) — its session also dies (ephemeral container) before first pitch, so it
-  structurally can't capture the close. **`tools/clv_capture.sh` auto-runs in `session_start.sh` whenever the
-  ET hour is 15–19** (both 16:00 and 18:00 qualify): it scans `results_log.md` for Played=Y + Result=TBD +
-  CLV=— rows and calls `odds_api.sh clv` for each ML/RL leg. Output is READ-ONLY proposals — copy the +/=/-
-  verdict into the CLV column by hand. ⚠️ If CLV is still blank, confirm the 16:00/18:00 ET fires are actually
-  running. (Codified 6/4/26; auto-capture 6/6/26; retimed to 11/16/18 ET 6/7/26.)
+  is too early (close not set). **`tools/clv_capture.py --apply` AUTO-RUNS in `session_start.sh` whenever the
+  ET hour is 15–19** (both 16:00 and 18:00 qualify) and **WRITES the verdict directly into the CLV column** —
+  no manual copy step. It captures **bet-OR-recommended legs** (no Played=Y gate — every recommended leg is
+  Played=N), computing the verdict from the closing no-vig vs the row's logged no-vig ImplP (±0.5pp dead-band),
+  and is idempotent (filled rows skipped → re-running spends no quota). Props/RL stay manual (h2h-only feed).
+  ⚠️ The OLD `clv_capture.sh` gated on Played=Y and captured nothing (that was the real blank-CLV bug, not the
+  cron) — it's deprecated; use the `.py --apply`. (Codified 6/4/26; auto-capture 6/6/26; retimed to 11/16/18 +
+  switched to auto-applying `.py` 6/7/26.)
 - **One file per day, append-only.** If today's file exists, APPEND `## Run HH:MM ET — Build [A|B|C]`;
   never overwrite an earlier run (each is a record of the slate at that time).
 - **Supersede, never edit-in-place.** When a later run revises an earlier recommendation (line moved,

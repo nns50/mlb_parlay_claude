@@ -12,14 +12,22 @@ WHY THIS EXISTS
     MANUAL (need a hand price lookup — they're not in the h2h feed).
 
 USAGE
-    tools/clv_capture.py                              # targets today's date
+    tools/clv_capture.py                              # targets today's date (read-only proposals)
     tools/clv_capture.py 2026-06-06                   # target a specific date
-    tools/clv_capture.py 2026-06-06 path/to/results_log.md
+    tools/clv_capture.py --apply                      # WRITE the verdict into the CLV column in-place
+    tools/clv_capture.py --apply 2026-06-06 path/to/results_log.md
 
 CLV FILL KEY
     +   closing no-vig ImplP > bet no-vig ImplP  (line moved TO our side — good)
     −   closing no-vig ImplP < bet no-vig ImplP  (line moved against us — bad)
     =   flat (no meaningful move)
+
+--apply MODE
+    Computes the verdict (closing no-vig vs the row's logged no-vig ImplP, ±0.5pp dead-band)
+    and rewrites ONLY the CLV cell of each matched ML row, preserving every other cell exactly.
+    Captures bet-OR-recommended legs (no Played=Y gate) per doctrine. Idempotent: rows whose CLV
+    is already filled are skipped, so re-running spends no extra quota. Props/RL/totals stay "—"
+    (h2h-only feed) and are left for a manual pull.
 """
 import os
 import re
@@ -72,7 +80,7 @@ def is_sep_or_header(c):
 
 
 def table_rows_from_sections(text, *header_substrs):
-    """Yield (section_label, cell_list) for every data row in any named section."""
+    """Yield (section_label, cell_list, raw_line) for every data row in any named section."""
     rows = []
     in_sec = False
     cur_label = ""
@@ -91,8 +99,49 @@ def table_rows_from_sections(text, *header_substrs):
         if in_sec and re.match(r"^\s*\|", ln):
             c = cells(ln)
             if c and not is_sep_or_header(c):
-                rows.append((cur_label, c))
+                rows.append((cur_label, c, ln))
     return rows
+
+
+def _pct(s):
+    """Parse a percentage like '61.7%' or '~64%*' → float 61.7, or None."""
+    m = re.search(r"(\d+(?:\.\d+)?)\s*%", s or "")
+    return float(m.group(1)) if m else None
+
+
+def verdict_from_clv_output(out, bet_implp_cell):
+    """Derive the CLV cell string from cmd_clv stdout + the row's logged no-vig ImplP.
+
+    Returns e.g. '+ 72%cl' (verdict char + closing no-vig), or None if undeterminable.
+    Prefers the exact compare (closing no-vig vs logged bet no-vig, ±0.5pp dead-band);
+    falls back to cmd_clv's own proxy verdict when the row has no usable ImplP.
+    """
+    if not out:
+        return None
+    m = re.search(r"no-vig\s+(\d+(?:\.\d+)?)\s*%", out)        # "Close best X: ... no-vig NN%"
+    closing = float(m.group(1)) if m else None
+    bet_novig = _pct(bet_implp_cell)
+    if closing is not None and bet_novig is not None:
+        diff = closing - bet_novig
+        ch = "+" if diff > 0.5 else "−" if diff < -0.5 else "="
+        return f"{ch} {int(round(closing))}%cl"
+    # Fallback: use the proxy verdict line cmd_clv prints.
+    if "moved TO your side" in out:
+        return f"+ {int(round(closing))}%cl" if closing is not None else "+"
+    if "moved against you" in out:
+        return f"− {int(round(closing))}%cl" if closing is not None else "−"
+    return None
+
+
+def apply_clv_to_cell(raw_line, new_clv):
+    """Replace ONLY the CLV cell (pipe-index 10) of a ledger row, preserving all else."""
+    parts = raw_line.split("|")
+    # | Date | Leg | Type | Price | TrueP | ImplP | Edge | Result | Played | CLV | Bucket |
+    #  0  1     2     3       4       5       6       7        8         9      10      11    12
+    if len(parts) <= 11:
+        return raw_line  # malformed — leave untouched
+    parts[10] = f" {new_clv} "
+    return "|".join(parts)
 
 
 def md_date(d_str):
@@ -135,6 +184,8 @@ def run_clv(price_str, team_nick, target_date):
 
 def main():
     argv = sys.argv[1:]
+    apply_mode = "--apply" in argv
+    argv = [a for a in argv if a != "--apply"]
     target_date = next(
         (a for a in argv if re.match(r"\d{4}-\d{2}-\d{2}", a)),
         date.today().isoformat(),
@@ -151,7 +202,7 @@ def main():
 
     # cols: 0=Date 1=Leg 2=Type 3=Price 4=TrueP 5=ImplP 6=Edge 7=Result 8=Played 9=CLV 10=Bucket
     open_legs = []
-    for sec, c in all_rows:
+    for sec, c, raw in all_rows:
         if len(c) < 10:
             continue
         if not c[0].startswith(target_md):
@@ -160,12 +211,13 @@ def main():
         clv = c[9].strip() if len(c) > 9 else "—"
         if "tbd" not in result.lower():
             continue
-        if clv not in ("—", "–", ""):   # already captured — skip
+        if clv not in ("—", "–", ""):   # already captured — skip (idempotent)
             continue
-        open_legs.append((sec, c))
+        open_legs.append((sec, c, raw))
 
+    mode_lbl = "AUTO-WRITE (--apply)" if apply_mode else "read-only proposals"
     print("=" * 66)
-    print(f"  CLV CAPTURE — {target_date}  (read-only: apply fills by hand)")
+    print(f"  CLV CAPTURE — {target_date}  ({mode_lbl})")
     print("=" * 66)
 
     if not open_legs:
@@ -177,10 +229,12 @@ def main():
     print(f"\n  {len(open_legs)} open leg(s) to capture.  "
           f"Run closest to first pitch for the best closing-line read.\n")
 
-    for sec, c in open_legs:
+    edits = {}   # raw_line -> new_clv (for --apply)
+    for sec, c, raw in open_legs:
         leg   = c[1]
         typ   = c[2]
         price = c[3]
+        implp = c[5] if len(c) > 5 else ""
         label = f"[{typ}]" if typ else ""
         print(f"── {leg}  {label}  price: {price}")
 
@@ -209,10 +263,29 @@ def main():
             if out:
                 for ln in out.splitlines():
                     print(f"   {ln}")
+            verdict = verdict_from_clv_output(out, implp)
+            if verdict:
+                print(f"   → CLV verdict: {verdict}")
+                if apply_mode:
+                    edits[raw] = verdict
+            elif apply_mode:
+                print("   (could not derive a verdict to write — left as —)")
         print()
 
-    print("  → Apply: update CLV column (+/−/=) in results_log.md for each leg above.")
-    print("  → Then: re-run tools/calib.py to reconcile the rollup tables.")
+    if apply_mode and edits:
+        new_lines = []
+        for ln in text.split("\n"):
+            new_lines.append(apply_clv_to_cell(ln, edits[ln]) if ln in edits else ln)
+        with open(ledger, "w", encoding="utf-8") as fh:
+            fh.write("\n".join(new_lines))
+        print(f"  ✓ APPLIED {len(edits)} CLV verdict(s) into {os.path.basename(ledger)}.")
+        print("  → Re-run tools/calib.py to reconcile the rollup tables.")
+    elif apply_mode:
+        print("  (nothing to write — no ML legs produced a verdict.)")
+    else:
+        print("  → Apply: update CLV column (+/−/=) in results_log.md for each leg above,")
+        print("    or re-run with --apply to write them automatically.")
+        print("  → Then: re-run tools/calib.py to reconcile the rollup tables.")
     print("=" * 66)
 
 
