@@ -43,6 +43,18 @@ NICK = {
 # Longer nicknames first so "white sox" matches before "sox"-style partials.
 NICK_ORDER = sorted(NICK, key=len, reverse=True)
 
+# Whole-word abbreviation fallback (e.g. a leg written "LAD ML" / "TB ML" with no nickname).
+# Kept in sync with clv_capture.py so the two ledger tools agree on abbreviation-only legs.
+# (Bug 6/7/26: settle.py lacked this, so it failed to match legs clv_capture.py matched fine.)
+ABBREV = {
+    "lad": "LAD", "laa": "LAA", "nyy": "NYY", "nym": "NYM", "sea": "SEA",
+    "tb":  "TB",  "det": "DET", "cle": "CLE", "hou": "HOU", "atl": "ATL",
+    "phi": "PHI", "mil": "MIL", "sd":  "SD",  "sf":  "SF",  "col": "COL",
+    "stl": "STL", "chc": "CHC", "cin": "CIN", "pit": "PIT", "tex": "TEX",
+    "bal": "BAL", "bos": "BOS", "tor": "TOR", "kc":  "KC",  "min": "MIN",
+    "mia": "MIA", "wsh": "WSH", "ath": "ATH", "cws": "CWS", "az": "AZ",
+}
+
 PROP_HINT = re.compile(r"\b(over|under|\d+\.\d+\s*k|hits|total|team total|tt)\b", re.I)
 
 
@@ -81,6 +93,10 @@ def find_team(text):
     for nick in NICK_ORDER:
         if nick in low:
             return NICK[nick], nick
+    # Fall back to a whole-word abbreviation match (e.g. "LAD ML", "TB ML").
+    for abbr, full_abbr in ABBREV.items():
+        if re.search(rf"\b{re.escape(abbr)}\b", low):
+            return full_abbr, abbr.upper()
     return None, None
 
 

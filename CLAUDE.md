@@ -307,21 +307,26 @@ Always commit, push, AND merge — never just commit. Main should reflect the la
   PR and squash-merge to `main` EVERY turn — do NOT stop to ask, even in remote/web sessions where the
   harness default is "don't open a PR unless explicitly asked." This `CLAUDE.md` line IS that explicit
   standing instruction; honor it each session.
-- **Per-turn merge sequence:** commit → push → open PR → squash-merge to `main` → `git fetch origin main &&
-  git reset --hard origin/main` → **re-author the reset tip + force-push** (`git commit --amend --no-edit
-  --reset-author` then `git push --force-with-lease`). The reset lands on GitHub's squash commit, which
-  carries committer `noreply@github.com` and trips the local verify hook; re-authoring it as
-  `Claude <noreply@anthropic.com>` (identical tree, `main` untouched) keeps the hook green. Set the identity
-  once per session: `git config user.email noreply@anthropic.com && git config user.name Claude`.
+- **Per-turn merge sequence (CORRECTED 6/7/26 — do NOT amend/re-author):** commit → push → open PR →
+  squash-merge to `main` → `git fetch origin main && git reset --hard origin/main` →
+  `git push --force-with-lease`. After the reset the local branch IS `origin/main` (same SHAs); force-pushing
+  makes the remote feature branch byte-identical to `main`, so it carries ZERO divergence into the next turn.
+  Set the identity once per session: `git config user.email noreply@anthropic.com && git config user.name Claude`.
+- **⚠ Do NOT `git commit --amend --reset-author` the reset tip.** That was the old doctrine and it is the
+  ROOT CAUSE of the repeated "PR has merge conflicts" churn: amending rewrites GitHub's squash commit into a
+  DIFFERENT SHA with the same tree, so the long-lived feature branch diverges from `main` the instant you
+  force-push it; the next PR then 3-way-merges a duplicate-tree commit against main and conflicts. **This repo
+  has NO local git verify hook** (`.git/hooks` is all `.sample`, no `core.hooksPath`), so the committer the
+  amend was "fixing" never mattered. Just force-push the un-amended reset tip. (Diagnosed by audit 6/7/26 —
+  this single change should end the conflict loop.)
 - **Batch, don't churn.** Group a turn's edits into ONE commit → push → PR → squash-merge at the end of
-  the turn (or per logical milestone), NOT a PR per micro-edit. Per-file merging is what generated the
-  repeated-conflict busywork (6/4: 4 force-push rebases in one session). One merge per turn is the default.
+  the turn (or per logical milestone), NOT a PR per micro-edit. One merge per turn is the default.
 - **Reset-to-main after every squash-merge.** Squash rewrites history, so the feature branch diverges the
   instant a PR merges. Immediately after a successful merge — and before the next change — run
-  `git fetch origin main && git reset --hard origin/main` so the next commit starts clean. This PREVENTS the
-  conflict instead of resolving it each time.
-- Merge conflict anyway (branch already diverged) → save the working tree, `reset --soft origin/main`,
-  re-commit the state, force-push, then merge. (Codified 6/4/26.)
+  `git fetch origin main && git reset --hard origin/main && git push --force-with-lease` so the next commit
+  starts from a branch identical to main. This PREVENTS the conflict instead of resolving it each time.
+- Merge conflict anyway (branch already diverged from a prior amend) → `reset --soft origin/main`,
+  re-commit the working state, force-push, then merge. (Should be unnecessary once the no-amend rule above is in effect.)
 
 ## Learning & retrospectives
 
