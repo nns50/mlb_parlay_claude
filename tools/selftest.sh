@@ -167,6 +167,17 @@ CRED_N="$(grep -c 'Odds API credits remaining' tools/cron_build.sh)"
 [[ "${CRED_N:-0}" -ge 3 ]] && ok "all 3 builds report Odds API credits ($CRED_N mentions)" \
   || no "all 3 builds report Odds API credits" "only $CRED_N mentions (expect >=3)"
 
+# ── 13c. full prop universe expansion (offline) ──────────────────────────────
+echo "13c. prop universe (all/core expansion)"
+CB="$(cat tools/cron_build.sh)"
+has "odds_api defines PROPS_ALL universe" "PROPS_ALL=" "$OA"
+has "odds_api defines PROPS_CORE subset"  "PROPS_CORE=" "$OA"
+has "cmd_props expands 'all' keyword"     "all)  markets=\"\$PROPS_ALL\"" "$OA"
+has "cmd_props expands 'core' keyword"    "core) markets=\"\$PROPS_CORE\"" "$OA"
+has "PROPS_ALL includes home runs"        "batter_home_runs" "$OA"
+has "PROPS_ALL includes total bases"      "batter_total_bases" "$OA"
+has "16:00 build runs the prop value sweep" "FULL PROP VALUE SWEEP" "$CB"
+
 # ── 14. ONLINE (free StatsAPI only): resolver collision regression ───────────
 if [[ $QUICK -eq 0 ]]; then
   echo "14. mlb_api resolver (live StatsAPI — free, no odds quota)"

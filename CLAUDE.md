@@ -140,6 +140,26 @@ Hard gate: may not recommend OR reject an SP leg until this is filled and shown,
   BvP isn't a fade signal either).
 - Park/weather (`weather <date>` — wind out/in + temp); bullpen matchup if the starter exits early.
 
+### Full prop universe — scan ALL props for value, not just hits/Ks (expanded 6/7/26 per user)
+The hunt is no longer hits + Ks only. `odds_api.sh props <eventId> all` prices the full curated MLB prop
+universe (≈14 markets/event, 1 credit each); `core` = the softer high-value subset (HR / total bases /
+hits+runs+RBIs / RBI + K / hits-allowed / earned-runs). **Quota discipline: the full prop value sweep is the
+16:00 run ONLY** (lineups locked; props are meaningless pre-lineup) and gated on `ODDS_MODE=rich` — `core`
+across the slate (~7cr×games) or `all` on the games already showing a signal (~14cr each). Never sweep all
+markets × all games on every run. **Method = same as any leg: pull both sides → `devig.sh` → min-edge gate;
+surface only props clearing +2pp standalone / +3-4pp to anchor.** Prop-specific value reads:
+- **Home runs (`batter_home_runs`):** park HR factor + wind-out + temp (`weather`), opposing-SP HR/9 + FB%,
+  hitter barrel/ISO + recent HR pace, hitter-vs-SP-hand. The longest-tail prop — books shade Overs on stars;
+  value is often the quiet mid-order bat in a HR park, or the Under on a cold slugger vs a grounder arm.
+- **Total bases / hits+runs+RBIs (`batter_total_bases`, `batter_hits_runs_rbis`):** softer than straight
+  hits (multi-outcome). Lineup slot (PA volume) + matchup + park; top-of-order in a high-total game.
+- **RBI / runs scored (`batter_rbis`, `batter_runs_scored`):** team-total correlated — pair with a team-total
+  Over read; RBI needs men on base (lineup slot 3-5), runs needs to get on + be driven in (slot 1-2).
+- **Stolen bases (`batter_stolen_bases`):** pure speed+green-light vs catcher pop-time / SP hold; rare value,
+  usually a known burner vs a slow-to-plate SP.
+- **Singles/doubles/walks:** thin/illiquid — only if a clear matchup edge (walks vs a high-BB SP, etc.).
+- All hitter-prop gates above (lineup CONFIRMED, recent form/slump, handedness, BvP≥30PA) still apply.
+
 ### Moneyline / spread — verify before recommending
 - SP matchup quality (ERA, xFIP, recent form — not just season ERA); HR rate; first-inning issues.
 - **Favorite's OWN starter ERA is a ceiling on ML safety.** Own SP ~5.00+ → high-variance shootout,
