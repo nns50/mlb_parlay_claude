@@ -32,7 +32,7 @@ CLAUDE.md is crisp **doctrine**; those files are **live data**. Burn tags below 
 - **Odds source — `tools/odds_api.sh` (The Odds API), PREFERRED over hand-entered prices.** Run `check`
   first (needs the env var `ODDS_API_KEY` + `api.the-odds-api.com` allowlisted; activates only in a NEW
   session, like mlb_api). OK → use it for line-shopping (`best h2h|totals|spreads` → best price + book),
-  feeding `devig.sh`, and **CLV capture** (`clv <betAmerican> <team>` on the 15:30/18:30 runs). `slate` is
+  feeding `devig.sh`, and **CLV capture** (`clv <betAmerican> <team>` on the 16:00/18:00 runs). `slate` is
   cached per run for efficiency. **Player props (Ks/hits) are now API-priced on the paid tier (20K
   credits/mo)** — use `events [date]` → `props <id> pitcher_strikeouts` for K-leg pricing (~1
   credit/market/event, ~15 credits for a full-slate prop scan); the API owns ML/totals/spreads/props.
@@ -330,24 +330,28 @@ Save each build to `parlays/YYYY-MM-DD.md` (commit/push/merge). Include: the gat
 slate-wide scan, each leg + odds + per-leg reasoning + true-prob, the three tiers + combined math,
 rejected candidates with reasons, and a `Result` section starting TBD.
 
-### Multi-run-per-day (cron 3× ET)
-- **Run timing — align to the lineup gate.** Lineups post ~2-3h pre-game (≈4-5pm ET for a 7pm slate), so
-  any run before that CAN'T clear the hitter-prop lineup gate and is always "PENDING LINEUP." The cron has
-  historically fired 09:00 / 11:00 / 17:00 ET — but **09:00 and 11:00 are both pre-lineup, so the 11:00 run
-  duplicates the 09:00 read.** Recommended windows (re-time in the routine's cron config — it lives there,
-  not in this repo):
-    - **~09:00 ET** — prior-day full-slate review + settle + the slate-wide value scan (no lineups needed).
-    - **~15:30 ET** — lineup lock for early/evening games + the close-to-first-pitch CLV pull.
-    - **~18:30 ET** — late/west-coast lineups + final line check before first pitch.
-- **CLV capture is OWNED by the near-first-pitch runs (15:30 / 18:30), not the 09:00 build.** The session
-  that builds a bet dies (ephemeral container) before first pitch, so it structurally cannot capture the
-  close — that's the real reason the CLV column is blank, not laziness. **`tools/clv_capture.sh` now
-  auto-runs in `session_start.sh` whenever the ET hour is 15–19**: it scans `results_log.md` for
-  Played=Y + Result=TBD + CLV=— rows and calls `odds_api.sh clv` for each ML/RL leg. Output is
-  READ-ONLY proposals — copy the +/=/-  verdict into the CLV column by hand. ⚠️ This still depends
-  on the cron actually firing at 15:30/18:30 — **the cron timing lives in the routine's config OUTSIDE
-  this repo; if CLV is still blank, fix the cron, not just this doctrine.** (Codified 6/4/26; auto-capture
-  added 6/6/26.)
+### Run timing — ACTUAL schedule: 3 runs/day at 11:00 / 16:00 / 18:00 ET (user-confirmed 6/7/26)
+- **The Claude Code routine fires 3×/day at 11:00, 16:00, 18:00 ET** (not the old 09/15/18 prose). `cron_build.sh`
+  auto-detects the hour → `BUILD` 11 / 16 / 18. Each run's job:
+    - **11:00 ET — morning** (`BUILD=11`): settle yesterday + prior-day full-slate review + calibration + the
+      slate-wide value scan + initial 3-tier build + bankroll bet. Lineups NOT posted yet → hitter/K/prop legs
+      are PENDING LINEUP. Writes `## Run 11:00 ET — Build A`.
+    - **16:00 ET — midday lock** (`BUILD=16`): CLV capture + lineup lock for the evening core + ump/weather +
+      **user-angle execution** (Angle B hits-Over line pulls, Angle A live-ML triggers) + revise the build.
+      Note the early (~13:35 ET) games are already IN PROGRESS — live-only. Appends `## Run 16:00 ET — Build B`.
+    - **18:00 ET — final** (`BUILD=18`): late/west-coast lineup lock + final CLV + settle any Angle A live-ML
+      triggers that fired (live price vs pregame ref = "live CLV"). Appends `## Run 18:00 ET — Build C`.
+- **Lineup gate across the three:** 11:00 is pre-lineup (everything PENDING); 16:00 clears the evening core;
+  18:00 catches the late/west-coast slate. Don't lock a hitter/K/prop leg before its lineup posts.
+- (Aliases: `cron_build.sh 09`→11, `15`→16 still accepted for back-compat.)
+- **CLV capture is OWNED by the 16:00 + 18:00 ET runs** (both near first pitch), not the 11:00 build. The
+  16:00 run grabs the close for the evening core; the 18:00 run grabs the late/west-coast slate. The 11:00 run
+  is too early (close not set) — its session also dies (ephemeral container) before first pitch, so it
+  structurally can't capture the close. **`tools/clv_capture.sh` auto-runs in `session_start.sh` whenever the
+  ET hour is 15–19** (both 16:00 and 18:00 qualify): it scans `results_log.md` for Played=Y + Result=TBD +
+  CLV=— rows and calls `odds_api.sh clv` for each ML/RL leg. Output is READ-ONLY proposals — copy the +/=/-
+  verdict into the CLV column by hand. ⚠️ If CLV is still blank, confirm the 16:00/18:00 ET fires are actually
+  running. (Codified 6/4/26; auto-capture 6/6/26; retimed to 11/16/18 ET 6/7/26.)
 - **One file per day, append-only.** If today's file exists, APPEND `## Run HH:MM ET — Build [A|B|C]`;
   never overwrite an earlier run (each is a record of the slate at that time).
 - **Supersede, never edit-in-place.** When a later run revises an earlier recommendation (line moved,
@@ -444,9 +448,9 @@ the outcome shows the analysis was wrong (calibration both ways).
    Apply lessons before building. Run `tools/calib.py` for the fresh bands/ROI/by-type read.
 3. Any TBD recent result → **self-settle it first** via `finals` (or the 2-source WebSearch gate);
    mark the ticket W/L + retrospective. Only ask the user if a final genuinely can't be confirmed
-   (game suspended/postponed). (User confirmed 5/29: the scheduled 09:00 run self-settles.)
+   (game suspended/postponed). (User confirmed 5/29: the scheduled morning run self-settles.)
 
-### Prior-day full-slate review (MANDATORY on the 09:00 run)
+### Prior-day full-slate review (MANDATORY on the 11:00 morning run)
 Before building, retrospect EVERY game from the prior day (not just bet/headline legs):
 1. Pull all finals — `tools/mlb_api.sh finals <yesterday>` if OK, else targeted WebSearch
    (ESPN/MLB/CBS return 403 to WebFetch; "Team A Team B <date> final score recap" works). Watch for

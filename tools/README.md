@@ -48,12 +48,12 @@ tools/mlb_api.sh raw "schedule?sportId=1&date=2026-06-04"   # raw JSON passthrou
 - **SP-freshness gate:** `findpitcher` → `pitcher`/`gamelog` give the current season line AND the
   most-recent start (date/opp/IP/ER/K), exactly what the freshness field requires.
 - **Lineup gate:** `lineups <date>` shows confirmed batting orders (or PENDING when not yet posted).
-  Run at ~15:30 ET; if PENDING, hitter-prop legs cannot be locked.
+  Run at ~16:00 ET; if PENDING, hitter-prop legs cannot be locked.
 - **HP umpire gate:** `ump <date>` returns the HP ump name per game once games are in-progress. Pre-game
-  (09:00 run): outputs PENDING with a WebSearch fallback hint for early assignment lookup.
+  (11:00 run): outputs PENDING with a WebSearch fallback hint for early assignment lookup.
 - **Park/weather (totals + K signal):** `weather <date>` gives condition/temp/wind-with-direction + venue,
   and flags retractable/domed parks. "Out" wind boosts totals/HR (hurts K-Over); "In" + cold suppresses.
-  Like `ump`, it populates near first pitch — empty pre-game (09:00), live at the 15:30/18:30 runs.
+  Like `ump`, it populates near first pitch — empty pre-game (11:00), live at the 16:00/18:00 runs.
 - **K% by handedness (K-Over gate):** `splits <team>` returns team K% vs LHP and vs RHP from StatsAPI
   batting splits — deterministic replacement for manual K% research before K-Over legs.
 - **Fade re-verification (`fades.md`):** `standings` gives every team's W-L / L10 / streak / run diff in
@@ -87,7 +87,7 @@ tools/odds_api.sh clv <betAmerican> "<team>" [date]   # closing no-vig vs your b
 ```
 
 **How it slots in:** at **build** → `best` feeds the best two-sided price into `devig.sh` (min-edge gate vs
-the genuinely best number). At the **15:30 / 18:30 runs** → `clv` snapshots the close for every open leg and
+the genuinely best number). At the **16:00 / 18:00 runs** → `clv` snapshots the close for every open leg and
 you write CLV into `results_log.md`. Pairs with `parlay.py` (real prices → real combined EV). Player props
 (Ks/hits) are limited/quota-heavy on the free tier → keep pricing them by hand; the API owns ML/totals/spreads.
 
