@@ -95,8 +95,12 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 6/5 | D-backs ML (Kelly, vs WSH) | ML-fav | -134 | 50% | 56.7% | −6.7 | **W (fade)** (AZ lost 1-14) — scan-only REJECT; Kelly 5.06 own-SP trap (D4) validated hard. Grade: **correct reject** | N | — | S |
 | 6/7 | deGrom (TEX) ML (vs CLE) | ML-fav | -140 | 60.1% | 57.1% | +3.0 | **W** (TEX 10-0, deGrom dealt) — Build A Tier 1 standalone + bankroll roll 3; ace edge (3.48/10.86 K9). Grade: **+EV (clears gate)** | N | + (live, line ran to −10000) | S |
 | 6/7 | Braves ML (Elder, vs PIT) | ML-fav | -145 | 60% | 57.9% | +2.1 | **W** (ATL 3-2 PIT) — Build A Tier 2/3 partner; elite team + Elder 2.63, D5 caution applied. Grade: **+EV (thin)** | N | + 85%cl | P |
-| 6/7 | LAD ML (Sheehan, vs LAA) | ML-fav | -210 | 63% | 66.3% | −3.3 | TBD — scan REJECT (faces ace Soriano 2.72 w/ only Sheehan 4.50; offense-driven heavy price). Grade: **correct reject (−EV)** | N | + 85%cl | P |
+| 6/7 | LAD ML (Sheehan, vs LAA) | ML-fav | -210 | 63% | 66.3% | −3.3 | **would-L** (LAD 5-13 LAA — correct reject confirmed; offense-driven heavy price busted vs ace Soriano 2.72). Grade: **correct reject (−EV)** | N | + 85%cl | P |
 | 6/7 | PHI ML (Nola, vs CWS) | ML-fav | -161 | 53% | 61.5% | −8.5 | **W** (PHI 9-5 — would-W; D4 trap fav won this time, fades.md D4 → 3-1) — scan REJECT; Nola 5.55 own-SP trap (D4) + CWS B1 dog. Grade: **correct reject (−EV process); outcome won** | N | + 85%cl | S |
+| 6/8 | Sánchez Over 6.5 K (vs TOR) | K-Over | +100 | 58% | 46.9% | +11.1 | TBD — Build A Tier 1 standalone; PENDING LINEUP+ump; 10.74 K9, low line, TOR 19%K-vs-LHP caveat respected. Grade: **+EV (clears gate)** | N | | S |
+| 6/8 | PHI ML (Sánchez, vs TOR) | ML-fav | -165 | 63.8% | 60.8% | +3.0 | TBD — Build A Tier 2 anchor + bankroll roll 4; ace edge (1.46/10.74), PHI L15 7-3. Grade: **+EV (clears gate)** | N | | P |
+| 6/8 | MIL ML (Harrison, vs ATH) | ML-fav | -141 | 60.4% | 57.4% | +3.0 | TBD — Build A Tier 2/3 anchor; ace edge (1.57/11.46) + hot team 40-23/+105. Grade: **+EV (clears gate)** | N | | P |
+| 6/8 | HOU ML (Arrighetti, vs LAA) | ML-fav | -126 | 56% | 54.5% | +1.5 | TBD — Build A Tier 3 +200 leg; Arrighetti 1.94 vs G-Rod 9.50, but HOU 30-37 bad team (thin/opponent-driven). Grade: **thin +EV** | N | | P |
 | 6/6 | Dodgers ML (Yamamoto, vs LAA) | ML-fav | -182 | 64.7% | 61.7% | +3.0 | **W** (LAD 9-2) — Build A Tier 1 + bankroll roll 2 (logged @ −182). Grade: **+EV (clears gate)** | N | — | S |
 | 6/6 | Braves ML (Strider, vs PIT) | ML-fav | -146 | 58.1% | 57.1% | +1.0 | **SUPERSEDED → Build B** (line moved −146 → −112 pick'em; ATL no longer a floor leg). Grade: ~fair/thin | N | — | P |
 | 6/6 | Cardinals ML (Liberatore, vs CIN) | ML-fav | -126 | 54% | 53.7% | +0.3 | **SUPERSEDED → Build B** (Build A +200-chase 3rd leg dropped, D1). Grade: -EV chase | N | — | P |
@@ -204,9 +208,9 @@ Capture: pregame ML vs the live price taken (the "live CLV"), the game state at 
 | Date | Game | Live price | Entry state | Pregame ML (ref) | Result | Live-CLV |
 |------|------|-----------|-------------|------------------|--------|----------|
 | 6/6 | TOR ML (vs BAL) | -191 | led early | ~-132 (open) | **W** (TOR 6-4) | took worse # for safety — live tax, but cashed |
-| 6/7 | LAD (vs LAA, Sheehan/Soriano) | WATCH | re-entry IF trails early | pull at game time | TBD | candidate #1 — strong team, moderate fav; trail early → overshoot |
-| 6/7 | NYY (vs BOS, Suarez LHP) | WATCH | re-entry IF trails early | -160 (open) | TBD | candidate #2 — Suarez tough; early NYY deficit = live value |
-| 6/7 | ATL (vs PIT, Bryce Elder) | WATCH | re-entry IF trails early | -145 (open) | TBD | candidate #3 — **probable is Elder (2.63), not Chandler** (pre-seed corrected); ATL also Build A Tier 2/3 anchor |
+| 6/7 | LAD (vs LAA, Sheehan/Soriano) | WATCH | re-entry IF trails early | pull at game time | **no-trigger** (LAD lost 5-13 — a deficit re-entry would have LOST; correct to pass) | candidate #1 — strong team, moderate fav; trail early → overshoot |
+| 6/7 | NYY (vs BOS, Suarez LHP) | WATCH | re-entry IF trails early | -160 (open) | **no-trigger** (NYY won 6-1 wire-to-wire — no early deficit, no re-entry spot) | candidate #2 — Suarez tough; early NYY deficit = live value |
+| 6/7 | ATL (vs PIT, Bryce Elder) | WATCH | re-entry IF trails early | -145 (open) | **no-trigger** (ATL won 3-2 close — pregame ML cashed; settled in main table) | candidate #3 — **probable is Elder (2.63), not Chandler** (pre-seed corrected); ATL also Build A Tier 2/3 anchor |
 
 **Angle A record: 1-0** (6/7 = 3 pre-game WATCH candidates, value-re-entry type — execute in-game only). Watch: live-ML usually means PAYING UP for a lead already in (the −132→−191
 move is the "live tax"). The edge case worth proving is the OPPOSITE — a value re-entry when a good team
@@ -219,9 +223,9 @@ opposing lineup contact quality, result (hits allowed).
 | Date | SP (vs team) | Line | Opp contact read | Result | Hits |
 |------|-------------|------|------------------|--------|------|
 | 6/6 | Kochanowicz O5.5 (vs LAD) | (SGP) | LAD elite offense, K had 6.94 ERA into start | **W** | 6+ (pulled 0.1 IP/6 ER) |
-| 6/7 | Freeland (COL LHP, vs MIL @ Coors) | WATCH — pull line | 8.06 ERA/1.71 WHIP, Coors; MIL 21% K but only .226 vs LHP | TBD | candidate #1 — park+profile cleanest; .226-vs-LHP caveat; low hook risk (eats IP) |
+| 6/7 | Freeland (COL LHP, vs MIL @ Coors) | WATCH — pull line | 8.06 ERA/1.71 WHIP, Coors; MIL 21% K but only .226 vs LHP | **no-trigger** (MIL won 12-4 @ Coors — Over hits would almost certainly have CASHED; line never pulled) | candidate #1 — park+profile cleanest; .226-vs-LHP caveat; low hook risk (eats IP) |
 | 6/7 | ~~Chandler~~ Montgomery (PIT, @ ATL) | VOID | PIT probable = Mason Montgomery, not Chandler (pre-seed wrong) | — | candidate VOID — re-scan Montgomery if pulling the Angle-B line at 16:00 |
-| 6/7 | Flaherty (DET RHP, vs SEA) | WATCH — pull line | 5.31 ERA/1.60 WHIP but 10.92 K/9; SEA .247/22% | TBD | candidate #3 — high K/9 converts hits→Ks, weakest |
+| 6/7 | Flaherty (DET RHP, vs SEA) | WATCH — pull line | 5.31 ERA/1.60 WHIP but 10.92 K/9; SEA .247/22% | **no-trigger** (SEA scored 4 in a 5-4 DET win — marginal; line never pulled) | candidate #3 — high K/9 converts hits→Ks, weakest |
 
 **Angle B record: 1-0** (6/7 = 3 WATCH candidates; pull the real line + devig near first pitch — Gilbert/PHI passed: opener/start-length unknown). Watch: (a) hits-allowed correlates with IP — a quick hook (few outs) can CAP
 hits even in a blowup, so it has the same left-tail start-length risk as K-Overs; (b) books shade these

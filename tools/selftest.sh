@@ -57,10 +57,15 @@ PY
 then ok "parse_result: W/L/would-L/SUPERSEDED/TBD all correct"; else no "parse_result" "$(cat /tmp/_selftest_out)"; fi
 
 # ── 3. calib.py output reconciles with the ledger prose ──────────────────────
+# Expected record/ROI are DERIVED from results_log.md prose (not hardcoded) so the
+# test self-maintains as tickets settle; the only fixed guard is the +213 corruption check.
 echo "3. calib reconciliation (no \$-USER / TBD leakage into unit ROI)"
 COUT="$(python3 tools/calib.py 2>/dev/null)"
-has  "calib ROI excludes dollar USER tickets (ROI is a unit %, not the inflated +213%)" "ROI +30.7%" "$COUT"
-has  "calib parlay record 5-7 (matches prose)" "record: 5-7" "$COUT"
+PROSE="$(grep -m1 'Record: .* W – .* L (recommended builds)' results_log.md)"
+EXP_REC="record: $(echo "$PROSE" | grep -oE '[0-9]+ W – [0-9]+ L' | grep -oE '[0-9]+' | paste -sd-)"
+EXP_ROI="$(echo "$PROSE" | grep -oE 'ROI [+-][0-9.]+%')"
+has  "calib ROI is a unit % matching prose (not the inflated dollar +213%)" "$EXP_ROI" "$COUT"
+has  "calib parlay record matches prose ($EXP_REC)" "$EXP_REC" "$COUT"
 hasnt "calib ROI not the corrupted +213.6%" "+213" "$COUT"
 
 # ── 4. settle.py find_team — abbreviation fallback (agrees w/ clv_capture) ────
