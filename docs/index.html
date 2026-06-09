@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MLB Parlay Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg:#0d1117; --surf:#161b22; --surf2:#21262d; --border:#30363d;
+  --text:#e6edf3; --muted:#8b949e; --green:#22c55e; --red:#ef4444;
+  --yellow:#f59e0b; --blue:#3b82f6; --purple:#a78bfa;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;line-height:1.5}
+a{color:var(--blue);text-decoration:none}
+header{background:var(--surf);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
+header h1{font-size:16px;font-weight:600;letter-spacing:-0.3px}
+.updated{font-size:11px;color:var(--muted)}
+.wrap{max-width:1380px;margin:0 auto;padding:20px 20px 40px}
+.section-title{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin:24px 0 10px}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:4px}
+.stat{background:var(--surf);border:1px solid var(--border);border-radius:8px;padding:14px 16px}
+.stat .lbl{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:5px}
+.stat .val{font-size:22px;font-weight:700}
+.stat .sub{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* Cards */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+@media(max-width:800px){.grid2{grid-template-columns:1fr}}
+.card{background:var(--surf);border:1px solid var(--border);border-radius:8px;padding:18px}
+.card h2{font-size:13px;font-weight:600;margin-bottom:2px}
+.card .sub{font-size:11px;color:var(--muted);margin-bottom:14px}
+.chart-wrap{position:relative;height:220px}
+.chart-wrap-sm{position:relative;height:150px}
+
+/* Tables */
+.tcard{background:var(--surf);border:1px solid var(--border);border-radius:8px;padding:18px;margin-bottom:14px;overflow-x:auto}
+.tcard h2{font-size:13px;font-weight:600;margin-bottom:2px}
+.tcard .sub{font-size:11px;color:var(--muted);margin-bottom:12px}
+table{width:100%;border-collapse:collapse}
+thead th{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;text-align:left;padding:6px 10px;border-bottom:1px solid var(--border)}
+tbody td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--surf2)}
+.mono{font-family:'SF Mono',ui-monospace,monospace;font-size:12px}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+.pos{color:var(--green)}
+.neg{color:var(--red)}
+.star{color:var(--yellow);font-size:10px}
+
+/* Badges & tags */
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px}
+.badge.win{background:rgba(34,197,94,.15);color:var(--green)}
+.badge.loss{background:rgba(239,68,68,.15);color:var(--red)}
+.badge.tbd{background:rgba(139,148,158,.15);color:var(--muted)}
+.tag{display:inline-block;font-size:10px;padding:1px 6px;border-radius:3px;background:var(--surf2);color:var(--muted)}
+.no-data{text-align:center;padding:40px 20px;color:var(--muted);font-size:13px}
+.note{font-size:11px;color:var(--muted);margin-top:8px;padding:8px 10px;background:var(--surf2);border-radius:4px;border-left:2px solid var(--border)}
+</style>
+</head>
+<body>
+<header>
+  <h1>⚾ MLB Parlay Dashboard</h1>
+  <span class="updated">Updated 2026-06-09 03:16 ET</span>
+</header>
+<div class="wrap">
+
+  <div class="section-title">Overview</div>
+  <div class="stats">
+    <div class="stat">
+      <div class="lbl">Played leg record</div>
+      <div class="val">17-9</div>
+      <div class="sub">65.4% · n=26</div>
+    </div>
+    <div class="stat">
+      <div class="lbl">Ticket record</div>
+      <div class="val">9-7</div>
+      <div class="sub">parlay builds · n=16</div>
+    </div>
+    <div class="stat">
+      <div class="lbl">CLV+ rate</div>
+      <div class="val">50.0%</div>
+      <div class="sub">beat the close · n=14</div>
+    </div>
+    <div class="stat">
+      <div class="lbl">Bankroll balance</div>
+      <div class="val">$65.48</div>
+      <div class="sub">$10 rollover ladder</div>
+    </div>
+  </div>
+
+  <div class="section-title">Bankroll &amp; Calibration</div>
+  <div class="grid2">
+    <div class="card">
+      <h2>Bankroll Curve</h2>
+      <div class="sub">$10 rollover ladder — balance per roll (green = W, red = L)</div>
+      <div class="chart-wrap"><canvas id="brChart"></canvas></div>
+    </div>
+    <div class="card">
+      <h2>Calibration</h2>
+      <div class="sub">Actual hit rate vs TrueP midpoint per bucket (non-legacy played legs)</div>
+      <div class="chart-wrap"><canvas id="calChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="section-title">Closing Line Value</div>
+  <div class="card" style="margin-bottom:14px">
+    <h2>CLV per Leg</h2>
+    <div class="sub">Green = beat the close · Red = missed · h2h ML only; props/RL are manual</div>
+    <div class="chart-wrap-sm"><canvas id="clvChart"></canvas></div>
+  </div>
+  <p class="note">CLV converges faster than ROI at small samples — it's the primary scoreboard. A sustained CLV+ rate is the clearest signal of process quality before ROI stabilises.</p>
+
+  <div class="section-title">Recent played legs</div>
+  <div class="tcard">
+    <h2>Last 20 decided legs</h2>
+    <div class="sub">Played=Y only · * = legacy/reconstructed TrueP (excluded from calibration)</div>
+    <table><thead><tr><th>Date</th><th>Leg</th><th>Type</th><th>Price</th><th>TrueP</th><th>Edge</th><th>CLV</th><th>Result</th></tr></thead><tbody>
+      <tr>
+        <td class="mono">6/5</td>
+        <td>Dodgers ML (Sasaki, vs LAA)</td>
+        <td><span class="tag">ML-fav</span></td>
+        <td class="mono">-188</td>
+        <td class="mono">66%</td>
+        <td class="mono pos">+3.3</td>
+        <td class="mono pos">+</td>
+        <td><span class="badge win">W</span></td>
+      </tr>
+      <tr>
+        <td class="mono">6/5</td>
+        <td>Mariners ML (Woo, @ DET)</td>
+        <td><span class="tag">ML-fav</span></td>
+        <td class="mono">-120</td>
+        <td class="mono">59%</td>
+        <td class="mono pos">+6.8</td>
+        <td class="mono pos">+</td>
+        <td><span class="badge loss">L</span></td>
+      </tr>
+      <tr>
+        <td class="mono">6/4</td>
+        <td>Sale Over 6.5 K (vs TOR)</td>
+        <td><span class="tag">K-Over</span></td>
+        <td class="mono">-179</td>
+        <td class="mono">64%</td>
+        <td class="mono pos">+2.5</td>
+        <td class="mono ">— (no odds API)</td>
+        <td><span class="badge loss">L</span></td>
+      </tr>
+      <tr>
+        <td class="mono">6/4</td>
+        <td>Phillies ML (Wheeler, vs SD)</td>
+        <td><span class="tag">ML-fav</span></td>
+        <td class="mono">-198</td>
+        <td class="mono">65%</td>
+        <td class="mono pos">+1.1</td>
+        <td class="mono ">— (no odds API)</td>
+        <td><span class="badge win">W</span></td>
+      </tr>
+      <tr>
+        <td class="mono">6/4</td>
+        <td>Braves ML (Sale, vs TOR)</td>
+        <td><span class="tag">ML-fav</span></td>
+        <td class="mono">-205</td>
+        <td class="mono">67%</td>
+        <td class="mono pos">+2.4</td>
+        <td class="mono ">— (no odds API)</td>
+        <td><span class="badge loss">L</span></td>
+      </tr>
+      <tr>
+        <td class="mono">6/3</td>
+        <td>Phillies ML (vs SD)</td>
+        <td><span class="tag">ML-fav</span></td>
+        <td class="mono">-215</td>
+        <td class="mono">64%</td>
+        <td class="mono neg">-4.3</td>
+        <td class="mono ">—</td>
+        <td><span class="badge win">W</span></td>
+      </tr>
+      <tr>
+        <td class="mono">6/3</td>
+        <td>Mariners ML (vs NYM)</td>
+        <td><span class="tag">ML-fav</span></td>
+        <td class="mono">-151</td>
+        <td class="mono">60%</td>
+        <td class="mono neg">-0.2</td>
+        <td class="mono ">—</td>
+        <td><span class="badge loss">L</span></td>
+      </tr>
+      <tr>
+        <td class="mono">6/2</td>
+        <td>Brewers ML (vs SF)</td>
+        <td><span class="tag">ML-fav</span></td>
+        <td class="mono">~-145</td>
+        <td class="mono">63% <span class="star">*</span></td>
+        <td class="mono pos">+3.8</td>
+        <td class="mono ">—</td>
+        <td><span class="badge win">W</span></td>
+      </tr>
+      <tr>
+        <td class="mono">6/2</td>
+        <td>Mariners ML (vs NYM)</td>
+        <td><span class="tag">ML-fav</span></td>
+        <td class="mono">~-150</td>
+        <td class="mono">60%</td>
+        <td class="mono ">—</td>
+        <td class="mono ">—</td>
+        <td><span class="badge win">W</span></td>
+      </tr>
+      <tr>
+        <td class="mono">6/1</td>
+        <td>Rays −1.5 RL (vs DET)</td>
+        <td><span class="tag">Run line</span></td>
+        <td class="mono">+118</td>
+        <td class="mono">47% <span class="star">*</span></td>
+        <td class="mono pos">+1.1</td>
+        <td class="mono ">—</td>
+        <td><span class="badge loss">L</span></td>
+      </tr>
+      <tr>
+        <td class="mono">6/1</td>
+        <td>Mariners ML (vs NYM)</td>
+        <td><span class="tag">ML-fav</span></td>
+        <td class="mono">~-150</td>
+        <td class="mono">60%</td>
+        <td class="mono ">—</td>
+        <td class="mono ">—</td>
+        <td><span class="badge win">W</span></td>
+      </tr>
+      <tr>
+        <td class="mono">5/31</td>
+        <td>Yankees ML (@ ATH)</td>
+        <td><span class="tag">ML-fav</span></td>
+        <td class="mono">-154</td>
+        <td class="mono">60% <span class="star">*</span></td>
+        <td class="mono neg">-0.6</td>
+        <td class="mono ">—</td>
+        <td><span class="badge win">W</span></td>
+      </tr>
+      <tr>
+        <td class="mono">5/31</td>
+        <td>Brewers −1.5 RL (@ HOU)</td>
+        <td><span class="tag">Run line</span></td>
+        <td class="mono">~+120</td>
+        <td class="mono">48% <span class="star">*</span></td>
+        <td class="mono pos">+2.5</td>
+        <td class="mono ">—</td>
+        <td><span class="badge win">W</span></td>
+      </tr>
+      <tr>
+        <td class="mono">5/30</td>
+        <td>Padres ML (@ WSH)</td>
+        <td><span class="tag">ML-fav</span></td>
+        <td class="mono">-130</td>
+        <td class="mono">57% <span class="star">*</span></td>
+        <td class="mono pos">+0.5</td>
+        <td class="mono ">—</td>
+        <td><span class="badge loss">L</span></td>
+      </tr>
+      <tr>
+        <td class="mono">5/30</td>
+        <td>Guardians ML (vs BOS)</td>
+        <td><span class="tag">ML-fav</span></td>
+        <td class="mono">-134</td>
+        <td class="mono">58% <span class="star">*</span></td>
+        <td class="mono pos">+0.7</td>
+        <td class="mono ">—</td>
+        <td><span class="badge loss">L</span></td>
+      </tr>
+      <tr>
+        <td class="mono">5/29</td>
+        <td>Astros ML (vs MIL)</td>
+        <td><span class="tag">ML-dog</span></td>
+        <td class="mono">+100</td>
+        <td class="mono">50%</td>
+        <td class="mono ">—</td>
+        <td class="mono ">—</td>
+        <td><span class="badge loss">L</span></td>
+      </tr>
+      <tr>
+        <td class="mono">5/29</td>
+        <td>Dodgers ML (vs PHI)</td>
+        <td><span class="tag">ML-fav</span></td>
+        <td class="mono">-118</td>
+        <td class="mono">57%</td>
+        <td class="mono pos">+2.9</td>
+        <td class="mono ">—</td>
+        <td><span class="badge win">W</span></td>
+      </tr>
+      <tr>
+        <td class="mono">5/28</td>
+        <td>Tigers ML (vs LAA)</td>
+        <td><span class="tag">ML-fav</span></td>
+        <td class="mono">-130</td>
+        <td class="mono">61%</td>
+        <td class="mono pos">+4.5</td>
+        <td class="mono ">—</td>
+        <td><span class="badge loss">L</span></td>
+      </tr>
+      <tr>
+        <td class="mono">5/27</td>
+        <td>Sanchez Over 6.5 K (vs SD)</td>
+        <td><span class="tag">K-Over alt</span></td>
+        <td class="mono">-112</td>
+        <td class="mono">70% <span class="star">*</span></td>
+        <td class="mono ">—</td>
+        <td class="mono ">—</td>
+        <td><span class="badge win">W</span></td>
+      </tr>
+      <tr>
+        <td class="mono">5/27</td>
+        <td>Yankees ML (vs KC)</td>
+        <td><span class="tag">ML-fav</span></td>
+        <td class="mono">-156</td>
+        <td class="mono">63% <span class="star">*</span></td>
+        <td class="mono pos">+2.1</td>
+        <td class="mono ">—</td>
+        <td><span class="badge win">W</span></td>
+      </tr></tbody></table>
+  </div>
+
+  <div class="section-title">Ticket rollup</div>
+  <div class="tcard">
+    <h2>All parlay tickets</h2>
+    <div class="sub">Flat 1u pre-6/4; real-dollar stakes from 6/5 onwards</div>
+    <table><thead><tr><th>Date</th><th>Ticket</th><th>Odds</th><th>P/L</th><th>Result</th></tr></thead><tbody>
+      <tr>
+        <td class="mono">6/8</td>
+        <td>USER PHI ML + Sánchez O6.5K SGP (pos-corr)</td>
+        <td class="mono">+167 (FanDuel SGP)</td>
+        <td class="mono">+$16.70</td>
+        <td><span class="badge win">✅ WIN</span></td>
+      </tr>
+      <tr>
+        <td class="mono">6/7</td>
+        <td>deGrom TEX −140 + ATL −145 (indep, 2 games)</td>
+        <td class="mono">+190</td>
+        <td class="mono">+1.90</td>
+        <td><span class="badge win">✅ WIN</span></td>
+      </tr>
+      <tr>
+        <td class="mono">6/6</td>
+        <td>USER CLE −5.5 RL + (LAD −1.5 RL + Kochanowicz O5.5 hits</td>
+        <td class="mono">+289</td>
+        <td class="mono">+$86.76</td>
+        <td><span class="badge win">✅ WIN</span></td>
+      </tr>
+      <tr>
+        <td class="mono">6/6</td>
+        <td>USER TOR live ML −191 + CLE ML +101</td>
+        <td class="mono">+206</td>
+        <td class="mono">+$20.62</td>
+        <td><span class="badge win">✅ WIN</span></td>
+      </tr>
+      <tr>
+        <td class="mono">6/6</td>
+        <td>LAD ML −350 + Yamamoto O7.0K +142 (SGP, +corr)</td>
+        <td class="mono">+211</td>
+        <td class="mono">—</td>
+        <td><span class="badge tbd">TBD</span></td>
+      </tr>
+      <tr>
+        <td class="mono">6/5</td>
+        <td>SEA ML + LAD ML</td>
+        <td class="mono">+181</td>
+        <td class="mono">−1.00</td>
+        <td><span class="badge loss">❌ LOST</span></td>
+      </tr>
+      <tr>
+        <td class="mono">6/4</td>
+        <td>PHI ML + ATL ML</td>
+        <td class="mono">+124</td>
+        <td class="mono">−1.00</td>
+        <td><span class="badge loss">❌ LOST</span></td>
+      </tr>
+      <tr>
+        <td class="mono">6/3</td>
+        <td>SEA ML + PHI ML</td>
+        <td class="mono">~+183</td>
+        <td class="mono">−1.00</td>
+        <td><span class="badge loss">❌ LOST</span></td>
+      </tr>
+      <tr>
+        <td class="mono">6/2</td>
+        <td>SEA ML + MIL ML</td>
+        <td class="mono">~+158</td>
+        <td class="mono">+1.58</td>
+        <td><span class="badge win">✅ WIN</span></td>
+      </tr>
+      <tr>
+        <td class="mono">6/1</td>
+        <td>SEA ML + TB −1.5 RL</td>
+        <td class="mono">~+240</td>
+        <td class="mono">−1.00</td>
+        <td><span class="badge loss">❌ LOST</span></td>
+      </tr>
+      <tr>
+        <td class="mono">5/31</td>
+        <td>MIL −1.5 RL + NYY ML</td>
+        <td class="mono">+263</td>
+        <td class="mono">+2.63</td>
+        <td><span class="badge win">✅ WIN</span></td>
+      </tr>
+      <tr>
+        <td class="mono">5/30</td>
+        <td>CLE ML + SD ML</td>
+        <td class="mono">+209</td>
+        <td class="mono">−1.00</td>
+        <td><span class="badge loss">❌ LOST</span></td>
+      </tr>
+      <tr>
+        <td class="mono">5/29</td>
+        <td>LAD ML + HOU ML</td>
+        <td class="mono">+269</td>
+        <td class="mono">−1.00</td>
+        <td><span class="badge loss">❌ LOST</span></td>
+      </tr>
+      <tr>
+        <td class="mono">5/28</td>
+        <td>Tigers ML (anchor) + …</td>
+        <td class="mono">—</td>
+        <td class="mono">−1.00</td>
+        <td><span class="badge loss">❌ LOST</span></td>
+      </tr>
+      <tr>
+        <td class="mono">5/27</td>
+        <td>NYY ML + Sanchez O6.5K</td>
+        <td class="mono">+210</td>
+        <td class="mono">+2.10</td>
+        <td><span class="badge win">✅ WIN</span></td>
+      </tr>
+      <tr>
+        <td class="mono">5/26</td>
+        <td>LAD ML + Burns O6.5K + Strider O4.5K</td>
+        <td class="mono">+216</td>
+        <td class="mono">+2.16</td>
+        <td><span class="badge win">✅ WIN</span></td>
+      </tr>
+      <tr>
+        <td class="mono">5/25</td>
+        <td>LAD ML + MIL ML + Misi O7.5K</td>
+        <td class="mono">+221</td>
+        <td class="mono">+2.21</td>
+        <td><span class="badge win">✅ WIN</span></td>
+      </tr></tbody></table>
+  </div>
+
+  <div class="section-title">Parlay history</div>
+  <div class="tcard">
+    <h2>All daily builds</h2>
+    <div class="sub">Most recent first</div>
+    <table><thead><tr><th>Date</th><th>Runs</th><th>Result</th><th>Summary</th></tr></thead><tbody>
+      <tr>
+        <td class="mono">2026-06-08</td>
+        <td class="mono muted">11:00 / 16:00 / 18:00</td>
+        <td><span class="badge win">✅ W</span></td>
+        <td class="muted small">— ✅ **WON** (both legs cashed) - **PHI ML ✓** — Phillies beat Toronto **5-2** (StatsAPI Final). - **Sánchez OVER 6.5 K ✓** — **10 </td>
+      </tr>
+      <tr>
+        <td class="mono">2026-06-07</td>
+        <td class="mono muted">11:00 / 16:00 / 18:00</td>
+        <td><span class="badge win">✅ W</span></td>
+        <td class="muted small">**Build A (deGrom × ATL +190) — WON ✅.** deGrom (TEX) ML −140 → TEX 10-0 (W); Braves (Elder) ML −145 → ATL 3-2 (W). Both legs cash</td>
+      </tr>
+      <tr>
+        <td class="mono">2026-06-06</td>
+        <td class="mono muted">18:30</td>
+        <td><span class="badge win">✅ W</span></td>
+        <td class="muted small">(settled 6/7) - **Ticket 1: ✅ WON, +$20.62** (both ML hit). - **Ticket 2: ✅ WON ALL 3, +$86.76** — final **LAD 9-2 LAA** (LAD −1.5</td>
+      </tr>
+      <tr>
+        <td class="mono">2026-06-05</td>
+        <td class="mono muted">09:11 / 11:05 / 17:05</td>
+        <td><span class="badge loss">❌ L</span></td>
+        <td class="muted small">— **LOST** (settled 6/6 via StatsAPI `finals 2026-06-05`) - **Mariners ML (Woo @ DET) — L.** Final **SEA 3 – DET 7.** Woo did not </td>
+      </tr>
+      <tr>
+        <td class="mono">2026-06-04</td>
+        <td class="mono muted">09:08 / 11:08 / 17:10</td>
+        <td><span class="badge loss">❌ L</span></td>
+        <td class="muted small">— settled 6/4 late (via `finals 2026-06-04` + `gamelog 519242`) - PHI ML (Wheeler vs SD): **WON** — SD 4, PHI 6 (Wheeler 7 IP / 2 </td>
+      </tr>
+      <tr>
+        <td class="mono">2026-06-03</td>
+        <td class="mono muted">—</td>
+        <td><span class="badge loss">❌ L</span></td>
+        <td class="muted small">— **LOSS** (user ticket: SEA ML + PHI ML) | Leg | Bet | Result | Detail | |---|---|---|---| | 1 | **Seattle Mariners ML** (vs NYM)</td>
+      </tr>
+      <tr>
+        <td class="mono">2026-06-02</td>
+        <td class="mono muted">17:00</td>
+        <td><span class="badge win">✅ W</span></td>
+        <td class="muted small">**PLAYED TICKET (SEA ML + MIL ML, 2-leg ~+158) — ✅ WON.** | Leg | Bet | Result | Detail | |---|---|---|---| | 1 | **Seattle Marine</td>
+      </tr>
+      <tr>
+        <td class="mono">2026-06-01</td>
+        <td class="mono muted">—</td>
+        <td><span class="badge loss">❌ L</span></td>
+        <td class="muted small">**PLAYED TICKET (SEA ML −136 + TB −1.5 RL +118) — ❌ LOST.** | Leg | Bet | Result | Detail | |---|---|---|---| | 1 | **Seattle Mari</td>
+      </tr>
+      <tr>
+        <td class="mono">2026-05-31</td>
+        <td class="mono muted">11:07 / 17:00</td>
+        <td><span class="badge win">✅ W</span></td>
+        <td class="muted small">**✅ TICKET CASHED (pending official final).** Played ticket = MIL −1.5 RL + NYY ML −154 (+263). - **Leg 1 — MIL −1.5 RL: ✅ WON.** </td>
+      </tr>
+      <tr>
+        <td class="mono">2026-05-30</td>
+        <td class="mono muted">—</td>
+        <td><span class="badge loss">❌ L</span></td>
+        <td class="muted small">**TICKET: LOSS** (0 of 2 legs hit). Self-settled 5/30 via WebSearch finals. | Leg | Price | Result | Final | |---|---|---|---| | C</td>
+      </tr>
+      <tr>
+        <td class="mono">2026-05-29</td>
+        <td class="mono muted">09:00 / 11:08 / 17:13</td>
+        <td><span class="badge loss">❌ L</span></td>
+        <td class="muted small">**TICKET: LOSS** (1 of 2 legs hit). Self-settled 5/30 via WebSearch finals. | Leg | Price | Result | Final | |---|---|---|---| | D</td>
+      </tr>
+      <tr>
+        <td class="mono">2026-05-28</td>
+        <td class="mono muted">09:17 / 11:10 / 17:00</td>
+        <td><span class="badge loss">❌ L</span></td>
+        <td class="muted small">**LOSS.** The ticket died on the anchor. | Leg | Result | Notes | |---|---|---| | **Tigers ML -130** (vs LAA) | ❌ **LOST** | DET b</td>
+      </tr>
+      <tr>
+        <td class="mono">2026-05-27</td>
+        <td class="mono muted">09:00 / 11:07 / 11:30 / 11:50 / 12:30 / 15:08 / 18:30</td>
+        <td><span class="badge win">✅ W</span></td>
+        <td class="muted small">**🎉 PARLAY CASHED — 2 of 2 hit at +210 ($100 → $310 / +$210 profit)** - [x] Leg 1 (Yankees ML -156): **WIN** ✅ - [x] Leg 2 (Sanche</td>
+      </tr>
+      <tr>
+        <td class="mono">2026-05-26</td>
+        <td class="mono muted">—</td>
+        <td><span class="badge win">✅ W</span></td>
+        <td class="muted small">**🎉 PARLAY CASHED — 3 of 3 hit at +216 ($100 → $316 / +$216 profit)** - [x] Leg 1 (Dodgers ML -235): **WIN** ✅ — LAD up 8-1 in lat</td>
+      </tr>
+      <tr>
+        <td class="mono">2026-05-25</td>
+        <td class="mono muted">—</td>
+        <td><span class="badge win">✅ W</span></td>
+        <td class="muted small">**🎉 PARLAY CASHED — 3 of 3 hit. +221 payout ($100 → $321 profit)** - [x] Leg 1 (Dodgers ML): **WIN** ✅ — but trailed until the 7th</td>
+      </tr></tbody></table>
+  </div>
+
+</div>
+<script>
+Chart.defaults.color = '#8b949e';
+Chart.defaults.font.family = "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
+Chart.defaults.font.size = 11;
+
+  new Chart(document.getElementById('brChart'), {
+    type: 'line',
+    data: {
+      labels: ["A1 \u25b8 Start", "A1 R1 (6/4)", "", "A2 \u25b8 Start", "A2 R1 (6/5)", "A2 R2 (6/6)", "A2 R3 (6/7)", "A2 R4 (6/7)", "A2 R4 (6/8)"],
+      datasets: [{
+        data: [10.0, 0.0, null, 10.0, 15.32, 23.73, 40.67, 40.67, 65.48],
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59,130,246,0.08)',
+        pointBackgroundColor: ["#8b949e", "#ef4444", "#30363d", "#8b949e", "#22c55e", "#22c55e", "#22c55e", "#eab308", "#22c55e"],
+        pointBorderColor: ["#8b949e", "#ef4444", "#30363d", "#8b949e", "#22c55e", "#22c55e", "#22c55e", "#eab308", "#22c55e"],
+        pointRadius: 6, pointHoverRadius: 8,
+        tension: 0.25, fill: true, spanGaps: false,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: {display: false},
+        tooltip: {callbacks: {label: ctx => ctx.parsed.y !== null ? '$' + ctx.parsed.y.toFixed(2) : 'break'}}
+      },
+      scales: {
+        x: {grid: {color: '#21262d'}, ticks: {maxRotation: 50, font: {size: 10}}},
+        y: {grid: {color: '#21262d'}, ticks: {callback: v => '$' + v}, beginAtZero: false}
+      }
+    }
+  });
+
+  new Chart(document.getElementById('calChart'), {
+    type: 'bar',
+    data: {
+      labels: ["50\u201354", "55\u201359", "60\u201364", "65\u201369", "85\u201389"],
+      datasets: [
+        {label: 'Actual hit %', data: [0.0, 67.0, 50.0, 75.0, 100.0],
+         backgroundColor: 'rgba(59,130,246,0.75)', borderRadius: 3},
+        {label: 'TrueP midpoint', data: [52.5, 57.5, 62.5, 67.5, 87.5],
+         backgroundColor: 'rgba(139,148,158,0.25)', borderRadius: 3}
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: {position: 'top', labels: {boxWidth: 10, font: {size: 11}}},
+        tooltip: {callbacks: {afterBody: items => ["n=1 (0-1)", "n=3 (2-1)", "n=6 (3-3)", "n=4 (3-1)", "n=1 (1-0)"][items[0].dataIndex]}}
+      },
+      scales: {
+        x: {grid: {color: '#21262d'}},
+        y: {grid: {color: '#21262d'}, ticks: {callback: v => v + '%'}, min: 0, max: 100}
+      }
+    }
+  });
+
+  new Chart(document.getElementById('clvChart'), {
+    type: 'bar',
+    data: {
+      labels: ["6/5 Mariners ML (Woo, @ DE", "6/5 Dodgers ML (Sasaki, vs", "6/5 Mariners ML / Dodgers ", "6/5 Yankees ML (Weathers, ", "6/7 deGrom (TEX) ML (vs CL", "6/7 Braves ML (Elder, vs P", "6/7 LAD ML (Sheehan, vs LA", "6/7 PHI ML (Nola, vs CWS)", "6/8 PHI ML (S\u00e1nchez, vs TO", "6/8 MIL ML (Harrison, vs A"],
+      datasets: [{
+        data: [1, 1, 1, 0, 1, 1, 1, 1, -1, -1],
+        backgroundColor: ["#22c55e", "#22c55e", "#22c55e", "#8b949e", "#22c55e", "#22c55e", "#22c55e", "#22c55e", "#ef4444", "#ef4444"],
+        borderRadius: 3,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: {display: false},
+        tooltip: {callbacks: {label: ctx => 'CLV: ' + ["+", "+", "+", "=", "+ (live, line ran to -10000)", "+ 85%cl", "+ 85%cl", "+ 85%cl", "- 60%cl", "- 56%cl"][ctx.dataIndex]}}
+      },
+      scales: {
+        x: {grid: {color: '#21262d'}, ticks: {maxRotation: 60, font: {size: 9}}},
+        y: {grid: {color: '#21262d'}, min: -1.5, max: 1.5,
+             ticks: {callback: v => v > 0 ? '+ beat' : v < 0 ? '− missed' : 'even'}}
+      }
+    }
+  });
+</script>
+</body>
+</html>
