@@ -354,6 +354,20 @@ def compute_summary(results: dict, rolls: list[dict]) -> dict:
     t_decided = [t for t in results['tickets'] if t['result'] in ('W', 'L')]
     t_wins = sum(1 for t in t_decided if t['result'] == 'W')
 
+    # ── Ticket win streak (chronological by date) ──
+    t_chron = sorted(t_decided, key=lambda t: t['date'])
+    cur_streak = 0
+    for t in reversed(t_chron):          # current run from the most-recent ticket back
+        if t['result'] == 'W':
+            cur_streak += 1
+        else:
+            break
+    best_streak = run = 0                 # longest W run anywhere in history
+    for t in t_chron:
+        run = run + 1 if t['result'] == 'W' else 0
+        best_streak = max(best_streak, run)
+    streak_active = bool(t_chron) and t_chron[-1]['result'] == 'W'
+
     all_legs = results['played'] + results['not_played']
     clv_list = [l['clv'] for l in all_legs
                 if l.get('clv') and l['clv'] not in ('—', '-', '', 'TBD', 'MANUAL', 'PENDING')]
@@ -382,6 +396,8 @@ def compute_summary(results: dict, rolls: list[dict]) -> dict:
         'total_legs': wins + losses,
         'ticket_record': f"{t_wins}-{len(t_decided) - t_wins}",
         'ticket_total': len(t_decided),
+        'cur_streak': cur_streak, 'best_streak': best_streak,
+        'streak_active': streak_active,
         'clv_pos': clv_pos, 'clv_total': len(clv_list),
         'clv_pct': round(clv_pos / max(len(clv_list), 1) * 100, 1),
         'bankroll_bal': bal,
@@ -922,6 +938,10 @@ def render_html(rolls, results, parlays_list, summary, br_data, clv_data,
     # Stat cards
     bal_txt = (f"${summary['bankroll_bal']:.2f}" if summary['bankroll_bal'] else "—")
     clv_pct_txt = f"{summary['clv_pct']}%" if summary['clv_total'] > 0 else "—"
+    cs = summary['cur_streak']
+    streak_big = (f"{'🔥 ' if cs >= 2 else ''}{cs}W" if cs > 0 else "0")
+    streak_sub = (f"on a heater · best {summary['best_streak']}W" if summary['streak_active']
+                  else f"last ticket lost · best {summary['best_streak']}W")
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -1063,6 +1083,11 @@ tbody tr:hover{{background:var(--surf2)}}
       <div class="lbl">Played leg record</div>
       <div class="big">{summary['leg_record']}</div>
       <div class="sub">{summary['leg_win_pct']}% · n={summary['total_legs']}</div>
+    </div>
+    <div class="h">
+      <div class="lbl">Ticket win streak</div>
+      <div class="big {'pos' if cs >= 2 else ''}">{streak_big}</div>
+      <div class="sub">{streak_sub}</div>
     </div>
     <div class="h">
       <div class="lbl">CLV+ rate</div>
