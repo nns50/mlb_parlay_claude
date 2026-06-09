@@ -65,7 +65,7 @@ tbody tr:hover{background:var(--surf2)}
 <body>
 <header>
   <h1>⚾ MLB Parlay Dashboard</h1>
-  <span class="updated">Updated 2026-06-09 03:16 ET</span>
+  <span class="updated">Updated 2026-06-09 03:39 ET</span>
 </header>
 <div class="wrap">
 
@@ -93,6 +93,21 @@ tbody tr:hover{background:var(--surf2)}
     </div>
   </div>
 
+  <div class="section-title">Parlay tax — Standalone vs Parlay</div>
+  <div class="grid2">
+    <div class="stat" style="border-left:3px solid var(--green)">
+      <div class="lbl">Standalone legs (S)</div>
+      <div class="val">9-3 <span style="font-size:14px;color:var(--muted)">· 75.0%</span></div>
+      <div class="sub">single +EV plays / bankroll rolls · n=12</div>
+    </div>
+    <div class="stat" style="border-left:3px solid var(--red)">
+      <div class="lbl">Parlay legs (P)</div>
+      <div class="val">30-15 <span style="font-size:14px;color:var(--muted)">· 66.7%</span></div>
+      <div class="sub">legs ridden on a parlay ticket · n=45</div>
+    </div>
+  </div>
+  <p class="note">Doctrine claims parlays run near -EV chalk+vig. This split is the measurement: if standalones (S) outrun parlay legs (P) over a real sample, that's the evidence to keep the +200 chase eyes-open as entertainment, not strategy.</p>
+
   <div class="section-title">Bankroll &amp; Calibration</div>
   <div class="grid2">
     <div class="card">
@@ -102,15 +117,92 @@ tbody tr:hover{background:var(--surf2)}
     </div>
     <div class="card">
       <h2>Calibration</h2>
-      <div class="sub">Actual hit rate vs TrueP midpoint per bucket (non-legacy played legs)</div>
+      <div class="sub">Bars = actual hit% · dashed amber line = perfect calibration (actual should meet the line)</div>
       <div class="chart-wrap"><canvas id="calChart"></canvas></div>
     </div>
+  </div>
+
+  <div class="section-title">Process trend &amp; edge predictiveness</div>
+  <div class="grid2">
+    <div class="card">
+      <h2>Cumulative Win Rate</h2>
+      <div class="sub">Running win% over all decided legs (chronological) — is the process improving?</div>
+      <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
+    </div>
+    <div class="card">
+      <h2>Hit Rate by Edge Bucket</h2>
+      <div class="sub">Does a bigger devigged edge actually convert? (green ≥ 50%)</div>
+      <div class="chart-wrap"><canvas id="edgeChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="section-title">Record by leg type</div>
+  <div class="tcard">
+    <h2>Bet-type breakdown</h2>
+    <div class="sub">All decided legs (played + recommended) grouped by market</div>
+    <table><thead><tr><th>Type</th><th>n</th><th>Record</th><th>Hit%</th><th>Avg edge</th></tr></thead><tbody>
+      <tr>
+        <td>ML favorite</td>
+        <td class="mono">35</td>
+        <td class="mono">23-12</td>
+        <td class="mono pos">66%</td>
+        <td class="mono pos">+0.1</td>
+      </tr>
+      <tr>
+        <td>K-Over</td>
+        <td class="mono">12</td>
+        <td class="mono">8-4</td>
+        <td class="mono pos">67%</td>
+        <td class="mono pos">+6.2</td>
+      </tr>
+      <tr>
+        <td>Run line</td>
+        <td class="mono">4</td>
+        <td class="mono">3-1</td>
+        <td class="mono pos">75%</td>
+        <td class="mono pos">+1.8</td>
+      </tr>
+      <tr>
+        <td>Moneyline</td>
+        <td class="mono">2</td>
+        <td class="mono">2-0</td>
+        <td class="mono pos">100%</td>
+        <td class="mono ">—</td>
+      </tr>
+      <tr>
+        <td>ML dog</td>
+        <td class="mono">1</td>
+        <td class="mono">0-1</td>
+        <td class="mono neg">0%</td>
+        <td class="mono ">+0.0</td>
+      </tr>
+      <tr>
+        <td>—</td>
+        <td class="mono">1</td>
+        <td class="mono">1-0</td>
+        <td class="mono pos">100%</td>
+        <td class="mono ">—</td>
+      </tr>
+      <tr>
+        <td>Parlay (+corr)</td>
+        <td class="mono">1</td>
+        <td class="mono">1-0</td>
+        <td class="mono pos">100%</td>
+        <td class="mono pos">+15.4</td>
+      </tr>
+      <tr>
+        <td>Hitter prop</td>
+        <td class="mono">1</td>
+        <td class="mono">1-0</td>
+        <td class="mono pos">100%</td>
+        <td class="mono ">—</td>
+      </tr></tbody></table>
   </div>
 
   <div class="section-title">Closing Line Value</div>
   <div class="card" style="margin-bottom:14px">
     <h2>CLV per Leg</h2>
-    <div class="sub">Green = beat the close · Red = missed · h2h ML only; props/RL are manual</div>
+    <div class="sub">Green = beat the close · Red = missed · magnitude where logged, else ±1 by sign</div>
     <div class="chart-wrap-sm"><canvas id="clvChart"></canvas></div>
   </div>
   <p class="note">CLV converges faster than ROI at small samples — it's the primary scoreboard. A sustained CLV+ rate is the clearest signal of process quality before ROI stabilises.</p>
@@ -554,13 +646,13 @@ Chart.defaults.font.size = 11;
   new Chart(document.getElementById('brChart'), {
     type: 'line',
     data: {
-      labels: ["A1 \u25b8 Start", "A1 R1 (6/4)", "", "A2 \u25b8 Start", "A2 R1 (6/5)", "A2 R2 (6/6)", "A2 R3 (6/7)", "A2 R4 (6/7)", "A2 R4 (6/8)"],
+      labels: ["A1 \u25b8 Start", "A1 R1 (6/4)", "", "A2 \u25b8 Start", "A2 R1 (6/5)", "A2 R2 (6/6)", "A2 R3 (6/7)", "A2 R4 (6/7)", "A2 R4 (6/8)", "", "A3 \u25b8 Start ($10)"],
       datasets: [{
-        data: [10.0, 0.0, null, 10.0, 15.32, 23.73, 40.67, 40.67, 65.48],
+        data: [10.0, 0.0, null, 10.0, 15.32, 23.73, 40.67, 40.67, 65.48, null, 10.0],
         borderColor: '#3b82f6',
         backgroundColor: 'rgba(59,130,246,0.08)',
-        pointBackgroundColor: ["#8b949e", "#ef4444", "#30363d", "#8b949e", "#22c55e", "#22c55e", "#22c55e", "#eab308", "#22c55e"],
-        pointBorderColor: ["#8b949e", "#ef4444", "#30363d", "#8b949e", "#22c55e", "#22c55e", "#22c55e", "#eab308", "#22c55e"],
+        pointBackgroundColor: ["#8b949e", "#ef4444", "#30363d", "#8b949e", "#22c55e", "#22c55e", "#22c55e", "#eab308", "#22c55e", "#30363d", "#8b949e"],
+        pointBorderColor: ["#8b949e", "#ef4444", "#30363d", "#8b949e", "#22c55e", "#22c55e", "#22c55e", "#eab308", "#22c55e", "#30363d", "#8b949e"],
         pointRadius: 6, pointHoverRadius: 8,
         tension: 0.25, fill: true, spanGaps: false,
       }]
@@ -579,14 +671,16 @@ Chart.defaults.font.size = 11;
   });
 
   new Chart(document.getElementById('calChart'), {
-    type: 'bar',
     data: {
       labels: ["50\u201354", "55\u201359", "60\u201364", "65\u201369", "85\u201389"],
       datasets: [
-        {label: 'Actual hit %', data: [0.0, 67.0, 50.0, 75.0, 100.0],
-         backgroundColor: 'rgba(59,130,246,0.75)', borderRadius: 3},
-        {label: 'TrueP midpoint', data: [52.5, 57.5, 62.5, 67.5, 87.5],
-         backgroundColor: 'rgba(139,148,158,0.25)', borderRadius: 3}
+        {type: 'bar', label: 'Actual hit %', data: [0.0, 67.0, 50.0, 75.0, 100.0],
+         backgroundColor: 'rgba(59,130,246,0.75)', borderRadius: 3, order: 3},
+        {type: 'bar', label: 'TrueP midpoint', data: [52.5, 57.5, 62.5, 67.5, 87.5],
+         backgroundColor: 'rgba(139,148,158,0.25)', borderRadius: 3, order: 2},
+        {type: 'line', label: 'Perfect calibration', data: [52.5, 57.5, 62.5, 67.5, 87.5],
+         borderColor: '#f59e0b', borderWidth: 2, borderDash: [5,4],
+         pointRadius: 3, pointBackgroundColor: '#f59e0b', fill: false, order: 1}
       ]
     },
     options: {
@@ -607,8 +701,8 @@ Chart.defaults.font.size = 11;
     data: {
       labels: ["6/5 Mariners ML (Woo, @ DE", "6/5 Dodgers ML (Sasaki, vs", "6/5 Mariners ML / Dodgers ", "6/5 Yankees ML (Weathers, ", "6/7 deGrom (TEX) ML (vs CL", "6/7 Braves ML (Elder, vs P", "6/7 LAD ML (Sheehan, vs LA", "6/7 PHI ML (Nola, vs CWS)", "6/8 PHI ML (S\u00e1nchez, vs TO", "6/8 MIL ML (Harrison, vs A"],
       datasets: [{
-        data: [1, 1, 1, 0, 1, 1, 1, 1, -1, -1],
-        backgroundColor: ["#22c55e", "#22c55e", "#22c55e", "#8b949e", "#22c55e", "#22c55e", "#22c55e", "#22c55e", "#ef4444", "#ef4444"],
+        data: [1, 1, 1, 0, -10, 10, 10, 10, -10, -10],
+        backgroundColor: ["#22c55e", "#22c55e", "#22c55e", "#8b949e", "#ef4444", "#22c55e", "#22c55e", "#22c55e", "#ef4444", "#ef4444"],
         borderRadius: 3,
       }]
     },
@@ -620,8 +714,52 @@ Chart.defaults.font.size = 11;
       },
       scales: {
         x: {grid: {color: '#21262d'}, ticks: {maxRotation: 60, font: {size: 9}}},
-        y: {grid: {color: '#21262d'}, min: -1.5, max: 1.5,
-             ticks: {callback: v => v > 0 ? '+ beat' : v < 0 ? '− missed' : 'even'}}
+        y: {grid: {color: '#21262d'},
+             ticks: {callback: v => v > 0 ? '+' + v : v}}
+      }
+    }
+  });
+
+  new Chart(document.getElementById('trendChart'), {
+    type: 'line',
+    data: {
+      labels: ["5/25 Dodgers ML (vs COL", "5/25 Brewers ML (vs STL", "5/25 Misiorowski Over 7", "5/26 Dodgers ML (vs COL", "5/26 Burns Over 6.5 K (", "5/26 Strider Over 4.5 K", "5/27 Yankees ML (vs KC)", "5/27 Sanchez Over 6.5 K", "5/28 Tigers ML (vs LAA)", "5/29 Dodgers ML (vs PHI", "5/29 Astros ML (vs MIL)", "5/30 Guardians ML (vs B", "5/30 Padres ML (@ WSH)", "5/31 Brewers \u22121.5 RL (@", "5/31 Yankees ML (@ ATH)", "6/1 Mariners ML (vs NY", "6/1 Rays \u22121.5 RL (vs D", "6/2 Mariners ML (vs NY", "6/2 Brewers ML (vs SF)", "6/3 Mariners ML (vs NY", "6/3 Phillies ML (vs SD", "6/4 Braves ML (Sale, v", "6/4 Phillies ML (Wheel", "6/4 Sale Over 6.5 K (v", "6/5 Mariners ML (Woo, ", "6/5 Dodgers ML (Sasaki"],
+      datasets: [{
+        data: [100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 88.9, 90.0, 81.8, 75.0, 69.2, 71.4, 73.3, 75.0, 70.6, 72.2, 73.7, 70.0, 71.4, 68.2, 69.6, 66.7, 64.0, 65.4],
+        borderColor: '#a78bfa', backgroundColor: 'rgba(167,139,250,0.08)',
+        pointRadius: 2, pointHoverRadius: 5, borderWidth: 2,
+        tension: 0.2, fill: true,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {legend: {display: false},
+        tooltip: {callbacks: {label: ctx => 'Cumulative: ' + ctx.parsed.y + '%'}}},
+      scales: {
+        x: {grid: {color: '#21262d'}, ticks: {maxRotation: 60, font: {size: 9}}},
+        y: {grid: {color: '#21262d'}, ticks: {callback: v => v + '%'}, min: 0, max: 100}
+      }
+    }
+  });
+
+  new Chart(document.getElementById('edgeChart'), {
+    type: 'bar',
+    data: {
+      labels: ["< 0pp", "0\u20132pp", "2\u20134pp", "4\u20136pp", "6+pp"],
+      datasets: [{
+        data: [60, 44, 74, 0, 75],
+        backgroundColor: ["rgba(34,197,94,0.7)", "rgba(239,68,68,0.7)", "rgba(34,197,94,0.7)", "rgba(239,68,68,0.7)", "rgba(34,197,94,0.7)"], borderRadius: 3,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {legend: {display: false},
+        tooltip: {callbacks: {
+          label: ctx => 'Hit ' + (ctx.parsed.y ?? 0) + '%',
+          afterBody: items => ["n=15", "n=9", "n=19", "n=1", "n=4"][items[0].dataIndex]}}},
+      scales: {
+        x: {grid: {color: '#21262d'}},
+        y: {grid: {color: '#21262d'}, ticks: {callback: v => v + '%'}, min: 0, max: 100}
       }
     }
   });
