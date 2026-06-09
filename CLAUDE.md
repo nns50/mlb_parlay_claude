@@ -325,6 +325,13 @@ No qualifying play → NO BET, balance carries. Update `bankroll.md` (commit/pus
     build without a confirmed stake — without it the ROI ledger stays fictional. (The ¼-Kelly doctrine
     is written but unmeasured until real stakes are logged consistently.)
 
+## Dashboard (read-only GitHub Pages site)
+`tools/generate_dashboard.py` parses `bankroll.md` + `results_log.md` + `parlays/*.md` → `docs/index.html`
+(bankroll curve, calibration chart, CLV bars, recent-legs/ticket/parlay-history tables). `.github/workflows/pages.yml`
+auto-deploys `docs/` to Pages on every push to `main`. **Each cron build refreshes it** — run
+`python3 tools/generate_dashboard.py` after settling the ledgers and stage `docs/index.html` in the build commit
+(step 10b/8b/6b in `cron_build.sh`). It only READS the ledgers; never edits them.
+
 ## Git workflow
 Always commit, push, AND merge — never just commit. Main should reflect the latest by end of turn.
 - **AUTO-MERGE AUTHORIZED (durable, user-granted 6/4/26).** The user has standing authorization to open a

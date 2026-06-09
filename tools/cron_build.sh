@@ -67,6 +67,7 @@ case "$BUILD" in
 8. Append this run to parlays/YYYY-MM-DD.md as '## Run 11:00 ET — Build A'.
 9. Log all recommended legs in results_log.md with pre-registered TrueP + ImplP + Edge.
 10. ODDS API CREDITS: run tools/odds_api.sh quota (FREE — 0 credits) and add a line 'Odds API credits remaining: <N> (used <M> this month)' to this run's section in today's parlay file BEFORE committing so it's captured in the repo record.
+10b. DASHBOARD: run 'python3 tools/generate_dashboard.py' to refresh docs/index.html from the updated ledgers, and stage docs/index.html in the same commit (GitHub Pages auto-deploys it on merge to main).
 11. Commit → push → open PR → squash-merge → git fetch+reset to main per CLAUDE.md git workflow.
 12. Push notification: load PushNotification via ToolSearch (if needed), send title 'MLB Parlay Build A — <today>' summarizing Tier 1 standalone leg+edge, Tier 2 floor%, Tier 3 combined odds, bankroll bet, Odds API credits remaining; flag PENDING legs.
 13. Email: load mcp__Gmail__create_draft via ToolSearch (if needed), draft to icecold67@live.com subject 'MLB Parlay — <today YYYY-MM-DD> Build A', body = the 3 tiers (legs+prices+edges/floor%) + bankroll bet + Odds API credits remaining + any PENDING flags, under 250 words."
@@ -87,6 +88,7 @@ case "$BUILD" in
 6. Update results_log.md with new or revised legs per the SUPERSEDE protocol.
 7. Confirm or update the bankroll bet if lineup was PENDING at 11:00.
 8. ODDS API CREDITS: run tools/odds_api.sh quota (FREE — 0 credits) and add 'Odds API credits remaining: <N> (used <M> this month)' to this run's section in today's parlay file BEFORE committing.
+8b. DASHBOARD: run 'python3 tools/generate_dashboard.py' to refresh docs/index.html from the updated ledgers, and stage it in the same commit (GitHub Pages auto-deploys on merge).
 9. Commit → push → open PR → squash-merge → reset per CLAUDE.md git workflow.
 10. Push notification: load PushNotification via ToolSearch (if needed), send title 'MLB Parlay Build B update — <today>': CLV fills (count +/−), lineup upgrades, whether the build changed, Odds API credits remaining.
 11. Email: load mcp__Gmail__create_draft via ToolSearch (if needed), draft to icecold67@live.com subject 'MLB Parlay — <today YYYY-MM-DD> Build B update', body = CLV fills per open leg, PENDING→CONFIRMED upgrades, superseded legs, current active build, Odds API credits remaining, under 200 words."
@@ -102,6 +104,7 @@ case "$BUILD" in
 4. If anything materially changed since the last build, APPEND '## Run 18:00 ET — Build C' to today's parlay file (mark prior build SUPERSEDED if replaced).
 5. Flag any legs the user should manually re-check at first pitch.
 6. ODDS API CREDITS: run tools/odds_api.sh quota (FREE — 0 credits) and add 'Odds API credits remaining: <N> (used <M> this month)' to this run's section in today's parlay file BEFORE committing.
+6b. DASHBOARD: run 'python3 tools/generate_dashboard.py' to refresh docs/index.html from the updated ledgers, and stage it in the same commit (GitHub Pages auto-deploys on merge).
 7. Commit → push → open PR → squash-merge → reset per CLAUDE.md git workflow.
 8. Push notification: load PushNotification via ToolSearch (if needed), send title 'MLB Parlay Final check — <today>': final build legs confirmed, late lineup updates, first-pitch re-check flags, Odds API credits remaining.
 9. Email: load mcp__Gmail__create_draft via ToolSearch (if needed), draft to icecold67@live.com subject 'MLB Parlay — <today YYYY-MM-DD> Final check', body = late lineup confirmations, remaining CLV fills, final active build legs+prices, first-pitch re-check flags, Odds API credits remaining, under 200 words."
