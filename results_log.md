@@ -144,9 +144,9 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 6/6 | **USER** TOR live ML −191 + CLE ML +101 | +206 | $10 | $30.62 | **+$20.62** | ✅ WON (both ML hit; user's own ticket, not a build) |
 | 6/6 | **USER** CLE −5.5 RL + (LAD −1.5 RL + Kochanowicz O5.5 hits SGP) | +289 | $30 | $116.76 | **+$86.76** | ✅ WON all 3 (CLE −5.5, Kocha O5.5 hits, LAD −1.5 final 9-2 by 7). RIDE call correct. |
 | 6/7 | deGrom TEX −140 + ATL −145 (indep, 2 games) | +190 | 1.00 | 2.90 | +1.90 | ✅ WON (Build A Tier 2/3; TEX 10-0 + ATL 3-2 — both legs cashed; true comb 36.1%, EV +4.4% — the high-chance +200-area answer hit) |
-| 6/8 | **USER** PHI ML + Sánchez O6.5K SGP (pos-corr) | +200-area (SGP) | TBD | — | — | ✅ WON (PHI 5-2 + Sánchez 10 K; true comb 44.1% — positive same-game correlation, the high-floor +200 build cashed. **Confirm stake to fill units.**) |
+| 6/8 | **USER** PHI ML + Sánchez O6.5K SGP (pos-corr) | ~+200 (SGP) | $10 | $30* | **+$20*** | ✅ WON (PHI 5-2 + Sánchez 10 K; true comb 44.1% — pos same-game corr, high-floor +200 build cashed). Stake **$10**; *return shown at the requested ~+200 (×3.00) — **confirm the booked SGP price** to finalize. |
 
-**Units-tracked tickets (reconciled to calib.py): 13 tickets, record 6-7, staked 13.00u, returned 18.58u → P/L +5.58u, ROI +42.9%.** The **6/8 PHI+Sánchez SGP WON** (both legs) but is NOT yet in the units rollup — **stake TBD** (awaiting user confirm); once logged it adds a winning ticket. Recommended-build W/L counting the 6/8 win = **7-7**.
+**Units-tracked tickets (flat-1u rows, reconciled to calib.py): 13 tickets, record 6-7, staked 13.00u, returned 18.58u → P/L +5.58u, ROI +42.9%.** Separately, the **6/8 PHI+Sánchez SGP WON** at a **real $10 stake** (the first dollar-stake build) → return ~$30 at the requested ~+200 (P/L **+$20***); *finalize once the booked SGP price is confirmed. Counting the 6/8 win, recommended-build W/L = **7-7**.
 **User's own 6/6 tickets (logged separately, not from a build): Ticket 1 ✅ +$20.62; Ticket 2 2/3 locked, LAD −1.5 live (eff. W).**
 
 > **6/5 is the parlay tax, on the board:** the LAD leg cashed standalone (bankroll won) but the SEA×LAD
