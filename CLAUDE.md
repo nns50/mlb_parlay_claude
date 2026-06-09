@@ -199,6 +199,16 @@ surface only props clearing +2pp standalone / +3-4pp to anchor.** Prop-specific 
     independent product AND the SGP, and which to take. **Positively-correlated 2-leggers are the
     highest-win-chance way to keep a parlay payout** (the diversify-era default) — but the tool also
     catches when negative correlation quietly makes a ticket -EV though the naive product looked fine.
+- **A high-edge K-Over is a parlay SUBSTITUTE for a thin ML leg — don't reflex-relegate it to
+  standalone.** When the 2nd/3rd leg you'd otherwise use is a thin/trap ML (under the +2pp gate, a D4/D5
+  spot, opponent-driven), a big-edge K-Over on ANOTHER game can REPLACE it — same leg-count, higher floor
+  AND higher edge, often the same payout. This is the 5/27 Sanchez template (Sanchez O5.5K alt replaced a
+  coin-flip PHI ML as the value leg). The standalone-only instinct is the ML-anchoring reflex CLAUDE.md
+  warns against — `parlay.py` the swap before defaulting to ML. **Bolting a K-Over ONTO a finished +200
+  2-legger as a 3rd leg is still the D1 chase (fade); SUBSTITUTING one for a weak leg is not.** Use the
+  safer alt when a lower line is posted; if only the standard is posted it's already the conservative
+  choice. (codified 6/9/26 — user-caught: I gave MIA+ATL at +1.3pp when MIA+Burns O6.5K was +7.3pp/41% floor
+  for the same +195.)
 - **K-Over alt lines:** if the standard line is ~50/50, the one-lower alt is usually the safer parlay
   leg even at -150/-200 (reserve the +EV standard line for standalones). **But never estimate alt
   prices** — use `tools/odds_api.sh props <eventId> pitcher_strikeouts` (paid tier, ~1 credit/event)
