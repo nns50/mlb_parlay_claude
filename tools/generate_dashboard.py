@@ -943,6 +943,22 @@ def render_html(rolls, results, parlays_list, summary, br_data, clv_data,
     streak_sub = (f"on a heater · best {summary['best_streak']}W" if summary['streak_active']
                   else f"last ticket lost · best {summary['best_streak']}W")
 
+    # Ticket history pill timeline — last 15 decided tickets, oldest-left newest-right
+    t_chron_all = sorted([t for t in results['tickets'] if t['result'] in ('W','L')],
+                         key=lambda t: t['date'])
+    t_recent = t_chron_all[-15:]
+    pills_html = ''
+    for t in t_recent:
+        color = 'var(--green)' if t['result'] == 'W' else 'var(--red)'
+        label = t['result']
+        tip = f"{t['date']}: {t['ticket'][:50]}"
+        pills_html += (
+            f'<span class="tpill" style="background:{color}" title="{tip}">'
+            f'{label}</span>'
+        )
+    if not pills_html:
+        pills_html = '<span style="color:var(--muted);font-size:12px">No decided tickets yet</span>'
+
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1004,6 +1020,10 @@ section{{scroll-margin-top:96px}}
 .legend{{display:flex;flex-wrap:wrap;gap:14px;font-size:11px;color:var(--muted);margin:2px 0 4px;padding:9px 13px;background:var(--surf);border:1px solid var(--border);border-radius:8px}}
 .legend span{{display:flex;align-items:center;gap:5px}}
 .swatch{{width:11px;height:11px;border-radius:3px;display:inline-block}}
+.tpill{{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:6px;font-size:11px;font-weight:700;color:#fff;cursor:default;transition:transform .1s}}
+.tpill:hover{{transform:scale(1.2)}}
+.tline{{display:flex;align-items:center;gap:5px;flex-wrap:wrap;padding:10px 13px;background:var(--surf);border:1px solid var(--border);border-radius:8px;margin:6px 0 4px}}
+.tline .tlbl{{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-right:4px}}
 
 /* Cards */
 .grid2{{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:6px}}
@@ -1099,6 +1119,11 @@ tbody tr:hover{{background:var(--surf2)}}
       <div class="big">{bal_txt}</div>
       <div class="sub">$10 rollover ladder</div>
     </div>
+  </div>
+
+  <div class="tline">
+    <span class="tlbl">Last {len(t_recent)} tickets</span>
+    {pills_html}
   </div>
 
   <div class="legend">

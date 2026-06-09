@@ -59,6 +59,10 @@ section{scroll-margin-top:96px}
 .legend{display:flex;flex-wrap:wrap;gap:14px;font-size:11px;color:var(--muted);margin:2px 0 4px;padding:9px 13px;background:var(--surf);border:1px solid var(--border);border-radius:8px}
 .legend span{display:flex;align-items:center;gap:5px}
 .swatch{width:11px;height:11px;border-radius:3px;display:inline-block}
+.tpill{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:6px;font-size:11px;font-weight:700;color:#fff;cursor:default;transition:transform .1s}
+.tpill:hover{transform:scale(1.2)}
+.tline{display:flex;align-items:center;gap:5px;flex-wrap:wrap;padding:10px 13px;background:var(--surf);border:1px solid var(--border);border-radius:8px;margin:6px 0 4px}
+.tline .tlbl{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-right:4px}
 
 /* Cards */
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:6px}
@@ -115,7 +119,7 @@ tbody tr:hover{background:var(--surf2)}
 <body>
 <header>
   <h1>⚾ MLB Parlay Dashboard</h1>
-  <span class="updated"><span class="freshdot fresh">● live</span> · Updated 2026-06-09 04:32 ET</span>
+  <span class="updated"><span class="freshdot fresh">● live</span> · Updated 2026-06-09 04:49 ET</span>
 </header>
 <nav class="jump">
   <a href="#overview">Overview</a>
@@ -154,6 +158,11 @@ tbody tr:hover{background:var(--surf2)}
       <div class="big">$65.48</div>
       <div class="sub">$10 rollover ladder</div>
     </div>
+  </div>
+
+  <div class="tline">
+    <span class="tlbl">Last 15 tickets</span>
+    <span class="tpill" style="background:var(--green)" title="5/26: LAD ML + Burns O6.5K + Strider O4.5K">W</span><span class="tpill" style="background:var(--green)" title="5/27: NYY ML + Sanchez O6.5K">W</span><span class="tpill" style="background:var(--red)" title="5/28: Tigers ML (anchor) + …">L</span><span class="tpill" style="background:var(--red)" title="5/29: LAD ML + HOU ML">L</span><span class="tpill" style="background:var(--red)" title="5/30: CLE ML + SD ML">L</span><span class="tpill" style="background:var(--green)" title="5/31: MIL −1.5 RL + NYY ML">W</span><span class="tpill" style="background:var(--red)" title="6/1: SEA ML + TB −1.5 RL">L</span><span class="tpill" style="background:var(--green)" title="6/2: SEA ML + MIL ML">W</span><span class="tpill" style="background:var(--red)" title="6/3: SEA ML + PHI ML">L</span><span class="tpill" style="background:var(--red)" title="6/4: PHI ML + ATL ML">L</span><span class="tpill" style="background:var(--red)" title="6/5: SEA ML + LAD ML">L</span><span class="tpill" style="background:var(--green)" title="6/6: USER TOR live ML −191 + CLE ML +101">W</span><span class="tpill" style="background:var(--green)" title="6/6: USER CLE −5.5 RL + (LAD −1.5 RL + Kochanowicz O5.5">W</span><span class="tpill" style="background:var(--green)" title="6/7: deGrom TEX −140 + ATL −145 (indep, 2 games)">W</span><span class="tpill" style="background:var(--green)" title="6/8: USER PHI ML + Sánchez O6.5K SGP (pos-corr)">W</span>
   </div>
 
   <div class="legend">
