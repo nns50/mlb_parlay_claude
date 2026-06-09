@@ -98,9 +98,9 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 6/7 | LAD ML (Sheehan, vs LAA) | ML-fav | -210 | 63% | 66.3% | −3.3 | **would-L** (LAD 5-13 LAA — correct reject confirmed; offense-driven heavy price busted vs ace Soriano 2.72). Grade: **correct reject (−EV)** | N | + 85%cl | P |
 | 6/7 | PHI ML (Nola, vs CWS) | ML-fav | -161 | 53% | 61.5% | −8.5 | **W** (PHI 9-5 — would-W; D4 trap fav won this time, fades.md D4 → 3-1) — scan REJECT; Nola 5.55 own-SP trap (D4) + CWS B1 dog. Grade: **correct reject (−EV process); outcome won** | N | + 85%cl | S |
 | 6/8 | Sánchez Over 6.5 K (vs TOR) | K-Over | +100 | 58% | 46.9% | +11.1 | **SUPERSEDED → Build B** (price improved +100 → +116; lineups now posted, leg LIVE). Grade: was +EV | N | — | S |
-| 6/8 | Sánchez Over 6.5 K (vs TOR) — Build B | K-Over | +116 | 58% | 43.7% | +14.3 | TBD — Build B Tier 1 standalone (lineup-locked, DraftKings). Devig O+116/U-148. ⚠ market leans harder Under (no-vig 56.3%) — disagreement respected, TrueP held 58%. Grade: **+EV (clears gate)** | N | − (U juiced to -148) | S |
-| 6/8 | PHI ML + Sánchez O6.5K SGP (vs TOR) — Build B | Parlay (+corr) | +248 ind / SGP TBD | 44.1% | 28.8% | +15.4 (ind) | TBD — Build B Tier 3 best +200; same-game positive corr (ρ≈+0.30), true comb 44.1% vs 37.0% naive. Realized = book SGP quote (≥+130 +EV). Grade: **+EV if SGP ≥ +130** | N | — | P |
-| 6/8 | PHI ML (Sánchez, vs TOR) | ML-fav | -165 | 63.8% | 60.8% | +3.0 | TBD — Build A Tier 2 anchor + bankroll roll 4; ace edge (1.46/10.74), PHI L15 7-3. Grade: **+EV (clears gate)** | N | − 60%cl | P |
+| 6/8 | Sánchez Over 6.5 K (vs TOR) — Build B | K-Over | +116 | 58% | 43.7% | +14.3 | **W** (10 K in 7 IP vs TOR — sailed over 6.5) — Build B Tier 1 standalone (DraftKings). Devig O+116/U-148; market leaned harder Under (no-vig 56.3%) and was WRONG. Grade: **+EV (clears gate), WON** | Y | − (U juiced to -148) | S |
+| 6/8 | PHI ML + Sánchez O6.5K SGP (vs TOR) — Build B **[CHOSEN BY USER]** | Parlay (+corr) | +248 ind / SGP TBD | 44.1% | 28.8% | +15.4 (ind) | **W** (PHI 5-2 TOR + Sánchez 10 K — BOTH legs cashed) — Build B Tier 3 best +200; same-game pos-corr (ρ≈+0.30), true comb 44.1% (the high-floor +200 answer hit). Grade: **+EV, WON** | Y | — | P |
+| 6/8 | PHI ML (Sánchez, vs TOR) | ML-fav | -165 | 63.8% | 60.8% | +3.0 | **W** (PHI 5-2 TOR) — Build A Tier 2 anchor + bankroll roll 4 (4-WIN TARGET HIT); ace edge (1.46/10.74), PHI L15 7-3. Grade: **+EV (clears gate), WON** | Y | − 60%cl | P |
 | 6/8 | MIL ML (Harrison, vs ATH) | ML-fav | -141 | 60.4% | 57.4% | +3.0 | TBD — Build A Tier 2/3 anchor; ace edge (1.57/11.46) + hot team 40-23/+105. Grade: **+EV (clears gate)** | N | − 56%cl | P |
 | 6/8 | HOU ML (Arrighetti, vs LAA) | ML-fav | -126 | 56% | 54.5% | +1.5 | TBD — Build A Tier 3 +200 leg; Arrighetti 1.94 vs G-Rod 9.50, but HOU 30-37 bad team (thin/opponent-driven). Grade: **thin +EV** | N | | P |
 | 6/6 | Dodgers ML (Yamamoto, vs LAA) | ML-fav | -182 | 64.7% | 61.7% | +3.0 | **W** (LAD 9-2) — Build A Tier 1 + bankroll roll 2 (logged @ −182). Grade: **+EV (clears gate)** | N | — | S |
@@ -144,8 +144,9 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 6/6 | **USER** TOR live ML −191 + CLE ML +101 | +206 | $10 | $30.62 | **+$20.62** | ✅ WON (both ML hit; user's own ticket, not a build) |
 | 6/6 | **USER** CLE −5.5 RL + (LAD −1.5 RL + Kochanowicz O5.5 hits SGP) | +289 | $30 | $116.76 | **+$86.76** | ✅ WON all 3 (CLE −5.5, Kocha O5.5 hits, LAD −1.5 final 9-2 by 7). RIDE call correct. |
 | 6/7 | deGrom TEX −140 + ATL −145 (indep, 2 games) | +190 | 1.00 | 2.90 | +1.90 | ✅ WON (Build A Tier 2/3; TEX 10-0 + ATL 3-2 — both legs cashed; true comb 36.1%, EV +4.4% — the high-chance +200-area answer hit) |
+| 6/8 | **USER** PHI ML + Sánchez O6.5K SGP (pos-corr) | +200-area (SGP) | TBD | — | — | ✅ WON (PHI 5-2 + Sánchez 10 K; true comb 44.1% — positive same-game correlation, the high-floor +200 build cashed. **Confirm stake to fill units.**) |
 
-**Record: 6 W – 7 L (recommended builds). Units @ flat 1u: staked 13.00, returned 18.58 → P/L +5.58u, ROI +42.9%.** (6/7 deGrom×ATL +190 WON — both legs.)
+**Units-tracked tickets (reconciled to calib.py): 13 tickets, record 6-7, staked 13.00u, returned 18.58u → P/L +5.58u, ROI +42.9%.** The **6/8 PHI+Sánchez SGP WON** (both legs) but is NOT yet in the units rollup — **stake TBD** (awaiting user confirm); once logged it adds a winning ticket. Recommended-build W/L counting the 6/8 win = **7-7**.
 **User's own 6/6 tickets (logged separately, not from a build): Ticket 1 ✅ +$20.62; Ticket 2 2/3 locked, LAD −1.5 live (eff. W).**
 
 > **6/5 is the parlay tax, on the board:** the LAD leg cashed standalone (bankroll won) but the SEA×LAD

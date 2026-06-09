@@ -58,17 +58,18 @@ P(4 straight wins in an attempt) ≈ 0.60⁴ ≈ **13%** → expect ~8 attempts 
 | 2 | 6/6 | 2 | $15.32 | LAD ML −182 (FanDuel, 1.549) | 64.7% | **WIN** (LAD 9-2) | **$23.73** | LAD beat LAA 9-2 (Yamamoto cruised); $15.32×1.549 = $23.73. Roll 2 cashed. |
 | 2 | 6/7 | 3 | $23.73 | deGrom (TEX) ML −140 (BetUS, 1.714) | 60.1% | **WIN** (TEX 10-0) | **$40.67** | safest qualifying fav on the board — deGrom 3.48/10.86 K9 ace edge (+3.0pp), TEX home vs CLE/Cantillo; not A-list fade. deGrom dealt, TEX 10-0. $23.73×1.714 = $40.67. **Roll 4 = the 4-win target.** |
 | 2 | 6/7 | 4 | $40.67 | — NO BET — | — | — | $40.67 (carries) | Roll 4 (the target roll) needs a qualifying fav, but at the 18:00 run the only pre-game game left is SF@CHC — **CHC −123 is an A1 fade-as-fav (excluded)**, SF is a dog. No qualifying favorite → NO BET, balance carries to next slate. |
-| 2 | 6/8 | 4 | $40.67 | PHI ML −164 (LowVig, 1.610) | 63.8% | **TBD** | _pending_ | **Roll 4 = the 4-win TARGET.** Safest qualifying fav on the board: Sánchez ace edge (1.46/10.74 K9), PHI L15 7-3, 62-66% band, **not an A-list fade**. Lineup posted, Sánchez confirmed. WIN → $40.67×1.610 = **$65.48 → 4-win target HIT → STOP & withdraw.** |
+| 2 | 6/8 | 4 | $40.67 | PHI ML −164 (LowVig, 1.610) | 63.8% | **WIN** (PHI 5-2 TOR) | **$65.48** | **🎯 4-WIN TARGET HIT → STOP & WITHDRAW $65.48.** Sánchez dealt (7 IP / 10 K / 2 ER), PHI held on 5-2. $40.67×1.610 = $65.48. **Attempt 2 = SUCCESS (4 straight wins).** Restart next slate at $10. |
+| — | — | — | — | — WITHDRAWN $65.48 — | — | **TARGET** | **$0 → restart $10** | Attempt 2 complete: $10 → $65.48 over 4 rolls (LAD, LAD, deGrom, PHI). Net realized profit on attempt 2 = **+$55.48**. Next slate starts fresh attempt 3 at $10. |
 
 ---
 
 ## Running totals (update on every settle)
 
-- **Current:** Attempt **2**, balance **$40.67** (**3 wins**), **roll 4 = the 4-win TARGET — bet placed 6/8: PHI ML −164.**
-  Roll 3 (deGrom TEX −140) **CASHED** 6/7 (TEX 10-0) → $23.73×1.714 = $40.67. Roll 4 (6/8) = **PHI ML −164** (Sánchez
-  ace edge, 63.8%, not an A-list fade) — **TBD; WIN → $65.48 → 4-win target HIT → STOP & withdraw.** Loss → $0, restart $10.
-- **Attempts completed:** 1 · **Targets hit (4 wins):** 0 · **Busts:** 1 · **Best run:** **3 wins (active, attempt 2)**
-- **Total real risk (attempts × $10):** **$20.00** risked · **Total withdrawn:** $0.00
-- **Net P/L (withdrawn − deposited):** **−$10.00** (attempt 1 lost $10; attempt 2 live at $40.67, not yet withdrawn)
+- **Current:** Attempt **2 COMPLETE — 🎯 4-WIN TARGET HIT.** PHI ML −164 **CASHED** 6/8 (PHI 5-2 TOR, Sánchez 7 IP/10 K)
+  → $40.67×1.610 = **$65.48 → WITHDREW $65.48.** Attempt 2 ran $10 → $65.48 over 4 straight wins (LAD, LAD, deGrom, PHI).
+  **Next slate = fresh attempt 3 at $10.**
+- **Attempts completed:** 2 · **Targets hit (4 wins):** **1** ✅ · **Busts:** 1 · **Best run:** **4 wins (attempt 2 — TARGET)**
+- **Total real risk (attempts × $10):** **$20.00** risked · **Total withdrawn:** **$65.48**
+- **Net P/L (withdrawn − deposited):** **+$45.48** (attempt 1 lost $10; attempt 2 turned $10 into $65.48 → +$55.48; net +$45.48 across both)
 
 > Tracked like `fades.md` / `results_log.md`: any change → commit → push → PR → squash-merge.
