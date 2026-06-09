@@ -928,7 +928,9 @@ def render_html(rolls, results, parlays_list, summary, br_data, clv_data,
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0d1117">
 <title>MLB Parlay Dashboard</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230d1117'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle'%3E%E2%9A%BE%3C/text%3E%3C/svg%3E">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 :root {{
@@ -937,51 +939,73 @@ def render_html(rolls, results, parlays_list, summary, br_data, clv_data,
   --yellow:#f59e0b; --blue:#3b82f6; --purple:#a78bfa;
 }}
 *{{box-sizing:border-box;margin:0;padding:0}}
-body{{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;line-height:1.5}}
+html{{scroll-behavior:smooth}}
+body{{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;line-height:1.5;font-feature-settings:'tnum' 1,'cv01' 1}}
 a{{color:var(--blue);text-decoration:none}}
-header{{background:var(--surf);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}}
-header h1{{font-size:16px;font-weight:600;letter-spacing:-0.3px}}
+.num{{font-variant-numeric:tabular-nums}}
+
+/* Header */
+header{{background:linear-gradient(180deg,#161b22,#12161d);border-bottom:1px solid var(--border);padding:13px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:30}}
+header h1{{font-size:15px;font-weight:700;letter-spacing:-0.3px;display:flex;align-items:center;gap:7px}}
 .updated{{font-size:11px;color:var(--muted)}}
 .freshdot{{font-weight:600}}
 .freshdot.fresh{{color:var(--green)}}
 .freshdot.stale{{color:var(--red)}}
-.wrap{{max-width:1380px;margin:0 auto;padding:20px 20px 40px}}
-.section-title{{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin:24px 0 10px}}
+
+/* Sticky section nav */
+nav.jump{{position:sticky;top:47px;z-index:20;background:rgba(13,17,23,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}}
+nav.jump a{{font-size:12px;color:var(--muted);padding:11px 13px;white-space:nowrap;border-bottom:2px solid transparent;font-weight:500;transition:color .15s,border-color .15s}}
+nav.jump a:hover{{color:var(--text)}}
+nav.jump a.active{{color:var(--text);border-bottom-color:var(--blue)}}
+
+.wrap{{max-width:1320px;margin:0 auto;padding:18px 20px 48px}}
+section{{scroll-margin-top:96px}}
+.section-title{{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin:26px 0 11px;display:flex;align-items:center;gap:9px}}
+.section-title::after{{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}}
+
+/* Hero scoreboard */
+.hero{{background:linear-gradient(135deg,#171c24,#13171e);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:6px;display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:14px;position:relative;overflow:hidden}}
+.hero::before{{content:'';position:absolute;inset:0;background:radial-gradient(900px 120px at 0% 0%,rgba(59,130,246,.10),transparent)}}
+.hero .h{{position:relative}}
+.hero .h .lbl{{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:6px}}
+.hero .h .big{{font-size:32px;font-weight:800;letter-spacing:-1px;line-height:1}}
+.hero .h .sub{{font-size:11px;color:var(--muted);margin-top:5px}}
+.hero .divider{{position:absolute;left:0;top:14px;bottom:14px;width:1px;background:var(--border)}}
 
 /* Stats */
-.stats{{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:4px}}
-.stat{{background:var(--surf);border:1px solid var(--border);border-radius:8px;padding:14px 16px}}
-.stat .lbl{{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:5px}}
-.stat .val{{font-size:22px;font-weight:700}}
-.stat .sub{{font-size:11px;color:var(--muted);margin-top:2px}}
+.stats{{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:11px}}
+.stat{{background:var(--surf);border:1px solid var(--border);border-radius:9px;padding:14px 16px;transition:border-color .15s,transform .15s}}
+.stat:hover{{border-color:#3d4654}}
+.stat .lbl{{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:6px}}
+.stat .val{{font-size:23px;font-weight:700;letter-spacing:-.4px}}
+.stat .sub{{font-size:11px;color:var(--muted);margin-top:3px}}
+
+/* Legend */
+.legend{{display:flex;flex-wrap:wrap;gap:14px;font-size:11px;color:var(--muted);margin:2px 0 4px;padding:9px 13px;background:var(--surf);border:1px solid var(--border);border-radius:8px}}
+.legend span{{display:flex;align-items:center;gap:5px}}
+.swatch{{width:11px;height:11px;border-radius:3px;display:inline-block}}
 
 /* Cards */
-.grid2{{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}}
-@media(max-width:800px){{.grid2{{grid-template-columns:1fr}}}}
-@media(max-width:560px){{
-  header{{padding:12px 14px;flex-direction:column;align-items:flex-start;gap:2px}}
-  .wrap{{padding:14px 12px 32px}}
-  .card,.tcard{{padding:13px}}
-  .stat .val{{font-size:19px}}
-  .chart-wrap{{height:190px}}
-  thead th,tbody td{{padding:5px 6px;font-size:12px}}
-}}
-.card{{background:var(--surf);border:1px solid var(--border);border-radius:8px;padding:18px}}
-.card h2{{font-size:13px;font-weight:600;margin-bottom:2px}}
-.card .sub{{font-size:11px;color:var(--muted);margin-bottom:14px}}
-.chart-wrap{{position:relative;height:220px}}
+.grid2{{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:6px}}
+@media(max-width:820px){{.grid2{{grid-template-columns:1fr}}}}
+.card{{background:var(--surf);border:1px solid var(--border);border-radius:10px;padding:18px;transition:border-color .15s}}
+.card:hover{{border-color:#3d4654}}
+.card h2{{font-size:13px;font-weight:600;margin-bottom:3px;letter-spacing:-.2px}}
+.card .sub{{font-size:11px;color:var(--muted);margin-bottom:14px;line-height:1.4}}
+.chart-wrap{{position:relative;height:224px}}
 .chart-wrap-sm{{position:relative;height:150px}}
 
 /* Tables */
-.tcard{{background:var(--surf);border:1px solid var(--border);border-radius:8px;padding:18px;margin-bottom:14px;overflow-x:auto}}
-.tcard h2{{font-size:13px;font-weight:600;margin-bottom:2px}}
-.tcard .sub{{font-size:11px;color:var(--muted);margin-bottom:12px}}
+.tcard{{background:var(--surf);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:6px;overflow-x:auto}}
+.tcard h2{{font-size:13px;font-weight:600;margin-bottom:3px;letter-spacing:-.2px}}
+.tcard .sub{{font-size:11px;color:var(--muted);margin-bottom:13px}}
 table{{width:100%;border-collapse:collapse}}
-thead th{{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;text-align:left;padding:6px 10px;border-bottom:1px solid var(--border)}}
-tbody td{{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top}}
+thead th{{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;text-align:left;padding:7px 10px;border-bottom:1px solid var(--border);position:sticky;user-select:none}}
+thead th:hover{{color:var(--text)}}
+tbody td{{padding:8px 10px;border-bottom:1px solid #1d232c;vertical-align:top}}
 tbody tr:last-child td{{border-bottom:none}}
 tbody tr:hover{{background:var(--surf2)}}
-.mono{{font-family:'SF Mono',ui-monospace,monospace;font-size:12px}}
+.mono{{font-family:'SF Mono',ui-monospace,SFMono-Regular,monospace;font-size:12px;font-variant-numeric:tabular-nums}}
 .muted{{color:var(--muted)}}
 .small{{font-size:12px}}
 .pos{{color:var(--green)}}
@@ -989,15 +1013,28 @@ tbody tr:hover{{background:var(--surf2)}}
 .star{{color:var(--yellow);font-size:10px}}
 
 /* Badges & tags */
-.badge{{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px}}
+.badge{{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:5px}}
 .badge.win{{background:rgba(34,197,94,.15);color:var(--green)}}
 .badge.loss{{background:rgba(239,68,68,.15);color:var(--red)}}
 .badge.tbd{{background:rgba(139,148,158,.15);color:var(--muted)}}
-.tag{{display:inline-block;font-size:10px;padding:1px 6px;border-radius:3px;background:var(--surf2);color:var(--muted)}}
+.tag{{display:inline-block;font-size:10px;padding:1px 6px;border-radius:4px;background:var(--surf2);color:var(--muted)}}
 .tag.pos{{background:rgba(34,197,94,.15);color:var(--green)}}
 .tag.neg{{background:rgba(239,68,68,.15);color:var(--red)}}
-.no-data{{text-align:center;padding:40px 20px;color:var(--muted);font-size:13px}}
-.note{{font-size:11px;color:var(--muted);margin-top:8px;padding:8px 10px;background:var(--surf2);border-radius:4px;border-left:2px solid var(--border)}}
+.no-data{{text-align:center;padding:38px 20px;color:var(--muted);font-size:13px}}
+.no-data::before{{content:'○';display:block;font-size:22px;opacity:.4;margin-bottom:8px}}
+.note{{font-size:11px;color:var(--muted);margin:8px 0 6px;padding:9px 12px;background:var(--surf);border:1px solid var(--border);border-radius:7px;border-left:3px solid var(--blue);line-height:1.5}}
+
+@media(max-width:560px){{
+  header{{padding:11px 14px}}
+  nav.jump{{top:43px;padding:0 12px}}
+  .wrap{{padding:14px 12px 36px}}
+  .card,.tcard{{padding:14px}}
+  .hero{{padding:16px;gap:12px}}
+  .hero .h .big{{font-size:26px}}
+  .stat .val{{font-size:20px}}
+  .chart-wrap{{height:200px}}
+  thead th,tbody td{{padding:6px 7px;font-size:12px}}
+}}
 </style>
 </head>
 <body>
@@ -1005,39 +1042,50 @@ tbody tr:hover{{background:var(--surf2)}}
   <h1>⚾ MLB Parlay Dashboard</h1>
   <span class="updated"><span class="freshdot {fresh_cls}">{fresh_txt}</span> · Updated {updated}</span>
 </header>
+<nav class="jump">
+  <a href="#overview">Overview</a>
+  <a href="#bankroll">Bankroll</a>
+  <a href="#trends">Trends</a>
+  <a href="#pnl">P&amp;L</a>
+  <a href="#fades">Fades</a>
+  <a href="#tables">Tables</a>
+</nav>
 <div class="wrap">
 
-  <div class="section-title">Overview</div>
-  <div class="stats">
-    <div class="stat">
+  <section id="overview">
+  <div class="hero">
+    <div class="h">
+      <div class="lbl">Ticket P/L (units)</div>
+      <div class="big {'pos' if pl_data['final_units'] >= 0 else 'neg'}">{'+' if pl_data['final_units'] >= 0 else ''}{pl_data['final_units']}u</div>
+      <div class="sub">flat-1u · +${pl_data['dollar_pl']:.0f} real / {pl_data['dollar_n']} $-staked</div>
+    </div>
+    <div class="h">
       <div class="lbl">Played leg record</div>
-      <div class="val">{summary['leg_record']}</div>
+      <div class="big">{summary['leg_record']}</div>
       <div class="sub">{summary['leg_win_pct']}% · n={summary['total_legs']}</div>
     </div>
-    <div class="stat">
-      <div class="lbl">Ticket record</div>
-      <div class="val">{summary['ticket_record']}</div>
-      <div class="sub">parlay builds · n={summary['ticket_total']}</div>
-    </div>
-    <div class="stat">
+    <div class="h">
       <div class="lbl">CLV+ rate</div>
-      <div class="val">{clv_pct_txt}</div>
+      <div class="big">{clv_pct_txt}</div>
       <div class="sub">beat the close · n={summary['clv_total']}</div>
     </div>
-    <div class="stat">
-      <div class="lbl">Bankroll balance</div>
-      <div class="val">{bal_txt}</div>
+    <div class="h">
+      <div class="lbl">Bankroll</div>
+      <div class="big">{bal_txt}</div>
       <div class="sub">$10 rollover ladder</div>
-    </div>
-    <div class="stat">
-      <div class="lbl">Ticket P/L (units)</div>
-      <div class="val {'pos' if pl_data['final_units'] >= 0 else 'neg'}">{'+' if pl_data['final_units'] >= 0 else ''}{pl_data['final_units']}u</div>
-      <div class="sub">flat-1u · +${pl_data['dollar_pl']:.0f} real over {pl_data['dollar_n']} $-staked</div>
     </div>
   </div>
 
-  <div class="section-title">Parlay tax — Standalone vs Parlay</div>
-  <div class="grid2">
+  <div class="legend">
+    <strong style="color:var(--text);font-weight:600">Colors:</strong>
+    <span><i class="swatch" style="background:var(--green)"></i> win / +EV / beat close</span>
+    <span><i class="swatch" style="background:var(--red)"></i> loss / −EV / missed close</span>
+    <span><i class="swatch" style="background:var(--yellow)"></i> reference / legacy row</span>
+    <span><i class="swatch" style="background:var(--muted)"></i> push / untested / no-bet</span>
+  </div>
+
+  <div class="section-title">Parlay tax — standalone vs parlay</div>
+  <div class="stats">
     <div class="stat" style="border-left:3px solid var(--green)">
       <div class="lbl">Standalone legs (S)</div>
       <div class="val">{summary['s_record']} <span style="font-size:14px;color:var(--muted)">· {summary['s_pct']}%</span></div>
@@ -1048,10 +1096,17 @@ tbody tr:hover{{background:var(--surf2)}}
       <div class="val">{summary['p_record']} <span style="font-size:14px;color:var(--muted)">· {summary['p_pct']}%</span></div>
       <div class="sub">legs ridden on a parlay ticket · n={summary['p_n']}</div>
     </div>
+    <div class="stat">
+      <div class="lbl">Ticket record</div>
+      <div class="val">{summary['ticket_record']}</div>
+      <div class="sub">parlay builds · n={summary['ticket_total']}</div>
+    </div>
   </div>
   <p class="note">Doctrine claims parlays run near -EV chalk+vig. This split is the measurement: if standalones (S) outrun parlay legs (P) over a real sample, that's the evidence to keep the +200 chase eyes-open as entertainment, not strategy.</p>
+  </section>
 
-  <div class="section-title">Bankroll &amp; Calibration</div>
+  <section id="bankroll">
+  <div class="section-title">Bankroll &amp; calibration</div>
   <div class="grid2">
     <div class="card">
       <h2>Bankroll Curve</h2>
@@ -1065,6 +1120,9 @@ tbody tr:hover{{background:var(--surf2)}}
     </div>
   </div>
 
+  </section>
+
+  <section id="trends">
   <div class="section-title">Process trend &amp; edge predictiveness</div>
   <div class="grid2">
     <div class="card">
@@ -1079,6 +1137,9 @@ tbody tr:hover{{background:var(--surf2)}}
     </div>
   </div>
 
+  </section>
+
+  <section id="pnl">
   <div class="section-title">Profit &amp; loss</div>
   <div class="grid2">
     <div class="card">
@@ -1093,6 +1154,15 @@ tbody tr:hover{{background:var(--surf2)}}
     </div>
   </div>
 
+  <div class="card" style="margin-bottom:6px">
+    <h2>CLV per Leg</h2>
+    <div class="sub">Green = beat the close · red = missed · magnitude where logged, else ±1 by sign</div>
+    <div class="chart-wrap-sm">{clv_canvas}</div>
+  </div>
+  <p class="note">CLV converges faster than ROI at small samples — it's the primary scoreboard. A sustained CLV+ rate is the clearest signal of process quality before ROI stabilises.</p>
+  </section>
+
+  <section id="fades">
   <div class="section-title">Record by leg type</div>
   <div class="tcard">
     <h2>Bet-type breakdown</h2>
@@ -1106,15 +1176,9 @@ tbody tr:hover{{background:var(--surf2)}}
     <div class="sub">From fades.md · record = W (fade correct) − L (fade missed), counted from each entry's log · green ≥ 60%</div>
     {'<table><thead><tr><th>ID</th><th>Fade</th><th>Reason</th><th>Record</th><th>Status</th></tr></thead><tbody>' + fade_rows_html + '</tbody></table>' if fades else '<p class="no-data">No fades parsed.</p>'}
   </div>
+  </section>
 
-  <div class="section-title">Closing Line Value</div>
-  <div class="card" style="margin-bottom:14px">
-    <h2>CLV per Leg</h2>
-    <div class="sub">Green = beat the close · Red = missed · magnitude where logged, else ±1 by sign</div>
-    <div class="chart-wrap-sm">{clv_canvas}</div>
-  </div>
-  <p class="note">CLV converges faster than ROI at small samples — it's the primary scoreboard. A sustained CLV+ rate is the clearest signal of process quality before ROI stabilises.</p>
-
+  <section id="tables">
   <div class="section-title">Recent played legs</div>
   <div class="tcard">
     <h2>Last 20 decided legs</h2>
@@ -1135,6 +1199,7 @@ tbody tr:hover{{background:var(--surf2)}}
     <div class="sub">Most recent first</div>
     {'<table><thead><tr><th>Date</th><th>Runs</th><th>Result</th><th>Summary</th></tr></thead><tbody>' + parlay_rows_html + '</tbody></table>' if parlays_list else '<p class="no-data">No parlay files found.</p>'}
   </div>
+  </section>
 
 </div>
 <script>
@@ -1172,6 +1237,18 @@ document.querySelectorAll('table').forEach(tbl => {{
     }});
   }});
 }});
+
+// ── Scroll-spy: highlight the active nav link ──
+const navLinks = Array.from(document.querySelectorAll('nav.jump a'));
+const sections = navLinks.map(a => document.querySelector(a.getAttribute('href')));
+const spy = () => {{
+  const y = window.scrollY + 120;
+  let active = 0;
+  sections.forEach((s, i) => {{ if (s && s.offsetTop <= y) active = i; }});
+  navLinks.forEach((a, i) => a.classList.toggle('active', i === active));
+}};
+window.addEventListener('scroll', spy, {{passive: true}});
+spy();
 </script>
 </body>
 </html>"""
