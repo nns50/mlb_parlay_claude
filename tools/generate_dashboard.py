@@ -1177,41 +1177,138 @@ document.querySelectorAll('table').forEach(tbl => {{
 </html>"""
 
 
+# ─── Build pipeline ───────────────────────────────────────────────────────────
+
+def build_all():
+    """Parse every source + compute every derived dataset. Returns a dict."""
+    rolls = parse_bankroll()
+    results = parse_results_log()
+    parlays_list = parse_parlays()
+    fades = parse_fades()
+    return {
+        'rolls': rolls, 'results': results, 'parlays_list': parlays_list,
+        'fades': fades,
+        'summary': compute_summary(results, rolls),
+        'br_data': bankroll_chart_data(rolls),
+        'clv_data': clv_chart_data(results),
+        'trend_data': win_trend_data(results),
+        'types': type_breakdown(results),
+        'edges': edge_buckets(results),
+        'pl_data': pl_curve_data(results),
+        'clvroi_data': clv_vs_roi_data(results),
+    }
+
+
+def render_from(d) -> str:
+    return render_html(d['rolls'], d['results'], d['parlays_list'], d['summary'],
+                       d['br_data'], d['clv_data'], d['trend_data'], d['types'],
+                       d['edges'], d['fades'], d['pl_data'], d['clvroi_data'])
+
+
+# ─── Self-test (parser invariants + calib.py reconciliation) ──────────────────
+
+def _calib_units_pl():
+    """Run calib.py and extract its derived units P/L (e.g. +5.58) for reconcile."""
+    import subprocess
+    out = subprocess.run(['python3', str(REPO / 'tools' / 'calib.py')],
+                         capture_output=True, text=True, timeout=30).stdout
+    m = re.search(r'P/L\s+([+-][\d.]+)u', out)
+    tot = re.search(r'TOTAL\s+(\d+)\s', out)
+    return (float(m.group(1)) if m else None,
+            int(tot.group(1)) if tot else None)
+
+
+def selftest() -> int:
+    """Assert the dashboard parses real data & reconciles with calib.py. Exit 0/1."""
+    fails = []
+    def check(name, cond, detail=''):
+        mark = '✓' if cond else '✗'
+        print(f"  {mark} {name}" + (f"  ({detail})" if detail and not cond else ''))
+        if not cond:
+            fails.append(name)
+
+    d = build_all()
+    r = d['results']
+
+    # 1. Parsers actually found rows — guards against a markdown reformat silently
+    #    dropping every row (the real failure mode for regex-on-prose parsing).
+    check("results_log: ≥20 played legs parsed", len(r['played']) >= 20,
+          f"got {len(r['played'])}")
+    check("results_log: ≥10 tickets parsed", len(r['tickets']) >= 10,
+          f"got {len(r['tickets'])}")
+    check("results_log: ≥3 calib buckets parsed", len(r['calib_buckets']) >= 3,
+          f"got {len(r['calib_buckets'])}")
+    check("fades.md: ≥15 entries parsed", len(d['fades']) >= 15,
+          f"got {len(d['fades'])}")
+    check("parlays/: ≥10 files parsed", len(d['parlays_list']) >= 10,
+          f"got {len(d['parlays_list'])}")
+    check("bankroll.md: ≥1 roll parsed", len(d['rolls']) >= 1,
+          f"got {len(d['rolls'])}")
+
+    # 2. Reconcile units P/L + calibration N against calib.py (the source of truth).
+    calib_pl, calib_n = _calib_units_pl()
+    dash_pl = d['pl_data']['final_units']
+    check("P/L reconciles with calib.py",
+          calib_pl is not None and abs(dash_pl - calib_pl) < 0.01,
+          f"dashboard {dash_pl}u vs calib {calib_pl}u")
+    dash_n = sum(b['n'] for b in r['calib_buckets'])
+    check("calibration N reconciles with calib.py",
+          calib_n is not None and dash_n == calib_n,
+          f"dashboard {dash_n} vs calib {calib_n}")
+
+    # 3. Records are internally consistent (W+L counts add up, no negatives).
+    s = d['summary']
+    check("S/P split non-negative & summed",
+          s['s_n'] >= 0 and s['p_n'] >= 0 and (s['s_n'] + s['p_n']) > 0)
+
+    # 4. Empty-season safety — the whole pipeline must not crash on no data.
+    try:
+        empty_results = {'played': [], 'not_played': [], 'tickets': [],
+                         'calib_buckets': []}
+        ed = {
+            'rolls': [], 'results': empty_results, 'parlays_list': [], 'fades': [],
+            'summary': compute_summary(empty_results, []),
+            'br_data': bankroll_chart_data([]),
+            'clv_data': clv_chart_data(empty_results),
+            'trend_data': win_trend_data(empty_results),
+            'types': type_breakdown(empty_results),
+            'edges': edge_buckets(empty_results),
+            'pl_data': pl_curve_data(empty_results),
+            'clvroi_data': clv_vs_roi_data(empty_results),
+        }
+        html_empty = render_from(ed)
+        check("empty-season renders without crashing", len(html_empty) > 1000)
+    except Exception as e:
+        check("empty-season renders without crashing", False, repr(e))
+
+    # 5. The real render has no unrendered f-string artifacts.
+    html = render_from(d)
+    artifacts = re.findall(r"\{(?:summary|pl_data|json|fades|results)\b[^}]*\}", html)
+    check("rendered HTML has no unrendered {python} artifacts", not artifacts,
+          str(artifacts[:3]))
+    check("rendered HTML wires all 7 charts", html.count('new Chart') == 7,
+          f"got {html.count('new Chart')}")
+
+    print(f"  ── dashboard self-test: {'ALL PASSED' if not fails else str(len(fails)) + ' FAILED'}")
+    return 0 if not fails else 1
+
+
 # ─── Main ─────────────────────────────────────────────────────────────────────
 
 def main():
-    print("Parsing bankroll.md …")
-    rolls = parse_bankroll()
-    print(f"  {len(rolls)} rolls")
+    import sys
+    if '--selftest' in sys.argv or '--check' in sys.argv:
+        raise SystemExit(selftest())
 
-    print("Parsing results_log.md …")
-    results = parse_results_log()
-    print(f"  {len(results['played'])} played legs · "
-          f"{len(results['not_played'])} not-played · "
-          f"{len(results['tickets'])} tickets · "
-          f"{len(results['calib_buckets'])} calib buckets")
-
-    print("Parsing parlays/ …")
-    parlays_list = parse_parlays()
-    print(f"  {len(parlays_list)} files")
-
-    print("Parsing fades.md …")
-    fades = parse_fades()
-    print(f"  {len(fades)} fade entries")
-
-    summary = compute_summary(results, rolls)
-    br_data = bankroll_chart_data(rolls)
-    clv_data = clv_chart_data(results)
-    trend_data = win_trend_data(results)
-    types = type_breakdown(results)
-    edges = edge_buckets(results)
-    pl_data = pl_curve_data(results)
-    clvroi_data = clv_vs_roi_data(results)
+    print("Parsing sources …")
+    d = build_all()
+    r = d['results']
+    print(f"  {len(r['played'])} played · {len(r['not_played'])} not-played · "
+          f"{len(r['tickets'])} tickets · {len(d['fades'])} fades · "
+          f"{len(d['parlays_list'])} parlays · {len(d['rolls'])} rolls")
 
     print("Generating HTML …")
-    html = render_html(rolls, results, parlays_list, summary,
-                       br_data, clv_data, trend_data, types, edges,
-                       fades, pl_data, clvroi_data)
+    html = render_from(d)
 
     DOCS.mkdir(exist_ok=True)
     (DOCS / ".nojekyll").write_text("")
