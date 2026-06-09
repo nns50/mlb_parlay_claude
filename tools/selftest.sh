@@ -183,6 +183,14 @@ has "PROPS_ALL includes home runs"        "batter_home_runs" "$OA"
 has "PROPS_ALL includes total bases"      "batter_total_bases" "$OA"
 has "16:00 build runs the prop value sweep" "FULL PROP VALUE SWEEP" "$CB"
 
+# ── 13d. dashboard parser invariants + calib.py reconciliation (offline) ─────
+# The dashboard parses hand-edited markdown with regex; a table reformat can
+# silently drop every row. Its --selftest asserts ≥N rows parse from each source
+# AND that its units P/L + calibration N reconcile with calib.py (source of truth).
+echo "13d. dashboard parser invariants"
+DESC="generate_dashboard --selftest (parse counts + calib reconcile + empty-safe)"
+runblk python3 tools/generate_dashboard.py --selftest
+
 # ── 14. ONLINE (free StatsAPI only): resolver collision regression ───────────
 if [[ $QUICK -eq 0 ]]; then
   echo "14. mlb_api resolver (live StatsAPI — free, no odds quota)"

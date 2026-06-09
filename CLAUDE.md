@@ -326,11 +326,15 @@ No qualifying play → NO BET, balance carries. Update `bankroll.md` (commit/pus
     is written but unmeasured until real stakes are logged consistently.)
 
 ## Dashboard (read-only GitHub Pages site)
-`tools/generate_dashboard.py` parses `bankroll.md` + `results_log.md` + `parlays/*.md` → `docs/index.html`
-(bankroll curve, calibration chart, CLV bars, recent-legs/ticket/parlay-history tables). `.github/workflows/pages.yml`
-auto-deploys `docs/` to Pages on every push to `main`. **Each cron build refreshes it** — run
-`python3 tools/generate_dashboard.py` after settling the ledgers and stage `docs/index.html` in the build commit
-(step 10b/8b/6b in `cron_build.sh`). It only READS the ledgers; never edits them.
+`tools/generate_dashboard.py` parses `bankroll.md` + `results_log.md` + `parlays/*.md` + `fades.md` → `docs/index.html`
+(bankroll curve, calibration chart w/ perfect-cal line, CLV bars, CLV-vs-ROI, cumulative P/L, S-vs-P split, edge-bucket
++ leg-type + fade-record tables, sortable). `.github/workflows/pages.yml` auto-deploys `docs/` to Pages on every push
+to `main`. **Each cron build refreshes it** — run `python3 tools/generate_dashboard.py` after settling the ledgers and
+stage `docs/index.html` in the build commit (step 10b/8b/6b in `cron_build.sh`). It only READS the ledgers; never edits them.
+- **Parser guard:** `generate_dashboard.py --selftest` asserts each source parses ≥N rows (a markdown reformat can
+  silently drop every regex-matched row) AND that its units-P/L + calibration N **reconcile with `calib.py`** (the
+  source of truth). It's wired into `selftest.sh` §13d, so a broken parser screams on the next session-start digest
+  instead of silently showing wrong numbers.
 
 ## Git workflow
 Always commit, push, AND merge — never just commit. Main should reflect the latest by end of turn.
