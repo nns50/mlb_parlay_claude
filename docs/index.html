@@ -17,6 +17,9 @@ a{color:var(--blue);text-decoration:none}
 header{background:var(--surf);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
 header h1{font-size:16px;font-weight:600;letter-spacing:-0.3px}
 .updated{font-size:11px;color:var(--muted)}
+.freshdot{font-weight:600}
+.freshdot.fresh{color:var(--green)}
+.freshdot.stale{color:var(--red)}
 .wrap{max-width:1380px;margin:0 auto;padding:20px 20px 40px}
 .section-title{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin:24px 0 10px}
 
@@ -30,6 +33,14 @@ header h1{font-size:16px;font-weight:600;letter-spacing:-0.3px}
 /* Cards */
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
 @media(max-width:800px){.grid2{grid-template-columns:1fr}}
+@media(max-width:560px){
+  header{padding:12px 14px;flex-direction:column;align-items:flex-start;gap:2px}
+  .wrap{padding:14px 12px 32px}
+  .card,.tcard{padding:13px}
+  .stat .val{font-size:19px}
+  .chart-wrap{height:190px}
+  thead th,tbody td{padding:5px 6px;font-size:12px}
+}
 .card{background:var(--surf);border:1px solid var(--border);border-radius:8px;padding:18px}
 .card h2{font-size:13px;font-weight:600;margin-bottom:2px}
 .card .sub{font-size:11px;color:var(--muted);margin-bottom:14px}
@@ -58,6 +69,8 @@ tbody tr:hover{background:var(--surf2)}
 .badge.loss{background:rgba(239,68,68,.15);color:var(--red)}
 .badge.tbd{background:rgba(139,148,158,.15);color:var(--muted)}
 .tag{display:inline-block;font-size:10px;padding:1px 6px;border-radius:3px;background:var(--surf2);color:var(--muted)}
+.tag.pos{background:rgba(34,197,94,.15);color:var(--green)}
+.tag.neg{background:rgba(239,68,68,.15);color:var(--red)}
 .no-data{text-align:center;padding:40px 20px;color:var(--muted);font-size:13px}
 .note{font-size:11px;color:var(--muted);margin-top:8px;padding:8px 10px;background:var(--surf2);border-radius:4px;border-left:2px solid var(--border)}
 </style>
@@ -65,7 +78,7 @@ tbody tr:hover{background:var(--surf2)}
 <body>
 <header>
   <h1>⚾ MLB Parlay Dashboard</h1>
-  <span class="updated">Updated 2026-06-09 03:39 ET</span>
+  <span class="updated"><span class="freshdot fresh">● live</span> · Updated 2026-06-09 03:47 ET</span>
 </header>
 <div class="wrap">
 
@@ -90,6 +103,11 @@ tbody tr:hover{background:var(--surf2)}
       <div class="lbl">Bankroll balance</div>
       <div class="val">$65.48</div>
       <div class="sub">$10 rollover ladder</div>
+    </div>
+    <div class="stat">
+      <div class="lbl">Ticket P/L (units)</div>
+      <div class="val pos">+5.58u</div>
+      <div class="sub">flat-1u · +$124 real over 3 $-staked</div>
     </div>
   </div>
 
@@ -136,17 +154,32 @@ tbody tr:hover{background:var(--surf2)}
     </div>
   </div>
 
+  <div class="section-title">Profit &amp; loss</div>
+  <div class="grid2">
+    <div class="card">
+      <h2>Cumulative P/L (units)</h2>
+      <div class="sub">Flat-1u running total over decided tickets — real money side: +$124.08 over 3 $-staked tickets</div>
+      <div class="chart-wrap"><canvas id="plChart"></canvas></div>
+    </div>
+    <div class="card">
+      <h2>CLV vs Results</h2>
+      <div class="sub">Cumulative win% (blue) vs CLV+ rate (amber) — doctrine: CLV leads ROI</div>
+      <div class="chart-wrap"><canvas id="clvroiChart"></canvas></div>
+    </div>
+  </div>
+
   <div class="section-title">Record by leg type</div>
   <div class="tcard">
     <h2>Bet-type breakdown</h2>
-    <div class="sub">All decided legs (played + recommended) grouped by market</div>
-    <table><thead><tr><th>Type</th><th>n</th><th>Record</th><th>Hit%</th><th>Avg edge</th></tr></thead><tbody>
+    <div class="sub">All decided legs (played + recommended) · ROI = hypothetical flat-1u standalone from the American price</div>
+    <table><thead><tr><th>Type</th><th>n</th><th>Record</th><th>Hit%</th><th>Avg edge</th><th>1u ROI</th></tr></thead><tbody>
       <tr>
         <td>ML favorite</td>
         <td class="mono">35</td>
         <td class="mono">23-12</td>
         <td class="mono pos">66%</td>
         <td class="mono pos">+0.1</td>
+        <td class="mono pos">+2.0%</td>
       </tr>
       <tr>
         <td>K-Over</td>
@@ -154,6 +187,7 @@ tbody tr:hover{background:var(--surf2)}
         <td class="mono">8-4</td>
         <td class="mono pos">67%</td>
         <td class="mono pos">+6.2</td>
+        <td class="mono pos">+16.1%</td>
       </tr>
       <tr>
         <td>Run line</td>
@@ -161,6 +195,7 @@ tbody tr:hover{background:var(--surf2)}
         <td class="mono">3-1</td>
         <td class="mono pos">75%</td>
         <td class="mono pos">+1.8</td>
+        <td class="mono pos">+32.3%</td>
       </tr>
       <tr>
         <td>Moneyline</td>
@@ -168,6 +203,7 @@ tbody tr:hover{background:var(--surf2)}
         <td class="mono">2-0</td>
         <td class="mono pos">100%</td>
         <td class="mono ">—</td>
+        <td class="mono pos">+76.7%</td>
       </tr>
       <tr>
         <td>ML dog</td>
@@ -175,13 +211,7 @@ tbody tr:hover{background:var(--surf2)}
         <td class="mono">0-1</td>
         <td class="mono neg">0%</td>
         <td class="mono ">+0.0</td>
-      </tr>
-      <tr>
-        <td>—</td>
-        <td class="mono">1</td>
-        <td class="mono">1-0</td>
-        <td class="mono pos">100%</td>
-        <td class="mono ">—</td>
+        <td class="mono neg">-100.0%</td>
       </tr>
       <tr>
         <td>Parlay (+corr)</td>
@@ -189,6 +219,7 @@ tbody tr:hover{background:var(--surf2)}
         <td class="mono">1-0</td>
         <td class="mono pos">100%</td>
         <td class="mono pos">+15.4</td>
+        <td class="mono pos">+248.0%</td>
       </tr>
       <tr>
         <td>Hitter prop</td>
@@ -196,6 +227,168 @@ tbody tr:hover{background:var(--surf2)}
         <td class="mono">1-0</td>
         <td class="mono pos">100%</td>
         <td class="mono ">—</td>
+        <td class="mono ">—</td>
+      </tr></tbody></table>
+  </div>
+
+  <div class="section-title">Fade registry tracking</div>
+  <div class="tcard">
+    <h2>Active fades &amp; their hit records</h2>
+    <div class="sub">From fades.md · record = W (fade correct) − L (fade missed), counted from each entry's log · green ≥ 60%</div>
+    <table><thead><tr><th>ID</th><th>Fade</th><th>Reason</th><th>Record</th><th>Status</th></tr></thead><tbody>
+      <tr>
+        <td class="mono">A1</td>
+        <td>Cubs</td>
+        <td class="muted small">Still cold: L15 5-10 (.333), −24 run diff (6/7).</td>
+        <td class="mono ">2-2</td>
+        <td><span class="tag pos">ACTIVE</span></td>
+      </tr>
+      <tr>
+        <td class="mono">A3</td>
+        <td>Tigers</td>
+        <td class="muted small">L15 7-8, −1 (6/7); 5/28 -130 anchor blown out 7-1</td>
+        <td class="mono pos">3-2</td>
+        <td><span class="tag muted">NEUTRAL-LEANING</span></td>
+      </tr>
+      <tr>
+        <td class="mono">B1</td>
+        <td>White Sox</td>
+        <td class="muted small">34-32; L15 8-7, +15 run diff (6/7) — cooling slightly, lost the PHI se</td>
+        <td class="mono ">2-2</td>
+        <td><span class="tag muted">NEUTRAL</span></td>
+      </tr>
+      <tr>
+        <td class="mono">B2</td>
+        <td>Pirates</td>
+        <td class="muted small">COOLING: L15 8-7, +5 run diff, L2 (6/7) — the re-heat faded; lost both</td>
+        <td class="mono ">2-2</td>
+        <td><span class="tag muted">NEUTRAL</span></td>
+      </tr>
+      <tr>
+        <td class="mono">B3</td>
+        <td>Twins</td>
+        <td class="muted small">Still cold — L10 3-7, −24 run diff (6/4); offense quiet, pen ok</td>
+        <td class="mono neg">0-2</td>
+        <td><span class="tag muted">NEUTRAL</span></td>
+      </tr>
+      <tr>
+        <td class="mono">B4</td>
+        <td>Tigers</td>
+        <td class="muted small">NEW 6/3: heating as a dog — swept TB, beat elite Martínez. Watch for d</td>
+        <td class="mono pos">1-0</td>
+        <td><span class="tag muted">WATCH</span></td>
+      </tr>
+      <tr>
+        <td class="mono">B5</td>
+        <td>Angels / Astros</td>
+        <td class="muted small">Honorable mention — surging; Astros stay AUTO-FADE K-Over (back on ML/</td>
+        <td class="mono muted">untested</td>
+        <td><span class="tag muted">WATCH</span></td>
+      </tr>
+      <tr>
+        <td class="mono">C1</td>
+        <td>Contact lineups: Royals, Astros, Guard</td>
+        <td class="muted small">Low-K lineups suppress even elite arms; can also beat aces on the scor</td>
+        <td class="mono pos">2-1</td>
+        <td><span class="tag pos">ACTIVE but variance-he</span></td>
+      </tr>
+      <tr>
+        <td class="mono">C2</td>
+        <td>2nd-meeting within 14d (downgrade K-Ov</td>
+        <td class="muted small">Hitters adjust 2nd look; K rate drops ~10-15%</td>
+        <td class="mono neg">0-1</td>
+        <td><span class="tag muted">DOWNGRADE-ONLY, not a </span></td>
+      </tr>
+      <tr>
+        <td class="mono">C3</td>
+        <td>Structural pitch-count uncertainty (TJ</td>
+        <td class="muted small">Left-tail on start length the K/9 can't see → take deeper alt / off pa</td>
+        <td class="mono pos">1-0</td>
+        <td><span class="tag pos">ACTIVE</span></td>
+      </tr>
+      <tr>
+        <td class="mono">C4</td>
+        <td>Designated openers (planned 1-2 IP)</td>
+        <td class="muted small">Pitch-count ceiling kills the Over</td>
+        <td class="mono muted">untested</td>
+        <td><span class="tag pos">ACTIVE</span></td>
+      </tr>
+      <tr>
+        <td class="mono">C5</td>
+        <td>Tight-zone HP umpire</td>
+        <td class="muted small">Suppresses K-Overs</td>
+        <td class="mono muted">untested</td>
+        <td><span class="tag pos">ACTIVE</span></td>
+      </tr>
+      <tr>
+        <td class="mono">C6</td>
+        <td>Over-fading elite-K aces (META-fade: f</td>
+        <td class="muted small">We faded Sanchez 9 K, Burns 9 K (6/3), Harrison 12 K (6/2) — all hit</td>
+        <td class="mono muted">untested</td>
+        <td><span class="tag pos">ACTIVE CORRECTION</span></td>
+      </tr>
+      <tr>
+        <td class="mono">D1</td>
+        <td>The +200-chase 3rd leg (bolting a leg </td>
+        <td class="muted small">Drops floor ~15-18pp; the chase leg keeps busting</td>
+        <td class="mono pos">3-0</td>
+        <td><span class="tag pos">ACTIVE</span></td>
+      </tr>
+      <tr>
+        <td class="mono">D2</td>
+        <td>Heavy-fav ML anchors (-350 or worse)</td>
+        <td class="muted small">~Zero payout contribution, still ~20% bust</td>
+        <td class="mono pos">1-0</td>
+        <td><span class="tag pos">ACTIVE</span></td>
+      </tr>
+      <tr>
+        <td class="mono">D3</td>
+        <td>−1.5 RL on a heavy fav vs a live dog</td>
+        <td class="muted small">Carries full ML loss prob + win-by-2 risk; dog wins outright ~35-40%</td>
+        <td class="mono pos">1-0</td>
+        <td><span class="tag pos">ACTIVE</span></td>
+      </tr>
+      <tr>
+        <td class="mono">D4</td>
+        <td>Favorite ML w/ own SP ERA ~5.00+ (esp.</td>
+        <td class="muted small">High-variance; favorite can be blown out as the "right" side</td>
+        <td class="mono pos">3-1</td>
+        <td><span class="tag pos">ACTIVE</span></td>
+      </tr>
+      <tr>
+        <td class="mono">D5</td>
+        <td>Bullpen-game opponent ≠ ML boost — do </td>
+        <td class="muted small">The opposing pen can shut your offense down AND the lineup can tee off</td>
+        <td class="mono pos">1-0</td>
+        <td><span class="tag pos">ACTIVE</span></td>
+      </tr>
+      <tr>
+        <td class="mono">E1</td>
+        <td>Search "final" that re-stamps the prio</td>
+        <td class="muted small">Engine conflates adjacent games in a series</td>
+        <td class="mono muted">untested</td>
+        <td><span class="tag pos">ACTIVE GATE</span></td>
+      </tr>
+      <tr>
+        <td class="mono">E2</td>
+        <td>Stale SP stat aggregate (frozen at a p</td>
+        <td class="muted small">Season ERA/WHIP can lag 2+ starts in a hot/cold swing</td>
+        <td class="mono muted">untested</td>
+        <td><span class="tag pos">ACTIVE GATE</span></td>
+      </tr>
+      <tr>
+        <td class="mono">E3</td>
+        <td>Carried-over / mis-attributed probable</td>
+        <td class="muted small">Rotations rotate; search surfaces yesterday's matchup; wrong team attr</td>
+        <td class="mono muted">untested</td>
+        <td><span class="tag pos">ACTIVE GATE</span></td>
+      </tr>
+      <tr>
+        <td class="mono">E4</td>
+        <td>TBA starter (build leans on an unannou</td>
+        <td class="muted small">Fails SP-freshness gate → no bet</td>
+        <td class="mono muted">untested</td>
+        <td><span class="tag pos">ACTIVE GATE</span></td>
       </tr></tbody></table>
   </div>
 
@@ -763,6 +956,74 @@ Chart.defaults.font.size = 11;
       }
     }
   });
+
+  new Chart(document.getElementById('plChart'), {
+    type: 'line',
+    data: {
+      labels: ["5/25 LAD ML + MIL ML + Mi", "5/26 LAD ML + Burns O6.5K", "5/27 NYY ML + Sanchez O6.", "5/28 Tigers ML (anchor) +", "5/29 LAD ML + HOU ML", "5/30 CLE ML + SD ML", "5/31 MIL \u22121.5 RL + NYY ML", "6/1 SEA ML + TB \u22121.5 RL", "6/2 SEA ML + MIL ML", "6/3 SEA ML + PHI ML", "6/4 PHI ML + ATL ML", "6/5 SEA ML + LAD ML", "6/7 deGrom TEX \u2212140 + AT"],
+      datasets: [{
+        data: [2.21, 4.37, 6.47, 5.47, 4.47, 3.47, 6.1, 5.1, 6.68, 5.68, 4.68, 3.68, 5.58],
+        borderColor: '#22c55e', backgroundColor: 'rgba(34,197,94,0.06)',
+        pointRadius: 3, pointHoverRadius: 6, borderWidth: 2, tension: 0.2, fill: true,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {legend: {display: false},
+        tooltip: {callbacks: {label: ctx => (ctx.parsed.y >= 0 ? '+' : '') + ctx.parsed.y + 'u'}}},
+      scales: {
+        x: {grid: {color: '#21262d'}, ticks: {maxRotation: 60, font: {size: 9}}},
+        y: {grid: {color: '#21262d'}, ticks: {callback: v => (v >= 0 ? '+' : '') + v + 'u'}}
+      }
+    }
+  });
+
+  new Chart(document.getElementById('clvroiChart'), {
+    type: 'line',
+    data: {
+      labels: ["5/25 Dodgers ML (vs C", "5/25 Brewers ML (vs S", "5/25 Misiorowski Over", "5/26 Dodgers ML (vs C", "5/26 Burns Over 6.5 K", "5/26 Strider Over 4.5", "5/27 Yankees ML (vs K", "5/27 Sanchez Over 6.5", "5/27 Sanchez Over 7.5", "5/28 Tigers ML (vs LA", "5/29 Dodgers ML (vs P", "5/29 Astros ML (vs MI", "5/30 Guardians ML (vs", "5/30 Padres ML (@ WSH", "5/31 Brewers \u22121.5 RL ", "5/31 Yankees ML (@ AT", "6/1 Mariners ML (vs ", "6/1 Rays \u22121.5 RL (vs", "6/2 Mariners ML (vs ", "6/2 Brewers ML (vs S", "6/2 Yankees ML (Schl", "6/3 Mariners ML (vs ", "6/3 Phillies ML (vs ", "6/3 Dodgers ML (vs A", "6/3 Rays ML (vs DET)", "6/3 Sanchez K-Over (", "6/3 Burns K-Over (fa", "6/4 Braves ML (Sale,", "6/4 Phillies ML (Whe", "6/4 Sale Over 6.5 K ", "6/4 Brewers ML (Crow", "6/4 Dodgers ML (Wrob", "6/5 Mariners ML (Woo", "6/5 Dodgers ML (Sasa", "6/5 Mariners ML / Do", "6/5 Yankees ML (Weat", "6/5 Phillies ML (Luz", "6/5 D-backs ML (Kell", "6/6 Dodgers ML (Yama", "6/6 Dodgers ML (Yama", "6/6 Dodgers ML (Yama", "6/6 Yamamoto Over 7.", "6/6 Yamamoto Over 6.", "6/6 Dodgers ML (Yama", "6/6 Yamamoto Over 7.", "6/6 TOR Blue Jays li", "6/6 CLE Guardians ML", "6/6 CLE Guardians -5", "6/6 LA Dodgers -1.5 ", "6/6 Kochanowicz Over", "6/7 deGrom (TEX) ML ", "6/7 Braves ML (Elder", "6/7 LAD ML (Sheehan,", "6/7 PHI ML (Nola, vs", "6/8 S\u00e1nchez Over 6.5", "6/8 PHI ML + S\u00e1nchez", "6/8 PHI ML (S\u00e1nchez,"],
+      datasets: [
+        {label: 'Cumulative win %', data: [100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 90.0, 90.9, 83.3, 76.9, 71.4, 73.3, 75.0, 76.5, 72.2, 73.7, 75.0, 71.4, 68.2, 69.6, 70.8, 68.0, 69.2, 70.4, 67.9, 69.0, 66.7, 64.5, 62.5, 60.6, 61.8, 62.9, 61.1, 62.2, 63.2, 64.1, 65.0, 65.9, 64.3, 62.8, 63.6, 62.2, 63.0, 63.8, 64.6, 65.3, 66.0, 66.7, 67.3, 66.0, 66.7, 67.3, 67.9, 68.4],
+         borderColor: '#3b82f6', backgroundColor: 'transparent',
+         pointRadius: 1, borderWidth: 2, tension: 0.2},
+        {label: 'Cumulative CLV+ rate %', data: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0.0, 0.0, 0.0, 0.0, 0.0, 25.0, 40.0, 50.0, 42.9, 42.9, 42.9, 42.9, 42.9, 42.9, 42.9, 42.9, 42.9, 42.9, 42.9, 42.9, 42.9, 42.9, 42.9, 50.0, 55.6, 60.0, 63.6, 58.3, 58.3, 53.8],
+         borderColor: '#f59e0b', backgroundColor: 'transparent', borderDash: [5,4],
+         pointRadius: 1, borderWidth: 2, tension: 0.2, spanGaps: true}
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {legend: {position: 'top', labels: {boxWidth: 10, font: {size: 11}}}},
+      scales: {
+        x: {grid: {color: '#21262d'}, ticks: {maxRotation: 60, font: {size: 9}}},
+        y: {grid: {color: '#21262d'}, ticks: {callback: v => v + '%'}, min: 0, max: 100}
+      }
+    }
+  });
+
+// ── Sortable tables (click a header to sort) ──
+document.querySelectorAll('table').forEach(tbl => {
+  tbl.querySelectorAll('thead th').forEach((th, idx) => {
+    th.style.cursor = 'pointer';
+    th.title = 'Click to sort';
+    let asc = true;
+    th.addEventListener('click', () => {
+      const tb = tbl.querySelector('tbody');
+      const rows = Array.from(tb.querySelectorAll('tr'));
+      rows.sort((a, b) => {
+        const x = a.children[idx].innerText.trim();
+        const y = b.children[idx].innerText.trim();
+        const nx = parseFloat(x.replace(/[^0-9.\-]/g, ''));
+        const ny = parseFloat(y.replace(/[^0-9.\-]/g, ''));
+        const bothNum = !isNaN(nx) && !isNaN(ny);
+        if (bothNum) return asc ? nx - ny : ny - nx;
+        return asc ? x.localeCompare(y) : y.localeCompare(x);
+      });
+      asc = !asc;
+      rows.forEach(r => tb.appendChild(r));
+    });
+  });
+});
 </script>
 </body>
 </html>
