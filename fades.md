@@ -127,6 +127,11 @@ Not team fades, but recurring data errors to actively guard against each run.
 - **B1 (White Sox dog value):** confirmed 6/4 — L15 9-6 (.600), +23 run diff.
 - **B2 (Pirates dog value):** **COOLED 6/7** → NEUTRAL — lost both @ ATL 6/5-6/6 (3-6, 3-6), L15 8-7/+5, L2; re-heat faded.
 
+- **6/8 slate (8 games): no A/B fade team played** (Cubs/Tigers/White Sox/Pirates/Twins all off or absent),
+  so no team-fade validation this date. **D4 note:** HOU's Arrighetti was 1.94 (NOT a 5+ trap) — correctly
+  played, not faded. **settle.py team-side parser bug** surfaced (mis-flagged HOU-away "vs LAA" as an L) —
+  caught by the StatsAPI cross-check, reinforcing E1 (always verify the raw final before settling).
+
 > _6/4/26: the A/B re-verifications above were run deterministically via the new `tools/mlb_api.sh
 > standings` + `teamform` (last-15 W-L + run differential), not WebSearch — first live use of the helper._
 
