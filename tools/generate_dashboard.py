@@ -959,6 +959,41 @@ def render_html(rolls, results, parlays_list, summary, br_data, clv_data,
     if not pills_html:
         pills_html = '<span style="color:var(--muted);font-size:12px">No decided tickets yet</span>'
 
+    # ── "Now" card: latest build + open (TBD) tickets ──
+    latest = parlays_list[-1] if parlays_list else None
+    latest_date = latest['date'] if latest else '—'
+    latest_runs = ' · '.join(latest['runs']) if latest and latest['runs'] else 'no runs logged'
+    tbd_items = [p for p in parlays_list if p['outcome'] == 'TBD']
+    tbd_dates = ', '.join(p['date'][5:] for p in tbd_items[-4:]) if tbd_items else 'none — all settled'
+
+    # ── Bankroll ladder progress (4 consecutive wins → withdraw) ──
+    ladder_dots, ladder_txt, ladder_cls = '', 'No rolls yet', 'muted'
+    if rolls:
+        last_att = rolls[-1]['attempt']
+        att_rolls = [r for r in rolls if r['attempt'] == last_att]
+        att_wins = sum(1 for r in att_rolls if r['result'] == 'W')
+        busted = any(r['result'] == 'L' for r in att_rolls)
+        pending = att_rolls[-1]['result'] is None
+        if busted:
+            shown_wins = 0
+            ladder_txt = f"Attempt {last_att} busted — next attempt restarts at $10"
+            ladder_cls = 'neg'
+        elif att_wins >= 4:
+            shown_wins = 4
+            ladder_txt = f"Attempt {last_att}: TARGET HIT — 4 straight, withdraw"
+            ladder_cls = 'pos'
+        else:
+            shown_wins = att_wins
+            stage = f" · roll {len(att_rolls)} pending" if pending else ""
+            ladder_txt = f"Attempt {last_att}: {att_wins} of 4 consecutive wins{stage}"
+            ladder_cls = 'pos' if att_wins > 0 else 'muted'
+        for i in range(4):
+            on = i < shown_wins
+            ladder_dots += (f'<span style="display:inline-block;width:14px;height:14px;'
+                            f'border-radius:50%;margin-right:6px;'
+                            f'background:{"var(--green)" if on else "transparent"};'
+                            f'border:2px solid {"var(--green)" if on else "var(--border)"}"></span>')
+
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1132,6 +1167,25 @@ tbody tr:hover{{background:var(--surf2)}}
     <span><i class="swatch" style="background:var(--red)"></i> loss / −EV / missed close</span>
     <span><i class="swatch" style="background:var(--yellow)"></i> reference / legacy row</span>
     <span><i class="swatch" style="background:var(--muted)"></i> push / untested / no-bet</span>
+  </div>
+
+  <div class="section-title">Now</div>
+  <div class="stats">
+    <div class="stat" style="border-left:3px solid var(--blue,#3b82f6)">
+      <div class="lbl">Latest build</div>
+      <div class="val" style="font-size:18px">{latest_date}</div>
+      <div class="sub">runs: {latest_runs}</div>
+    </div>
+    <div class="stat" style="border-left:3px solid var(--yellow)">
+      <div class="lbl">Open tickets (TBD)</div>
+      <div class="val" style="font-size:18px">{len(tbd_items)}</div>
+      <div class="sub">{tbd_dates}</div>
+    </div>
+    <div class="stat" style="border-left:3px solid var(--green)">
+      <div class="lbl">Ladder progress</div>
+      <div class="val" style="padding-top:3px">{ladder_dots}</div>
+      <div class="sub {ladder_cls}">{ladder_txt}</div>
+    </div>
   </div>
 
   <div class="section-title">Parlay tax — standalone vs parlay</div>
