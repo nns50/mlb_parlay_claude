@@ -300,6 +300,47 @@ def parse_parlays() -> list[dict]:
     return items
 
 
+def parse_latest_build() -> dict:
+    """Today's board: the LAST run block of the most-recent parlay file →
+    tier picks + the latest Odds API credit count. Best-effort (free-form md)."""
+    out = {'date': None, 'run': None, 'tiers': [],
+           'credits_remaining': None, 'credits_used': None}
+    d = REPO / "parlays"
+    files = sorted(d.glob("*.md")) if d.exists() else []
+    if not files:
+        return out
+    f = files[-1]
+    text = f.read_text(encoding='utf-8')
+    out['date'] = f.stem
+
+    # Latest credit line anywhere in the file (each run appends one)
+    for m in re.finditer(r'Odds API credits remaining:?\**\s*\**([\d,]+)\**'
+                         r'(?:\s*\(used\s*([\d,]+))?', text):
+        out['credits_remaining'] = int(m.group(1).replace(',', ''))
+        if m.group(2):
+            out['credits_used'] = int(m.group(2).replace(',', ''))
+
+    # Last "## Run HH:MM" block
+    runs = list(re.finditer(r'## Run (\d+:\d+) ET[^\n]*\n', text))
+    if not runs:
+        return out
+    last = runs[-1]
+    out['run'] = last.group(1)
+    block = text[last.end():]
+    nxt = re.search(r'\n## (?!#)', block)   # next H2 ends the run block
+    if nxt:
+        block = block[:nxt.start()]
+
+    # Each "### Tier N — title" heading; pick = first **bold** in its body
+    for tm in re.finditer(r'### (Tier \d[^\n]*)\n(.*?)(?=\n###|\Z)', block, re.DOTALL):
+        title = strip_md(tm.group(1)).strip()
+        body = tm.group(2)
+        bm = re.search(r'\*\*(.+?)\*\*', body, re.DOTALL)
+        pick = re.sub(r'\s+', ' ', bm.group(1)).strip() if bm else ''
+        out['tiers'].append({'title': title[:90], 'pick': pick[:130]})
+    return out
+
+
 # ─── Fades ────────────────────────────────────────────────────────────────────
 
 def parse_fades() -> list[dict]:
@@ -599,7 +640,8 @@ def clv_vs_roi_data(results: dict) -> dict:
 # ─── HTML ─────────────────────────────────────────────────────────────────────
 
 def render_html(rolls, results, parlays_list, summary, br_data, clv_data,
-                trend_data, types, edges, fades, pl_data, clvroi_data) -> str:
+                trend_data, types, edges, fades, pl_data, clvroi_data,
+                latest_build) -> str:
     now = datetime.now()
     updated = now.strftime('%Y-%m-%d %H:%M ET')
     # Freshness: most recent parlay file date vs today
@@ -994,6 +1036,37 @@ def render_html(rolls, results, parlays_list, summary, br_data, clv_data,
                             f'background:{"var(--green)" if on else "transparent"};'
                             f'border:2px solid {"var(--green)" if on else "var(--border)"}"></span>')
 
+    # ── Today's tiers panel (best-effort parse of the latest run block) ──
+    lb = latest_build
+    tier_rows_html = ''
+    for t in lb['tiers']:
+        tier_rows_html += f"""
+      <div style="padding:8px 0;border-bottom:1px solid var(--border)">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">{t['title']}</div>
+        <div style="font-size:13px;line-height:1.45">{t['pick'] or '<span class="muted">—</span>'}</div>
+      </div>"""
+    if not tier_rows_html:
+        tier_rows_html = '<div class="muted" style="font-size:12px;padding:8px 0">No tier headings parsed from the latest run — read the parlay file directly.</div>'
+    lb_hdr = (f"{lb['date']} · Run {lb['run']} ET" if lb['run'] else (lb['date'] or '—'))
+
+    # ── Odds API credit gauge (20K/month paid tier) ──
+    cred_html = ''
+    if lb['credits_remaining'] is not None:
+        rem = lb['credits_remaining']
+        cap = 20000
+        pct_used = max(0.0, min(100.0, (cap - rem) / cap * 100))
+        bar_c = 'var(--green)' if rem > 5000 else ('var(--yellow)' if rem > 1500 else 'var(--red)')
+        used_s = f" · used {lb['credits_used']:,}" if lb['credits_used'] is not None else ''
+        cred_html = f"""
+      <div style="margin-top:12px">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:4px">
+          <span>Odds API credits</span><span class="mono">{rem:,} left{used_s} / 20,000-mo</span>
+        </div>
+        <div style="height:7px;background:var(--border);border-radius:4px;overflow:hidden">
+          <div style="height:100%;width:{pct_used:.1f}%;background:{bar_c}"></div>
+        </div>
+      </div>"""
+
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1188,6 +1261,13 @@ tbody tr:hover{{background:var(--surf2)}}
     </div>
   </div>
 
+  <div class="card" style="margin:4px 0 6px">
+    <h2>Today's board — {lb_hdr}</h2>
+    <div class="sub">Picks from the latest run block (best-effort parse — the parlay file is the source of truth)</div>
+    {tier_rows_html}
+    {cred_html}
+  </div>
+
   <div class="section-title">Parlay tax — standalone vs parlay</div>
   <div class="stats">
     <div class="stat" style="border-left:3px solid var(--green)">
@@ -1368,7 +1448,7 @@ def build_all():
     fades = parse_fades()
     return {
         'rolls': rolls, 'results': results, 'parlays_list': parlays_list,
-        'fades': fades,
+        'fades': fades, 'latest_build': parse_latest_build(),
         'summary': compute_summary(results, rolls),
         'br_data': bankroll_chart_data(rolls),
         'clv_data': clv_chart_data(results),
@@ -1383,7 +1463,9 @@ def build_all():
 def render_from(d) -> str:
     return render_html(d['rolls'], d['results'], d['parlays_list'], d['summary'],
                        d['br_data'], d['clv_data'], d['trend_data'], d['types'],
-                       d['edges'], d['fades'], d['pl_data'], d['clvroi_data'])
+                       d['edges'], d['fades'], d['pl_data'], d['clvroi_data'],
+                       d.get('latest_build') or {'date': None, 'run': None, 'tiers': [],
+                                                 'credits_remaining': None, 'credits_used': None})
 
 
 # ─── Self-test (parser invariants + calib.py reconciliation) ──────────────────
@@ -1425,6 +1507,10 @@ def selftest() -> int:
           f"got {len(d['parlays_list'])}")
     check("bankroll.md: ≥1 roll parsed", len(d['rolls']) >= 1,
           f"got {len(d['rolls'])}")
+    lb = d['latest_build']
+    check("latest build: ≥1 tier + credits parsed",
+          len(lb['tiers']) >= 1 and lb['credits_remaining'] is not None,
+          f"tiers={len(lb['tiers'])} credits={lb['credits_remaining']}")
 
     # 2. Reconcile units P/L + calibration N against calib.py (the source of truth).
     calib_pl, calib_n = _calib_units_pl()
