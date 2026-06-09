@@ -120,6 +120,18 @@ def bankroll_chart_data(rolls: list[dict]) -> dict:
             color = '#ef4444'
             val = 0.0
         labels.append(label); values.append(val); pt_colors.append(color)
+
+    # If the last attempt is finished (target hit or busted), show the next
+    # attempt starting fresh at $10 as an in-progress marker.
+    last_result = rolls[-1]['result'] if rolls else None
+    if rolls and last_result in ('W', 'L'):
+        try:
+            next_att = int(rolls[-1]['attempt']) + 1
+        except (ValueError, TypeError):
+            next_att = '?'
+        labels.append(''); values.append(None); pt_colors.append('#30363d')
+        labels.append(f"A{next_att} ▸ Start ($10)")
+        values.append(10.0); pt_colors.append('#8b949e')
     return {'labels': labels, 'values': values, 'colors': pt_colors}
 
 
@@ -280,10 +292,13 @@ def parse_parlays() -> list[dict]:
 
 # ─── Summary stats ────────────────────────────────────────────────────────────
 
+def _wl(legs):
+    w = sum(1 for l in legs if l['result'] == 'W')
+    return w, len(legs) - w
+
 def compute_summary(results: dict, rolls: list[dict]) -> dict:
     played = [l for l in results['played'] if l['played'] and l['result'] in ('W', 'L')]
-    wins = sum(1 for l in played if l['result'] == 'W')
-    losses = len(played) - wins
+    wins, losses = _wl(played)
 
     t_decided = [t for t in results['tickets'] if t['result'] in ('W', 'L')]
     t_wins = sum(1 for t in t_decided if t['result'] == 'W')
@@ -300,9 +315,16 @@ def compute_summary(results: dict, rolls: list[dict]) -> dict:
             bal = r['bal_after']
             break
 
-    # ROI from ticket rollup (flat-1u)
-    staked = len(t_decided)
-    pl_legs = [l for l in results['played'] if l['played'] and l['result'] in ('W', 'L')]
+    # ── Standalone (S) vs Parlay (P) split — the parlay-tax measurement ──
+    # Use ALL decided legs (played + recommended) — most standalone plays are
+    # logged Played=N (bankroll rolls / Tier-1 recs), so played-only undercounts S.
+    decided_all = [l for l in (results['played'] + results['not_played'])
+                   if l['result'] in ('W', 'L')]
+    s_legs = [l for l in decided_all if l['bucket'] == 'S']
+    p_legs = [l for l in decided_all if l['bucket'] == 'P']
+    sw, sl = _wl(s_legs)
+    pw, pl = _wl(p_legs)
+
     return {
         'leg_record': f"{wins}-{losses}",
         'leg_win_pct': round(wins / max(wins + losses, 1) * 100, 1),
@@ -312,7 +334,69 @@ def compute_summary(results: dict, rolls: list[dict]) -> dict:
         'clv_pos': clv_pos, 'clv_total': len(clv_list),
         'clv_pct': round(clv_pos / max(len(clv_list), 1) * 100, 1),
         'bankroll_bal': bal,
+        's_record': f"{sw}-{sl}", 's_n': sw + sl,
+        's_pct': round(sw / max(sw + sl, 1) * 100, 1),
+        'p_record': f"{pw}-{pl}", 'p_n': pw + pl,
+        'p_pct': round(pw / max(pw + pl, 1) * 100, 1),
     }
+
+
+# ─── Leg-type breakdown ───────────────────────────────────────────────────────
+
+def type_breakdown(results: dict) -> list[dict]:
+    played = [l for l in (results['played'] + results['not_played'])
+              if l['result'] in ('W', 'L')]
+    groups = {}
+    for l in played:
+        # Normalise type into a coarse bucket
+        t = l['type'].lower()
+        if 'ml' in t and 'fav' in t:
+            key = 'ML favorite'
+        elif 'ml' in t and 'dog' in t:
+            key = 'ML dog'
+        elif 'ml' in t:
+            key = 'Moneyline'
+        elif 'k-over' in t or 'k over' in t:
+            key = 'K-Over'
+        elif 'k-under' in t:
+            key = 'K-Under'
+        elif 'run line' in t or 'rl' == t.strip():
+            key = 'Run line'
+        elif 'prop' in t or 'hit' in t:
+            key = 'Hitter prop'
+        else:
+            key = l['type'] or 'Other'
+        groups.setdefault(key, []).append(l)
+    out = []
+    for key, legs in groups.items():
+        w, ln = _wl(legs)
+        edges = [l['edge'] for l in legs if l['edge'] is not None]
+        out.append({
+            'type': key, 'n': len(legs), 'record': f"{w}-{ln}",
+            'hit': round(w / max(len(legs), 1) * 100),
+            'avg_edge': round(sum(edges) / len(edges), 1) if edges else None,
+        })
+    out.sort(key=lambda x: -x['n'])
+    return out
+
+
+# ─── Edge-bucket distribution (is the edge gate predictive?) ──────────────────
+
+def edge_buckets(results: dict) -> list[dict]:
+    played = [l for l in (results['played'] + results['not_played'])
+              if l['result'] in ('W', 'L') and l['edge'] is not None]
+    bins = [('< 0', -99, 0), ('0–2', 0, 2), ('2–4', 2, 4),
+            ('4–6', 4, 6), ('6+', 6, 99)]
+    out = []
+    for label, lo, hi in bins:
+        legs = [l for l in played if lo <= l['edge'] < hi]
+        if not legs:
+            out.append({'label': label, 'n': 0, 'hit': None})
+            continue
+        w, _ = _wl(legs)
+        out.append({'label': label, 'n': len(legs),
+                    'hit': round(w / len(legs) * 100)})
+    return out
 
 
 # ─── CLV chart data ───────────────────────────────────────────────────────────
@@ -328,9 +412,15 @@ def clv_chart_data(results: dict) -> dict:
         c = l.get('clv', '').strip()
         if not c or c in ('—', '-', '', 'TBD', 'MANUAL', 'PENDING'):
             continue
-        if c.startswith('+'):
+        # Try to parse a magnitude (e.g. "+3", "−2pp", "+ 85%cl"); else fall to ±1 sign
+        mag = re.search(r'([+-−])\s*([\d.]+)', c)
+        if mag:
+            sign = -1 if mag.group(1) in '-−' else 1
+            val = sign * min(float(mag.group(2)), 10)  # clamp outliers (e.g. %cl)
+            color = '#22c55e' if sign > 0 else '#ef4444'
+        elif c.startswith('+'):
             val, color = 1, '#22c55e'
-        elif c.startswith('-'):
+        elif c.startswith(('-', '−')):
             val, color = -1, '#ef4444'
         elif c == '=':
             val, color = 0, '#8b949e'
@@ -338,7 +428,7 @@ def clv_chart_data(results: dict) -> dict:
             continue
         legs.append({
             'label': f"{l['date']} {l['leg'][:22]}",
-            'raw': c, 'val': val, 'color': color,
+            'raw': c, 'val': round(val, 1), 'color': color,
         })
     return {
         'labels': [x['label'] for x in legs],
@@ -348,9 +438,30 @@ def clv_chart_data(results: dict) -> dict:
     }
 
 
+# ─── Cumulative win-rate trend (chronological) ────────────────────────────────
+
+def _date_key(d: str):
+    m = re.match(r'(\d{1,2})/(\d{1,2})', d)
+    if m:
+        return (int(m.group(1)), int(m.group(2)))
+    return (99, 99)
+
+def win_trend_data(results: dict) -> dict:
+    played = [l for l in results['played'] if l['played'] and l['result'] in ('W', 'L')]
+    played = sorted(played, key=lambda l: _date_key(l['date']))
+    labels, cum, w = [], [], 0
+    for i, l in enumerate(played, 1):
+        if l['result'] == 'W':
+            w += 1
+        labels.append(f"{l['date']} {l['leg'][:18]}")
+        cum.append(round(w / i * 100, 1))
+    return {'labels': labels, 'values': cum}
+
+
 # ─── HTML ─────────────────────────────────────────────────────────────────────
 
-def render_html(rolls, results, parlays_list, summary, br_data, clv_data) -> str:
+def render_html(rolls, results, parlays_list, summary, br_data, clv_data,
+                trend_data, types, edges) -> str:
     updated = datetime.now().strftime('%Y-%m-%d %H:%M ET')
     calib = results['calib_buckets']
 
@@ -396,14 +507,16 @@ def render_html(rolls, results, parlays_list, summary, br_data, clv_data) -> str
         calib_n = [f"n={b['n']} ({b['wins']}-{b['losses']})" for b in calib]
         cal_js = f"""
   new Chart(document.getElementById('calChart'), {{
-    type: 'bar',
     data: {{
       labels: {json.dumps(calib_labels)},
       datasets: [
-        {{label: 'Actual hit %', data: {json.dumps(calib_actual)},
-         backgroundColor: 'rgba(59,130,246,0.75)', borderRadius: 3}},
-        {{label: 'TrueP midpoint', data: {json.dumps(calib_mid)},
-         backgroundColor: 'rgba(139,148,158,0.25)', borderRadius: 3}}
+        {{type: 'bar', label: 'Actual hit %', data: {json.dumps(calib_actual)},
+         backgroundColor: 'rgba(59,130,246,0.75)', borderRadius: 3, order: 3}},
+        {{type: 'bar', label: 'TrueP midpoint', data: {json.dumps(calib_mid)},
+         backgroundColor: 'rgba(139,148,158,0.25)', borderRadius: 3, order: 2}},
+        {{type: 'line', label: 'Perfect calibration', data: {json.dumps(calib_mid)},
+         borderColor: '#f59e0b', borderWidth: 2, borderDash: [5,4],
+         pointRadius: 3, pointBackgroundColor: '#f59e0b', fill: false, order: 1}}
       ]
     }},
     options: {{
@@ -444,8 +557,8 @@ def render_html(rolls, results, parlays_list, summary, br_data, clv_data) -> str
       }},
       scales: {{
         x: {{grid: {{color: '#21262d'}}, ticks: {{maxRotation: 60, font: {{size: 9}}}}}},
-        y: {{grid: {{color: '#21262d'}}, min: -1.5, max: 1.5,
-             ticks: {{callback: v => v > 0 ? '+ beat' : v < 0 ? '− missed' : 'even'}}}}
+        y: {{grid: {{color: '#21262d'}},
+             ticks: {{callback: v => v > 0 ? '+' + v : v}}}}
       }}
     }}
   }});"""
@@ -453,6 +566,70 @@ def render_html(rolls, results, parlays_list, summary, br_data, clv_data) -> str
     else:
         clv_js = ''
         clv_canvas = '<p class="no-data">No CLV data captured yet.</p>'
+
+    # Win-trend chart JS
+    if trend_data['labels']:
+        trend_js = f"""
+  new Chart(document.getElementById('trendChart'), {{
+    type: 'line',
+    data: {{
+      labels: {json.dumps(trend_data['labels'])},
+      datasets: [{{
+        data: {json.dumps(trend_data['values'])},
+        borderColor: '#a78bfa', backgroundColor: 'rgba(167,139,250,0.08)',
+        pointRadius: 2, pointHoverRadius: 5, borderWidth: 2,
+        tension: 0.2, fill: true,
+      }}]
+    }},
+    options: {{
+      responsive: true, maintainAspectRatio: false,
+      plugins: {{legend: {{display: false}},
+        tooltip: {{callbacks: {{label: ctx => 'Cumulative: ' + ctx.parsed.y + '%'}}}}}},
+      scales: {{
+        x: {{grid: {{color: '#21262d'}}, ticks: {{maxRotation: 60, font: {{size: 9}}}}}},
+        y: {{grid: {{color: '#21262d'}}, ticks: {{callback: v => v + '%'}}, min: 0, max: 100}}
+      }}
+    }}
+  }});"""
+        trend_canvas = '<canvas id="trendChart"></canvas>'
+    else:
+        trend_js = ''
+        trend_canvas = '<p class="no-data">No decided legs yet.</p>'
+
+    # Edge-bucket chart JS
+    e_have = [e for e in edges if e['n'] > 0]
+    if e_have:
+        e_labels = [f"{e['label']}pp" for e in edges]
+        e_hits = [e['hit'] for e in edges]
+        e_ns = [f"n={e['n']}" if e['n'] else 'n=0' for e in edges]
+        e_colors = ['rgba(34,197,94,0.7)' if (e['hit'] or 0) >= 50
+                    else 'rgba(239,68,68,0.7)' for e in edges]
+        edge_js = f"""
+  new Chart(document.getElementById('edgeChart'), {{
+    type: 'bar',
+    data: {{
+      labels: {json.dumps(e_labels)},
+      datasets: [{{
+        data: {json.dumps(e_hits)},
+        backgroundColor: {json.dumps(e_colors)}, borderRadius: 3,
+      }}]
+    }},
+    options: {{
+      responsive: true, maintainAspectRatio: false,
+      plugins: {{legend: {{display: false}},
+        tooltip: {{callbacks: {{
+          label: ctx => 'Hit ' + (ctx.parsed.y ?? 0) + '%',
+          afterBody: items => {json.dumps(e_ns)}[items[0].dataIndex]}}}}}},
+      scales: {{
+        x: {{grid: {{color: '#21262d'}}}},
+        y: {{grid: {{color: '#21262d'}}, ticks: {{callback: v => v + '%'}}, min: 0, max: 100}}
+      }}
+    }}
+  }});"""
+        edge_canvas = '<canvas id="edgeChart"></canvas>'
+    else:
+        edge_js = ''
+        edge_canvas = '<p class="no-data">No edge data yet.</p>'
 
     # Recent played legs table
     decided = [l for l in results['played'] if l['played'] and l['result'] in ('W', 'L')]
@@ -503,6 +680,23 @@ def render_html(rolls, results, parlays_list, summary, br_data, clv_data) -> str
         <td class="mono muted">{runs_str}</td>
         <td><span class="badge {rc}">{badge_txt}</span></td>
         <td class="muted small">{p['summary']}</td>
+      </tr>"""
+
+    # Leg-type breakdown table
+    type_rows_html = ''
+    for t in types:
+        edge_s = (f'+{t["avg_edge"]:.1f}' if t['avg_edge'] is not None and t['avg_edge'] >= 0
+                  else f'{t["avg_edge"]:.1f}' if t['avg_edge'] is not None else '—')
+        edge_cls = ('pos' if t['avg_edge'] and t['avg_edge'] > 0
+                    else 'neg' if t['avg_edge'] and t['avg_edge'] < 0 else '')
+        hit_cls = 'pos' if t['hit'] >= 50 else 'neg'
+        type_rows_html += f"""
+      <tr>
+        <td>{t['type']}</td>
+        <td class="mono">{t['n']}</td>
+        <td class="mono">{t['record']}</td>
+        <td class="mono {hit_cls}">{t['hit']}%</td>
+        <td class="mono {edge_cls}">{edge_s}</td>
       </tr>"""
 
     # Stat cards
@@ -604,6 +798,21 @@ tbody tr:hover{{background:var(--surf2)}}
     </div>
   </div>
 
+  <div class="section-title">Parlay tax — Standalone vs Parlay</div>
+  <div class="grid2">
+    <div class="stat" style="border-left:3px solid var(--green)">
+      <div class="lbl">Standalone legs (S)</div>
+      <div class="val">{summary['s_record']} <span style="font-size:14px;color:var(--muted)">· {summary['s_pct']}%</span></div>
+      <div class="sub">single +EV plays / bankroll rolls · n={summary['s_n']}</div>
+    </div>
+    <div class="stat" style="border-left:3px solid var(--red)">
+      <div class="lbl">Parlay legs (P)</div>
+      <div class="val">{summary['p_record']} <span style="font-size:14px;color:var(--muted)">· {summary['p_pct']}%</span></div>
+      <div class="sub">legs ridden on a parlay ticket · n={summary['p_n']}</div>
+    </div>
+  </div>
+  <p class="note">Doctrine claims parlays run near -EV chalk+vig. This split is the measurement: if standalones (S) outrun parlay legs (P) over a real sample, that's the evidence to keep the +200 chase eyes-open as entertainment, not strategy.</p>
+
   <div class="section-title">Bankroll &amp; Calibration</div>
   <div class="grid2">
     <div class="card">
@@ -613,15 +822,36 @@ tbody tr:hover{{background:var(--surf2)}}
     </div>
     <div class="card">
       <h2>Calibration</h2>
-      <div class="sub">Actual hit rate vs TrueP midpoint per bucket (non-legacy played legs)</div>
+      <div class="sub">Bars = actual hit% · dashed amber line = perfect calibration (actual should meet the line)</div>
       <div class="chart-wrap">{cal_canvas}</div>
     </div>
+  </div>
+
+  <div class="section-title">Process trend &amp; edge predictiveness</div>
+  <div class="grid2">
+    <div class="card">
+      <h2>Cumulative Win Rate</h2>
+      <div class="sub">Running win% over all decided legs (chronological) — is the process improving?</div>
+      <div class="chart-wrap">{trend_canvas}</div>
+    </div>
+    <div class="card">
+      <h2>Hit Rate by Edge Bucket</h2>
+      <div class="sub">Does a bigger devigged edge actually convert? (green ≥ 50%)</div>
+      <div class="chart-wrap">{edge_canvas}</div>
+    </div>
+  </div>
+
+  <div class="section-title">Record by leg type</div>
+  <div class="tcard">
+    <h2>Bet-type breakdown</h2>
+    <div class="sub">All decided legs (played + recommended) grouped by market</div>
+    {'<table><thead><tr><th>Type</th><th>n</th><th>Record</th><th>Hit%</th><th>Avg edge</th></tr></thead><tbody>' + type_rows_html + '</tbody></table>' if types else '<p class="no-data">No typed legs yet.</p>'}
   </div>
 
   <div class="section-title">Closing Line Value</div>
   <div class="card" style="margin-bottom:14px">
     <h2>CLV per Leg</h2>
-    <div class="sub">Green = beat the close · Red = missed · h2h ML only; props/RL are manual</div>
+    <div class="sub">Green = beat the close · Red = missed · magnitude where logged, else ±1 by sign</div>
     <div class="chart-wrap-sm">{clv_canvas}</div>
   </div>
   <p class="note">CLV converges faster than ROI at small samples — it's the primary scoreboard. A sustained CLV+ rate is the clearest signal of process quality before ROI stabilises.</p>
@@ -655,6 +885,8 @@ Chart.defaults.font.size = 11;
 {br_js}
 {cal_js}
 {clv_js}
+{trend_js}
+{edge_js}
 </script>
 </body>
 </html>"""
@@ -681,9 +913,13 @@ def main():
     summary = compute_summary(results, rolls)
     br_data = bankroll_chart_data(rolls)
     clv_data = clv_chart_data(results)
+    trend_data = win_trend_data(results)
+    types = type_breakdown(results)
+    edges = edge_buckets(results)
 
     print("Generating HTML …")
-    html = render_html(rolls, results, parlays_list, summary, br_data, clv_data)
+    html = render_html(rolls, results, parlays_list, summary,
+                       br_data, clv_data, trend_data, types, edges)
 
     DOCS.mkdir(exist_ok=True)
     (DOCS / ".nojekyll").write_text("")
