@@ -1,12 +1,22 @@
 #!/usr/bin/env python3
 """
 Generate docs/index.html — read-only analytics dashboard.
-Parses bankroll.md, results_log.md, parlays/*.md.
+Parses bankroll.md, results_log.md, parlays/*.md, fades.md.
 Run after any build to refresh the Pages site.
 """
 import re, json
 from pathlib import Path
 from datetime import datetime
+
+
+def american_to_decimal(price_str: str):
+    """Parse an American price string (e.g. '-310', '+100', '~-150') to decimal odds."""
+    s = strip_md(price_str).replace('~', '').replace('−', '-').strip()
+    m = re.search(r'([+-]\d+)', s)
+    if not m:
+        return None
+    a = int(m.group(1))
+    return 1 + (a / 100 if a > 0 else 100 / abs(a))
 
 REPO = Path(__file__).parent.parent
 DOCS = REPO / "docs"
@@ -290,6 +300,47 @@ def parse_parlays() -> list[dict]:
     return items
 
 
+# ─── Fades ────────────────────────────────────────────────────────────────────
+
+def parse_fades() -> list[dict]:
+    """Parse fades.md A–E tables → entries with W/L tally counted from the log column."""
+    path = REPO / "fades.md"
+    if not path.exists():
+        return []
+    text = path.read_text(encoding='utf-8')
+    sections = {
+        'A': 'Team fade (as favorite)', 'B': 'Underdog value',
+        'C': 'K-Over fade', 'D': 'Parlay construction', 'E': 'Data/status trap',
+    }
+    out = []
+    # Each category table header starts with "## X." — capture rows with an ID like A1, C3
+    for block in re.split(r'\n## ', text):
+        sec_m = re.match(r'([A-E])\.', block.strip())
+        if not sec_m:
+            continue
+        sec = sec_m.group(1)
+        for row in parse_md_table(block, ['ID', 'Reason', 'Status']):
+            fid = strip_md(row.get('ID', ''))
+            if not re.match(r'[A-E]\d', fid):
+                continue
+            # name col differs by table (Team / Fade / Trap)
+            name = strip_md(row.get('Team') or row.get('Fade') or row.get('Trap') or '')
+            log = row.get('Fade log (most-recent first)') or row.get('Value log') \
+                  or row.get('Fade log') or row.get('Log') or ''
+            # Count W / L tokens in the log column (word-boundary, bold or plain)
+            wins = len(re.findall(r'(?<![A-Za-z])W\b', log))
+            losses = len(re.findall(r'(?<![A-Za-z])L\b', log))
+            status_raw = strip_md(row.get('Status', ''))
+            status = status_raw.split('—')[0].split('(')[0].strip()[:22]
+            out.append({
+                'id': fid, 'section': sec, 'section_name': sections.get(sec, sec),
+                'name': name[:38], 'wins': wins, 'losses': losses,
+                'record': f"{wins}-{losses}", 'status': status,
+                'reason': strip_md(row.get('Reason', ''))[:70],
+            })
+    return out
+
+
 # ─── Summary stats ────────────────────────────────────────────────────────────
 
 def _wl(legs):
@@ -364,17 +415,29 @@ def type_breakdown(results: dict) -> list[dict]:
             key = 'Run line'
         elif 'prop' in t or 'hit' in t:
             key = 'Hitter prop'
+        elif not t or t in ('—', '-'):
+            continue  # untyped (e.g. settled-elsewhere placeholder rows)
         else:
-            key = l['type'] or 'Other'
+            key = l['type']
         groups.setdefault(key, []).append(l)
     out = []
     for key, legs in groups.items():
         w, ln = _wl(legs)
         edges = [l['edge'] for l in legs if l['edge'] is not None]
+        # Hypothetical flat-1u standalone ROI from American price + W/L
+        pl, staked = 0.0, 0
+        for l in legs:
+            dec = american_to_decimal(l['price'])
+            if dec is None:
+                continue
+            staked += 1
+            pl += (dec - 1) if l['result'] == 'W' else -1
+        roi = round(pl / staked * 100, 1) if staked else None
         out.append({
             'type': key, 'n': len(legs), 'record': f"{w}-{ln}",
             'hit': round(w / max(len(legs), 1) * 100),
             'avg_edge': round(sum(edges) / len(edges), 1) if edges else None,
+            'roi': roi, 'roi_n': staked,
         })
     out.sort(key=lambda x: -x['n'])
     return out
@@ -458,11 +521,82 @@ def win_trend_data(results: dict) -> dict:
     return {'labels': labels, 'values': cum}
 
 
+# ─── Cumulative P/L (units) curve + real-dollar tally ─────────────────────────
+
+def _parse_pl(pl_raw: str):
+    """Return (value, is_dollar) from a P/L cell, or (None, _) if unparseable."""
+    s = strip_md(pl_raw).replace('−', '-').replace(',', '').strip()
+    if not s or s in ('—', '-', 'TBD'):
+        return None, False
+    is_dollar = '$' in s
+    m = re.search(r'([+-]?[\d.]+)', s.replace('$', ''))
+    if not m:
+        return None, is_dollar
+    return float(m.group(1)), is_dollar
+
+def pl_curve_data(results: dict) -> dict:
+    """Cumulative flat-1u UNITS P/L over decided tickets (chronological)."""
+    tickets = [t for t in results['tickets'] if t['result'] in ('W', 'L')]
+    tickets = sorted(tickets, key=lambda t: _date_key(t['date']))
+    labels, cum_vals, running = [], [], 0.0
+    dollar_pl, dollar_n = 0.0, 0
+    for t in tickets:
+        val, is_dollar = _parse_pl(t['pl'])
+        if val is None:
+            continue
+        if is_dollar:
+            dollar_pl += val
+            dollar_n += 1
+            continue  # real-$ tracked separately, not on the units curve
+        running += val
+        labels.append(f"{t['date']} {t['ticket'][:20]}")
+        cum_vals.append(round(running, 2))
+    return {'labels': labels, 'values': cum_vals,
+            'final_units': round(running, 2),
+            'dollar_pl': round(dollar_pl, 2), 'dollar_n': dollar_n}
+
+
+# ─── CLV vs result (does CLV lead the scoreboard?) ────────────────────────────
+
+def clv_vs_roi_data(results: dict) -> dict:
+    """Per-leg chronological: cumulative win% vs cumulative CLV+ rate%."""
+    legs = [l for l in (results['played'] + results['not_played'])
+            if l['result'] in ('W', 'L')]
+    legs = sorted(legs, key=lambda l: _date_key(l['date']))
+    labels, winr, clvr = [], [], []
+    w, n, cpos, cn = 0, 0, 0, 0
+    for l in legs:
+        n += 1
+        if l['result'] == 'W':
+            w += 1
+        c = (l.get('clv') or '').strip()
+        if c and c not in ('—', '-', '', 'TBD', 'MANUAL', 'PENDING'):
+            cn += 1
+            if c.startswith('+'):
+                cpos += 1
+        labels.append(f"{l['date']} {l['leg'][:16]}")
+        winr.append(round(w / n * 100, 1))
+        clvr.append(round(cpos / cn * 100, 1) if cn else None)
+    return {'labels': labels, 'winrate': winr, 'clvrate': clvr}
+
+
 # ─── HTML ─────────────────────────────────────────────────────────────────────
 
 def render_html(rolls, results, parlays_list, summary, br_data, clv_data,
-                trend_data, types, edges) -> str:
-    updated = datetime.now().strftime('%Y-%m-%d %H:%M ET')
+                trend_data, types, edges, fades, pl_data, clvroi_data) -> str:
+    now = datetime.now()
+    updated = now.strftime('%Y-%m-%d %H:%M ET')
+    # Freshness: most recent parlay file date vs today
+    stale = False
+    if parlays_list:
+        last = parlays_list[-1]['date']  # YYYY-MM-DD
+        try:
+            last_dt = datetime.strptime(last, '%Y-%m-%d')
+            stale = (now - last_dt).days > 1
+        except ValueError:
+            pass
+    fresh_cls = 'stale' if stale else 'fresh'
+    fresh_txt = '⚠ data may be stale' if stale else '● live'
     calib = results['calib_buckets']
 
     # Bankroll chart JS
@@ -631,6 +765,87 @@ def render_html(rolls, results, parlays_list, summary, br_data, clv_data,
         edge_js = ''
         edge_canvas = '<p class="no-data">No edge data yet.</p>'
 
+    # Cumulative P/L (units) chart JS
+    if pl_data['labels']:
+        pl_colors = '#22c55e' if pl_data['final_units'] >= 0 else '#ef4444'
+        pl_js = f"""
+  new Chart(document.getElementById('plChart'), {{
+    type: 'line',
+    data: {{
+      labels: {json.dumps(pl_data['labels'])},
+      datasets: [{{
+        data: {json.dumps(pl_data['values'])},
+        borderColor: '{pl_colors}', backgroundColor: 'rgba(34,197,94,0.06)',
+        pointRadius: 3, pointHoverRadius: 6, borderWidth: 2, tension: 0.2, fill: true,
+      }}]
+    }},
+    options: {{
+      responsive: true, maintainAspectRatio: false,
+      plugins: {{legend: {{display: false}},
+        tooltip: {{callbacks: {{label: ctx => (ctx.parsed.y >= 0 ? '+' : '') + ctx.parsed.y + 'u'}}}}}},
+      scales: {{
+        x: {{grid: {{color: '#21262d'}}, ticks: {{maxRotation: 60, font: {{size: 9}}}}}},
+        y: {{grid: {{color: '#21262d'}}, ticks: {{callback: v => (v >= 0 ? '+' : '') + v + 'u'}}}}
+      }}
+    }}
+  }});"""
+        pl_canvas = '<canvas id="plChart"></canvas>'
+    else:
+        pl_js = ''
+        pl_canvas = '<p class="no-data">No decided tickets yet.</p>'
+
+    # CLV-vs-ROI chart JS (two lines: cumulative win% vs cumulative CLV+ rate%)
+    if clvroi_data['labels'] and any(v is not None for v in clvroi_data['clvrate']):
+        clvroi_js = f"""
+  new Chart(document.getElementById('clvroiChart'), {{
+    type: 'line',
+    data: {{
+      labels: {json.dumps(clvroi_data['labels'])},
+      datasets: [
+        {{label: 'Cumulative win %', data: {json.dumps(clvroi_data['winrate'])},
+         borderColor: '#3b82f6', backgroundColor: 'transparent',
+         pointRadius: 1, borderWidth: 2, tension: 0.2}},
+        {{label: 'Cumulative CLV+ rate %', data: {json.dumps(clvroi_data['clvrate'])},
+         borderColor: '#f59e0b', backgroundColor: 'transparent', borderDash: [5,4],
+         pointRadius: 1, borderWidth: 2, tension: 0.2, spanGaps: true}}
+      ]
+    }},
+    options: {{
+      responsive: true, maintainAspectRatio: false,
+      plugins: {{legend: {{position: 'top', labels: {{boxWidth: 10, font: {{size: 11}}}}}}}},
+      scales: {{
+        x: {{grid: {{color: '#21262d'}}, ticks: {{maxRotation: 60, font: {{size: 9}}}}}},
+        y: {{grid: {{color: '#21262d'}}, ticks: {{callback: v => v + '%'}}, min: 0, max: 100}}
+      }}
+    }}
+  }});"""
+        clvroi_canvas = '<canvas id="clvroiChart"></canvas>'
+    else:
+        clvroi_js = ''
+        clvroi_canvas = '<p class="no-data">Not enough CLV data captured yet.</p>'
+
+    # Fade tracking table
+    fade_rows_html = ''
+    for fd in fades:
+        tested = fd['wins'] + fd['losses']
+        if tested == 0:
+            rec_cls, rec_txt = 'muted', 'untested'
+        else:
+            rate = fd['wins'] / tested
+            rec_cls = 'pos' if rate >= 0.6 else ('neg' if rate < 0.4 else '')
+            rec_txt = fd['record']
+        st = fd['status'].upper()
+        st_cls = ('pos' if 'ACTIVE' in st else 'neg' if 'RETIRED' in st
+                  else 'muted')
+        fade_rows_html += f"""
+      <tr>
+        <td class="mono">{fd['id']}</td>
+        <td>{fd['name']}</td>
+        <td class="muted small">{fd['reason']}</td>
+        <td class="mono {rec_cls}">{rec_txt}</td>
+        <td><span class="tag {st_cls}">{fd['status']}</span></td>
+      </tr>"""
+
     # Recent played legs table
     decided = [l for l in results['played'] if l['played'] and l['result'] in ('W', 'L')]
     recent_legs = list(reversed(decided[-20:]))
@@ -690,6 +905,10 @@ def render_html(rolls, results, parlays_list, summary, br_data, clv_data,
         edge_cls = ('pos' if t['avg_edge'] and t['avg_edge'] > 0
                     else 'neg' if t['avg_edge'] and t['avg_edge'] < 0 else '')
         hit_cls = 'pos' if t['hit'] >= 50 else 'neg'
+        roi_s = (f'+{t["roi"]:.1f}%' if t['roi'] is not None and t['roi'] >= 0
+                 else f'{t["roi"]:.1f}%' if t['roi'] is not None else '—')
+        roi_cls = ('pos' if t['roi'] and t['roi'] > 0
+                   else 'neg' if t['roi'] and t['roi'] < 0 else '')
         type_rows_html += f"""
       <tr>
         <td>{t['type']}</td>
@@ -697,6 +916,7 @@ def render_html(rolls, results, parlays_list, summary, br_data, clv_data,
         <td class="mono">{t['record']}</td>
         <td class="mono {hit_cls}">{t['hit']}%</td>
         <td class="mono {edge_cls}">{edge_s}</td>
+        <td class="mono {roi_cls}">{roi_s}</td>
       </tr>"""
 
     # Stat cards
@@ -722,6 +942,9 @@ a{{color:var(--blue);text-decoration:none}}
 header{{background:var(--surf);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}}
 header h1{{font-size:16px;font-weight:600;letter-spacing:-0.3px}}
 .updated{{font-size:11px;color:var(--muted)}}
+.freshdot{{font-weight:600}}
+.freshdot.fresh{{color:var(--green)}}
+.freshdot.stale{{color:var(--red)}}
 .wrap{{max-width:1380px;margin:0 auto;padding:20px 20px 40px}}
 .section-title{{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin:24px 0 10px}}
 
@@ -735,6 +958,14 @@ header h1{{font-size:16px;font-weight:600;letter-spacing:-0.3px}}
 /* Cards */
 .grid2{{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}}
 @media(max-width:800px){{.grid2{{grid-template-columns:1fr}}}}
+@media(max-width:560px){{
+  header{{padding:12px 14px;flex-direction:column;align-items:flex-start;gap:2px}}
+  .wrap{{padding:14px 12px 32px}}
+  .card,.tcard{{padding:13px}}
+  .stat .val{{font-size:19px}}
+  .chart-wrap{{height:190px}}
+  thead th,tbody td{{padding:5px 6px;font-size:12px}}
+}}
 .card{{background:var(--surf);border:1px solid var(--border);border-radius:8px;padding:18px}}
 .card h2{{font-size:13px;font-weight:600;margin-bottom:2px}}
 .card .sub{{font-size:11px;color:var(--muted);margin-bottom:14px}}
@@ -763,6 +994,8 @@ tbody tr:hover{{background:var(--surf2)}}
 .badge.loss{{background:rgba(239,68,68,.15);color:var(--red)}}
 .badge.tbd{{background:rgba(139,148,158,.15);color:var(--muted)}}
 .tag{{display:inline-block;font-size:10px;padding:1px 6px;border-radius:3px;background:var(--surf2);color:var(--muted)}}
+.tag.pos{{background:rgba(34,197,94,.15);color:var(--green)}}
+.tag.neg{{background:rgba(239,68,68,.15);color:var(--red)}}
 .no-data{{text-align:center;padding:40px 20px;color:var(--muted);font-size:13px}}
 .note{{font-size:11px;color:var(--muted);margin-top:8px;padding:8px 10px;background:var(--surf2);border-radius:4px;border-left:2px solid var(--border)}}
 </style>
@@ -770,7 +1003,7 @@ tbody tr:hover{{background:var(--surf2)}}
 <body>
 <header>
   <h1>⚾ MLB Parlay Dashboard</h1>
-  <span class="updated">Updated {updated}</span>
+  <span class="updated"><span class="freshdot {fresh_cls}">{fresh_txt}</span> · Updated {updated}</span>
 </header>
 <div class="wrap">
 
@@ -795,6 +1028,11 @@ tbody tr:hover{{background:var(--surf2)}}
       <div class="lbl">Bankroll balance</div>
       <div class="val">{bal_txt}</div>
       <div class="sub">$10 rollover ladder</div>
+    </div>
+    <div class="stat">
+      <div class="lbl">Ticket P/L (units)</div>
+      <div class="val {'pos' if pl_data['final_units'] >= 0 else 'neg'}">{'+' if pl_data['final_units'] >= 0 else ''}{pl_data['final_units']}u</div>
+      <div class="sub">flat-1u · +${pl_data['dollar_pl']:.0f} real over {pl_data['dollar_n']} $-staked</div>
     </div>
   </div>
 
@@ -841,11 +1079,32 @@ tbody tr:hover{{background:var(--surf2)}}
     </div>
   </div>
 
+  <div class="section-title">Profit &amp; loss</div>
+  <div class="grid2">
+    <div class="card">
+      <h2>Cumulative P/L (units)</h2>
+      <div class="sub">Flat-1u running total over decided tickets — real money side: +${pl_data['dollar_pl']:.2f} over {pl_data['dollar_n']} $-staked tickets</div>
+      <div class="chart-wrap">{pl_canvas}</div>
+    </div>
+    <div class="card">
+      <h2>CLV vs Results</h2>
+      <div class="sub">Cumulative win% (blue) vs CLV+ rate (amber) — doctrine: CLV leads ROI</div>
+      <div class="chart-wrap">{clvroi_canvas}</div>
+    </div>
+  </div>
+
   <div class="section-title">Record by leg type</div>
   <div class="tcard">
     <h2>Bet-type breakdown</h2>
-    <div class="sub">All decided legs (played + recommended) grouped by market</div>
-    {'<table><thead><tr><th>Type</th><th>n</th><th>Record</th><th>Hit%</th><th>Avg edge</th></tr></thead><tbody>' + type_rows_html + '</tbody></table>' if types else '<p class="no-data">No typed legs yet.</p>'}
+    <div class="sub">All decided legs (played + recommended) · ROI = hypothetical flat-1u standalone from the American price</div>
+    {'<table><thead><tr><th>Type</th><th>n</th><th>Record</th><th>Hit%</th><th>Avg edge</th><th>1u ROI</th></tr></thead><tbody>' + type_rows_html + '</tbody></table>' if types else '<p class="no-data">No typed legs yet.</p>'}
+  </div>
+
+  <div class="section-title">Fade registry tracking</div>
+  <div class="tcard">
+    <h2>Active fades &amp; their hit records</h2>
+    <div class="sub">From fades.md · record = W (fade correct) − L (fade missed), counted from each entry's log · green ≥ 60%</div>
+    {'<table><thead><tr><th>ID</th><th>Fade</th><th>Reason</th><th>Record</th><th>Status</th></tr></thead><tbody>' + fade_rows_html + '</tbody></table>' if fades else '<p class="no-data">No fades parsed.</p>'}
   </div>
 
   <div class="section-title">Closing Line Value</div>
@@ -887,6 +1146,32 @@ Chart.defaults.font.size = 11;
 {clv_js}
 {trend_js}
 {edge_js}
+{pl_js}
+{clvroi_js}
+
+// ── Sortable tables (click a header to sort) ──
+document.querySelectorAll('table').forEach(tbl => {{
+  tbl.querySelectorAll('thead th').forEach((th, idx) => {{
+    th.style.cursor = 'pointer';
+    th.title = 'Click to sort';
+    let asc = true;
+    th.addEventListener('click', () => {{
+      const tb = tbl.querySelector('tbody');
+      const rows = Array.from(tb.querySelectorAll('tr'));
+      rows.sort((a, b) => {{
+        const x = a.children[idx].innerText.trim();
+        const y = b.children[idx].innerText.trim();
+        const nx = parseFloat(x.replace(/[^0-9.\\-]/g, ''));
+        const ny = parseFloat(y.replace(/[^0-9.\\-]/g, ''));
+        const bothNum = !isNaN(nx) && !isNaN(ny);
+        if (bothNum) return asc ? nx - ny : ny - nx;
+        return asc ? x.localeCompare(y) : y.localeCompare(x);
+      }});
+      asc = !asc;
+      rows.forEach(r => tb.appendChild(r));
+    }});
+  }});
+}});
 </script>
 </body>
 </html>"""
@@ -910,16 +1195,23 @@ def main():
     parlays_list = parse_parlays()
     print(f"  {len(parlays_list)} files")
 
+    print("Parsing fades.md …")
+    fades = parse_fades()
+    print(f"  {len(fades)} fade entries")
+
     summary = compute_summary(results, rolls)
     br_data = bankroll_chart_data(rolls)
     clv_data = clv_chart_data(results)
     trend_data = win_trend_data(results)
     types = type_breakdown(results)
     edges = edge_buckets(results)
+    pl_data = pl_curve_data(results)
+    clvroi_data = clv_vs_roi_data(results)
 
     print("Generating HTML …")
     html = render_html(rolls, results, parlays_list, summary,
-                       br_data, clv_data, trend_data, types, edges)
+                       br_data, clv_data, trend_data, types, edges,
+                       fades, pl_data, clvroi_data)
 
     DOCS.mkdir(exist_ok=True)
     (DOCS / ".nojekyll").write_text("")
