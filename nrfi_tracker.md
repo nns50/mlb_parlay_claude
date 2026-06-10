@@ -48,13 +48,17 @@ Its own ledger lives here; the dashboard renders it from this file.
 |------|---------|------|-------|-------|--------|------|
 | 6/10 | ATL @ CWS (Sale/Martin) | NRFI | 60% | _pull at book_ | TBD | model lean — Sale ace shuts CWS top; Martin vs ATL top = YRFI risk |
 | 6/10 | MIN @ DET (Paredes/Valdez) | NRFI | 61% | _pull at book_ | TBD | model lean — Valdez GB/sinker + MIN cold bats; cleanest NRFI tonight |
-| 6/10 | LAD @ PIT (Ohtani/Jones) | YRFI | 56% | _pull at book_ | TBD | model lean — LAD elite top vs Jones carries the over |
+| 6/10 | LAD @ PIT (Ohtani/Jones) | YRFI | 56% | _model-only (no bet)_ | **L** | 1st inning 0-0 (LAD 0, PIT 0) — NRFI occurred; YRFI lean MISSED. Ohtani + Jones both clean 1st; LAD's top didn't cash early. |
 
 ---
 
 ## Running totals (update on every settle)
-- **Record:** 0-0 (tracker opened 6/10/26). **NRFI:** 0-0 · **YRFI:** 0-0.
-- **Staked:** $0 · **P/L:** $0.00 (no priced bets yet — tonight's three are model leans only).
+- **Record:** 0-1 (tracker opened 6/10/26). **NRFI:** 0-0 · **YRFI:** 0-1.
+- **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
+- **Open:** ATL @ CWS (NRFI) + MIN @ DET (NRFI) — both TBD (CWS warmup / DET rain-delayed at settle time);
+  settle off the 1st-inning line score on the next run.
+- **Settled 6/10:** LAD @ PIT YRFI **L** (1st 0-0). First calibration point: a YRFI lean on an elite top
+  missed because both aces' mirror held — reinforces the doctrine's NRFI/pitching-first bias.
 
 > Tracked like `fades.md` / `bankroll.md`: any change → commit → push → PR → squash-merge.
 > Settle each row off `mlb_api.sh` box scores (1st-inning line score) the next morning.
