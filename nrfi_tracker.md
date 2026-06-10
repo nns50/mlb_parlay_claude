@@ -44,11 +44,11 @@ Its own ledger lives here; the dashboard renders it from this file.
 
 ## Ledger (every NRFI/YRFI bet OR tracked read, append-only)
 
-| Date | Matchup | Pick | TrueP | Price | Result | Note |
-|------|---------|------|-------|-------|--------|------|
-| 6/10 | ATL @ CWS (Sale/Martin) | NRFI | 60% | _pull at book_ | TBD | model lean — Sale ace shuts CWS top; Martin vs ATL top = YRFI risk |
-| 6/10 | MIN @ DET (Paredes/Valdez) | NRFI | 61% | _pull at book_ | TBD | model lean — Valdez GB/sinker + MIN cold bats; cleanest NRFI tonight |
-| 6/10 | LAD @ PIT (Ohtani/Jones) | YRFI | 56% | _model-only (no bet)_ | **L** | 1st inning 0-0 (LAD 0, PIT 0) — NRFI occurred; YRFI lean MISSED. Ohtani + Jones both clean 1st; LAD's top didn't cash early. |
+| Date | Matchup | Pick | TrueP | Price | Result | Reasoning (why this pick) |
+|------|---------|------|-------|-------|--------|----------------------------|
+| 6/10 | ATL @ CWS (Sale/Martin) | NRFI | 60% | _model-only (no bet)_ | TBD | **Pitching:** Sale ace (2.23 ERA / 10.65 K9) routinely retires a contact-average CWS top 1-2-3 in order. **Bats:** CWS top is league-avg (23% K vs LHP), no early-power threat. **YRFI risk:** ATL's strong top (Harris/Albies/Olson) vs back-end Davis Martin — the one half that can break NRFI. **Net:** lean NRFI ~60%, but Martin is the swing factor (not a lock). |
+| 6/10 | MIN @ DET (Paredes/Valdez) | NRFI | 61% | _model-only (no bet)_ | TBD | **Pitching:** Valdez is an elite sinker/ground-ball arm — weak early contact, low 1st-inning run rate; the cleanest NRFI starter on the board. **Bats:** MIN's offense is cold (L10 3-7), unlikely to manufacture vs a GB arm. **YRFI risk:** Paredes (weak) means DET's top could score, but they'd have to string it together in the 1st. **Net:** cleanest NRFI of the three ~61%. |
+| 6/10 | LAD @ PIT (Ohtani/Jones) | YRFI | 56% | _model-only (no bet)_ | **L** | **Thesis (YRFI):** LAD's top is the board's most dangerous (Ohtani leadoff, Betts, Freeman) vs hittable Jared Jones — a real 1st-inning run threat, and it only takes that one half-inning. Ohtani shuts PIT's weak top down, so the over rode entirely on the LAD side. **Result:** 1st inning 0-0 (LAD 0, PIT 0) — NRFI occurred, **lean MISSED.** Both starters threw clean 1sts; LAD's elite top didn't cash early. Calibration: the pitching-first bias beat the bats-first read. |
 
 ---
 
