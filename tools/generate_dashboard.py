@@ -420,7 +420,8 @@ def parse_nrfi() -> dict:
             'truep': parse_pct(row.get('TrueP', '')),
             'price': strip_md(row.get('Price', '')),
             'result': result,
-            'note': strip_md(row.get('Note', ''))[:80],
+            'note': strip_md(row.get('Reasoning (why this pick)')
+                             or row.get('Reasoning') or row.get('Note') or ''),
         })
     return {'rows': rows, 'nrfi': (nw, nl), 'yrfi': (yw, yl),
             'total': (nw + yw, nl + yl)}
@@ -989,7 +990,7 @@ def render_html(rolls, results, parlays_list, summary, br_data, clv_data,
         <td class="mono">{tp}</td>
         <td class="mono muted small">{nr['price']}</td>
         <td class="mono {rc}">{rtxt}</td>
-        <td class="muted small">{nr['note']}</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">{nr['note']}</td>
       </tr>"""
     nw, nl = nrfi['nrfi']; yw, yl = nrfi['yrfi']; tw, tl = nrfi['total']
     nrfi_rec = f"{tw}-{tl}"
@@ -1478,8 +1479,8 @@ tbody tr:hover{{background:var(--surf2)}}
   <div class="section-title" id="nrfi">First-inning tracker (NRFI / YRFI)</div>
   <div class="tcard">
     <h2>NRFI / YRFI record &amp; tracked reads <span class="mono {('pos' if tw > tl else 'neg' if tl > tw else '')}">{nrfi_rec}</span></h2>
-    <div class="sub">From nrfi_tracker.md · NRFI = Under 0.5 runs in the 1st, YRFI = Over 0.5 · {nrfi_sub} · separate from the parlay ledger</div>
-    {'<table><thead><tr><th>Date</th><th>Matchup</th><th>Pick</th><th>TrueP</th><th>Price</th><th>Result</th><th>Note</th></tr></thead><tbody>' + nrfi_rows_html + '</tbody></table>' if nrfi['rows'] else '<p class="no-data">No first-inning reads logged yet.</p>'}
+    <div class="sub">From nrfi_tracker.md · NRFI = Under 0.5 runs in the 1st, YRFI = Over 0.5 · {nrfi_sub} · reasoning shown per pick · separate from the parlay ledger</div>
+    {'<table><thead><tr><th>Date</th><th>Matchup</th><th>Pick</th><th>TrueP</th><th>Price</th><th>Result</th><th>Reasoning</th></tr></thead><tbody>' + nrfi_rows_html + '</tbody></table>' if nrfi['rows'] else '<p class="no-data">No first-inning reads logged yet.</p>'}
   </div>
   </section>
 
