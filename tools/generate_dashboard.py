@@ -393,6 +393,39 @@ def parse_fades() -> list[dict]:
     return out
 
 
+# ─── NRFI / YRFI first-inning tracker ─────────────────────────────────────────
+
+def parse_nrfi() -> dict:
+    """Parse nrfi_tracker.md ledger table → rows + NRFI/YRFI W-L record."""
+    path = REPO / "nrfi_tracker.md"
+    if not path.exists():
+        return {'rows': [], 'nrfi': (0, 0), 'yrfi': (0, 0), 'total': (0, 0)}
+    text = path.read_text(encoding='utf-8')
+    rows = []
+    nw = nl = yw = yl = 0
+    for row in parse_md_table(text, ['Date', 'Matchup', 'Pick', 'Result']):
+        pick = strip_md(row.get('Pick', '')).upper()
+        if pick not in ('NRFI', 'YRFI'):
+            continue
+        res = strip_md(row.get('Result', '')).upper()
+        result = 'W' if res.startswith('W') else ('L' if res.startswith('L') else 'TBD')
+        if pick == 'NRFI':
+            nw += result == 'W'; nl += result == 'L'
+        else:
+            yw += result == 'W'; yl += result == 'L'
+        rows.append({
+            'date': strip_md(row.get('Date', '')),
+            'matchup': strip_md(row.get('Matchup', ''))[:40],
+            'pick': pick,
+            'truep': parse_pct(row.get('TrueP', '')),
+            'price': strip_md(row.get('Price', '')),
+            'result': result,
+            'note': strip_md(row.get('Note', ''))[:80],
+        })
+    return {'rows': rows, 'nrfi': (nw, nl), 'yrfi': (yw, yl),
+            'total': (nw + yw, nl + yl)}
+
+
 # ─── Summary stats ────────────────────────────────────────────────────────────
 
 def _wl(legs):
@@ -673,7 +706,8 @@ def clv_vs_roi_data(results: dict) -> dict:
 
 def render_html(rolls, results, parlays_list, summary, br_data, clv_data,
                 trend_data, types, edges, fades, pl_data, clvroi_data,
-                latest_build) -> str:
+                latest_build, nrfi=None) -> str:
+    nrfi = nrfi or {'rows': [], 'nrfi': (0, 0), 'yrfi': (0, 0), 'total': (0, 0)}
     now = datetime.now()
     updated = now.strftime('%Y-%m-%d %H:%M ET')
     # Freshness: most recent parlay file date vs today
@@ -935,6 +969,31 @@ def render_html(rolls, results, parlays_list, summary, br_data, clv_data,
         <td class="mono {rec_cls}">{rec_txt}</td>
         <td><span class="tag {st_cls}">{fd['status']}</span></td>
       </tr>"""
+
+    # NRFI / YRFI first-inning tracker table
+    nrfi_rows_html = ''
+    for nr in nrfi['rows']:
+        if nr['result'] == 'W':
+            rc, rtxt = 'win', 'W'
+        elif nr['result'] == 'L':
+            rc, rtxt = 'loss', 'L'
+        else:
+            rc, rtxt = 'muted', 'TBD'
+        pick_cls = 'pos' if nr['pick'] == 'NRFI' else ''
+        tp = f"{nr['truep']:.0f}%" if nr['truep'] is not None else '—'
+        nrfi_rows_html += f"""
+      <tr>
+        <td class="mono">{nr['date']}</td>
+        <td>{nr['matchup']}</td>
+        <td><span class="tag {pick_cls}">{nr['pick']}</span></td>
+        <td class="mono">{tp}</td>
+        <td class="mono muted small">{nr['price']}</td>
+        <td class="mono {rc}">{rtxt}</td>
+        <td class="muted small">{nr['note']}</td>
+      </tr>"""
+    nw, nl = nrfi['nrfi']; yw, yl = nrfi['yrfi']; tw, tl = nrfi['total']
+    nrfi_rec = f"{tw}-{tl}"
+    nrfi_sub = f"NRFI {nw}-{nl} · YRFI {yw}-{yl}"
 
     # Recent played legs table
     decided = [l for l in results['played'] if l['played'] and l['result'] in ('W', 'L')]
@@ -1245,6 +1304,7 @@ tbody tr:hover{{background:var(--surf2)}}
   <a href="#trends">Trends</a>
   <a href="#pnl">P&amp;L</a>
   <a href="#fades">Fades</a>
+  <a href="#nrfi">1st-Inn</a>
   <a href="#tables">Tables</a>
 </nav>
 <div class="wrap">
@@ -1414,6 +1474,13 @@ tbody tr:hover{{background:var(--surf2)}}
     <div class="sub">From fades.md · record = W (fade correct) − L (fade missed), counted from each entry's log · green ≥ 60%</div>
     {'<table><thead><tr><th>ID</th><th>Fade</th><th>Reason</th><th>Record</th><th>Status</th></tr></thead><tbody>' + fade_rows_html + '</tbody></table>' if fades else '<p class="no-data">No fades parsed.</p>'}
   </div>
+
+  <div class="section-title" id="nrfi">First-inning tracker (NRFI / YRFI)</div>
+  <div class="tcard">
+    <h2>NRFI / YRFI record &amp; tracked reads <span class="mono {('pos' if tw > tl else 'neg' if tl > tw else '')}">{nrfi_rec}</span></h2>
+    <div class="sub">From nrfi_tracker.md · NRFI = Under 0.5 runs in the 1st, YRFI = Over 0.5 · {nrfi_sub} · separate from the parlay ledger</div>
+    {'<table><thead><tr><th>Date</th><th>Matchup</th><th>Pick</th><th>TrueP</th><th>Price</th><th>Result</th><th>Note</th></tr></thead><tbody>' + nrfi_rows_html + '</tbody></table>' if nrfi['rows'] else '<p class="no-data">No first-inning reads logged yet.</p>'}
+  </div>
   </section>
 
   <section id="tables">
@@ -1502,7 +1569,7 @@ def build_all():
     fades = parse_fades()
     return {
         'rolls': rolls, 'results': results, 'parlays_list': parlays_list,
-        'fades': fades, 'latest_build': parse_latest_build(),
+        'fades': fades, 'nrfi': parse_nrfi(), 'latest_build': parse_latest_build(),
         'summary': compute_summary(results, rolls),
         'br_data': bankroll_chart_data(rolls),
         'clv_data': clv_chart_data(results),
@@ -1519,7 +1586,8 @@ def render_from(d) -> str:
                        d['br_data'], d['clv_data'], d['trend_data'], d['types'],
                        d['edges'], d['fades'], d['pl_data'], d['clvroi_data'],
                        d.get('latest_build') or {'date': None, 'run': None, 'tiers': [],
-                                                 'credits_remaining': None, 'credits_used': None})
+                                                 'credits_remaining': None, 'credits_used': None},
+                       d.get('nrfi') or {'rows': [], 'nrfi': (0, 0), 'yrfi': (0, 0), 'total': (0, 0)})
 
 
 # ─── Self-test (parser invariants + calib.py reconciliation) ──────────────────
@@ -1561,6 +1629,8 @@ def selftest() -> int:
           f"got {len(d['parlays_list'])}")
     check("bankroll.md: ≥1 roll parsed", len(d['rolls']) >= 1,
           f"got {len(d['rolls'])}")
+    check("nrfi_tracker.md: ≥1 read parsed", len(d['nrfi']['rows']) >= 1,
+          f"got {len(d['nrfi']['rows'])}")
     lb = d['latest_build']
     check("latest build: ≥1 tier + credits parsed",
           len(lb['tiers']) >= 1 and lb['credits_remaining'] is not None,
