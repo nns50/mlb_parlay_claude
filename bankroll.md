@@ -61,14 +61,16 @@ P(4 straight wins in an attempt) ≈ 0.60⁴ ≈ **13%** → expect ~8 attempts 
 | 2 | 6/8 | 4 | $40.67 | PHI ML −164 (LowVig, 1.610) | 63.8% | **WIN** (PHI 5-2 TOR) | **$65.48** | **🎯 4-WIN TARGET HIT → STOP & WITHDRAW $65.48.** Sánchez dealt (7 IP / 10 K / 2 ER), PHI held on 5-2. $40.67×1.610 = $65.48. **Attempt 2 = SUCCESS (4 straight wins).** Restart next slate at $10. |
 | — | — | — | — | — WITHDRAWN $65.48 — | — | **TARGET** | **$0 → restart $10** | Attempt 2 complete: $10 → $65.48 over 4 rolls (LAD, LAD, deGrom, PHI). Net realized profit on attempt 2 = **+$55.48**. Next slate starts fresh attempt 3 at $10. |
 | 3 | 6/9 | 1 | $10.00 | MIA ML −129 (book, 1.775) | 59% | **WIN** (MIA 10-6 AZ) | **$17.75** | **Attempt 3 roll 1 CASHED.** Meyer + MIA bats erupted 10-6. Gate discipline vindicated: MIA (+2.5pp, cleared) over ATL (−148, +1.7pp under gate) — ATL LOST 5-6 to a CWS bullpen game (D5), so picking MIA on the gate also dodged the trap. $10×1.775 = $17.75. Roll 2 next slate. |
+| 3 | 6/10 | 2 | $17.75 | TB ML −141 (BetOnline.ag, 1.709) | 60% | **TBD** (BOS @ TB, Rasmussen) | _pending_ | Roll 2: safest qualifying fav clearing the +2pp gate — Rasmussen ace form (9 K / 7 IP last out 6/5) vs 27-38 BOS; +2.8pp; not A-list. LAD −193 (66%) was higher-floor but only +1.7pp (under gate). $17.75×1.709 = **$30.33** on a win (then roll 3). |
 
 ---
 
 ## Running totals (update on every settle)
 
-- **Current:** Attempt **3 OPEN — 1 win, balance $17.75** (roll 1 MIA ML CASHED 6/9). Roll 2 next slate (needs
-  the safest qualifying fav; win 4 straight from here to hit target). (Attempt 2 COMPLETE 6/8 — 🎯 4-WIN
-  TARGET HIT, withdrew $65.48 over 4 straight: LAD, LAD, deGrom, PHI.)
+- **Current:** Attempt **3 OPEN — 1 win, balance $17.75**, **roll 2 LIVE 6/10** — bet **TB ML −141**
+  (Rasmussen vs BOS), the single safest qualifying fav on the board (+2.8pp, not A-list). LAD −193 (66%)
+  was higher-floor but +1.7pp is under the +2pp gate. Win → $17.75×1.709 = **$30.33** (then roll 3).
+  (Attempt 2 COMPLETE 6/8 — 🎯 4-WIN TARGET HIT, withdrew $65.48 over LAD, LAD, deGrom, PHI.)
 - **Attempts completed:** 2 · **Targets hit (4 wins):** **1** ✅ · **Busts:** 1 · **Best run:** **4 wins (attempt 2 — TARGET)**
 - **Total real risk (attempts × $10):** **$20.00** risked · **Total withdrawn:** **$65.48**
 - **Net P/L (withdrawn − deposited):** **+$45.48** (attempt 1 lost $10; attempt 2 turned $10 into $65.48 → +$55.48; net +$45.48 across both)

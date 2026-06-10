@@ -41,8 +41,8 @@ Do not lay a price on these as favorites. Re-verify last-15 form each session.
 
 | ID | Team | Reason | Added | Last val | Fade log (most-recent first) | Status |
 |----|------|--------|-------|----------|------------------------------|--------|
-| A1 | **Cubs** | **Still cold: L15 5-10 (.333), −24 run diff (6/7).** | 5/25/26 | **6/7/26** | **L (6/6: beat SF 3-2 as home fav — fade missed)** · W (6/5: −158 fav, crushed 3-18 by SF) · L (6/4: beat ATH 7-6) · W (6/4: L15 3-12) | **ACTIVE** — fade-as-fav holds (L15 .333, −24); one close win 6/6 within variance |
-| A3 | **Tigers** | L15 7-8, −1 (6/7); 5/28 -130 anchor blown out 7-1 | 5/28/26 | **6/7/26** | **L (6/7: beat SEA 5-4 as ~pick'em fav — fade missed; DET took 2 of 3 from hot SEA)** · W (6/6: lost 0-4 to SEA, shut out) · L (6/3 swept TB, won 7-2 as DOG) · W (5/29) · W (5/28) | **NEUTRAL-LEANING — ⚠️ HEATING** (L15 7-8/−1, won the SEA series) — fade-as-fav now 2-2 recent; do NOT lay runs against them as a dog (corollary) |
+| A1 | **Cubs** | **Still cold: L15 5-10 (.333), −24 run diff (6/9).** | 5/25/26 | **6/10/26** | **W (6/9: lost 3-7 @ COL — fade correct)** · L (6/6: beat SF 3-2 as fav) · W (6/5: crushed 3-18 by SF) · L (6/4) · W (6/4) | **ACTIVE** — fade-as-fav holds (L15 .333, −24). **NOTE: Cubs −165 @ COR today — do NOT lay (A1) + Coors variance.** |
+| A3 | **Tigers** | L15 8-7, +8 (6/9); heating | 5/28/26 | **6/10/26** | **L (6/9: beat MIN 10-4 as fav — fade missed; L15 now 8-7/+8)** · L (6/7: beat SEA 5-4 as fav) · W (6/6: shut out 0-4 by SEA) · L (6/3 won as DOG) · W (5/29) · W (5/28) | **NEUTRAL → near-retire** — fade-as-fav now 2-3 recent, L15 8-7/+8 heating; do NOT lay runs against as a dog either. Retire if L15 stays >.520. |
 
 > **Corollary (added 6/3/26):** "Fade as FAVORITE" ≠ "safe to bet AGAINST." A fade-list team can
 > win outright as a live dog (Tigers swept TB 6/3; TB −1.5 vs DET-class burned 6/1). Never lay a
@@ -55,8 +55,8 @@ standalone, not parlay-floor legs.
 
 | ID | Team | Reason | Added | Last val | Value log | Status |
 |----|------|--------|-------|----------|-----------|--------|
-| B1 | **White Sox** | 34-32; L15 8-7, +15 run diff (6/7) — cooling slightly, lost the PHI series finale | 5/28/26 | **6/7/26** | **L (6/7: lost 5-9 @ PHI as dog — dog value missed)** · W (6/6: won 6-3 @ PHI as dog) · L (6/5: lost 6-8 @ PHI) · W (6/4: L15 9-6/.600) | **NEUTRAL** — dog value cooled (L15 8-7/+15, 1-2 finish @ PHI); downgrade from ACTIVE |
-| B2 | **Pirates** | **COOLING: L15 8-7, +5 run diff, L2 (6/7)** — the re-heat faded; lost both @ ATL | 5/26/26 | **6/7/26** | **L (6/6: lost 3-6 @ ATL as dog)** · L (6/5: lost 3-6 @ ATL) · W (6/4: won 5-1 @ HOU) · W-reheat (6/4) | **NEUTRAL** — dog value cooled (L2 @ ATL, L15 only 8-7/+5); downgrade from ACTIVE |
+| B1 | **White Sox** | 35-31; L15 9-6, +23 run diff (6/9) — back up after beating ATL | 5/28/26 | **6/10/26** | **W (6/9: beat ATL 6-5 as home dog — dog value cashed, D5 ATL trap)** · L (6/7: lost 5-9 @ PHI) · W (6/6: won 6-3 @ PHI) · L (6/5) · W (6/4) | **ACTIVE** — dog value re-confirmed 6/9 (L15 ~.600, +23) |
+| B2 | **Pirates** | **COOLING: L15 ~7-8, +2 run diff, L (6/9)** — the re-heat faded; blown out by LAD | 5/26/26 | **6/10/26** | **L (6/9: lost 3-12 to LAD as dog — blown out)** · L (6/6: lost 3-6 @ ATL) · L (6/5: lost 3-6 @ ATL) · W (6/4) | **WATCH** — dog value cooled to ~.500 (3 straight dog Ls); off ACTIVE until it re-heats. |
 | B3 | **Twins** | Still cold — **L10 3-7, −24 run diff (6/4)**; offense quiet, pen ok | 5/28/26 | **6/4/26** | L (6/4: L10 3-7) · L (5/28 lost 6-2) | **NEUTRAL (soft-matchup only)** |
 | B4 | **Tigers** | NEW 6/3: heating as a dog — swept TB, beat elite Martínez. Watch for dog-value flip | 6/3/26 | 6/3/26 | W (6/3 won 7-2 as +122 dog) | **WATCH (emerging dog value)** |
 | B5 | Angels / Astros | Honorable mention — surging; Astros stay AUTO-FADE K-Over (back on ML/total only) | 5/28/26 | — | _seed_ | **WATCH** |
