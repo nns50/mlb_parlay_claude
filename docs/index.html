@@ -119,7 +119,7 @@ tbody tr:hover{background:var(--surf2)}
 <body>
 <header>
   <h1>⚾ MLB Parlay Dashboard</h1>
-  <span class="updated"><span class="freshdot fresh">● live</span> · Updated 2026-06-10 03:38 ET</span>
+  <span class="updated"><span class="freshdot fresh">● live</span> · Updated 2026-06-10 03:41 ET</span>
 </header>
 <nav class="jump">
   <a href="#overview">Overview</a>
@@ -145,8 +145,8 @@ tbody tr:hover{background:var(--surf2)}
     </div>
     <div class="h">
       <div class="lbl">Singles win streak</div>
-      <div class="big pos">🔥 4W</div>
-      <div class="sub">on a heater · best 4W · standalone legs</div>
+      <div class="big pos">🔥 5W</div>
+      <div class="sub">on a heater · best 5W · standalone legs</div>
     </div>
     <div class="h">
       <div class="lbl">Parlay win streak</div>
@@ -224,8 +224,8 @@ tbody tr:hover{background:var(--surf2)}
   <div class="stats">
     <div class="stat" style="border-left:3px solid var(--green)">
       <div class="lbl">Standalone legs (S)</div>
-      <div class="val">10-3 <span style="font-size:14px;color:var(--muted)">· 76.9%</span></div>
-      <div class="sub">single +EV plays / bankroll rolls · n=13</div>
+      <div class="val">11-3 <span style="font-size:14px;color:var(--muted)">· 78.6%</span></div>
+      <div class="sub">single +EV plays / bankroll rolls · n=14</div>
     </div>
     <div class="stat" style="border-left:3px solid var(--red)">
       <div class="lbl">Parlay legs (P)</div>
@@ -314,11 +314,11 @@ tbody tr:hover{background:var(--surf2)}
       </tr>
       <tr>
         <td>K-Over</td>
-        <td class="mono">12</td>
-        <td class="mono">8-4</td>
-        <td class="mono pos">67%</td>
-        <td class="mono pos">+6.2</td>
-        <td class="mono pos">+16.1%</td>
+        <td class="mono">13</td>
+        <td class="mono">9-4</td>
+        <td class="mono pos">69%</td>
+        <td class="mono pos">+7.0</td>
+        <td class="mono pos">+20.8%</td>
       </tr>
       <tr>
         <td>Run line</td>
@@ -1087,7 +1087,7 @@ Chart.defaults.font.size = 11;
     data: {
       labels: ["< 0pp", "0\u20132pp", "2\u20134pp", "4\u20136pp", "6+pp"],
       datasets: [{
-        data: [60, 42, 76, 0, 75],
+        data: [60, 42, 76, 0, 80],
         backgroundColor: ["rgba(34,197,94,0.7)", "rgba(239,68,68,0.7)", "rgba(34,197,94,0.7)", "rgba(239,68,68,0.7)", "rgba(34,197,94,0.7)"], borderRadius: 3,
       }]
     },
@@ -1096,7 +1096,7 @@ Chart.defaults.font.size = 11;
       plugins: {legend: {display: false},
         tooltip: {callbacks: {
           label: ctx => 'Hit ' + (ctx.parsed.y ?? 0) + '%',
-          afterBody: items => ["n=15", "n=12", "n=21", "n=1", "n=4"][items[0].dataIndex]}}},
+          afterBody: items => ["n=15", "n=12", "n=21", "n=1", "n=5"][items[0].dataIndex]}}},
       scales: {
         x: {grid: {color: '#21262d'}},
         y: {grid: {color: '#21262d'}, ticks: {callback: v => v + '%'}, min: 0, max: 100}
@@ -1128,12 +1128,12 @@ Chart.defaults.font.size = 11;
   new Chart(document.getElementById('clvroiChart'), {
     type: 'line',
     data: {
-      labels: ["5/25 Dodgers ML (vs C", "5/25 Brewers ML (vs S", "5/25 Misiorowski Over", "5/26 Dodgers ML (vs C", "5/26 Burns Over 6.5 K", "5/26 Strider Over 4.5", "5/27 Yankees ML (vs K", "5/27 Sanchez Over 6.5", "5/27 Sanchez Over 7.5", "5/28 Tigers ML (vs LA", "5/29 Dodgers ML (vs P", "5/29 Astros ML (vs MI", "5/30 Guardians ML (vs", "5/30 Padres ML (@ WSH", "5/31 Brewers \u22121.5 RL ", "5/31 Yankees ML (@ AT", "6/1 Mariners ML (vs ", "6/1 Rays \u22121.5 RL (vs", "6/2 Mariners ML (vs ", "6/2 Brewers ML (vs S", "6/2 Yankees ML (Schl", "6/3 Mariners ML (vs ", "6/3 Phillies ML (vs ", "6/3 Dodgers ML (vs A", "6/3 Rays ML (vs DET)", "6/3 Sanchez K-Over (", "6/3 Burns K-Over (fa", "6/4 Braves ML (Sale,", "6/4 Phillies ML (Whe", "6/4 Sale Over 6.5 K ", "6/4 Brewers ML (Crow", "6/4 Dodgers ML (Wrob", "6/5 Mariners ML (Woo", "6/5 Dodgers ML (Sasa", "6/5 Yankees ML (Weat", "6/5 Phillies ML (Luz", "6/5 D-backs ML (Kell", "6/6 Dodgers ML (Yama", "6/6 Dodgers ML (Yama", "6/6 Dodgers ML (Yama", "6/6 Yamamoto Over 7.", "6/6 Yamamoto Over 6.", "6/6 Dodgers ML (Yama", "6/6 Yamamoto Over 7.", "6/6 TOR Blue Jays li", "6/6 CLE Guardians ML", "6/6 CLE Guardians -5", "6/6 LA Dodgers -1.5 ", "6/6 Kochanowicz Over", "6/7 deGrom (TEX) ML ", "6/7 Braves ML (Elder", "6/7 LAD ML (Sheehan,", "6/7 PHI ML (Nola, vs", "6/8 S\u00e1nchez Over 6.5", "6/8 PHI ML + S\u00e1nchez", "6/8 PHI ML (S\u00e1nchez,", "6/8 MIL ML (Harrison", "6/8 HOU ML (Arrighet", "6/9 MIA ML (Meyer, v", "6/9 ATL ML (Holmes, ", "6/9 ATL ML + MIA ML "],
+      labels: ["5/25 Dodgers ML (vs C", "5/25 Brewers ML (vs S", "5/25 Misiorowski Over", "5/26 Dodgers ML (vs C", "5/26 Burns Over 6.5 K", "5/26 Strider Over 4.5", "5/27 Yankees ML (vs K", "5/27 Sanchez Over 6.5", "5/27 Sanchez Over 7.5", "5/28 Tigers ML (vs LA", "5/29 Dodgers ML (vs P", "5/29 Astros ML (vs MI", "5/30 Guardians ML (vs", "5/30 Padres ML (@ WSH", "5/31 Brewers \u22121.5 RL ", "5/31 Yankees ML (@ AT", "6/1 Mariners ML (vs ", "6/1 Rays \u22121.5 RL (vs", "6/2 Mariners ML (vs ", "6/2 Brewers ML (vs S", "6/2 Yankees ML (Schl", "6/3 Mariners ML (vs ", "6/3 Phillies ML (vs ", "6/3 Dodgers ML (vs A", "6/3 Rays ML (vs DET)", "6/3 Sanchez K-Over (", "6/3 Burns K-Over (fa", "6/4 Braves ML (Sale,", "6/4 Phillies ML (Whe", "6/4 Sale Over 6.5 K ", "6/4 Brewers ML (Crow", "6/4 Dodgers ML (Wrob", "6/5 Mariners ML (Woo", "6/5 Dodgers ML (Sasa", "6/5 Yankees ML (Weat", "6/5 Phillies ML (Luz", "6/5 D-backs ML (Kell", "6/6 Dodgers ML (Yama", "6/6 Dodgers ML (Yama", "6/6 Dodgers ML (Yama", "6/6 Yamamoto Over 7.", "6/6 Yamamoto Over 6.", "6/6 Dodgers ML (Yama", "6/6 Yamamoto Over 7.", "6/6 TOR Blue Jays li", "6/6 CLE Guardians ML", "6/6 CLE Guardians -5", "6/6 LA Dodgers -1.5 ", "6/6 Kochanowicz Over", "6/7 deGrom (TEX) ML ", "6/7 Braves ML (Elder", "6/7 LAD ML (Sheehan,", "6/7 PHI ML (Nola, vs", "6/8 S\u00e1nchez Over 6.5", "6/8 PHI ML + S\u00e1nchez", "6/8 PHI ML (S\u00e1nchez,", "6/8 MIL ML (Harrison", "6/8 HOU ML (Arrighet", "6/9 MIA ML (Meyer, v", "6/9 ATL ML (Holmes, ", "6/9 Burns O6.5 K (@ ", "6/9 ATL ML + MIA ML "],
       datasets: [
-        {label: 'Cumulative win %', data: [100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 90.0, 90.9, 83.3, 76.9, 71.4, 73.3, 75.0, 76.5, 72.2, 73.7, 75.0, 71.4, 68.2, 69.6, 70.8, 68.0, 69.2, 70.4, 67.9, 69.0, 66.7, 64.5, 62.5, 60.6, 61.8, 60.0, 61.1, 62.2, 63.2, 64.1, 65.0, 63.4, 61.9, 62.8, 61.4, 62.2, 63.0, 63.8, 64.6, 65.3, 66.0, 66.7, 65.4, 66.0, 66.7, 67.3, 67.9, 68.4, 69.0, 69.5, 68.3, 67.2],
+        {label: 'Cumulative win %', data: [100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 90.0, 90.9, 83.3, 76.9, 71.4, 73.3, 75.0, 76.5, 72.2, 73.7, 75.0, 71.4, 68.2, 69.6, 70.8, 68.0, 69.2, 70.4, 67.9, 69.0, 66.7, 64.5, 62.5, 60.6, 61.8, 60.0, 61.1, 62.2, 63.2, 64.1, 65.0, 63.4, 61.9, 62.8, 61.4, 62.2, 63.0, 63.8, 64.6, 65.3, 66.0, 66.7, 65.4, 66.0, 66.7, 67.3, 67.9, 68.4, 69.0, 69.5, 68.3, 68.9, 67.7],
          borderColor: '#3b82f6', backgroundColor: 'transparent',
          pointRadius: 1, borderWidth: 2, tension: 0.2},
-        {label: 'Cumulative CLV+ rate %', data: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0.0, 0.0, 0.0, 0.0, 0.0, 25.0, 40.0, 33.3, 33.3, 33.3, 33.3, 33.3, 33.3, 33.3, 33.3, 33.3, 33.3, 33.3, 33.3, 33.3, 33.3, 33.3, 42.9, 50.0, 55.6, 60.0, 54.5, 54.5, 50.0, 46.2, 46.2, 42.9, 40.0, 40.0],
+        {label: 'Cumulative CLV+ rate %', data: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0.0, 0.0, 0.0, 0.0, 0.0, 25.0, 40.0, 33.3, 33.3, 33.3, 33.3, 33.3, 33.3, 33.3, 33.3, 33.3, 33.3, 33.3, 33.3, 33.3, 33.3, 33.3, 42.9, 50.0, 55.6, 60.0, 54.5, 54.5, 50.0, 46.2, 46.2, 42.9, 40.0, 40.0, 40.0],
          borderColor: '#f59e0b', backgroundColor: 'transparent', borderDash: [5,4],
          pointRadius: 1, borderWidth: 2, tension: 0.2, spanGaps: true}
       ]
