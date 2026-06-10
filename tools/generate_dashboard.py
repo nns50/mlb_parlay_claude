@@ -148,9 +148,17 @@ def bankroll_chart_data(rolls: list[dict]) -> dict:
 # ─── Results log ──────────────────────────────────────────────────────────────
 
 def _outcome(result_raw: str):
-    if re.search(r'\bW\b', result_raw):
+    # Read the verdict from the leading token only — the part BEFORE the first
+    # parenthetical detail — so an embedded per-leg letter ("❌ LOST (MIA W 10-6 …)")
+    # can't flip the ticket's own result. Resolve any residual ambiguity by position.
+    head = result_raw.split('(')[0]
+    w = re.search(r'\bW\b|WON|✅|would-?W', head)
+    l = re.search(r'\bL\b|LOST|❌|would-?L', head)
+    if w and l:
+        return 'W' if w.start() < l.start() else 'L'
+    if w:
         return 'W'
-    if re.search(r'\bL\b', result_raw):
+    if l:
         return 'L'
     return None
 
@@ -202,9 +210,12 @@ def parse_results_log() -> dict:
             if not date_s:
                 continue
             result_raw = strip_md(row.get('Result', ''))
-            if re.search(r'WON|✅', result_raw):
+            # Match the verdict before any per-leg detail (the part before "("),
+            # so "❌ LOST (MIA W 10-6 ✅ + ATL L …)" reads L, not W.
+            head = result_raw.split('(')[0]
+            if re.search(r'WON|✅', head):
                 outcome = 'W'
-            elif re.search(r'LOST|❌', result_raw):
+            elif re.search(r'LOST|❌', head):
                 outcome = 'L'
             else:
                 outcome = 'TBD'
@@ -388,6 +399,27 @@ def _wl(legs):
     w = sum(1 for l in legs if l['result'] == 'W')
     return w, len(legs) - w
 
+def _streaks(chron):
+    """Given a list of {'result': 'W'|'L'} already sorted oldest→newest, return
+    (current trailing streak, longest W run, whether the most-recent is a W).
+    Current streak counts back from the newest: +N on a W-run, -N on an L-run."""
+    if not chron:
+        return 0, 0, False
+    # current trailing run (signed: positive = win streak, negative = losing streak)
+    last = chron[-1]['result']
+    cur = 0
+    for t in reversed(chron):
+        if t['result'] == last:
+            cur += 1
+        else:
+            break
+    cur = cur if last == 'W' else -cur
+    best = run = 0
+    for t in chron:
+        run = run + 1 if t['result'] == 'W' else 0
+        best = max(best, run)
+    return cur, best, last == 'W'
+
 def compute_summary(results: dict, rolls: list[dict]) -> dict:
     played = [l for l in results['played'] if l['played'] and l['result'] in ('W', 'L')]
     wins, losses = _wl(played)
@@ -395,19 +427,11 @@ def compute_summary(results: dict, rolls: list[dict]) -> dict:
     t_decided = [t for t in results['tickets'] if t['result'] in ('W', 'L')]
     t_wins = sum(1 for t in t_decided if t['result'] == 'W')
 
-    # ── Ticket win streak (chronological by date) ──
-    t_chron = sorted(t_decided, key=lambda t: t['date'])
-    cur_streak = 0
-    for t in reversed(t_chron):          # current run from the most-recent ticket back
-        if t['result'] == 'W':
-            cur_streak += 1
-        else:
-            break
-    best_streak = run = 0                 # longest W run anywhere in history
-    for t in t_chron:
-        run = run + 1 if t['result'] == 'W' else 0
-        best_streak = max(best_streak, run)
-    streak_active = bool(t_chron) and t_chron[-1]['result'] == 'W'
+    # ── Parlay win streak (chronological by ticket date) ──
+    t_chron = sorted(t_decided, key=lambda t: _date_key(t['date']))
+    p_cur_streak, p_best_streak, p_streak_active = _streaks(t_chron)
+    # back-compat aliases (older callers / selftest referenced the bare names)
+    cur_streak, best_streak, streak_active = p_cur_streak, p_best_streak, p_streak_active
 
     all_legs = results['played'] + results['not_played']
     clv_list = [l['clv'] for l in all_legs
@@ -431,6 +455,10 @@ def compute_summary(results: dict, rolls: list[dict]) -> dict:
     sw, sl = _wl(s_legs)
     pw, pl = _wl(p_legs)
 
+    # ── Singles win streak (chronological by standalone-leg date) ──
+    s_chron = sorted(s_legs, key=lambda l: _date_key(l.get('date', '')))
+    s_cur_streak, s_best_streak, s_streak_active = _streaks(s_chron)
+
     return {
         'leg_record': f"{wins}-{losses}",
         'leg_win_pct': round(wins / max(wins + losses, 1) * 100, 1),
@@ -439,6 +467,10 @@ def compute_summary(results: dict, rolls: list[dict]) -> dict:
         'ticket_total': len(t_decided),
         'cur_streak': cur_streak, 'best_streak': best_streak,
         'streak_active': streak_active,
+        'p_cur_streak': p_cur_streak, 'p_best_streak': p_best_streak,
+        'p_streak_active': p_streak_active,
+        's_cur_streak': s_cur_streak, 's_best_streak': s_best_streak,
+        's_streak_active': s_streak_active,
         'clv_pos': clv_pos, 'clv_total': len(clv_list),
         'clv_pct': round(clv_pos / max(len(clv_list), 1) * 100, 1),
         'bankroll_bal': bal,
@@ -980,10 +1012,27 @@ def render_html(rolls, results, parlays_list, summary, br_data, clv_data,
     # Stat cards
     bal_txt = (f"${summary['bankroll_bal']:.2f}" if summary['bankroll_bal'] else "—")
     clv_pct_txt = f"{summary['clv_pct']}%" if summary['clv_total'] > 0 else "—"
-    cs = summary['cur_streak']
-    streak_big = (f"{'🔥 ' if cs >= 2 else ''}{cs}W" if cs > 0 else "0")
-    streak_sub = (f"on a heater · best {summary['best_streak']}W" if summary['streak_active']
-                  else f"last ticket lost · best {summary['best_streak']}W")
+    def _streak_card(cur, best, active):
+        if cur > 0:
+            big = f"{'🔥 ' if cur >= 2 else ''}{cur}W"
+        elif cur < 0:
+            big = f"{'🧊 ' if cur <= -2 else ''}{-cur}L"
+        else:
+            big = "0"
+        if cur > 0:
+            sub = f"on a heater · best {best}W"
+        elif cur < 0:
+            n = -cur
+            sub = f"{n} {'loss' if n == 1 else 'losses'} in a row · best {best}W"
+        else:
+            sub = f"best {best}W"
+        cls = 'pos' if cur >= 2 else ('neg' if cur <= -2 else '')
+        return big, sub, cls
+
+    s_big, s_sub, s_cls = _streak_card(summary['s_cur_streak'], summary['s_best_streak'],
+                                       summary['s_streak_active'])
+    p_big, p_sub, p_cls = _streak_card(summary['p_cur_streak'], summary['p_best_streak'],
+                                       summary['p_streak_active'])
 
     # Ticket history pill timeline — last 15 decided tickets, oldest-left newest-right
     t_chron_all = sorted([t for t in results['tickets'] if t['result'] in ('W','L')],
@@ -1213,9 +1262,14 @@ tbody tr:hover{{background:var(--surf2)}}
       <div class="sub">{summary['leg_win_pct']}% · n={summary['total_legs']}</div>
     </div>
     <div class="h">
-      <div class="lbl">Ticket win streak</div>
-      <div class="big {'pos' if cs >= 2 else ''}">{streak_big}</div>
-      <div class="sub">{streak_sub}</div>
+      <div class="lbl">Singles win streak</div>
+      <div class="big {s_cls}">{s_big}</div>
+      <div class="sub">{s_sub} · standalone legs</div>
+    </div>
+    <div class="h">
+      <div class="lbl">Parlay win streak</div>
+      <div class="big {p_cls}">{p_big}</div>
+      <div class="sub">{p_sub} · tickets</div>
     </div>
     <div class="h">
       <div class="lbl">CLV+ rate</div>
@@ -1527,6 +1581,18 @@ def selftest() -> int:
     s = d['summary']
     check("S/P split non-negative & summed",
           s['s_n'] >= 0 and s['p_n'] >= 0 and (s['s_n'] + s['p_n']) > 0)
+
+    # 3b. Singles & parlay streak keys present; |streak| never exceeds its record's n.
+    check("single + parlay streak keys present",
+          all(k in s for k in ('s_cur_streak', 's_best_streak', 'p_cur_streak', 'p_best_streak')))
+    check("streaks within record bounds",
+          abs(s['s_cur_streak']) <= s['s_n'] and abs(s['p_cur_streak']) <= s['p_n'])
+
+    # 3c. Verdict parsing must read the LEADING token, not an embedded per-leg letter —
+    #     a mixed cell like "❌ LOST (MIA W 10-6 ✅ + ATL L …)" must read L, not W.
+    check("_outcome reads leading verdict, not embedded letters",
+          _outcome("❌ LOST (MIA W 10-6 ✅ + ATL L 5-6)") == 'L'
+          and _outcome("✅ WON (PHI 5-2, leg L noted)") == 'W')
 
     # 4. Empty-season safety — the whole pipeline must not crash on no data.
     try:
