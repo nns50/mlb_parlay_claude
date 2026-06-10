@@ -60,14 +60,15 @@ P(4 straight wins in an attempt) ≈ 0.60⁴ ≈ **13%** → expect ~8 attempts 
 | 2 | 6/7 | 4 | $40.67 | — NO BET — | — | — | $40.67 (carries) | Roll 4 (the target roll) needs a qualifying fav, but at the 18:00 run the only pre-game game left is SF@CHC — **CHC −123 is an A1 fade-as-fav (excluded)**, SF is a dog. No qualifying favorite → NO BET, balance carries to next slate. |
 | 2 | 6/8 | 4 | $40.67 | PHI ML −164 (LowVig, 1.610) | 63.8% | **WIN** (PHI 5-2 TOR) | **$65.48** | **🎯 4-WIN TARGET HIT → STOP & WITHDRAW $65.48.** Sánchez dealt (7 IP / 10 K / 2 ER), PHI held on 5-2. $40.67×1.610 = $65.48. **Attempt 2 = SUCCESS (4 straight wins).** Restart next slate at $10. |
 | — | — | — | — | — WITHDRAWN $65.48 — | — | **TARGET** | **$0 → restart $10** | Attempt 2 complete: $10 → $65.48 over 4 rolls (LAD, LAD, deGrom, PHI). Net realized profit on attempt 2 = **+$55.48**. Next slate starts fresh attempt 3 at $10. |
-| 3 | 6/9 | 1 | $10.00 | MIA ML −129 (book, 1.775) | 59% | **TBD** | TBD | **Attempt 3 roll 1.** Safest qualifying fav clearing the +2pp gate (+2.5pp): Meyer 2.81/9.90 K9, 6-0, hot, vs Gallen 5.32/1-5 + AZ cold (L10 3-7); not an A-list fade. (ATL −148 higher floor 60% but +1.7pp under the gate → MIA picked on gate discipline.) Win → $10×1.775 = $17.75. |
+| 3 | 6/9 | 1 | $10.00 | MIA ML −129 (book, 1.775) | 59% | **WIN** (MIA 10-6 AZ) | **$17.75** | **Attempt 3 roll 1 CASHED.** Meyer + MIA bats erupted 10-6. Gate discipline vindicated: MIA (+2.5pp, cleared) over ATL (−148, +1.7pp under gate) — ATL LOST 5-6 to a CWS bullpen game (D5), so picking MIA on the gate also dodged the trap. $10×1.775 = $17.75. Roll 2 next slate. |
 
 ---
 
 ## Running totals (update on every settle)
 
-- **Current:** Attempt **3 OPEN at $10** — roll 1 = **MIA ML −129 (TBD)**, balance $10.00. (Attempt 2 COMPLETE
-  6/8 — 🎯 4-WIN TARGET HIT, withdrew $65.48 over 4 straight: LAD, LAD, deGrom, PHI.)
+- **Current:** Attempt **3 OPEN — 1 win, balance $17.75** (roll 1 MIA ML CASHED 6/9). Roll 2 next slate (needs
+  the safest qualifying fav; win 4 straight from here to hit target). (Attempt 2 COMPLETE 6/8 — 🎯 4-WIN
+  TARGET HIT, withdrew $65.48 over 4 straight: LAD, LAD, deGrom, PHI.)
 - **Attempts completed:** 2 · **Targets hit (4 wins):** **1** ✅ · **Busts:** 1 · **Best run:** **4 wins (attempt 2 — TARGET)**
 - **Total real risk (attempts × $10):** **$20.00** risked · **Total withdrawn:** **$65.48**
 - **Net P/L (withdrawn − deposited):** **+$45.48** (attempt 1 lost $10; attempt 2 turned $10 into $65.48 → +$55.48; net +$45.48 across both)
