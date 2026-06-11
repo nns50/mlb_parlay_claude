@@ -42,7 +42,7 @@ Do not lay a price on these as favorites. Re-verify last-15 form each session.
 | ID | Team | Reason | Added | Last val | Fade log (most-recent first) | Status |
 |----|------|--------|-------|----------|------------------------------|--------|
 | A1 | **Cubs** | **Still cold: L15 5-10 (.333), −22 run diff (6/10).** | 5/25/26 | **6/11/26** | **W (6/10: lost 2-3 @ COL as −147 fav — fade correct)** · W (6/9: lost 3-7 @ COL) · L (6/6: beat SF 3-2) · W (6/5) · L (6/4) · W (6/4) | **ACTIVE** — fade-as-fav holds (L15 .333; 4 fade-Ws in last 6). **NOTE: Cubs −147 @ COR AGAIN today — do NOT lay (A1) + Coors variance.** |
-| A3 | **Tigers** | L15 ~7-8 (6/10); cooled back | 5/28/26 | **6/11/26** | **W (6/10: lost 4-6 vs MIN as fav — fade correct)** · L (6/9: beat MIN 10-4 as fav) · L (6/7: beat SEA 5-4) · W (6/6) · L (6/3 won as DOG) · W (5/29) · W (5/28) | **NEUTRAL** — fade-as-fav 3-3 recent after 6/10 W; DET −122 vs MIN AGAIN today. Hold NEUTRAL (don't lay against as dog either). |
+| A3 | **Tigers** | L15 ~7-8 (6/10); cooled back | 5/28/26 | **6/11/26** | **L (6/11: DET −122 won 11-0 vs MIN as fav — fade MISSED)** · W (6/10: lost 4-6 vs MIN as fav) · L (6/9: beat MIN 10-4 as fav) · L (6/7: beat SEA 5-4) · W (6/6) · L (6/3 won as DOG) · W (5/29) · W (5/28) | **NEUTRAL→leaning RETIRE** — fade-as-fav now 3-4 recent (11-0 blowout 6/11); DET clearly not fade-worthy as a fav right now. Don't lay against either. Re-verify run-diff before any DET lean. |
 
 > **Corollary (added 6/3/26):** "Fade as FAVORITE" ≠ "safe to bet AGAINST." A fade-list team can
 > win outright as a live dog (Tigers swept TB 6/3; TB −1.5 vs DET-class burned 6/1). Never lay a
