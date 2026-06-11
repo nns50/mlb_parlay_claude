@@ -62,18 +62,18 @@ P(4 straight wins in an attempt) ≈ 0.60⁴ ≈ **13%** → expect ~8 attempts 
 | — | — | — | — | — WITHDRAWN $65.48 — | — | **TARGET** | **$0 → restart $10** | Attempt 2 complete: $10 → $65.48 over 4 rolls (LAD, LAD, deGrom, PHI). Net realized profit on attempt 2 = **+$55.48**. Next slate starts fresh attempt 3 at $10. |
 | 3 | 6/9 | 1 | $10.00 | MIA ML −129 (book, 1.775) | 59% | **WIN** (MIA 10-6 AZ) | **$17.75** | **Attempt 3 roll 1 CASHED.** Meyer + MIA bats erupted 10-6. Gate discipline vindicated: MIA (+2.5pp, cleared) over ATL (−148, +1.7pp under gate) — ATL LOST 5-6 to a CWS bullpen game (D5), so picking MIA on the gate also dodged the trap. $10×1.775 = $17.75. Roll 2 next slate. |
 | 3 | 6/10 | 2 | $17.75 | TB ML −141 (BetOnline.ag, 1.709) | 60% | **WIN** (TB 7-5 BOS) | **$30.33** | Roll 2 CASHED — Rasmussen dealt (13 K / 7 IP), TB won 7-5. $17.75×1.709 = $30.33. Roll 3 next. |
-| 3 | 6/10 | 3 | $30.33 | LAD ML −195 (BetUS, 1.513) | 67% | **TBD** (LAD @ PIT, Ohtani) | _pending_ | Roll 3: highest-floor fav on the evening board — Ohtani ace-edge + PIT cooling (B2, blown out 12-3 on 6/9); the preferred 62-66% ace-edge profile. ATL −142 cleared the gate cleaner (+2pp) but is soft-band (59%) + faces B1 CWS home dog; LAD's floor wins for a full-rollover bet. $30.33×1.513 = **$45.89** on a win (→ roll 4, the target). |
+| 3 | 6/10 | 3 | $30.33 | LAD ML −195 (BetUS, 1.513) | 67% | **LOSS** (LAD 8-9 PIT) | **$0.00** | **Attempt 3 BUSTS at roll 3.** Ohtani-led LAD blew a lead, PIT walked it off 9-8 (B2 dog cashed). The full-rollover risk realized — 2 wins ($10→$30.33) wiped to $0. Restart attempt 4 at $10 next slate (6/11). |
+| 4 | 6/11 | 1 | $10.00 | _TBD — see 6/11 build_ | — | **OPEN** | _pending_ | Fresh attempt 4 after attempt 3 busted at roll 3. Pick = safest qualifying fav on the 6/11 board, not an A-list fade. |
 
 ---
 
 ## Running totals (update on every settle)
 
-- **Current:** Attempt **3 OPEN — 2 wins, balance $30.33**, **roll 3 LIVE 6/10** — bet **LAD ML −195**
-  (Ohtani @ PIT), the highest-floor fav on the evening board (ace-edge + cooling PIT). Win →
-  $30.33×1.513 = **$45.89** (→ roll 4, the 4-win target). Roll 2 (TB ML) CASHED — Rasmussen 13 K, TB 7-5.
+- **Current:** Attempt **3 BUSTED 6/10 at roll 3** (LAD ML −195 LOST 8-9 to PIT — 2 wins wiped, $30.33→$0).
+  **Attempt 4 OPEN 6/11 at $10** — roll 1 pick = safest qualifying fav on the 6/11 board (see today's build).
   (Attempt 2 COMPLETE 6/8 — 🎯 4-WIN TARGET HIT, withdrew $65.48 over LAD, LAD, deGrom, PHI.)
-- **Attempts completed:** 2 · **Targets hit (4 wins):** **1** ✅ · **Busts:** 1 · **Best run:** **4 wins (attempt 2 — TARGET)**
-- **Total real risk (attempts × $10):** **$20.00** risked · **Total withdrawn:** **$65.48**
-- **Net P/L (withdrawn − deposited):** **+$45.48** (attempt 1 lost $10; attempt 2 turned $10 into $65.48 → +$55.48; net +$45.48 across both)
+- **Attempts completed:** 3 · **Targets hit (4 wins):** **1** ✅ · **Busts:** 2 (attempt 1 @ roll 1, attempt 3 @ roll 3) · **Best run:** **4 wins (attempt 2 — TARGET)**
+- **Total real risk (attempts × $10):** **$30.00** risked · **Total withdrawn:** **$65.48**
+- **Net P/L (withdrawn − deposited):** **+$35.48** (attempt 1 −$10; attempt 2 +$55.48; attempt 3 −$10; net +$35.48 across three)
 
 > Tracked like `fades.md` / `results_log.md`: any change → commit → push → PR → squash-merge.
