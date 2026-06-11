@@ -119,7 +119,7 @@ tbody tr:hover{background:var(--surf2)}
 <body>
 <header>
   <h1>⚾ MLB Parlay Dashboard</h1>
-  <span class="updated"><span class="freshdot fresh">● live</span> · Updated 2026-06-11 20:15 ET</span>
+  <span class="updated"><span class="freshdot fresh">● live</span> · Updated 2026-06-11 22:10 ET</span>
 </header>
 <nav class="jump">
   <a href="#overview">Overview</a>
@@ -184,7 +184,7 @@ tbody tr:hover{background:var(--surf2)}
     <div class="stat" style="border-left:3px solid var(--blue,#3b82f6)">
       <div class="lbl">Latest build</div>
       <div class="val" style="font-size:18px">2026-06-11</div>
-      <div class="sub">runs: 11:00 · 16:00</div>
+      <div class="sub">runs: 11:00 · 16:00 · 18:00</div>
     </div>
     <div class="stat" style="border-left:3px solid var(--yellow)">
       <div class="lbl">Open tickets (TBD)</div>
@@ -199,28 +199,28 @@ tbody tr:hover{background:var(--surf2)}
   </div>
 
   <div class="card" style="margin:4px 0 6px">
-    <h2>Today's board — 2026-06-11 · Run 16:00 ET</h2>
+    <h2>Today's board — 2026-06-11 · Run 18:00 ET</h2>
     <div class="sub">Picks from the latest run block (best-effort parse — the parlay file is the source of truth)</div>
     
       <div style="padding:8px 0;border-bottom:1px solid var(--border)">
         <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">Tier 1 — best standalone +EV play</div>
-        <div style="font-size:13px;line-height:1.45">LAD ML −166</div>
+        <div style="font-size:13px;line-height:1.45">Shohei Ohtani Over 1.5 Total Bases −125</div>
       </div>
       <div style="padding:8px 0;border-bottom:1px solid var(--border)">
-        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">Tier 2 — highest-floor 2-leg (best win chance) === Tier 3 (lands at +200 on its own)</div>
-        <div style="font-size:13px;line-height:1.45">LAD ML −166 × Shohei Ohtani Over 1.5 Total Bases −120 (Fanatics) = 1.602 × 1.833 = 2.938 dec → +194.</div>
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">Tier 2 — highest-floor 2-leg (best WIN CHANCE)</div>
+        <div style="font-size:13px;line-height:1.45">LAD ML −167 × Shohei Ohtani Over 1.5 TB −125 = 1.599 × 1.800 = 2.878 dec (+188).</div>
       </div>
       <div style="padding:8px 0;border-bottom:1px solid var(--border)">
-        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">Tier 3 — the genuine +200 build</div>
-        <div style="font-size:13px;line-height:1.45">LAD ML −166 × Freddie Freeman Over 1.5 TB −110 (Bovada) = 1.602 × 1.909 = 3.059 → +206</div>
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">Tier 3 — the genuine +200 build (what you asked)</div>
+        <div style="font-size:13px;line-height:1.45">LAD ML −167 × Freddie Freeman Over 1.5 TB −115 = 1.599 × 1.870 = 2.989 dec (+199 ≈ +200).</div>
       </div>
     
       <div style="margin-top:12px">
         <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:4px">
-          <span>Odds API credits</span><span class="mono">19,575 left · used 425 / 20,000-mo</span>
+          <span>Odds API credits</span><span class="mono">19,564 left · used 436 / 20,000-mo</span>
         </div>
         <div style="height:7px;background:var(--border);border-radius:4px;overflow:hidden">
-          <div style="height:100%;width:2.1%;background:var(--green)"></div>
+          <div style="height:100%;width:2.2%;background:var(--green)"></div>
         </div>
       </div>
   </div>
@@ -793,6 +793,20 @@ tbody tr:hover{background:var(--surf2)}
       </tr>
       <tr>
         <td class="mono">6/11</td>
+        <td>LAD ML −167 × Freeman O1.5 TB −115 (Build C Tier 3 — ge</td>
+        <td class="mono">+199</td>
+        <td class="mono">+4.8</td>
+        <td><span class="badge tbd">TBD</span></td>
+      </tr>
+      <tr>
+        <td class="mono">6/11</td>
+        <td>LAD ML −167 × Ohtani O1.5 TB −125 (Build C Tier 2 — hig</td>
+        <td class="mono">+188</td>
+        <td class="mono">+6.0</td>
+        <td><span class="badge tbd">TBD</span></td>
+      </tr>
+      <tr>
+        <td class="mono">6/11</td>
         <td>LAD ML −166 × Ohtani O1.5 TB −120 (Build B — correlated</td>
         <td class="mono">+194</td>
         <td class="mono">+6.7</td>
@@ -989,7 +1003,7 @@ tbody tr:hover{background:var(--surf2)}
     <table><thead><tr><th>Date</th><th>Runs</th><th>Result</th><th>Summary</th></tr></thead><tbody>
       <tr>
         <td class="mono">2026-06-11</td>
-        <td class="mono muted">11:00 / 16:00</td>
+        <td class="mono muted">11:00 / 16:00 / 18:00</td>
         <td><span class="badge win">✅ W</span></td>
         <td class="muted small">- **STL 4 @ NYM 5 — NYM ML −138 (Build A Tier 1 + bankroll roll 1 + USER PARLAY): WON ✅** - **AZ 0 @ MIA 2 — MIA ML −115 (Build A </td>
       </tr>
