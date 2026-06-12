@@ -223,6 +223,13 @@ def main():
             continue
         if "$" in c[3] or "$" in (c[4] if len(c) > 4 else "") or "user" in ticket_txt.lower():
             continue
+        # Skip prob-tracked correlated rows: these put naive%/true%/edge in the stake/return/PL
+        # columns (e.g. "+194 | 33.5% | 40.7% | +6.7"), not real flat-1u stakes. A '%' in the
+        # stake or return column flags such a row → exclude from the unit-ROI (matches the
+        # dashboard parser, which already excludes them). (Bug 6/12/26: settling these correlated
+        # 6/11 rows made calib read 33.5u stakes → 112u staked / +24.99u vs the true flat-1u +7.39u.)
+        if "%" in c[3] or "%" in (c[4] if len(c) > 4 else ""):
+            continue
         stake = parse_num(c[3])
         ret = parse_num(c[4])
         pl = parse_num(c[5])
