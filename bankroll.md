@@ -65,13 +65,13 @@ P(4 straight wins in an attempt) ≈ 0.60⁴ ≈ **13%** → expect ~8 attempts 
 | 3 | 6/10 | 3 | $30.33 | LAD ML −195 (BetUS, 1.513) | 67% | **LOSS** (LAD 8-9 PIT) | **$0.00** | **Attempt 3 BUSTS at roll 3.** Ohtani-led LAD blew a lead, PIT walked it off 9-8 (B2 dog cashed). The full-rollover risk realized — 2 wins ($10→$30.33) wiped to $0. Restart attempt 4 at $10 next slate (6/11). |
 | 4 | 6/11 | 1 | $10.00 | NYM ML −138 (BetUS, 1.725) | 59% | **WIN** (NYM 5-4 STL) | **$17.25** | Roll 1 CASHED — Christian Scott (10.25 K/9 ace edge, +2.4pp) held STL to 4, NYM won 5-4. $10×1.725 = $17.25. Roll 2 next. |
 | 4 | 6/11 | 2 | $17.25 | — NO BET — | — | — | $17.25 (carries) | At the 16:00 run the only pre-game fav left is LAD −166, but its devigged edge is **+0.9pp — under the +2pp gate** (SEA coin-flip, ATL is an A/D fade). No qualifying favorite → NO BET, balance carries to next slate. |
-| 4 | 6/12 | 2 | $17.25 | SEA ML −140 (BetUS, 1.714) | 60% | **TBD** | _pending_ | Roll 2 (11:00 build). Safest qualifying fav clearing the +2pp gate: Bryce Miller red-hot (1.33 ERA / 0.78 WHIP, last out 6IP/0ER/9K @ DET) vs WSH + soft Littell. No-vig 57.2% → TrueP 60% (+2.8pp). Not an A-list fade. $17.25×1.714 = **$29.57** on a win → roll 3. (TB −160 at 62% is the higher-floor band but +1.9pp = under the gate; SEA is the cleanly-gated pick.) |
+| 4 | 6/12 | 2 | $17.25 | SEA ML −138 (BetOnline, 1.725) | 60% | **TBD** | _pending_ | Roll 2 — **CONFIRMED at 16:00** (lineups posted, SEA@WSH both sides; line 2¢ shorter −140→−138). Safest qualifying fav clearing the +2pp gate: Bryce Miller red-hot (1.33 ERA / 0.78 WHIP, 6IP/0ER/9K @ DET 6/6) vs WSH + soft Littell. No-vig 56.7% → TrueP 60% (**+3.3pp**). Not an A-list fade. $17.25×1.725 = **$29.74** on a win → roll 3. (TB −162 at 62% is the higher-floor band but +1.6pp = under the gate; SEA is the cleanly-gated pick.) |
 
 ---
 
 ## Running totals (update on every settle)
 
-- **Current:** **Attempt 4 OPEN — 1-0; roll 2 SET 6/12 (TBD):** SEA ML −140 (BetUS, 1.714), balance $17.25 → $29.57 on a win. (Roll 1 WON 6/11: NYM ML −138, NYM 5-4 → $10→$17.25. The 6/11 16:00 roll-2 slot was NO BET — nothing cleared the gate; this is the carried roll 2.)
+- **Current:** **Attempt 4 OPEN — 1-0; roll 2 CONFIRMED 6/12 16:00 (TBD):** SEA ML −138 (BetOnline, 1.725), balance $17.25 → $29.74 on a win. (Roll 1 WON 6/11: NYM ML −138, NYM 5-4 → $10→$17.25. The 6/11 16:00 roll-2 slot was NO BET — nothing cleared the gate; this is the carried roll 2.)
   (Attempt 3 BUSTED 6/10 at roll 3; Attempt 2 COMPLETE 6/8 — 🎯 4-WIN TARGET HIT, withdrew $65.48.)
 - **Attempts:** 3 completed + **1 open (attempt 4, 1-0)** · **Targets hit (4 wins):** **1** ✅ · **Busts:** 2 (attempt 1 @ roll 1, attempt 3 @ roll 3) · **Best run:** **4 wins (attempt 2 — TARGET)**
 - **Total real risk (attempts × $10):** **$40.00** risked (attempt 4's $10 now in play) · **Total withdrawn:** **$65.48**
