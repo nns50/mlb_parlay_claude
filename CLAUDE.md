@@ -13,6 +13,11 @@ leg against data.
 - `bankroll.md` — the $10 rollover-ladder ledger (current balance + rules). Read for the live balance
   before picking the bankroll bet.
 - 3 most-recent `parlays/*.md` — captured lessons + the full narrative of every burn.
+- `nrfi_tracker.md` — standalone NRFI/YRFI (1st-inning O/U) ledger. **Update EVERY run** (NOT part of the
+  3-tier build): settle any TBD prior-day/early-game reads off the 1st-inning line score (`mlb_api.sh raw
+  "schedule?...&hydrate=linescore,team"` → `innings[0]` away+home runs; 0 = NRFI, >0 = YRFI), then refresh
+  "Tonight's reads" with one model-lean per game (pre-registered TrueP; model-only/no-bet unless a real
+  `totals_1st_1_innings` line clears +2pp). The dashboard renders it, so a stale tracker = a stale dashboard list.
 
 CLAUDE.md is crisp **doctrine**; those files are **live data**. Burn tags below — e.g.
 `(burn 5/27 LAD/COL → fades.md D2)` — point to the full account; don't re-paste burn narratives here.

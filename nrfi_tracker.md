@@ -29,13 +29,15 @@ Its own ledger lives here; the dashboard renders it from this file.
 
 ---
 
-## Tonight's reads — 2026-06-10 (model leans, un-priced; pull `totals_1st_1_innings` at the book)
+## Tonight's reads — 2026-06-11 (model leans, un-priced; pull `totals_1st_1_innings` at the book)
+
+> At the 18:00 ET run only 3 games remain pre-game; the earlier 6/11 slate is final. These are the live reads.
 
 | # | Matchup | Starters | Lean | TrueP | Why (1st-inning read) |
 |---|---------|----------|------|-------|------------------------|
-| 1 | **ATL @ CWS** | Sale (ATL) vs Davis Martin (CWS) | **NRFI (Under 0.5)** | ~60% | Sale (2.23 ERA, 10.65 K/9) routinely sets down a contact-average CWS top 1-2-3; the only YRFI risk is ATL's strong top (Harris/Albies/Olson) vs back-end Martin. Lean NRFI but Martin is the swing factor — not a lock. |
-| 2 | **MIN @ DET** | Paredes (MIN) vs Valdez (DET) | **NRFI (Under 0.5)** | ~61% | Valdez is an elite sinker/ground-ball arm (weak early contact, low 1st-inning run rate) and MIN's bats are cold (L10 3-7). Paredes weak, but DET's top must manufacture a run vs a GB arm's mirror. Cleanest NRFI of the three. |
-| 3 | **LAD @ PIT** | Ohtani (LAD) vs Jared Jones (PIT) | **YRFI (Over 0.5)** | ~56% | LAD's top is the board's most dangerous (Ohtani leadoff, Betts, Freeman) vs Jones — a real 1st-inning run threat; it only takes that one half. Ohtani shuts PIT's weak top down, but the LAD side carries YRFI. Slight YRFI lean. |
+| 1 | **LAD @ PIT** | Wrobleski (LAD) vs Keller (PIT) | **YRFI (Over 0.5)** | ~57% | LAD's top (Ohtani leadoff / Betts / Freeman) is the board's most dangerous vs hittable Mitch Keller (4.81 ERA); wind 11 mph out to LF at PNC adds early offense. Wrobleski (2.62, contact arm) quiets PIT's weak top, so the over rides the LAD side — but that's the live one. Slight YRFI lean. |
+| 2 | **ATL @ CWS** | Martín Pérez (ATL) vs Anthony Kay (CWS) | **YRFI (Over 0.5)** | ~56% | Two back-end/soft-contact arms (Pérez ~4.5, Kay swing-type) — neither misses bats early. ATL's top can string it together and CWS's hot home offense (L15 10-5, +27) is a 1st-inning threat too. Both half-innings live → mild YRFI. |
+| 3 | **SEA @ BAL** | Bryan Woo (SEA) vs Kyle Bradish (BAL) | **NRFI (Under 0.5)** | ~55% | The cleanest NRFI of the three — Woo (3.74, strike-thrower) and Bradish both work fast early; SEA's and BAL's 1-2-3 are league-average, no loaded-top threat. Mild NRFI lean. |
 
 > Pull the real 1st-inning total + devig at first pitch; promote any read clearing +2pp into the ledger
 > below with a pre-registered TrueP and the book price. Re-check lineups (a rested leadoff bat flips a read).
@@ -46,19 +48,23 @@ Its own ledger lives here; the dashboard renders it from this file.
 
 | Date | Matchup | Pick | TrueP | Price | Result | Reasoning (why this pick) |
 |------|---------|------|-------|-------|--------|----------------------------|
-| 6/10 | ATL @ CWS (Sale/Martin) | NRFI | 60% | _model-only (no bet)_ | TBD | **Pitching:** Sale ace (2.23 ERA / 10.65 K9) routinely retires a contact-average CWS top 1-2-3 in order. **Bats:** CWS top is league-avg (23% K vs LHP), no early-power threat. **YRFI risk:** ATL's strong top (Harris/Albies/Olson) vs back-end Davis Martin — the one half that can break NRFI. **Net:** lean NRFI ~60%, but Martin is the swing factor (not a lock). |
-| 6/10 | MIN @ DET (Paredes/Valdez) | NRFI | 61% | _model-only (no bet)_ | TBD | **Pitching:** Valdez is an elite sinker/ground-ball arm — weak early contact, low 1st-inning run rate; the cleanest NRFI starter on the board. **Bats:** MIN's offense is cold (L10 3-7), unlikely to manufacture vs a GB arm. **YRFI risk:** Paredes (weak) means DET's top could score, but they'd have to string it together in the 1st. **Net:** cleanest NRFI of the three ~61%. |
+| 6/10 | ATL @ CWS (Sale/Martin) | NRFI | 60% | _model-only (no bet)_ | **W** | **Pitching:** Sale ace (2.23 ERA / 10.65 K9) routinely retires a contact-average CWS top 1-2-3 in order. **Bats:** CWS top is league-avg (23% K vs LHP), no early-power threat. **YRFI risk:** ATL's strong top (Harris/Albies/Olson) vs back-end Davis Martin — the one half that can break NRFI. **Net:** lean NRFI ~60%, but Martin is the swing factor (not a lock). **Result:** 1st inning 0-0 → NRFI occurred, **lean correct (W).** |
+| 6/10 | MIN @ DET (Paredes/Valdez) | NRFI | 61% | _model-only (no bet)_ | **W** | **Pitching:** Valdez is an elite sinker/ground-ball arm — weak early contact, low 1st-inning run rate; the cleanest NRFI starter on the board. **Bats:** MIN's offense is cold (L10 3-7), unlikely to manufacture vs a GB arm. **YRFI risk:** Paredes (weak) means DET's top could score, but they'd have to string it together in the 1st. **Net:** cleanest NRFI of the three ~61%. **Result:** 1st inning 0-0 → NRFI occurred, **lean correct (W)** — note DET still won the game 11-... blowout, but the 1st was clean. |
 | 6/10 | LAD @ PIT (Ohtani/Jones) | YRFI | 56% | _model-only (no bet)_ | **L** | **Thesis (YRFI):** LAD's top is the board's most dangerous (Ohtani leadoff, Betts, Freeman) vs hittable Jared Jones — a real 1st-inning run threat, and it only takes that one half-inning. Ohtani shuts PIT's weak top down, so the over rode entirely on the LAD side. **Result:** 1st inning 0-0 (LAD 0, PIT 0) — NRFI occurred, **lean MISSED.** Both starters threw clean 1sts; LAD's elite top didn't cash early. Calibration: the pitching-first bias beat the bats-first read. |
+| 6/11 | LAD @ PIT (Wrobleski/Keller) | YRFI | 57% | _model-only (no bet)_ | TBD | LAD's elite top (Ohtani/Betts/Freeman) vs hittable Keller (4.81); wind 11 out to LF @ PNC. Wrobleski quiets PIT's weak top → over rides the LAD side. Slight YRFI. **⚠ Note the 6/10 LAD@PIT YRFI MISSED (1st 0-0) — same LAD-top thesis; downgraded confidence accordingly.** |
+| 6/11 | ATL @ CWS (Pérez/Kay) | YRFI | 56% | _model-only (no bet)_ | TBD | Two soft-contact/back-end arms; ATL top + hot CWS home offense (L15 10-5/+27) both live in the 1st. Mild YRFI. |
+| 6/11 | SEA @ BAL (Woo/Bradish) | NRFI | 55% | _model-only (no bet)_ | TBD | Cleanest NRFI of the three — Woo + Bradish both work fast early, neither top is loaded. Mild NRFI. |
 
 ---
 
 ## Running totals (update on every settle)
-- **Record:** 0-1 (tracker opened 6/10/26). **NRFI:** 0-0 · **YRFI:** 0-1.
+- **Record:** **2-1** (tracker opened 6/10/26). **NRFI:** **2-0** · **YRFI:** **0-1**.
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
-- **Open:** ATL @ CWS (NRFI) + MIN @ DET (NRFI) — both TBD (CWS warmup / DET rain-delayed at settle time);
-  settle off the 1st-inning line score on the next run.
-- **Settled 6/10:** LAD @ PIT YRFI **L** (1st 0-0). First calibration point: a YRFI lean on an elite top
-  missed because both aces' mirror held — reinforces the doctrine's NRFI/pitching-first bias.
+- **Open:** 6/11 LAD@PIT (YRFI), ATL@CWS (YRFI), SEA@BAL (NRFI) — all TBD, settle off the 1st-inning line score next run.
+- **Settled 6/10:** ATL@CWS NRFI **W** (1st 0-0), MIN@DET NRFI **W** (1st 0-0), LAD@PIT YRFI **L** (1st 0-0).
+  **Calibration:** all three 6/10 games went NRFI in the 1st — the two NRFI/pitching-first leans cashed, the
+  lone YRFI (bats-first on LAD's top) missed. Reinforces the doctrine's NRFI/pitching-first bias; the 6/11
+  LAD@PIT YRFI is flagged as the same thesis that just missed.
 
 > Tracked like `fades.md` / `bankroll.md`: any change → commit → push → PR → squash-merge.
 > Settle each row off `mlb_api.sh` box scores (1st-inning line score) the next morning.
