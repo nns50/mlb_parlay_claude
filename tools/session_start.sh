@@ -96,6 +96,20 @@ else
   echo "  (StatsAPI blocked or date unknown — use the WebSearch settle gate)"
 fi
 
+# 2b. NRFI/YRFI auto-settle — deterministic 1st-inning W/L stamping (nrfi_tracker.md)
+#     Mirrors clv_capture.py --apply: writes the Result cell from the 1st-inning line score so
+#     the standalone tracker never goes stale if the run prompt skips it. Idempotent (only final
+#     TBD rows are touched). Settles YESTERDAY (the 11:00 target) AND TODAY (early games done by
+#     the 16:00/18:00 runs). Read-only on non-final games. (Added 6/12/26 after the tracker
+#     silently went stale 6/11.)
+hdr "2b. NRFI/YRFI auto-settle (nrfi_tracker.md — 1st-inning W/L, --apply)"
+if [[ "$LIVE" == "1" && -f "./tools/nrfi_settle.py" ]]; then
+  python3 "./tools/nrfi_settle.py" "$YESTERDAY" --apply 2>/dev/null | grep -E "wrote|record now|nothing to write|no TBD" || true
+  python3 "./tools/nrfi_settle.py" "$TODAY"     --apply 2>/dev/null | grep -E "wrote|record now|nothing to write|no TBD" || true
+else
+  echo "  (StatsAPI blocked or tools/nrfi_settle.py missing — settle the tracker by hand)"
+fi
+
 # 3. Standings — deterministic fade re-verification (L10 / streak / run diff)
 hdr "3. Standings — fade re-verify (cross-check A/B entries vs L10 + run diff)"
 if [[ "$LIVE" == "1" ]]; then

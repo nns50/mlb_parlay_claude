@@ -96,6 +96,23 @@ assert changed==[10], f"apply must touch ONLY the CLV cell (idx 10); touched {ch
 PY
 then ok "verdict rejects garbage line; apply edits ONLY the CLV cell"; else no "clv_capture" "$(cat /tmp/_selftest_out)"; fi
 
+# ── 5b. nrfi_settle.py — verdict mapping + matchup parse ──────────────────────
+echo "5b. nrfi_settle (NRFI/YRFI W/L logic)"
+if python3 - <<'PY' 2>/tmp/_selftest_out
+import importlib.util as u
+s=u.spec_from_file_location("n","tools/nrfi_settle.py"); m=u.module_from_spec(s); s.loader.exec_module(m)
+# NRFI wins iff the 1st inning is scoreless; YRFI is its mirror.
+assert m.verdict_for("NRFI",(0,0))[0]=="W", "NRFI vs 0-0 must be W"
+assert m.verdict_for("NRFI",(1,0))[0]=="L", "NRFI vs 1-0 must be L"
+assert m.verdict_for("YRFI",(0,0))[0]=="L", "YRFI vs 0-0 must be L"
+assert m.verdict_for("YRFI",(0,2))[0]=="W", "YRFI vs 0-2 must be W"
+assert m.matchup_teams("ATL @ CWS (Sale/Martin)")==("ATL","CWS"), "matchup parse"
+assert m.matchup_teams("LAD @ PIT (Wrobleski/Keller)")==("LAD","PIT")
+# alias normalization (StatsAPI CHW -> tracker CWS)
+assert m.norm("CHW")=="CWS" and m.norm("ARI")=="AZ"
+PY
+then ok "verdict_for NRFI/YRFI ↔ 1st-inning total; matchup+alias parse"; else no "nrfi_settle" "$(cat /tmp/_selftest_out)"; fi
+
 # ── 6. parlay.py — fractional footgun rejected, normal math intact ───────────
 echo "6. parlay.py"
 if ./tools/parlay.py --leg 0.6:-150 --leg 0.55:+120 >/tmp/_selftest_out 2>&1; then
