@@ -331,12 +331,13 @@ def parse_latest_build() -> dict:
         if m.group(2):
             out['credits_used'] = int(m.group(2).replace(',', ''))
 
-    # Last "## Run HH:MM" block
-    runs = list(re.finditer(r'## Run (\d+:\d+) ET[^\n]*\n', text))
+    # Last "## Run ..." block — matches "## Run 11:00 ET — Build A" AND
+    # off-schedule headers like "## Run (user-requested) — Build A".
+    runs = list(re.finditer(r'## Run ([^\n]+?)\s*\n', text))
     if not runs:
         return out
     last = runs[-1]
-    out['run'] = last.group(1)
+    out['run'] = re.sub(r'\s*—.*$', '', last.group(1)).strip()
     block = text[last.end():]
     nxt = re.search(r'\n## (?!#)', block)   # next H2 ends the run block
     if nxt:
