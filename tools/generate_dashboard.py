@@ -400,7 +400,7 @@ def parse_nrfi() -> dict:
     """Parse nrfi_tracker.md ledger table → rows + NRFI/YRFI W-L record."""
     path = REPO / "nrfi_tracker.md"
     if not path.exists():
-        return {'rows': [], 'nrfi': (0, 0), 'yrfi': (0, 0), 'total': (0, 0)}
+        return {'rows': [], 'by_day': [], 'nrfi': (0, 0), 'yrfi': (0, 0), 'total': (0, 0)}
     text = path.read_text(encoding='utf-8')
     rows = []
     nw = nl = yw = yl = 0
@@ -424,7 +424,28 @@ def parse_nrfi() -> dict:
             'note': strip_md(row.get('Reasoning (why this pick)')
                              or row.get('Reasoning') or row.get('Note') or ''),
         })
-    return {'rows': rows, 'nrfi': (nw, nl), 'yrfi': (yw, yl),
+    # group by day (preserve chronological append order) + per-day win%
+    by_day = []
+    day_index = {}
+    for r in rows:
+        d = r['date']
+        grp = day_index.get(d)
+        if grp is None:
+            grp = {'date': d, 'rows': [], 'w': 0, 'l': 0, 'tbd': 0}
+            day_index[d] = grp
+            by_day.append(grp)
+        grp['rows'].append(r)
+        if r['result'] == 'W':
+            grp['w'] += 1
+        elif r['result'] == 'L':
+            grp['l'] += 1
+        else:
+            grp['tbd'] += 1
+    for grp in by_day:
+        settled = grp['w'] + grp['l']
+        grp['settled'] = settled
+        grp['pct'] = (100.0 * grp['w'] / settled) if settled else None
+    return {'rows': rows, 'by_day': by_day, 'nrfi': (nw, nl), 'yrfi': (yw, yl),
             'total': (nw + yw, nl + yl)}
 
 
@@ -709,7 +730,7 @@ def clv_vs_roi_data(results: dict) -> dict:
 def render_html(rolls, results, parlays_list, summary, br_data, clv_data,
                 trend_data, types, edges, fades, pl_data, clvroi_data,
                 latest_build, nrfi=None) -> str:
-    nrfi = nrfi or {'rows': [], 'nrfi': (0, 0), 'yrfi': (0, 0), 'total': (0, 0)}
+    nrfi = nrfi or {'rows': [], 'by_day': [], 'nrfi': (0, 0), 'yrfi': (0, 0), 'total': (0, 0)}
     now = datetime.now()
     updated = now.strftime('%Y-%m-%d %H:%M ET')
     # Freshness: most recent parlay file date vs today
@@ -972,20 +993,22 @@ def render_html(rolls, results, parlays_list, summary, br_data, clv_data,
         <td><span class="tag {st_cls}">{fd['status']}</span></td>
       </tr>"""
 
-    # NRFI / YRFI first-inning tracker table
-    nrfi_rows_html = ''
-    for nr in nrfi['rows']:
-        if nr['result'] == 'W':
-            rc, rtxt = 'win', 'W'
-        elif nr['result'] == 'L':
-            rc, rtxt = 'loss', 'L'
-        else:
-            rc, rtxt = 'muted', 'TBD'
-        pick_cls = 'pos' if nr['pick'] == 'NRFI' else ''
-        tp = f"{nr['truep']:.0f}%" if nr['truep'] is not None else '—'
-        nrfi_rows_html += f"""
+    # NRFI / YRFI first-inning tracker — grouped per day (most recent first),
+    # each day showing its own W-L record + win% so the daily picks are easy to scan.
+    nrfi_days_html = ''
+    for grp in reversed(nrfi.get('by_day', [])):
+        rows_html = ''
+        for nr in grp['rows']:
+            if nr['result'] == 'W':
+                rc, rtxt = 'win', 'W'
+            elif nr['result'] == 'L':
+                rc, rtxt = 'loss', 'L'
+            else:
+                rc, rtxt = 'muted', 'TBD'
+            pick_cls = 'pos' if nr['pick'] == 'NRFI' else ''
+            tp = f"{nr['truep']:.0f}%" if nr['truep'] is not None else '—'
+            rows_html += f"""
       <tr>
-        <td class="mono">{nr['date']}</td>
         <td>{nr['matchup']}</td>
         <td><span class="tag {pick_cls}">{nr['pick']}</span></td>
         <td class="mono">{tp}</td>
@@ -993,6 +1016,25 @@ def render_html(rolls, results, parlays_list, summary, br_data, clv_data,
         <td class="mono {rc}">{rtxt}</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">{nr['note']}</td>
       </tr>"""
+        settled = grp['settled']
+        if grp['pct'] is not None:
+            pct_cls = 'pos' if grp['pct'] >= 50 else 'neg'
+            day_badge = (f'<span class="mono {pct_cls}">{grp["w"]}-{grp["l"]}'
+                         f' · {grp["pct"]:.0f}% W</span>')
+        else:
+            day_badge = '<span class="mono muted">pending</span>'
+        tbd_txt = f' · {grp["tbd"]} open' if grp['tbd'] else ''
+        meta = f'{settled} settled{tbd_txt}' if settled else f'{grp["tbd"]} open'
+        nrfi_days_html += f"""
+    <details class="nrfi-day" open>
+      <summary>
+        <span class="nrfi-day-date mono">{grp['date']}</span>
+        {day_badge}
+        <span class="muted small">{meta}</span>
+      </summary>
+      <table><thead><tr><th>Matchup</th><th>Pick</th><th>TrueP</th><th>Price</th><th>Result</th><th>Reasoning</th></tr></thead>
+      <tbody>{rows_html}</tbody></table>
+    </details>"""
     nw, nl = nrfi['nrfi']; yw, yl = nrfi['yrfi']; tw, tl = nrfi['total']
     nrfi_rec = f"{tw}-{tl}"
     nrfi_sub = f"NRFI {nw}-{nl} · YRFI {yw}-{yl}"
@@ -1257,6 +1299,15 @@ section{{scroll-margin-top:96px}}
 .tcard{{background:var(--surf);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:6px;overflow-x:auto}}
 .tcard h2{{font-size:13px;font-weight:600;margin-bottom:3px;letter-spacing:-.2px}}
 .tcard .sub{{font-size:11px;color:var(--muted);margin-bottom:13px}}
+.nrfi-day{{border:1px solid var(--border);border-radius:8px;margin-bottom:10px;overflow:hidden}}
+.nrfi-day>summary{{cursor:pointer;list-style:none;padding:9px 13px;display:flex;align-items:center;gap:12px;background:var(--surf);font-size:12px;user-select:none}}
+.nrfi-day>summary::-webkit-details-marker{{display:none}}
+.nrfi-day>summary::before{{content:"▸";color:var(--muted);font-size:10px;transition:transform .15s}}
+.nrfi-day[open]>summary::before{{transform:rotate(90deg)}}
+.nrfi-day>summary:hover{{background:var(--border)}}
+.nrfi-day-date{{font-weight:700;font-size:13px;letter-spacing:-.2px}}
+.nrfi-day>summary span:last-child{{margin-left:auto}}
+.nrfi-day table{{margin:0}}
 table{{width:100%;border-collapse:collapse}}
 thead th{{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;text-align:left;padding:7px 10px;border-bottom:1px solid var(--border);position:sticky;user-select:none}}
 thead th:hover{{color:var(--text)}}
@@ -1480,8 +1531,8 @@ tbody tr:hover{{background:var(--surf2)}}
   <div class="section-title" id="nrfi">First-inning tracker (NRFI / YRFI)</div>
   <div class="tcard">
     <h2>NRFI / YRFI record &amp; tracked reads <span class="mono {('pos' if tw > tl else 'neg' if tl > tw else '')}">{nrfi_rec}</span></h2>
-    <div class="sub">From nrfi_tracker.md · NRFI = Under 0.5 runs in the 1st, YRFI = Over 0.5 · {nrfi_sub} · reasoning shown per pick · separate from the parlay ledger</div>
-    {'<table><thead><tr><th>Date</th><th>Matchup</th><th>Pick</th><th>TrueP</th><th>Price</th><th>Result</th><th>Reasoning</th></tr></thead><tbody>' + nrfi_rows_html + '</tbody></table>' if nrfi['rows'] else '<p class="no-data">No first-inning reads logged yet.</p>'}
+    <div class="sub">From nrfi_tracker.md · NRFI = Under 0.5 runs in the 1st, YRFI = Over 0.5 · overall {nrfi_sub} · grouped by day with daily win% · separate from the parlay ledger</div>
+    {nrfi_days_html if nrfi['rows'] else '<p class="no-data">No first-inning reads logged yet.</p>'}
   </div>
   </section>
 
