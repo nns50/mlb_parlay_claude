@@ -81,8 +81,8 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 6/12 | TB @ LAA (McClanahan/Aldegheri) | NRFI | 55% | _model-only_ | **L** (1st 0-2 → YRFI) | McClanahan shuts a weak LAA top early. |
 | 6/12 | COL @ ATH (TBD/Jump) | YRFI | 53% | _model-only (TBD SP)_ | **L** (1st 0-0 → NRFI) | ATH bats vs uncertain COL arm; soft. |
 | 6/12 | CHC @ SF (Assad/Roupp) | NRFI | 55% | _model-only_ | **W** (1st 0-0 → NRFI) | Pitcher-friendly Oracle, two mid arms. |
-| 6/13 | STL @ MIN (Liberatore/Prielipp) | NRFI | 54% | _model-only_ | TBD | Two contact arms; weak MIN top. |
-| 6/13 | NYY @ TOR (Schlittler/Gausman) | YRFI | 54% | _model-only_ | TBD | NYY loaded top is the live half. |
+| 6/13 | STL @ MIN (Liberatore/Prielipp) | NRFI | 54% | _model-only_ | **L** (1st 2-0 → YRFI) | Two contact arms; weak MIN top. |
+| 6/13 | NYY @ TOR (Schlittler/Gausman) | YRFI | 54% | _model-only_ | **L** (1st 0-0 → NRFI) | NYY loaded top is the live half. |
 | 6/13 | SD @ BAL (Vásquez/Gibson) | NRFI | 53% | _model-only_ | TBD | SD top slumping; rookie Gibson. |
 | 6/13 | SEA @ WSH (Castillo/Cavalli) | NRFI | 54% | _model-only_ | TBD | Castillo clean 1sts; tops not loaded. |
 | 6/13 | MIA @ PIT (Bachar/Chandler) | YRFI | 53% | _model-only_ | TBD | Uncertain arms + MIA hot bats. |
@@ -100,7 +100,7 @@ Its own ledger lives here; the dashboard renders it from this file.
 ---
 
 ## Running totals (update on every settle)
-- **Record:** **10-10** (tracker opened 6/10/26). **NRFI:** **6-6** · **YRFI:** **4-4**.
+- **Record:** **10-12** (tracker opened 6/10/26). **NRFI:** **6-7** · **YRFI:** **4-5**.
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
 - **Open:** **6/13: 15 model-only reads open** (settle off the 1st-inning line score next run). (6/12's 15 reads settled — see ledger; record now 10-10.)
 - **Settled 6/11** (auto via `nrfi_settle.py --apply`): LAD@PIT YRFI **L** (1st 0-0 → NRFI), SEA@BAL NRFI **L**
