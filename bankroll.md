@@ -65,16 +65,17 @@ P(4 straight wins in an attempt) ≈ 0.60⁴ ≈ **13%** → expect ~8 attempts 
 | 3 | 6/10 | 3 | $30.33 | LAD ML −195 (BetUS, 1.513) | 67% | **LOSS** (LAD 8-9 PIT) | **$0.00** | **Attempt 3 BUSTS at roll 3.** Ohtani-led LAD blew a lead, PIT walked it off 9-8 (B2 dog cashed). The full-rollover risk realized — 2 wins ($10→$30.33) wiped to $0. Restart attempt 4 at $10 next slate (6/11). |
 | 4 | 6/11 | 1 | $10.00 | NYM ML −138 (BetUS, 1.725) | 59% | **WIN** (NYM 5-4 STL) | **$17.25** | Roll 1 CASHED — Christian Scott (10.25 K/9 ace edge, +2.4pp) held STL to 4, NYM won 5-4. $10×1.725 = $17.25. Roll 2 next. |
 | 4 | 6/11 | 2 | $17.25 | — NO BET — | — | — | $17.25 (carries) | At the 16:00 run the only pre-game fav left is LAD −166, but its devigged edge is **+0.9pp — under the +2pp gate** (SEA coin-flip, ATL is an A/D fade). No qualifying favorite → NO BET, balance carries to next slate. |
-| 4 | 6/12 | 2 | $17.25 | SEA ML −138 (BetOnline, 1.725) | 60% | **TBD** | _pending_ | Roll 2 — **CONFIRMED at 16:00** (lineups posted, SEA@WSH both sides; line 2¢ shorter −140→−138). Safest qualifying fav clearing the +2pp gate: Bryce Miller red-hot (1.33 ERA / 0.78 WHIP, 6IP/0ER/9K @ DET 6/6) vs WSH + soft Littell. No-vig 56.7% → TrueP 60% (**+3.3pp**). Not an A-list fade. $17.25×1.725 = **$29.74** on a win → roll 3. (TB −162 at 62% is the higher-floor band but +1.6pp = under the gate; SEA is the cleanly-gated pick.) |
+| 4 | 6/12 | 2 | $17.25 | SEA ML −138 (BetOnline, 1.725) | 60% | **WIN** (SEA 10-2 WSH) | **$29.74** | Roll 2 CASHED — Bryce Miller dealt (8 IP / 2 ER / 7 K), SEA cruised 10-2. $17.25×1.725 = $29.74. Attempt 4 now **2-0** → roll 3 next. |
+| 4 | 6/13 | 3 | $29.74 | MIL ML −143 (BetRivers, 1.699) | 60% | **TBD** | _pending_ | Roll 3 — single safest fav **clearing the +2pp gate** (only one today): MIL 42-25/+109 elite, Drohan 3.11 fresh (6/7: 6.1IP/3ER) vs PHI's Nola 5.55 (D4 trap on PHI's side). No-vig 57.6% → TrueP 60% (**+2.4pp**); not an A-list fade. ⚠ Soft-band 60% (no 62-66% gated fav today: ATH −167 would be 63% but **Estes SP unverifiable — zero 2026 data, 9.82 2025 ERA**, fails the freshness gate). $29.74×1.699 = **$50.53** on a win → roll 4 (the target roll). |
 
 ---
 
 ## Running totals (update on every settle)
 
-- **Current:** **Attempt 4 OPEN — 1-0; roll 2 CONFIRMED 6/12 16:00 (TBD):** SEA ML −138 (BetOnline, 1.725), balance $17.25 → $29.74 on a win. (Roll 1 WON 6/11: NYM ML −138, NYM 5-4 → $10→$17.25. The 6/11 16:00 roll-2 slot was NO BET — nothing cleared the gate; this is the carried roll 2.)
+- **Current:** **Attempt 4 OPEN — 2-0; roll 3 today 6/13 (TBD):** MIL ML −143 (BetRivers, 1.699), balance $29.74 → **$50.53** on a win (roll 4 = the target). (Roll 1 WON 6/11 NYM 5-4 → $17.25; Roll 2 WON 6/12 SEA 10-2 → $29.74.)
   (Attempt 3 BUSTED 6/10 at roll 3; Attempt 2 COMPLETE 6/8 — 🎯 4-WIN TARGET HIT, withdrew $65.48.)
-- **Attempts:** 3 completed + **1 open (attempt 4, 1-0)** · **Targets hit (4 wins):** **1** ✅ · **Busts:** 2 (attempt 1 @ roll 1, attempt 3 @ roll 3) · **Best run:** **4 wins (attempt 2 — TARGET)**
-- **Total real risk (attempts × $10):** **$40.00** risked (attempt 4's $10 now in play) · **Total withdrawn:** **$65.48**
-- **Net P/L (withdrawn − deposited):** **+$25.48** realized (attempt 1 −$10; attempt 2 +$55.48; attempt 3 −$10; attempt 4 −$10 in-play, $17.25 live balance)
+- **Attempts:** 3 completed + **1 open (attempt 4, 2-0)** · **Targets hit (4 wins):** **1** ✅ · **Busts:** 2 (attempt 1 @ roll 1, attempt 3 @ roll 3) · **Best run:** **4 wins (attempt 2 — TARGET)**
+- **Total real risk (attempts × $10):** **$40.00** risked (attempt 4's $10 in play) · **Total withdrawn:** **$65.48**
+- **Net P/L (withdrawn − deposited):** **+$25.48** realized (attempt 1 −$10; attempt 2 +$55.48; attempt 3 −$10; attempt 4 −$10 in-play, **$29.74 live balance**, 2-0)
 
 > Tracked like `fades.md` / `results_log.md`: any change → commit → push → PR → squash-merge.
