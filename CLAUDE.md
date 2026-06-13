@@ -544,3 +544,11 @@ Keep it findings-focused (calibration: which rules held, which missed), not a bo
 - "Draft an email with Gmail" → the Gmail MCP connector IS configured (confirmed 5/27/26). Load
   `mcp__Gmail__create_draft` via ToolSearch, create the draft (to/subject/body), and show it inline.
   Fall back to a file in /home/user/ only if the server is genuinely disconnected (say so once).
+- **NRFI/YRFI digest goes in EVERY run's notification + email (user-requested 6/13/26).** Generate it
+  deterministically with `tools/nrfi_digest.py <today>` — don't hand-retype it:
+  - **Push notification** → append the one-liner from `nrfi_digest.py <today> --compact` (today's daily
+    win% + NRFI/YRFI pick counts).
+  - **Email** → append a `--- NRFI/YRFI <today> ---` section = the full `nrfi_digest.py <today> --format md`
+    (daily win% header + the day's picks table). The table is ADDITIONAL to the prose word limit.
+  - The digest reads `nrfi_tracker.md`, so settle (`nrfi_settle.py --apply`) BEFORE generating it so the
+    win% is current. The same daily-grouped view + per-day win% renders on the dashboard.
