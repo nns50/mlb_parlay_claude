@@ -86,10 +86,10 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 6/13 | SD @ BAL (Vásquez/Gibson) | NRFI | 53% | _model-only_ | TBD | SD top slumping; rookie Gibson. |
 | 6/13 | SEA @ WSH (Castillo/Cavalli) | NRFI | 54% | _model-only_ | TBD | Castillo clean 1sts; tops not loaded. |
 | 6/13 | MIA @ PIT (Bachar/Chandler) | YRFI | 53% | _model-only_ | TBD | Uncertain arms + MIA hot bats. |
-| 6/13 | AZ @ CIN (Soroka/Lowder) | NRFI | 54% | _model-only_ | TBD | Soroka clean early; CIN cold (GABP caveat). |
+| 6/13 | AZ @ CIN (Soroka/Lowder) | NRFI | 54% | _model-only_ | **L** (1st 1-0 → YRFI) | Soroka clean early; CIN cold (GABP caveat). |
 | 6/13 | DET @ CLE (Skubal/Cantillo) | NRFI | 56% | _model-only_ | TBD | Skubal K-stuff + weak CLE top. |
 | 6/13 | TEX @ BOS (deGrom/Suarez) | NRFI | 57% | _model-only_ | TBD | deGrom mows tops early; cleanest read. |
-| 6/13 | ATL @ NYM (Pérez/TBD) | YRFI | 55% | _model-only (TBD SP)_ | TBD | ATL elite top vs a TBD/opener. |
+| 6/13 | ATL @ NYM (Pérez/TBD) | YRFI | 55% | _model-only (TBD SP)_ | **L** (1st 0-0 → NRFI) | ATL elite top vs a TBD/opener. |
 | 6/13 | LAD @ CWS (Yamamoto/Burke) | YRFI | 54% | _model-only_ | TBD | LAD elite top vs Burke is the live half. |
 | 6/13 | HOU @ KC (Burrows/Cameron) | NRFI | 53% | _model-only_ | TBD | Two soft arms, both tops low-power. |
 | 6/13 | PHI @ MIL (Nola/Drohan) | YRFI | 55% | _model-only_ | TBD | PHI top strong; Nola 5.55 shaky early. |
@@ -100,7 +100,7 @@ Its own ledger lives here; the dashboard renders it from this file.
 ---
 
 ## Running totals (update on every settle)
-- **Record:** **10-12** (tracker opened 6/10/26). **NRFI:** **6-7** · **YRFI:** **4-5**.
+- **Record:** **10-14** (tracker opened 6/10/26). **NRFI:** **6-8** · **YRFI:** **4-6**.
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
 - **Open:** **6/13: 15 model-only reads open** (settle off the 1st-inning line score next run). (6/12's 15 reads settled — see ledger; record now 10-10.)
 - **Settled 6/11** (auto via `nrfi_settle.py --apply`): LAD@PIT YRFI **L** (1st 0-0 → NRFI), SEA@BAL NRFI **L**
