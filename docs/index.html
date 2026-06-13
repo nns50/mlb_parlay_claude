@@ -78,6 +78,15 @@ section{scroll-margin-top:96px}
 .tcard{background:var(--surf);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:6px;overflow-x:auto}
 .tcard h2{font-size:13px;font-weight:600;margin-bottom:3px;letter-spacing:-.2px}
 .tcard .sub{font-size:11px;color:var(--muted);margin-bottom:13px}
+.nrfi-day{border:1px solid var(--border);border-radius:8px;margin-bottom:10px;overflow:hidden}
+.nrfi-day>summary{cursor:pointer;list-style:none;padding:9px 13px;display:flex;align-items:center;gap:12px;background:var(--surf);font-size:12px;user-select:none}
+.nrfi-day>summary::-webkit-details-marker{display:none}
+.nrfi-day>summary::before{content:"▸";color:var(--muted);font-size:10px;transition:transform .15s}
+.nrfi-day[open]>summary::before{transform:rotate(90deg)}
+.nrfi-day>summary:hover{background:var(--border)}
+.nrfi-day-date{font-weight:700;font-size:13px;letter-spacing:-.2px}
+.nrfi-day>summary span:last-child{margin-left:auto}
+.nrfi-day table{margin:0}
 table{width:100%;border-collapse:collapse}
 thead th{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;text-align:left;padding:7px 10px;border-bottom:1px solid var(--border);position:sticky;user-select:none}
 thead th:hover{color:var(--text)}
@@ -119,7 +128,7 @@ tbody tr:hover{background:var(--surf2)}
 <body>
 <header>
   <h1>⚾ MLB Parlay Dashboard</h1>
-  <span class="updated"><span class="freshdot fresh">● live</span> · Updated 2026-06-13 22:09 ET</span>
+  <span class="updated"><span class="freshdot fresh">● live</span> · Updated 2026-06-13 22:30 ET</span>
 </header>
 <nav class="jump">
   <a href="#overview">Overview</a>
@@ -539,199 +548,17 @@ tbody tr:hover{background:var(--surf2)}
   <div class="section-title" id="nrfi">First-inning tracker (NRFI / YRFI)</div>
   <div class="tcard">
     <h2>NRFI / YRFI record &amp; tracked reads <span class="mono neg">10-12</span></h2>
-    <div class="sub">From nrfi_tracker.md · NRFI = Under 0.5 runs in the 1st, YRFI = Over 0.5 · NRFI 6-7 · YRFI 4-5 · reasoning shown per pick · separate from the parlay ledger</div>
-    <table><thead><tr><th>Date</th><th>Matchup</th><th>Pick</th><th>TrueP</th><th>Price</th><th>Result</th><th>Reasoning</th></tr></thead><tbody>
+    <div class="sub">From nrfi_tracker.md · NRFI = Under 0.5 runs in the 1st, YRFI = Over 0.5 · overall NRFI 6-7 · YRFI 4-5 · grouped by day with daily win% · separate from the parlay ledger</div>
+    
+    <details class="nrfi-day" open>
+      <summary>
+        <span class="nrfi-day-date mono">6/13</span>
+        <span class="mono neg">0-2 · 0% W</span>
+        <span class="muted small">2 settled · 13 open</span>
+      </summary>
+      <table><thead><tr><th>Matchup</th><th>Pick</th><th>TrueP</th><th>Price</th><th>Result</th><th>Reasoning</th></tr></thead>
+      <tbody>
       <tr>
-        <td class="mono">6/10</td>
-        <td>ATL @ CWS (Sale/Martin)</td>
-        <td><span class="tag pos">NRFI</span></td>
-        <td class="mono">60%</td>
-        <td class="mono muted small">_model-only (no bet)_</td>
-        <td class="mono win">W</td>
-        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Pitching: Sale ace (2.23 ERA / 10.65 K9) routinely retires a contact-average CWS top 1-2-3 in order. Bats: CWS top is league-avg (23% K vs LHP), no early-power threat. YRFI risk: ATL's strong top (Harris/Albies/Olson) vs back-end Davis Martin — the one half that can break NRFI. Net: lean NRFI ~60%, but Martin is the swing factor (not a lock). Result: 1st inning 0-0 → NRFI occurred, lean correct (W).</td>
-      </tr>
-      <tr>
-        <td class="mono">6/10</td>
-        <td>MIN @ DET (Paredes/Valdez)</td>
-        <td><span class="tag pos">NRFI</span></td>
-        <td class="mono">61%</td>
-        <td class="mono muted small">_model-only (no bet)_</td>
-        <td class="mono win">W</td>
-        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Pitching: Valdez is an elite sinker/ground-ball arm — weak early contact, low 1st-inning run rate; the cleanest NRFI starter on the board. Bats: MIN's offense is cold (L10 3-7), unlikely to manufacture vs a GB arm. YRFI risk: Paredes (weak) means DET's top could score, but they'd have to string it together in the 1st. Net: cleanest NRFI of the three ~61%. Result: 1st inning 0-0 → NRFI occurred, lean correct (W) — note DET still won the game 11-... blowout, but the 1st was clean.</td>
-      </tr>
-      <tr>
-        <td class="mono">6/10</td>
-        <td>LAD @ PIT (Ohtani/Jones)</td>
-        <td><span class="tag ">YRFI</span></td>
-        <td class="mono">56%</td>
-        <td class="mono muted small">_model-only (no bet)_</td>
-        <td class="mono loss">L</td>
-        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Thesis (YRFI): LAD's top is the board's most dangerous (Ohtani leadoff, Betts, Freeman) vs hittable Jared Jones — a real 1st-inning run threat, and it only takes that one half-inning. Ohtani shuts PIT's weak top down, so the over rode entirely on the LAD side. Result: 1st inning 0-0 (LAD 0, PIT 0) — NRFI occurred, lean MISSED. Both starters threw clean 1sts; LAD's elite top didn't cash early. Calibration: the pitching-first bias beat the bats-first read.</td>
-      </tr>
-      <tr>
-        <td class="mono">6/11</td>
-        <td>LAD @ PIT (Wrobleski/Keller)</td>
-        <td><span class="tag ">YRFI</span></td>
-        <td class="mono">57%</td>
-        <td class="mono muted small">_model-only (no bet)_</td>
-        <td class="mono loss">L</td>
-        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">LAD's elite top (Ohtani/Betts/Freeman) vs hittable Keller (4.81); wind 11 out to LF @ PNC. Wrobleski quiets PIT's weak top → over rides the LAD side. Slight YRFI. ⚠ Note the 6/10 LAD@PIT YRFI MISSED (1st 0-0) — same LAD-top thesis; downgraded confidence accordingly.</td>
-      </tr>
-      <tr>
-        <td class="mono">6/11</td>
-        <td>ATL @ CWS (Pérez/Kay)</td>
-        <td><span class="tag ">YRFI</span></td>
-        <td class="mono">56%</td>
-        <td class="mono muted small">_model-only (no bet)_</td>
-        <td class="mono muted">TBD</td>
-        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Two soft-contact/back-end arms; ATL top + hot CWS home offense (L15 10-5/+27) both live in the 1st. Mild YRFI.</td>
-      </tr>
-      <tr>
-        <td class="mono">6/11</td>
-        <td>SEA @ BAL (Woo/Bradish)</td>
-        <td><span class="tag pos">NRFI</span></td>
-        <td class="mono">55%</td>
-        <td class="mono muted small">_model-only (no bet)_</td>
-        <td class="mono loss">L</td>
-        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Cleanest NRFI of the three — Woo + Bradish both work fast early, neither top is loaded. Mild NRFI.</td>
-      </tr>
-      <tr>
-        <td class="mono">6/12</td>
-        <td>MIA @ PIT (Alcantara/Ashcraft)</td>
-        <td><span class="tag pos">NRFI</span></td>
-        <td class="mono">54%</td>
-        <td class="mono muted small">_model-only_</td>
-        <td class="mono win">W</td>
-        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Alcantara GB/sinker arm; both tops league-avg.</td>
-      </tr>
-      <tr>
-        <td class="mono">6/12</td>
-        <td>SEA @ WSH (Miller/Littell)</td>
-        <td><span class="tag pos">NRFI</span></td>
-        <td class="mono">58%</td>
-        <td class="mono muted small">_model-only_</td>
-        <td class="mono win">W</td>
-        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Cleanest read — Miller dominant early + Littell low-BB; no loaded top.</td>
-      </tr>
-      <tr>
-        <td class="mono">6/12</td>
-        <td>SD @ BAL (Canning/Baz)</td>
-        <td><span class="tag pos">NRFI</span></td>
-        <td class="mono">55%</td>
-        <td class="mono muted small">_model-only_</td>
-        <td class="mono loss">L</td>
-        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Baz K-stuff; SD top slumping (L10 3-7).</td>
-      </tr>
-      <tr>
-        <td class="mono">6/12</td>
-        <td>DET @ CLE (Flaherty/Bibee)</td>
-        <td><span class="tag pos">NRFI</span></td>
-        <td class="mono">54%</td>
-        <td class="mono muted small">_model-only_</td>
-        <td class="mono win">W</td>
-        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Two mid-rotation arms, league-avg tops.</td>
-      </tr>
-      <tr>
-        <td class="mono">6/12</td>
-        <td>TEX @ BOS (Leiter/Gray)</td>
-        <td><span class="tag pos">NRFI</span></td>
-        <td class="mono">55%</td>
-        <td class="mono muted small">_model-only_</td>
-        <td class="mono loss">L</td>
-        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Gray works clean 1sts; TEX top average.</td>
-      </tr>
-      <tr>
-        <td class="mono">6/12</td>
-        <td>AZ @ CIN (Rodriguez/Lodolo)</td>
-        <td><span class="tag ">YRFI</span></td>
-        <td class="mono">54%</td>
-        <td class="mono muted small">_model-only_</td>
-        <td class="mono loss">L</td>
-        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">GABP hitter park, two contact LHP.</td>
-      </tr>
-      <tr>
-        <td class="mono">6/12</td>
-        <td>ATL @ NYM (Strider/McLean)</td>
-        <td><span class="tag ">YRFI</span></td>
-        <td class="mono">54%</td>
-        <td class="mono muted small">_model-only_</td>
-        <td class="mono win">W</td>
-        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">ATL elite top vs McLean is the live half.</td>
-      </tr>
-      <tr>
-        <td class="mono">6/12</td>
-        <td>NYY @ TOR (Weathers/TBD)</td>
-        <td><span class="tag ">YRFI</span></td>
-        <td class="mono">55%</td>
-        <td class="mono muted small">_model-only (TBD SP)_</td>
-        <td class="mono win">W</td>
-        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">NYY top vs TBD/opener; soft, TBD arm.</td>
-      </tr>
-      <tr>
-        <td class="mono">6/12</td>
-        <td>LAD @ CWS (Sasaki/Kay)</td>
-        <td><span class="tag ">YRFI</span></td>
-        <td class="mono">57%</td>
-        <td class="mono muted small">_model-only_</td>
-        <td class="mono win">W</td>
-        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">LAD elite top vs Kay; CWS hot top vs walk-prone Sasaki.</td>
-      </tr>
-      <tr>
-        <td class="mono">6/12</td>
-        <td>PHI @ MIL (Painter/Misiorowski)</td>
-        <td><span class="tag ">YRFI</span></td>
-        <td class="mono">54%</td>
-        <td class="mono muted small">_model-only_</td>
-        <td class="mono win">W</td>
-        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Miso wild; PHI top strong.</td>
-      </tr>
-      <tr>
-        <td class="mono">6/12</td>
-        <td>HOU @ KC (Imai/Avila)</td>
-        <td><span class="tag pos">NRFI</span></td>
-        <td class="mono">53%</td>
-        <td class="mono muted small">_model-only_</td>
-        <td class="mono loss">L</td>
-        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Two rookies but KC low-power; hair NRFI.</td>
-      </tr>
-      <tr>
-        <td class="mono">6/12</td>
-        <td>STL @ MIN (Leahy/Ryan)</td>
-        <td><span class="tag pos">NRFI</span></td>
-        <td class="mono">57%</td>
-        <td class="mono muted small">_model-only_</td>
-        <td class="mono loss">L</td>
-        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Joe Ryan quiets STL early; Leahy vs weak MIN top.</td>
-      </tr>
-      <tr>
-        <td class="mono">6/12</td>
-        <td>TB @ LAA (McClanahan/Aldegheri)</td>
-        <td><span class="tag pos">NRFI</span></td>
-        <td class="mono">55%</td>
-        <td class="mono muted small">_model-only_</td>
-        <td class="mono loss">L</td>
-        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">McClanahan shuts a weak LAA top early.</td>
-      </tr>
-      <tr>
-        <td class="mono">6/12</td>
-        <td>COL @ ATH (TBD/Jump)</td>
-        <td><span class="tag ">YRFI</span></td>
-        <td class="mono">53%</td>
-        <td class="mono muted small">_model-only (TBD SP)_</td>
-        <td class="mono loss">L</td>
-        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">ATH bats vs uncertain COL arm; soft.</td>
-      </tr>
-      <tr>
-        <td class="mono">6/12</td>
-        <td>CHC @ SF (Assad/Roupp)</td>
-        <td><span class="tag pos">NRFI</span></td>
-        <td class="mono">55%</td>
-        <td class="mono muted small">_model-only_</td>
-        <td class="mono win">W</td>
-        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Pitcher-friendly Oracle, two mid arms.</td>
-      </tr>
-      <tr>
-        <td class="mono">6/13</td>
         <td>STL @ MIN (Liberatore/Prielipp)</td>
         <td><span class="tag pos">NRFI</span></td>
         <td class="mono">54%</td>
@@ -740,7 +567,6 @@ tbody tr:hover{background:var(--surf2)}
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Two contact arms; weak MIN top.</td>
       </tr>
       <tr>
-        <td class="mono">6/13</td>
         <td>NYY @ TOR (Schlittler/Gausman)</td>
         <td><span class="tag ">YRFI</span></td>
         <td class="mono">54%</td>
@@ -749,7 +575,6 @@ tbody tr:hover{background:var(--surf2)}
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">NYY loaded top is the live half.</td>
       </tr>
       <tr>
-        <td class="mono">6/13</td>
         <td>SD @ BAL (Vásquez/Gibson)</td>
         <td><span class="tag pos">NRFI</span></td>
         <td class="mono">53%</td>
@@ -758,7 +583,6 @@ tbody tr:hover{background:var(--surf2)}
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">SD top slumping; rookie Gibson.</td>
       </tr>
       <tr>
-        <td class="mono">6/13</td>
         <td>SEA @ WSH (Castillo/Cavalli)</td>
         <td><span class="tag pos">NRFI</span></td>
         <td class="mono">54%</td>
@@ -767,7 +591,6 @@ tbody tr:hover{background:var(--surf2)}
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Castillo clean 1sts; tops not loaded.</td>
       </tr>
       <tr>
-        <td class="mono">6/13</td>
         <td>MIA @ PIT (Bachar/Chandler)</td>
         <td><span class="tag ">YRFI</span></td>
         <td class="mono">53%</td>
@@ -776,7 +599,6 @@ tbody tr:hover{background:var(--surf2)}
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Uncertain arms + MIA hot bats.</td>
       </tr>
       <tr>
-        <td class="mono">6/13</td>
         <td>AZ @ CIN (Soroka/Lowder)</td>
         <td><span class="tag pos">NRFI</span></td>
         <td class="mono">54%</td>
@@ -785,7 +607,6 @@ tbody tr:hover{background:var(--surf2)}
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Soroka clean early; CIN cold (GABP caveat).</td>
       </tr>
       <tr>
-        <td class="mono">6/13</td>
         <td>DET @ CLE (Skubal/Cantillo)</td>
         <td><span class="tag pos">NRFI</span></td>
         <td class="mono">56%</td>
@@ -794,7 +615,6 @@ tbody tr:hover{background:var(--surf2)}
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Skubal K-stuff + weak CLE top.</td>
       </tr>
       <tr>
-        <td class="mono">6/13</td>
         <td>TEX @ BOS (deGrom/Suarez)</td>
         <td><span class="tag pos">NRFI</span></td>
         <td class="mono">57%</td>
@@ -803,7 +623,6 @@ tbody tr:hover{background:var(--surf2)}
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">deGrom mows tops early; cleanest read.</td>
       </tr>
       <tr>
-        <td class="mono">6/13</td>
         <td>ATL @ NYM (Pérez/TBD)</td>
         <td><span class="tag ">YRFI</span></td>
         <td class="mono">55%</td>
@@ -812,7 +631,6 @@ tbody tr:hover{background:var(--surf2)}
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">ATL elite top vs a TBD/opener.</td>
       </tr>
       <tr>
-        <td class="mono">6/13</td>
         <td>LAD @ CWS (Yamamoto/Burke)</td>
         <td><span class="tag ">YRFI</span></td>
         <td class="mono">54%</td>
@@ -821,7 +639,6 @@ tbody tr:hover{background:var(--surf2)}
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">LAD elite top vs Burke is the live half.</td>
       </tr>
       <tr>
-        <td class="mono">6/13</td>
         <td>HOU @ KC (Burrows/Cameron)</td>
         <td><span class="tag pos">NRFI</span></td>
         <td class="mono">53%</td>
@@ -830,7 +647,6 @@ tbody tr:hover{background:var(--surf2)}
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Two soft arms, both tops low-power.</td>
       </tr>
       <tr>
-        <td class="mono">6/13</td>
         <td>PHI @ MIL (Nola/Drohan)</td>
         <td><span class="tag ">YRFI</span></td>
         <td class="mono">55%</td>
@@ -839,7 +655,6 @@ tbody tr:hover{background:var(--surf2)}
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">PHI top strong; Nola 5.55 shaky early.</td>
       </tr>
       <tr>
-        <td class="mono">6/13</td>
         <td>COL @ ATH (Freeland/Estes)</td>
         <td><span class="tag ">YRFI</span></td>
         <td class="mono">56%</td>
@@ -848,7 +663,6 @@ tbody tr:hover{background:var(--surf2)}
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Two poor/unproven arms (Estes unverified).</td>
       </tr>
       <tr>
-        <td class="mono">6/13</td>
         <td>CHC @ SF (Brown/McDonald)</td>
         <td><span class="tag pos">NRFI</span></td>
         <td class="mono">54%</td>
@@ -857,7 +671,6 @@ tbody tr:hover{background:var(--surf2)}
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Oracle pitcher park, two mid arms.</td>
       </tr>
       <tr>
-        <td class="mono">6/13</td>
         <td>TB @ LAA (Jax/Soriano)</td>
         <td><span class="tag pos">NRFI</span></td>
         <td class="mono">53%</td>
@@ -865,6 +678,202 @@ tbody tr:hover{background:var(--surf2)}
         <td class="mono muted">TBD</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Soriano clean + Jax K-stuff vs weak LAA top.</td>
       </tr></tbody></table>
+    </details>
+    <details class="nrfi-day" open>
+      <summary>
+        <span class="nrfi-day-date mono">6/12</span>
+        <span class="mono pos">8-7 · 53% W</span>
+        <span class="muted small">15 settled</span>
+      </summary>
+      <table><thead><tr><th>Matchup</th><th>Pick</th><th>TrueP</th><th>Price</th><th>Result</th><th>Reasoning</th></tr></thead>
+      <tbody>
+      <tr>
+        <td>MIA @ PIT (Alcantara/Ashcraft)</td>
+        <td><span class="tag pos">NRFI</span></td>
+        <td class="mono">54%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono win">W</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Alcantara GB/sinker arm; both tops league-avg.</td>
+      </tr>
+      <tr>
+        <td>SEA @ WSH (Miller/Littell)</td>
+        <td><span class="tag pos">NRFI</span></td>
+        <td class="mono">58%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono win">W</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Cleanest read — Miller dominant early + Littell low-BB; no loaded top.</td>
+      </tr>
+      <tr>
+        <td>SD @ BAL (Canning/Baz)</td>
+        <td><span class="tag pos">NRFI</span></td>
+        <td class="mono">55%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono loss">L</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Baz K-stuff; SD top slumping (L10 3-7).</td>
+      </tr>
+      <tr>
+        <td>DET @ CLE (Flaherty/Bibee)</td>
+        <td><span class="tag pos">NRFI</span></td>
+        <td class="mono">54%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono win">W</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Two mid-rotation arms, league-avg tops.</td>
+      </tr>
+      <tr>
+        <td>TEX @ BOS (Leiter/Gray)</td>
+        <td><span class="tag pos">NRFI</span></td>
+        <td class="mono">55%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono loss">L</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Gray works clean 1sts; TEX top average.</td>
+      </tr>
+      <tr>
+        <td>AZ @ CIN (Rodriguez/Lodolo)</td>
+        <td><span class="tag ">YRFI</span></td>
+        <td class="mono">54%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono loss">L</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">GABP hitter park, two contact LHP.</td>
+      </tr>
+      <tr>
+        <td>ATL @ NYM (Strider/McLean)</td>
+        <td><span class="tag ">YRFI</span></td>
+        <td class="mono">54%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono win">W</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">ATL elite top vs McLean is the live half.</td>
+      </tr>
+      <tr>
+        <td>NYY @ TOR (Weathers/TBD)</td>
+        <td><span class="tag ">YRFI</span></td>
+        <td class="mono">55%</td>
+        <td class="mono muted small">_model-only (TBD SP)_</td>
+        <td class="mono win">W</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">NYY top vs TBD/opener; soft, TBD arm.</td>
+      </tr>
+      <tr>
+        <td>LAD @ CWS (Sasaki/Kay)</td>
+        <td><span class="tag ">YRFI</span></td>
+        <td class="mono">57%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono win">W</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">LAD elite top vs Kay; CWS hot top vs walk-prone Sasaki.</td>
+      </tr>
+      <tr>
+        <td>PHI @ MIL (Painter/Misiorowski)</td>
+        <td><span class="tag ">YRFI</span></td>
+        <td class="mono">54%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono win">W</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Miso wild; PHI top strong.</td>
+      </tr>
+      <tr>
+        <td>HOU @ KC (Imai/Avila)</td>
+        <td><span class="tag pos">NRFI</span></td>
+        <td class="mono">53%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono loss">L</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Two rookies but KC low-power; hair NRFI.</td>
+      </tr>
+      <tr>
+        <td>STL @ MIN (Leahy/Ryan)</td>
+        <td><span class="tag pos">NRFI</span></td>
+        <td class="mono">57%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono loss">L</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Joe Ryan quiets STL early; Leahy vs weak MIN top.</td>
+      </tr>
+      <tr>
+        <td>TB @ LAA (McClanahan/Aldegheri)</td>
+        <td><span class="tag pos">NRFI</span></td>
+        <td class="mono">55%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono loss">L</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">McClanahan shuts a weak LAA top early.</td>
+      </tr>
+      <tr>
+        <td>COL @ ATH (TBD/Jump)</td>
+        <td><span class="tag ">YRFI</span></td>
+        <td class="mono">53%</td>
+        <td class="mono muted small">_model-only (TBD SP)_</td>
+        <td class="mono loss">L</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">ATH bats vs uncertain COL arm; soft.</td>
+      </tr>
+      <tr>
+        <td>CHC @ SF (Assad/Roupp)</td>
+        <td><span class="tag pos">NRFI</span></td>
+        <td class="mono">55%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono win">W</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Pitcher-friendly Oracle, two mid arms.</td>
+      </tr></tbody></table>
+    </details>
+    <details class="nrfi-day" open>
+      <summary>
+        <span class="nrfi-day-date mono">6/11</span>
+        <span class="mono neg">0-2 · 0% W</span>
+        <span class="muted small">2 settled · 1 open</span>
+      </summary>
+      <table><thead><tr><th>Matchup</th><th>Pick</th><th>TrueP</th><th>Price</th><th>Result</th><th>Reasoning</th></tr></thead>
+      <tbody>
+      <tr>
+        <td>LAD @ PIT (Wrobleski/Keller)</td>
+        <td><span class="tag ">YRFI</span></td>
+        <td class="mono">57%</td>
+        <td class="mono muted small">_model-only (no bet)_</td>
+        <td class="mono loss">L</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">LAD's elite top (Ohtani/Betts/Freeman) vs hittable Keller (4.81); wind 11 out to LF @ PNC. Wrobleski quiets PIT's weak top → over rides the LAD side. Slight YRFI. ⚠ Note the 6/10 LAD@PIT YRFI MISSED (1st 0-0) — same LAD-top thesis; downgraded confidence accordingly.</td>
+      </tr>
+      <tr>
+        <td>ATL @ CWS (Pérez/Kay)</td>
+        <td><span class="tag ">YRFI</span></td>
+        <td class="mono">56%</td>
+        <td class="mono muted small">_model-only (no bet)_</td>
+        <td class="mono muted">TBD</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Two soft-contact/back-end arms; ATL top + hot CWS home offense (L15 10-5/+27) both live in the 1st. Mild YRFI.</td>
+      </tr>
+      <tr>
+        <td>SEA @ BAL (Woo/Bradish)</td>
+        <td><span class="tag pos">NRFI</span></td>
+        <td class="mono">55%</td>
+        <td class="mono muted small">_model-only (no bet)_</td>
+        <td class="mono loss">L</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Cleanest NRFI of the three — Woo + Bradish both work fast early, neither top is loaded. Mild NRFI.</td>
+      </tr></tbody></table>
+    </details>
+    <details class="nrfi-day" open>
+      <summary>
+        <span class="nrfi-day-date mono">6/10</span>
+        <span class="mono pos">2-1 · 67% W</span>
+        <span class="muted small">3 settled</span>
+      </summary>
+      <table><thead><tr><th>Matchup</th><th>Pick</th><th>TrueP</th><th>Price</th><th>Result</th><th>Reasoning</th></tr></thead>
+      <tbody>
+      <tr>
+        <td>ATL @ CWS (Sale/Martin)</td>
+        <td><span class="tag pos">NRFI</span></td>
+        <td class="mono">60%</td>
+        <td class="mono muted small">_model-only (no bet)_</td>
+        <td class="mono win">W</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Pitching: Sale ace (2.23 ERA / 10.65 K9) routinely retires a contact-average CWS top 1-2-3 in order. Bats: CWS top is league-avg (23% K vs LHP), no early-power threat. YRFI risk: ATL's strong top (Harris/Albies/Olson) vs back-end Davis Martin — the one half that can break NRFI. Net: lean NRFI ~60%, but Martin is the swing factor (not a lock). Result: 1st inning 0-0 → NRFI occurred, lean correct (W).</td>
+      </tr>
+      <tr>
+        <td>MIN @ DET (Paredes/Valdez)</td>
+        <td><span class="tag pos">NRFI</span></td>
+        <td class="mono">61%</td>
+        <td class="mono muted small">_model-only (no bet)_</td>
+        <td class="mono win">W</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Pitching: Valdez is an elite sinker/ground-ball arm — weak early contact, low 1st-inning run rate; the cleanest NRFI starter on the board. Bats: MIN's offense is cold (L10 3-7), unlikely to manufacture vs a GB arm. YRFI risk: Paredes (weak) means DET's top could score, but they'd have to string it together in the 1st. Net: cleanest NRFI of the three ~61%. Result: 1st inning 0-0 → NRFI occurred, lean correct (W) — note DET still won the game 11-... blowout, but the 1st was clean.</td>
+      </tr>
+      <tr>
+        <td>LAD @ PIT (Ohtani/Jones)</td>
+        <td><span class="tag ">YRFI</span></td>
+        <td class="mono">56%</td>
+        <td class="mono muted small">_model-only (no bet)_</td>
+        <td class="mono loss">L</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Thesis (YRFI): LAD's top is the board's most dangerous (Ohtani leadoff, Betts, Freeman) vs hittable Jared Jones — a real 1st-inning run threat, and it only takes that one half-inning. Ohtani shuts PIT's weak top down, so the over rode entirely on the LAD side. Result: 1st inning 0-0 (LAD 0, PIT 0) — NRFI occurred, lean MISSED. Both starters threw clean 1sts; LAD's elite top didn't cash early. Calibration: the pitching-first bias beat the bats-first read.</td>
+      </tr></tbody></table>
+    </details>
   </div>
   </section>
 
