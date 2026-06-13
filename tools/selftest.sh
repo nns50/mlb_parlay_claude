@@ -113,6 +113,25 @@ assert m.norm("CHW")=="CWS" and m.norm("ARI")=="AZ"
 PY
 then ok "verdict_for NRFI/YRFI ↔ 1st-inning total; matchup+alias parse"; else no "nrfi_settle" "$(cat /tmp/_selftest_out)"; fi
 
+# ── 5c. nrfi_digest.py — per-day tally + win% (notification/email block) ──────
+echo "5c. nrfi_digest (daily NRFI/YRFI win% + table)"
+if python3 - <<'PY' 2>/tmp/_selftest_out
+import importlib.util as u
+s=u.spec_from_file_location("d","tools/nrfi_digest.py"); m=u.module_from_spec(s); s.loader.exec_module(m)
+rows=[{"matchup":"A @ B","pick":"NRFI","truep":"55%","result":"W"},
+      {"matchup":"C @ D","pick":"YRFI","truep":"54%","result":"L"},
+      {"matchup":"E @ F","pick":"NRFI","truep":"53%","result":"TBD"}]
+t=m.tally(rows)
+assert (t["w"],t["l"],t["tbd"],t["settled"])==(1,1,1,2), t
+assert abs(t["pct"]-50.0)<1e-9, t           # win% over SETTLED only (1 of 2)
+assert (t["nrfi"],t["yrfi"])==(2,1), t
+assert m.md_date("2026-06-13")=="6/13"
+out=m.render(rows,"6/13","md")
+assert "| Matchup | Pick | TrueP | Result |" in out and "50% W" in out, out
+assert m.render([],"6/13","compact").endswith("no reads logged.")  # empty-day safe
+PY
+then ok "tally win% over settled-only; md table + empty-day guard"; else no "nrfi_digest" "$(cat /tmp/_selftest_out)"; fi
+
 # ── 6. parlay.py — fractional footgun rejected, normal math intact ───────────
 echo "6. parlay.py"
 if ./tools/parlay.py --leg 0.6:-150 --leg 0.55:+120 >/tmp/_selftest_out 2>&1; then
