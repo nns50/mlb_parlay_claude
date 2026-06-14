@@ -96,9 +96,9 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 6/13 | COL @ ATH (Freeland/Estes) | YRFI | 56% | _model-only_ | **W** (1st 0-2 → YRFI) | Two poor/unproven arms (Estes unverified). |
 | 6/13 | CHC @ SF (Brown/McDonald) | NRFI | 54% | _model-only_ | **L** (1st 1-0 → YRFI) | Oracle pitcher park, two mid arms. |
 | 6/13 | TB @ LAA (Jax/Soriano) | NRFI | 53% | _model-only_ | **W** (1st 0-0 → NRFI) | Soriano clean + Jax K-stuff vs weak LAA top. |
-| 6/14 | MIA @ PIT (Meyer/Skenes) | NRFI | 57% | _model-only_ | TBD | Two elite-early arms; cleanest NRFI of the board. |
+| 6/14 | MIA @ PIT (Meyer/Skenes) | NRFI | 57% | _model-only_ | **W** (1st 0-0 → NRFI) | Two elite-early arms; cleanest NRFI of the board. |
 | 6/14 | SD @ BAL (Buehler/Rogers) | NRFI | 53% | _model-only_ | TBD | Buehler vet + Rogers LHP; SD top average. |
-| 6/14 | SEA @ WSH (Hancock/Mikolas) | NRFI | 53% | _model-only_ | TBD | Mikolas control arm clean early. |
+| 6/14 | SEA @ WSH (Hancock/Mikolas) | NRFI | 53% | _model-only_ | **L** (1st 1-1 → YRFI) | Mikolas control arm clean early. |
 | 6/14 | NYY @ TOR (Warren/Corbin) | YRFI | 55% | _model-only_ | TBD | NYY loaded top vs shaky Corbin = the live half. |
 | 6/14 | AZ @ CIN (Gallen/Abbott) | YRFI | 53% | _model-only_ | TBD | GABP hitter park; two beatable arms. |
 | 6/14 | DET @ CLE (Mize/G.Williams) | NRFI | 53% | _model-only_ | TBD | Williams K-stuff + league-avg tops. |
@@ -115,7 +115,7 @@ Its own ledger lives here; the dashboard renders it from this file.
 ---
 
 ## Running totals (update on every settle)
-- **Record:** **16-19** (tracker opened 6/10/26). **NRFI:** **9-12** · **YRFI:** **7-7**.
+- **Record:** **17-20** (tracker opened 6/10/26). **NRFI:** **10-13** · **YRFI:** **7-7**.
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
 - **Open:** **6/14: 15 model-only reads open** (settle off the 1st-inning line score next run). (6/13's 15 reads settled — see ledger; record now 16-19.)
 - **Settled 6/11** (auto via `nrfi_settle.py --apply`): LAD@PIT YRFI **L** (1st 0-0 → NRFI), SEA@BAL NRFI **L**
