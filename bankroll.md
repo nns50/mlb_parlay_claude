@@ -67,16 +67,17 @@ P(4 straight wins in an attempt) ≈ 0.60⁴ ≈ **13%** → expect ~8 attempts 
 | 4 | 6/11 | 2 | $17.25 | — NO BET — | — | — | $17.25 (carries) | At the 16:00 run the only pre-game fav left is LAD −166, but its devigged edge is **+0.9pp — under the +2pp gate** (SEA coin-flip, ATL is an A/D fade). No qualifying favorite → NO BET, balance carries to next slate. |
 | 4 | 6/12 | 2 | $17.25 | SEA ML −138 (BetOnline, 1.725) | 60% | **WIN** (SEA 10-2 WSH) | **$29.74** | Roll 2 CASHED — Bryce Miller dealt (8 IP / 2 ER / 7 K), SEA cruised 10-2. $17.25×1.725 = $29.74. Attempt 4 now **2-0** → roll 3 next. |
 | 4 | 6/13 | 3 | $29.74 | MIL ML −143/−160 (1.699) | 60% | **LOSS** (PHI 9-8 MIL) | **$0.00** | **Attempt 4 BUSTS at roll 3** (was 2-0). MIL's elite bullpen blew it vs Nola/PHI — full-rollover risk realized, $10→$29.74 wiped. (18:00 alt pick KC −123 ALSO lost 7-8 to HOU, so either form of roll 3 busts.) Restart attempt 5 at $10 on 6/14. |
-| 5 | 6/14 | 1 | $10.00 | NYY ML −130 (BetOnline.ag, 1.769) | 58.5% | **TBD** | _pending_ | **Attempt 5 roll 1.** Single safest fav **clearing the +2pp gate**: NYY 42-27/+102 elite, Warren 3.41/9.83 K9 fresh vs Corbin 4.55 shaky + sub-.500 TOR. No-vig 55.7% → TrueP 58.5% (**+2.8pp**); not an A-list fade. (ATH −185 has higher raw floor 63.6% but ~0 edge — fails the gate; soft-band NYY is the qualifying pick.) $10×1.769 = **$17.69** on a win → roll 2. |
+| 5 | 6/14 | 1 | $10.00 | NYY ML −130 (BetOnline.ag, 1.769) | 58.5% | **WIN** (NYY 8-3 TOR) | **$17.69** | **Attempt 5 roll 1 CASHED.** NYY 42-27/+102 elite, Warren held TOR; NYY won 8-3. $10×1.769 = $17.69. Roll 2 next slate (6/15). |
+| 5 | 6/15 | 2 | $17.69 | PHI ML −193 (LowVig.ag, 1.518) | 67.5% | **TBD** | _pending_ | **Attempt 5 roll 2.** Single safest qualifying ace-edge fav on the board: **Zack Wheeler** 2.22 ERA / 0.85 WHIP / 8.42 K9, fresh (6/9 @TOR 6IP/1ER/5K), home vs MIA's Ryan Gusto. No-vig 64.8% → TrueP 67.5% (ace-edge +3pp = **+2.7pp**); not an A-list fade (CHC −195 IS A1, excluded; LAD −166 is a D4 Lauer-5.47 trap, excluded). $17.69×1.518 = **$26.85** on a win → roll 3. |
 
 ---
 
 ## Running totals (update on every settle)
 
-- **Current:** **Attempt 5 OPEN — roll 1 today 6/14 (TBD):** NYY ML −130 (BetOnline.ag, 1.769), balance $10.00 → **$17.69** on a win (then roll 2). (Attempt 4 BUSTED 6/13 at roll 3 — MIL lost 8-9 to PHI, was 2-0.)
-  (Attempt 3 BUSTED 6/10 at roll 3; Attempt 2 COMPLETE 6/8 — 🎯 4-WIN TARGET HIT, withdrew $65.48.)
-- **Attempts:** 4 completed + **1 open (attempt 5, roll 1)** · **Targets hit (4 wins):** **1** ✅ · **Busts:** 3 (attempt 1 @ roll 1, attempt 3 @ roll 3, attempt 4 @ roll 3) · **Best run:** **4 wins (attempt 2 — TARGET)**
+- **Current:** **Attempt 5 OPEN — roll 1 WON (NYY 8-3, 6/14) → roll 2 today 6/15 (TBD):** PHI ML −193 (LowVig.ag, 1.518), balance $17.69 → **$26.85** on a win (then roll 3). Attempt 5 now **1-0**.
+  (Attempt 4 BUSTED 6/13 at roll 3; Attempt 3 BUSTED 6/10 at roll 3; Attempt 2 COMPLETE 6/8 — 🎯 4-WIN TARGET HIT, withdrew $65.48.)
+- **Attempts:** 4 completed + **1 open (attempt 5, roll 2 — 1-0)** · **Targets hit (4 wins):** **1** ✅ · **Busts:** 3 (attempt 1 @ roll 1, attempt 3 @ roll 3, attempt 4 @ roll 3) · **Best run:** **4 wins (attempt 2 — TARGET)**
 - **Total real risk (attempts × $10):** **$50.00** risked (attempt 5's $10 in play) · **Total withdrawn:** **$65.48**
-- **Net P/L (withdrawn − deposited):** **+$15.48** realized (attempt 1 −$10; attempt 2 +$55.48; attempt 3 −$10; attempt 4 −$10 BUST; attempt 5 −$10 in-play, **$10.00 live balance**, roll 1)
+- **Net P/L (withdrawn − deposited):** **+$15.48** realized (attempt 1 −$10; attempt 2 +$55.48; attempt 3 −$10; attempt 4 −$10 BUST; attempt 5 −$10 in-play, **$17.69 live balance**, roll 2)
 
 > Tracked like `fades.md` / `results_log.md`: any change → commit → push → PR → squash-merge.
