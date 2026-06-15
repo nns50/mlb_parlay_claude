@@ -97,25 +97,25 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 6/13 | CHC @ SF (Brown/McDonald) | NRFI | 54% | _model-only_ | **L** (1st 1-0 → YRFI) | Oracle pitcher park, two mid arms. |
 | 6/13 | TB @ LAA (Jax/Soriano) | NRFI | 53% | _model-only_ | **W** (1st 0-0 → NRFI) | Soriano clean + Jax K-stuff vs weak LAA top. |
 | 6/14 | MIA @ PIT (Meyer/Skenes) | NRFI | 57% | _model-only_ | **W** (1st 0-0 → NRFI) | Two elite-early arms; cleanest NRFI of the board. |
-| 6/14 | SD @ BAL (Buehler/Rogers) | NRFI | 53% | _model-only_ | TBD | Buehler vet + Rogers LHP; SD top average. |
+| 6/14 | SD @ BAL (Buehler/Rogers) | NRFI | 53% | _model-only_ | **W** (1st 0-0 → NRFI) | Buehler vet + Rogers LHP; SD top average. |
 | 6/14 | SEA @ WSH (Hancock/Mikolas) | NRFI | 53% | _model-only_ | **L** (1st 1-1 → YRFI) | Mikolas control arm clean early. |
-| 6/14 | NYY @ TOR (Warren/Corbin) | YRFI | 55% | _model-only_ | TBD | NYY loaded top vs shaky Corbin = the live half. |
-| 6/14 | AZ @ CIN (Gallen/Abbott) | YRFI | 53% | _model-only_ | TBD | GABP hitter park; two beatable arms. |
+| 6/14 | NYY @ TOR (Warren/Corbin) | YRFI | 55% | _model-only_ | **L** (1st 0-0 → NRFI) | NYY loaded top vs shaky Corbin = the live half. |
+| 6/14 | AZ @ CIN (Gallen/Abbott) | YRFI | 53% | _model-only_ | **W** (1st 0-1 → YRFI) | GABP hitter park; two beatable arms. |
 | 6/14 | DET @ CLE (Mize/G.Williams) | NRFI | 53% | _model-only_ | TBD | Williams K-stuff + league-avg tops. |
-| 6/14 | ATL @ NYM (Elder/Peralta) | YRFI | 54% | _model-only_ | TBD | ATL elite top vs GB-arm Elder is the live half. |
-| 6/14 | HOU @ KC (Arrighetti/Kolek) | NRFI | 53% | _model-only_ | TBD | Two mid arms, both tops low-power. |
-| 6/14 | STL @ MIN (McGreevy/Bradley) | NRFI | 54% | _model-only_ | TBD | McGreevy GB + weak MIN top. |
-| 6/14 | LAD @ CWS (Sheehan/Fedde) | YRFI | 56% | _model-only_ | TBD | LAD elite top + hot CWS top — both halves live. |
-| 6/14 | PHI @ MIL (Sánchez/Harrison) | YRFI | 53% | _model-only_ | TBD | PHI top vs LHP Harrison. |
-| 6/14 | COL @ ATH (Sugano/Springs) | YRFI | 54% | _model-only_ | TBD | Two shaky arms; both tops can cash. |
-| 6/14 | CHC @ SF (Rolison/Webb) | NRFI | 53% | _model-only_ | TBD | Webb GB-ace + Oracle park; Rolison opener. |
-| 6/14 | TB @ LAA (Legumina/G.Rodriguez) | NRFI | 53% | _model-only_ | TBD | G-Rod decent early; neither top loaded. |
+| 6/14 | ATL @ NYM (Elder/Peralta) | YRFI | 54% | _model-only_ | **W** (1st 1-4 → YRFI) | ATL elite top vs GB-arm Elder is the live half. |
+| 6/14 | HOU @ KC (Arrighetti/Kolek) | NRFI | 53% | _model-only_ | **L** (1st 0-1 → YRFI) | Two mid arms, both tops low-power. |
+| 6/14 | STL @ MIN (McGreevy/Bradley) | NRFI | 54% | _model-only_ | **W** (1st 0-0 → NRFI) | McGreevy GB + weak MIN top. |
+| 6/14 | LAD @ CWS (Sheehan/Fedde) | YRFI | 56% | _model-only_ | **W** (1st 1-0 → YRFI) | LAD elite top + hot CWS top — both halves live. |
+| 6/14 | PHI @ MIL (Sánchez/Harrison) | YRFI | 53% | _model-only_ | **W** (1st 0-1 → YRFI) | PHI top vs LHP Harrison. |
+| 6/14 | COL @ ATH (Sugano/Springs) | YRFI | 54% | _model-only_ | **W** (1st 2-4 → YRFI) | Two shaky arms; both tops can cash. |
+| 6/14 | CHC @ SF (Rolison/Webb) | NRFI | 53% | _model-only_ | **W** (1st 0-0 → NRFI) | Webb GB-ace + Oracle park; Rolison opener. |
+| 6/14 | TB @ LAA (Legumina/G.Rodriguez) | NRFI | 53% | _model-only_ | **W** (1st 0-0 → NRFI) | G-Rod decent early; neither top loaded. |
 | 6/14 | TEX @ BOS (Eovaldi/Early) | NRFI | 54% | _model-only_ | TBD | Eovaldi vet clean vs rookie Early. |
 
 ---
 
 ## Running totals (update on every settle)
-- **Record:** **17-20** (tracker opened 6/10/26). **NRFI:** **10-13** · **YRFI:** **7-7**.
+- **Record:** **26-22** (tracker opened 6/10/26). **NRFI:** **14-14** · **YRFI:** **12-8**.
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
 - **Open:** **6/14: 15 model-only reads open** (settle off the 1st-inning line score next run). (6/13's 15 reads settled — see ledger; record now 16-19.)
 - **Settled 6/11** (auto via `nrfi_settle.py --apply`): LAD@PIT YRFI **L** (1st 0-0 → NRFI), SEA@BAL NRFI **L**
