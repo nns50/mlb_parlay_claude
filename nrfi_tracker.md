@@ -106,23 +106,38 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 6/14 | CHC @ SF (Rolison/Webb) | NRFI | 53% | _model-only_ | **W** (1st 0-0 → NRFI) | Webb GB-ace + Oracle park; Rolison opener. |
 | 6/14 | TB @ LAA (Legumina/G.Rodriguez) | NRFI | 53% | _model-only_ | **W** (1st 0-0 → NRFI) | G-Rod decent early; neither top loaded. |
 | 6/14 | TEX @ BOS (Eovaldi/Early) | NRFI | 54% | _model-only_ | **L** (1st 1-0 → YRFI) | Eovaldi vet clean vs rookie Early. |
-| 6/15 | MIA @ PHI (Gusto/Wheeler) | NRFI | 58% | _model-only_ | TBD | Wheeler mows tops early; cleanest NRFI of the board. |
-| 6/15 | KC @ WSH (Spence/Alvarez) | NRFI | 54% | _model-only_ | TBD | Two contact arms, KC top low-power. |
-| 6/15 | NYM @ CIN (Myers/Burns) | YRFI | 54% | _model-only_ | TBD | GABP + rookie Burns variance vs live NYM top. |
-| 6/15 | SD @ STL (TBD/May) | NRFI | 53% | _model-only (TBD SP)_ | TBD | May clean early; SD top slumping. Provisional. |
-| 6/15 | COL @ CHC (Lorenzen/Imanaga) | NRFI | 55% | _model-only_ | TBD | Imanaga clean 1sts + weak COL road top. |
-| 6/15 | MIN @ TEX (TBD/Gore) | YRFI | 53% | _model-only (TBD SP)_ | TBD | Gore K-stuff but TEX top can cash. Provisional. |
-| 6/15 | DET @ HOU (Melton/Teng) | YRFI | 54% | _model-only_ | TBD | Two uncertain arms, both tops league-avg. |
-| 6/15 | LAA @ ARI (Ureña/Nelson) | YRFI | 54% | _model-only_ | TBD | Rookie Ureña 1st-inning risk vs ARI top. |
-| 6/15 | PIT @ ATH (Jones/Ginn) | NRFI | 53% | _model-only_ | TBD | Jared Jones K-stuff + ATH top low-power. |
-| 6/15 | TB @ LAD (Martinez/Lauer) | YRFI | 56% | _model-only_ | TBD | LAD elite top vs shaky Lauer (5.47) is the live half. |
+| 6/15 | MIA @ PHI (Gusto/Wheeler) | NRFI | 58% | _model-only_ | **W** (1st 0-0 → NRFI) | Wheeler mows tops early; cleanest NRFI of the board. |
+| 6/15 | KC @ WSH (Spence/Alvarez) | NRFI | 54% | _model-only_ | **W** (1st 0-0 → NRFI) | Two contact arms, KC top low-power. |
+| 6/15 | NYM @ CIN (Myers/Burns) | YRFI | 54% | _model-only_ | **W** (1st 0-3 → YRFI) | GABP + rookie Burns variance vs live NYM top. |
+| 6/15 | SD @ STL (TBD/May) | NRFI | 53% | _model-only (TBD SP)_ | **W** (1st 0-0 → NRFI) | May clean early; SD top slumping. Provisional. |
+| 6/15 | COL @ CHC (Lorenzen/Imanaga) | NRFI | 55% | _model-only_ | **L** (1st 0-1 → YRFI) | Imanaga clean 1sts + weak COL road top. |
+| 6/15 | MIN @ TEX (TBD/Gore) | YRFI | 53% | _model-only (TBD SP)_ | **W** (1st 3-0 → YRFI) | Gore K-stuff but TEX top can cash. Provisional. |
+| 6/15 | DET @ HOU (Melton/Teng) | YRFI | 54% | _model-only_ | **W** (1st 1-0 → YRFI) | Two uncertain arms, both tops league-avg. |
+| 6/15 | LAA @ ARI (Ureña/Nelson) | YRFI | 54% | _model-only_ | **W** (1st 1-1 → YRFI) | Rookie Ureña 1st-inning risk vs ARI top. |
+| 6/15 | PIT @ ATH (Jones/Ginn) | NRFI | 53% | _model-only_ | **W** (1st 0-0 → NRFI) | Jared Jones K-stuff + ATH top low-power. |
+| 6/15 | TB @ LAD (Martinez/Lauer) | YRFI | 56% | _model-only_ | **W** (1st 2-0 → YRFI) | LAD elite top vs shaky Lauer (5.47) is the live half. |
+| 6/16 | MIA @ PHI (Phillips/Luzardo) | YRFI | 54% | _model-only_ | **TBD** | PHI top (Schwarber/Harper) can score early on Phillips; wind 7mph Out To RF at CBP. |
+| 6/16 | KC @ WSH (Wacha/Griffin) | NRFI | 54% | _model-only_ | **TBD** | Wacha contact arm + weak KC top; mild NRFI. |
+| 6/16 | TOR @ BOS (Cease/Tolle) | NRFI | 55% | _model-only_ | **TBD** | Cease (13.63 K9) mows the 1st clean; rookie Tolle the only YRFI risk. |
+| 6/16 | CWS @ NYY (Martin/Cole) | NRFI | 53% | _model-only_ | **TBD** | Cole clean 1sts + CWS avg top; NYY top vs Martin the swing. |
+| 6/16 | NYM @ CIN (Senga/Singer) | YRFI | 57% | _model-only_ | **TBD** | Senga post-IL shaky (9.00 ERA) + GABP hitter park; the live half. |
+| 6/16 | SF @ ATL (Houser/Holmes) | YRFI | 53% | _model-only_ | **TBD** | ATL top can cash early vs Houser; SF top weak. Mild YRFI. |
+| 6/16 | CLE @ MIL (Cecconi/Gasser) | YRFI | 55% | _model-only_ | **TBD** | Gasser shaky (6.38 ERA) early; CLE top can jump. |
+| 6/16 | SD @ STL (King/Pallante) | NRFI | 54% | _model-only_ | **TBD** | King clean early; SD top slumping. |
+| 6/16 | COL @ CHC (Feltner/Cabrera) | YRFI | 57% | _model-only_ | **TBD** | Wrigley wind 17mph OUT + two hittable arms — strongest YRFI lean. |
+| 6/16 | MIN @ TEX (Matthews/Rocker) | NRFI | 53% | _model-only_ | **TBD** | Rocker K-stuff, dome, cold MIN top; mild NRFI. |
+| 6/16 | DET @ HOU (Valdez?/Brown) | NRFI | 53% | _model-only (SP attribution uncertain — E3)_ | **TBD** | Brown clean early; SP label disputed → provisional. |
+| 6/16 | LAA @ AZ (Detmers/Kelly) | NRFI | 54% | _model-only_ | **TBD** | Kelly clean 1sts; LAA top quiet. |
+| 6/16 | PIT @ ATH (Keller/Perkins) | NRFI | 54% | _model-only_ | **TBD** | Keller clean early + ATH low-power top. |
+| 6/16 | BAL @ SEA (Young/Gilbert) | NRFI | 56% | _model-only_ | **TBD** | Gilbert ace mows the 1st; BAL top vs Young the only risk. |
+| 6/16 | TB @ LAD (Rasmussen/Wrobleski) | YRFI | 56% | _model-only_ | **TBD** | LAD elite top vs back-end Wrobleski is the live half. |
 
 ---
 
 ## Running totals (update on every settle)
-- **Record:** **26-23** (tracker opened 6/10/26). **NRFI:** **14-15** · **YRFI:** **12-8**.
+- **Record:** **35-24** (tracker opened 6/10/26). **NRFI:** **18-16** · **YRFI:** **17-8**.
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
-- **Open:** **6/15: 10 model-only reads open** (settle off the 1st-inning line score next run). (6/14's reads auto-settled by `nrfi_settle.py --apply` — DET@CLE was PPD/no result; record now **26-23**.)
+- **Open:** **6/16: 15 model-only reads open** (settle off the 1st-inning line score next run). 6/15's 10 reads auto-settled this session (8-2 on the day — only COL@CHC NRFI and... net record now **35-24**).
 - **Settled 6/11** (auto via `nrfi_settle.py --apply`): LAD@PIT YRFI **L** (1st 0-0 → NRFI), SEA@BAL NRFI **L**
   (1st 1-0 → YRFI). **Calibration:** YRFI on LAD's top missed AGAIN (2nd straight 0-0 LAD 1st) — the
   pitching-first/NRFI bias keeps beating the bats-first LAD-top read; the SEA@BAL NRFI lean missed on a lone
