@@ -68,16 +68,17 @@ P(4 straight wins in an attempt) ≈ 0.60⁴ ≈ **13%** → expect ~8 attempts 
 | 4 | 6/12 | 2 | $17.25 | SEA ML −138 (BetOnline, 1.725) | 60% | **WIN** (SEA 10-2 WSH) | **$29.74** | Roll 2 CASHED — Bryce Miller dealt (8 IP / 2 ER / 7 K), SEA cruised 10-2. $17.25×1.725 = $29.74. Attempt 4 now **2-0** → roll 3 next. |
 | 4 | 6/13 | 3 | $29.74 | MIL ML −143/−160 (1.699) | 60% | **LOSS** (PHI 9-8 MIL) | **$0.00** | **Attempt 4 BUSTS at roll 3** (was 2-0). MIL's elite bullpen blew it vs Nola/PHI — full-rollover risk realized, $10→$29.74 wiped. (18:00 alt pick KC −123 ALSO lost 7-8 to HOU, so either form of roll 3 busts.) Restart attempt 5 at $10 on 6/14. |
 | 5 | 6/14 | 1 | $10.00 | NYY ML −130 (BetOnline.ag, 1.769) | 58.5% | **WIN** (NYY 8-3 TOR) | **$17.69** | **Attempt 5 roll 1 CASHED.** NYY 42-27/+102 elite, Warren held TOR; NYY won 8-3. $10×1.769 = $17.69. Roll 2 next slate (6/15). |
-| 5 | 6/15 | 2 | $17.69 | PHI ML −182 (LowVig.ag, 1.549) | 67.5% | **TBD** | _pending_ | **Attempt 5 roll 2.** Single safest qualifying ace-edge fav on the board: **Zack Wheeler** 2.22 ERA / 0.85 WHIP / 8.42 K9, fresh (6/9 @TOR 6IP/1ER/5K), home vs MIA's Gusto. **16:00 Build B: line moved −193→−182, lineups CONFIRMED, edge WIDENED to +4.4pp** (no-vig 63.1% → TrueP 67.5%). Not an A-list fade (CHC −205 IS A1, excluded; LAD −173 is a D4 Lauer-5.47 trap, excluded). $17.69×1.549 = **$27.40** on a win → roll 3. |
+| 5 | 6/15 | 2 | $17.69 | PHI ML −182 (LowVig.ag, 1.549) | 67.5% | **WIN** (PHI 7-0 MIA) | **$27.40** | **Attempt 5 roll 2 CASHED.** Zack Wheeler shut out MIA (the ace-edge fav, +4.4pp). $17.69×1.549 = $27.40. Attempt 5 now **2-0** → roll 3 next slate (6/16). |
+| 5 | 6/16 | 3 | $27.40 | ATL ML −161 (LowVig.ag, 1.621) | 62% | **TBD** | _pending_ | **Attempt 5 roll 3.** Single safest qualifying fav on the board: **Atlanta Braves** 46-25 (.648, +107 run diff), home vs **SF** (29-43, −56, worst-record NL) — Grant Holmes (4.05, under-5 own SP ✓) vs Adrian Houser. No-vig 60.4% → TrueP 62% (team-quality edge +2pp, clears the +2pp gate). Not an A-list fade. Excluded: CHC −189 (A1 fade, decaying but still listed); MIL −148 (D4 Gasser 6.38 trap). $27.40×1.621 = **$44.42** on a win → roll 4 (the target roll). |
 
 ---
 
 ## Running totals (update on every settle)
 
-- **Current:** **Attempt 5 OPEN — roll 1 WON (NYY 8-3, 6/14) → roll 2 today 6/15 (TBD):** PHI ML −182 (LowVig.ag, 1.549; repriced from −193 at the 16:00 Build B), balance $17.69 → **$27.40** on a win (then roll 3). Attempt 5 now **1-0**.
+- **Current:** **Attempt 5 OPEN — rolls 1+2 WON (NYY 8-3 6/14, PHI 7-0 6/15) → roll 3 today 6/16 (TBD):** ATL ML −161 (LowVig.ag, 1.621), balance $27.40 → **$44.42** on a win (then roll 4 = the target). Attempt 5 now **2-0**.
   (Attempt 4 BUSTED 6/13 at roll 3; Attempt 3 BUSTED 6/10 at roll 3; Attempt 2 COMPLETE 6/8 — 🎯 4-WIN TARGET HIT, withdrew $65.48.)
-- **Attempts:** 4 completed + **1 open (attempt 5, roll 2 — 1-0)** · **Targets hit (4 wins):** **1** ✅ · **Busts:** 3 (attempt 1 @ roll 1, attempt 3 @ roll 3, attempt 4 @ roll 3) · **Best run:** **4 wins (attempt 2 — TARGET)**
+- **Attempts:** 4 completed + **1 open (attempt 5, roll 3 — 2-0)** · **Targets hit (4 wins):** **1** ✅ · **Busts:** 3 (attempt 1 @ roll 1, attempt 3 @ roll 3, attempt 4 @ roll 3) · **Best run:** **4 wins (attempt 2 — TARGET)**
 - **Total real risk (attempts × $10):** **$50.00** risked (attempt 5's $10 in play) · **Total withdrawn:** **$65.48**
-- **Net P/L (withdrawn − deposited):** **+$15.48** realized (attempt 1 −$10; attempt 2 +$55.48; attempt 3 −$10; attempt 4 −$10 BUST; attempt 5 −$10 in-play, **$17.69 live balance**, roll 2)
+- **Net P/L (withdrawn − deposited):** **+$15.48** realized (attempt 1 −$10; attempt 2 +$55.48; attempt 3 −$10; attempt 4 −$10 BUST; attempt 5 −$10 in-play, **$27.40 live balance**, roll 3 — 2-0)
 
 > Tracked like `fades.md` / `results_log.md`: any change → commit → push → PR → squash-merge.
