@@ -220,12 +220,14 @@ def parse_results_log() -> dict:
             else:
                 outcome = 'TBD'
             pl_raw = strip_md(row.get('P/L(u)', '') or row.get('P/L', ''))
+            stake_raw = strip_md(row.get('Stake(u)', '') or row.get('Stake', ''))
             tickets.append({
                 'date': date_s,
                 'ticket': strip_md(row.get('Ticket', ''))[:55],
                 'odds': strip_md(row.get('Odds', '')),
                 'result': outcome,
                 'pl': pl_raw,
+                'stake': stake_raw,
             })
 
     # Calibration buckets (pre-computed by calib.py)
@@ -690,9 +692,23 @@ def _parse_pl(pl_raw: str):
         return None, is_dollar
     return float(m.group(1)), is_dollar
 
+def _is_unit_stake(stake_raw: str) -> bool:
+    """True only for a genuine flat-unit stake (e.g. '1.00') — NOT a % (TrueP),
+    a '—', or a '$' (real-dollar) cell. Build-recommendation rows carry TrueP/edge
+    in the stake/P-L columns; without this guard a settled build row's EDGE value
+    leaks into the units curve as if it were P/L (the 6/17 reconcile-break)."""
+    s = (stake_raw or '').strip()
+    if not s or s in ('—', '-') or '%' in s or '$' in s:
+        return False
+    return re.fullmatch(r'[+-]?[\d.]+', s) is not None
+
 def pl_curve_data(results: dict) -> dict:
-    """Cumulative flat-1u UNITS P/L over decided tickets (chronological)."""
-    tickets = [t for t in results['tickets'] if t['result'] in ('W', 'L')]
+    """Cumulative flat-1u UNITS P/L over decided tickets (chronological).
+    Restricted to rows with a real unit stake so build-recommendation rows
+    (TrueP/edge in the unit columns) can never pollute the curve — this is the
+    exact set calib.py section 3 counts."""
+    tickets = [t for t in results['tickets']
+               if t['result'] in ('W', 'L') and _is_unit_stake(t.get('stake', ''))]
     tickets = sorted(tickets, key=lambda t: _date_key(t['date']))
     labels, cum_vals, running = [], [], 0.0
     dollar_pl, dollar_n = 0.0, 0
