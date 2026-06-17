@@ -29,22 +29,26 @@ Its own ledger lives here; the dashboard renders it from this file.
 
 ---
 
-## Tonight's reads — 2026-06-15 (model leans, un-priced; pull `totals_1st_1_innings` at the book)
+## Tonight's reads — 2026-06-17 (model leans, un-priced; pull `totals_1st_1_innings` at the book)
 
-> 11:00 ET morning reads — 10-game slate, one model-lean per game. All model-only/no-bet (pull the real 1st-inning total at the book; promote only a read clearing +2pp). Two games (SD@STL, MIN@TEX) have a TBD away SP → reads provisional.
+> 11:00 ET morning reads — 14-game slate (SF@ATL G1 SUSPENDED/in-progress → excluded; SF@ATL G2 provisional, TBD away SP). One model-lean per game, all model-only/no-bet (pull the real 1st-inning total at the book; promote only a read clearing +2pp).
 
 | # | Matchup | Starters | Lean | TrueP | Why (1st-inning read) |
 |---|---------|----------|------|-------|------------------------|
-| 1 | MIA @ PHI | Gusto vs Wheeler | **NRFI** | ~58% | Wheeler 2.22/0.85 WHIP mows tops early (clean 1sts all year); MIA top average. Cleanest NRFI on the board. |
-| 2 | KC @ WSH | Spence vs Alvarez | **NRFI** | ~54% | Two contact-ish arms but KC top low-power + WSH top average; mild NRFI. |
-| 3 | NYM @ CIN | Myers vs Burns(R) | **YRFI** | ~54% | GABP hitter park + rookie Chase Burns 1st-inning variance vs a live NYM top. Lean YRFI. |
-| 4 | SD @ STL | TBD vs May | **NRFI** | ~53% | May (home) clean early; SD top slumping. Provisional — SD SP TBD. |
-| 5 | COL @ CHC | Lorenzen vs Imanaga | **NRFI** | ~55% | Imanaga clean 1sts at Wrigley + COL road top is weak; Lorenzen quiets a flat Cubs top. Lean NRFI. |
-| 6 | MIN @ TEX | TBD vs Gore | **YRFI** | ~53% | Gore K-stuff but TEX top can cash; provisional — MIN SP TBD. Slight YRFI. |
-| 7 | DET @ HOU | Melton(R) vs Teng | **YRFI** | ~54% | Two uncertain arms (rookie Melton + Teng), both tops league-avg; mild YRFI on the unknowns. |
-| 8 | LAA @ ARI | Ureña(R) vs Nelson | **YRFI** | ~54% | Rookie Ureña 1st-inning risk vs an ARI top that can jump on him; Nelson keeps LAA quiet. Slight YRFI. |
-| 9 | PIT @ ATH | Jones vs Ginn | **NRFI** | ~53% | Jared Jones K-stuff clean early + ATH top low-power; mild NRFI. |
-| 10 | TB @ LAD | Martinez vs Lauer | **YRFI** | ~56% | LAD elite top (Ohtani/Betts/Freeman) vs shaky Lauer (5.47 ERA) is the live half. Lean YRFI. |
+| 1 | NYM @ CIN | McLean vs Lodolo | **YRFI** | ~55% | GABP hitter park + two live tops; McLean (10.38 K9) misses bats but GABP 1st-inning risk. Lean YRFI. |
+| 2 | KC @ WSH | Avila vs Littell | **YRFI** | ~56% | Two-bad-SP shootout (Avila 6.19 / Littell 5.32) — both shaky early; strongest YRFI lean. |
+| 3 | MIA @ PHI | Alcantara vs Painter | **NRFI** | ~54% | Alcantara clean 1sts; MIA top average; Painter (rookie) the only 1st-inning risk. Mild NRFI. |
+| 4 | DET @ HOU | Mize vs Lambert | **NRFI** | ~53% | Both arms league-avg, both tops contact-ish; lean NRFI on quiet early frames. |
+| 5 | SD @ STL | Rodriguez(R) vs Leahy | **YRFI** | ~53% | Rookie B.Rodriguez 1st-inning variance + Leahy hittable; slight YRFI. |
+| 6 | TB @ LAD | McClanahan vs Ohtani | **NRFI** | ~56% | Ohtani 1.06/0.84 mows the 1st; McClanahan elite-when-healthy; two strong arms → cleanest NRFI on the board. |
+| 7 | LAA @ AZ | Aldegheri(R) vs E.Rodriguez | **NRFI** | ~54% | E-Rod 2.55 clean early + LAA top quiet (30-44); rookie Aldegheri the lone risk. Lean NRFI. |
+| 8 | TOR @ BOS | Scherzer vs Bennett(R) | **NRFI** | ~53% | Scherzer mows tops early (veteran zone); rookie Bennett vs TOR top the only YRFI risk. Mild NRFI. |
+| 9 | CWS @ NYY | Kay vs Rodón | **NRFI** | ~54% | Rodón 9.87 K9 clean early vs a weak CWS top; NYY top vs Kay is the live half. Lean NRFI. |
+| 10 | SF @ ATL (G2) | TBD vs Ritchie(R) | **YRFI** | ~53% | Provisional — SF SP TBD; rookie Ritchie 1st-inning risk vs SF top. Slight YRFI. |
+| 11 | CLE @ MIL | G.Williams vs Sproat(R) | **NRFI** | ~53% | G.Williams K-stuff clean early; CLE top low-power; rookie Sproat the risk. Mild NRFI. |
+| 12 | COL @ CHC | Sullivan(R) vs Assad | **YRFI** | ~54% | Wrigley + rookie Sullivan 1st-inning variance vs a live CHC top; Assad vs a weak COL road top. Lean YRFI. |
+| 13 | PIT @ ATH | Ashcraft vs Civale | **NRFI** | ~53% | Two contact-ish arms, both tops league-avg; mild NRFI on quiet early frames. |
+| 14 | BAL @ SEA | Bradish vs Kirby | **NRFI** | ~54% | Kirby clean early at home; BAL top vs Bradish (returning) the only risk. Mild NRFI. |
 
 > Pull the real 1st-inning total + devig at first pitch; promote any read clearing +2pp into the ledger
 > below with a pre-registered TrueP and the book price. Re-check lineups (a rested leadoff bat flips a read).
@@ -55,6 +59,20 @@ Its own ledger lives here; the dashboard renders it from this file.
 
 | Date | Matchup | Pick | TrueP | Price | Result | Reasoning (why this pick) |
 |------|---------|------|-------|-------|--------|----------------------------|
+| 6/17 | NYM @ CIN (McLean/Lodolo) | YRFI | 55% | _model-only_ | **TBD** | GABP hitter park + two live tops; 1st-inning risk despite McLean K-stuff. |
+| 6/17 | KC @ WSH (Avila/Littell) | YRFI | 56% | _model-only_ | **TBD** | Two-bad-SP shootout (6.19 / 5.32) — strongest YRFI lean. |
+| 6/17 | MIA @ PHI (Alcantara/Painter) | NRFI | 54% | _model-only_ | **TBD** | Alcantara clean 1sts; rookie Painter the lone risk. |
+| 6/17 | DET @ HOU (Mize/Lambert) | NRFI | 53% | _model-only_ | **TBD** | Two league-avg arms, contact-ish tops; mild NRFI. |
+| 6/17 | SD @ STL (Rodriguez/Leahy) | YRFI | 53% | _model-only_ | **TBD** | Rookie B.Rodriguez 1st-inning variance + hittable Leahy. |
+| 6/17 | TB @ LAD (McClanahan/Ohtani) | NRFI | 56% | _model-only_ | **TBD** | Ohtani 1.06 mows the 1st; two strong arms — cleanest NRFI. |
+| 6/17 | LAA @ AZ (Aldegheri/E.Rodriguez) | NRFI | 54% | _model-only_ | **TBD** | E-Rod 2.55 clean early + quiet LAA top; rookie Aldegheri the risk. |
+| 6/17 | TOR @ BOS (Scherzer/Bennett) | NRFI | 53% | _model-only_ | **TBD** | Scherzer mows early; rookie Bennett vs TOR top the YRFI risk. |
+| 6/17 | CWS @ NYY (Kay/Rodón) | NRFI | 54% | _model-only_ | **TBD** | Rodón 9.87 K9 clean vs weak CWS top; NYY top vs Kay the live half. |
+| 6/17 | SF @ ATL G2 (TBD/Ritchie) | YRFI | 53% | _model-only (SP TBD — provisional)_ | **TBD** | Rookie Ritchie 1st-inning risk; SF away SP unannounced. |
+| 6/17 | CLE @ MIL (Williams/Sproat) | NRFI | 53% | _model-only_ | **TBD** | G.Williams K-stuff early; rookie Sproat the risk. |
+| 6/17 | COL @ CHC (Sullivan/Assad) | YRFI | 54% | _model-only_ | **TBD** | Wrigley + rookie Sullivan 1st-inning variance vs live CHC top. |
+| 6/17 | PIT @ ATH (Ashcraft/Civale) | NRFI | 53% | _model-only_ | **TBD** | Two contact-ish arms, league-avg tops; mild NRFI. |
+| 6/17 | BAL @ SEA (Bradish/Kirby) | NRFI | 54% | _model-only_ | **TBD** | Kirby clean early at home; BAL top vs Bradish the only risk. |
 | 6/10 | ATL @ CWS (Sale/Martin) | NRFI | 60% | _model-only (no bet)_ | **W** | **Pitching:** Sale ace (2.23 ERA / 10.65 K9) routinely retires a contact-average CWS top 1-2-3 in order. **Bats:** CWS top is league-avg (23% K vs LHP), no early-power threat. **YRFI risk:** ATL's strong top (Harris/Albies/Olson) vs back-end Davis Martin — the one half that can break NRFI. **Net:** lean NRFI ~60%, but Martin is the swing factor (not a lock). **Result:** 1st inning 0-0 → NRFI occurred, **lean correct (W).** |
 | 6/10 | MIN @ DET (Paredes/Valdez) | NRFI | 61% | _model-only (no bet)_ | **W** | **Pitching:** Valdez is an elite sinker/ground-ball arm — weak early contact, low 1st-inning run rate; the cleanest NRFI starter on the board. **Bats:** MIN's offense is cold (L10 3-7), unlikely to manufacture vs a GB arm. **YRFI risk:** Paredes (weak) means DET's top could score, but they'd have to string it together in the 1st. **Net:** cleanest NRFI of the three ~61%. **Result:** 1st inning 0-0 → NRFI occurred, **lean correct (W)** — note DET still won the game 11-... blowout, but the 1st was clean. |
 | 6/10 | LAD @ PIT (Ohtani/Jones) | YRFI | 56% | _model-only (no bet)_ | **L** | **Thesis (YRFI):** LAD's top is the board's most dangerous (Ohtani leadoff, Betts, Freeman) vs hittable Jared Jones — a real 1st-inning run threat, and it only takes that one half-inning. Ohtani shuts PIT's weak top down, so the over rode entirely on the LAD side. **Result:** 1st inning 0-0 (LAD 0, PIT 0) — NRFI occurred, **lean MISSED.** Both starters threw clean 1sts; LAD's elite top didn't cash early. Calibration: the pitching-first bias beat the bats-first read. |
@@ -116,28 +134,28 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 6/15 | LAA @ ARI (Ureña/Nelson) | YRFI | 54% | _model-only_ | **W** (1st 1-1 → YRFI) | Rookie Ureña 1st-inning risk vs ARI top. |
 | 6/15 | PIT @ ATH (Jones/Ginn) | NRFI | 53% | _model-only_ | **W** (1st 0-0 → NRFI) | Jared Jones K-stuff + ATH top low-power. |
 | 6/15 | TB @ LAD (Martinez/Lauer) | YRFI | 56% | _model-only_ | **W** (1st 2-0 → YRFI) | LAD elite top vs shaky Lauer (5.47) is the live half. |
-| 6/16 | MIA @ PHI (Phillips/Luzardo) | YRFI | 54% | _model-only_ | **TBD** | PHI top (Schwarber/Harper) can score early on Phillips; wind 7mph Out To RF at CBP. |
-| 6/16 | KC @ WSH (Wacha/Griffin) | NRFI | 54% | _model-only_ | **TBD** | Wacha contact arm + weak KC top; mild NRFI. |
-| 6/16 | TOR @ BOS (Cease/Tolle) | NRFI | 55% | _model-only_ | **TBD** | Cease (13.63 K9) mows the 1st clean; rookie Tolle the only YRFI risk. |
-| 6/16 | CWS @ NYY (Martin/Cole) | NRFI | 53% | _model-only_ | **TBD** | Cole clean 1sts + CWS avg top; NYY top vs Martin the swing. |
-| 6/16 | NYM @ CIN (Senga/Singer) | YRFI | 57% | _model-only_ | **TBD** | Senga post-IL shaky (9.00 ERA) + GABP hitter park; the live half. |
+| 6/16 | MIA @ PHI (Phillips/Luzardo) | YRFI | 54% | _model-only_ | **W** (1st 0-3 → YRFI) | PHI top (Schwarber/Harper) can score early on Phillips; wind 7mph Out To RF at CBP. |
+| 6/16 | KC @ WSH (Wacha/Griffin) | NRFI | 54% | _model-only_ | **W** (1st 0-0 → NRFI) | Wacha contact arm + weak KC top; mild NRFI. |
+| 6/16 | TOR @ BOS (Cease/Tolle) | NRFI | 55% | _model-only_ | **W** (1st 0-0 → NRFI) | Cease (13.63 K9) mows the 1st clean; rookie Tolle the only YRFI risk. |
+| 6/16 | CWS @ NYY (Martin/Cole) | NRFI | 53% | _model-only_ | **L** (1st 1-0 → YRFI) | Cole clean 1sts + CWS avg top; NYY top vs Martin the swing. |
+| 6/16 | NYM @ CIN (Senga/Singer) | YRFI | 57% | _model-only_ | **W** (1st 0-4 → YRFI) | Senga post-IL shaky (9.00 ERA) + GABP hitter park; the live half. |
 | 6/16 | SF @ ATL (Houser/Holmes) | YRFI | 53% | _model-only_ | **TBD** | ATL top can cash early vs Houser; SF top weak. Mild YRFI. |
-| 6/16 | CLE @ MIL (Cecconi/Gasser) | YRFI | 55% | _model-only_ | **TBD** | Gasser shaky (6.38 ERA) early; CLE top can jump. |
-| 6/16 | SD @ STL (King/Pallante) | NRFI | 54% | _model-only_ | **TBD** | King clean early; SD top slumping. |
-| 6/16 | COL @ CHC (Feltner/Cabrera) | YRFI | 57% | _model-only_ | **TBD** | Wrigley wind 17mph OUT + two hittable arms — strongest YRFI lean. |
-| 6/16 | MIN @ TEX (Matthews/Rocker) | NRFI | 53% | _model-only_ | **TBD** | Rocker K-stuff, dome, cold MIN top; mild NRFI. |
-| 6/16 | DET @ HOU (Valdez?/Brown) | NRFI | 53% | _model-only (SP attribution uncertain — E3)_ | **TBD** | Brown clean early; SP label disputed → provisional. |
-| 6/16 | LAA @ AZ (Detmers/Kelly) | NRFI | 54% | _model-only_ | **TBD** | Kelly clean 1sts; LAA top quiet. |
-| 6/16 | PIT @ ATH (Keller/Perkins) | NRFI | 54% | _model-only_ | **TBD** | Keller clean early + ATH low-power top. |
-| 6/16 | BAL @ SEA (Young/Gilbert) | NRFI | 56% | _model-only_ | **TBD** | Gilbert ace mows the 1st; BAL top vs Young the only risk. |
-| 6/16 | TB @ LAD (Rasmussen/Wrobleski) | YRFI | 56% | _model-only_ | **TBD** | LAD elite top vs back-end Wrobleski is the live half. |
+| 6/16 | CLE @ MIL (Cecconi/Gasser) | YRFI | 55% | _model-only_ | **L** (1st 0-0 → NRFI) | Gasser shaky (6.38 ERA) early; CLE top can jump. |
+| 6/16 | SD @ STL (King/Pallante) | NRFI | 54% | _model-only_ | **W** (1st 0-0 → NRFI) | King clean early; SD top slumping. |
+| 6/16 | COL @ CHC (Feltner/Cabrera) | YRFI | 57% | _model-only_ | **W** (1st 0-1 → YRFI) | Wrigley wind 17mph OUT + two hittable arms — strongest YRFI lean. |
+| 6/16 | MIN @ TEX (Matthews/Rocker) | NRFI | 53% | _model-only_ | **L** (1st 2-0 → YRFI) | Rocker K-stuff, dome, cold MIN top; mild NRFI. |
+| 6/16 | DET @ HOU (Valdez?/Brown) | NRFI | 53% | _model-only (SP attribution uncertain — E3)_ | **W** (1st 0-0 → NRFI) | Brown clean early; SP label disputed → provisional. |
+| 6/16 | LAA @ AZ (Detmers/Kelly) | NRFI | 54% | _model-only_ | **W** (1st 0-0 → NRFI) | Kelly clean 1sts; LAA top quiet. |
+| 6/16 | PIT @ ATH (Keller/Perkins) | NRFI | 54% | _model-only_ | **L** (1st 0-4 → YRFI) | Keller clean early + ATH low-power top. |
+| 6/16 | BAL @ SEA (Young/Gilbert) | NRFI | 56% | _model-only_ | **L** (1st 1-0 → YRFI) | Gilbert ace mows the 1st; BAL top vs Young the only risk. |
+| 6/16 | TB @ LAD (Rasmussen/Wrobleski) | YRFI | 56% | _model-only_ | **L** (1st 0-0 → NRFI) | LAD elite top vs back-end Wrobleski is the live half. |
 
 ---
 
 ## Running totals (update on every settle)
-- **Record:** **35-24** (tracker opened 6/10/26). **NRFI:** **18-16** · **YRFI:** **17-8**.
+- **Record:** **43-30** (tracker opened 6/10/26). **NRFI:** **23-20** · **YRFI:** **20-10**.
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
-- **Open:** **6/16: 15 model-only reads open** (settle off the 1st-inning line score next run). 6/15's 10 reads auto-settled this session (8-2 on the day — only COL@CHC NRFI and... net record now **35-24**).
+- **Open:** **6/17: 14 model-only reads open** (settle off the 1st-inning line score next run). 6/16's reads auto-settled this session via `nrfi_settle.py --apply` (14 results stamped → record **43-30**; NRFI 23-20 · YRFI 20-10).
 - **Settled 6/11** (auto via `nrfi_settle.py --apply`): LAD@PIT YRFI **L** (1st 0-0 → NRFI), SEA@BAL NRFI **L**
   (1st 1-0 → YRFI). **Calibration:** YRFI on LAD's top missed AGAIN (2nd straight 0-0 LAD 1st) — the
   pitching-first/NRFI bias keeps beating the bats-first LAD-top read; the SEA@BAL NRFI lean missed on a lone

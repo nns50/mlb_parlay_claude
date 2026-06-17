@@ -333,23 +333,34 @@ def parse_latest_build() -> dict:
 
     # Last "## Run ..." block — matches "## Run 11:00 ET — Build A" AND
     # off-schedule headers like "## Run (user-requested) — Build A".
+    # A later run can be confirm-only (e.g. "Build C confirms Build B") and
+    # repeat NO tier headings; walk runs newest→oldest and use the most-recent
+    # block that actually carries tiers, so the dashboard never shows blank.
     runs = list(re.finditer(r'## Run ([^\n]+?)\s*\n', text))
     if not runs:
         return out
-    last = runs[-1]
-    out['run'] = re.sub(r'\s*—.*$', '', last.group(1)).strip()
-    block = text[last.end():]
-    nxt = re.search(r'\n## (?!#)', block)   # next H2 ends the run block
-    if nxt:
-        block = block[:nxt.start()]
 
-    # Each "### Tier N — title" heading; pick = first **bold** in its body
-    for tm in re.finditer(r'### (Tier \d[^\n]*)\n(.*?)(?=\n###|\Z)', block, re.DOTALL):
-        title = strip_md(tm.group(1)).strip()
-        body = tm.group(2)
-        bm = re.search(r'\*\*(.+?)\*\*', body, re.DOTALL)
-        pick = re.sub(r'\s+', ' ', bm.group(1)).strip() if bm else ''
-        out['tiers'].append({'title': title[:90], 'pick': pick[:130]})
+    def block_for(idx):
+        b = text[runs[idx].end():]
+        nx = re.search(r'\n## (?!#)', b)   # next H2 ends the run block
+        return b[:nx.start()] if nx else b
+
+    def tiers_in(block):
+        found = []
+        for tm in re.finditer(r'### (Tier \d[^\n]*)\n(.*?)(?=\n###|\Z)', block, re.DOTALL):
+            title = strip_md(tm.group(1)).strip()
+            bm = re.search(r'\*\*(.+?)\*\*', tm.group(2), re.DOTALL)
+            pick = re.sub(r'\s+', ' ', bm.group(1)).strip() if bm else ''
+            found.append({'title': title[:90], 'pick': pick[:130]})
+        return found
+
+    out['run'] = re.sub(r'\s*—.*$', '', runs[-1].group(1)).strip()
+    for i in range(len(runs) - 1, -1, -1):
+        tiers = tiers_in(block_for(i))
+        if tiers:
+            out['run'] = re.sub(r'\s*—.*$', '', runs[i].group(1)).strip()
+            out['tiers'] = tiers
+            break
     return out
 
 

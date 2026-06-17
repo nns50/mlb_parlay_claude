@@ -69,16 +69,16 @@ P(4 straight wins in an attempt) ≈ 0.60⁴ ≈ **13%** → expect ~8 attempts 
 | 4 | 6/13 | 3 | $29.74 | MIL ML −143/−160 (1.699) | 60% | **LOSS** (PHI 9-8 MIL) | **$0.00** | **Attempt 4 BUSTS at roll 3** (was 2-0). MIL's elite bullpen blew it vs Nola/PHI — full-rollover risk realized, $10→$29.74 wiped. (18:00 alt pick KC −123 ALSO lost 7-8 to HOU, so either form of roll 3 busts.) Restart attempt 5 at $10 on 6/14. |
 | 5 | 6/14 | 1 | $10.00 | NYY ML −130 (BetOnline.ag, 1.769) | 58.5% | **WIN** (NYY 8-3 TOR) | **$17.69** | **Attempt 5 roll 1 CASHED.** NYY 42-27/+102 elite, Warren held TOR; NYY won 8-3. $10×1.769 = $17.69. Roll 2 next slate (6/15). |
 | 5 | 6/15 | 2 | $17.69 | PHI ML −182 (LowVig.ag, 1.549) | 67.5% | **WIN** (PHI 7-0 MIA) | **$27.40** | **Attempt 5 roll 2 CASHED.** Wheeler dominant (PHI 7-0, MIA shut out). $17.69×1.549 = $27.40. Attempt 5 now **2-0** → roll 3. |
-| 5 | 6/16 | 3 | $27.40 | SEA ML −145 (BetUS, 1.690) | 61% | **TBD** | _pending_ | **Attempt 5 roll 3.** Single cleanest ace-edge qualifying fav on the board: **Logan Gilbert** 3.62 ERA / 1.08 WHIP / 9.26 K9, fresh (6/9 @BAL 6IP/1ER/5K), home vs BAL (34-39) / Brandon Young. No-vig 58.2% → TrueP 61% (ace-edge +3pp), **edge +2.8pp clears the gate**. Not an A-list fade (CHC −190 IS A1, excluded; MIL/Gasser 6.38 ERA is a D4 trap, excluded; ATL −161/Holmes 4.05 is opponent-driven, thinner). $27.40×1.690 = **$46.31** on a win → roll 4 (the 4-win target roll). |
+| 5 | 6/16 | 3 | $27.40 | SEA ML −145 (BetUS, 1.690) | 61% | **WIN** (SEA 3-1 BAL) | **$46.31** | **Attempt 5 roll 3 CASHED.** Gilbert dealt vs BAL, SEA won 3-1. $27.40×1.690 = $46.31. Attempt 5 now **3-0** → roll 4 today (6/17) = the 4-win target roll. |
 
 ---
 
 ## Running totals (update on every settle)
 
-- **Current:** **Attempt 5 OPEN — 2-0 (NYY 8-3 6/14; PHI 7-0 6/15) → roll 3 today 6/16:** SEA ML −145 (BetUS, 1.690), balance $27.40 → **$46.31** on a win (then roll 4 = the 4-win target). Attempt 5 now **2-0**.
+- **Current:** **Attempt 5 OPEN — 3-0 (NYY 8-3 6/14; PHI 7-0 6/15; SEA 3-1 6/16) → roll 4 today 6/17 = THE 4-WIN TARGET ROLL.** Balance **$46.31**. Pick today's single safest qualifying fav (independent of the parlay, not an A-list fade); a win HITS the 4-win target → STOP & withdraw (~$74+).
   (Attempt 4 BUSTED 6/13 at roll 3; Attempt 3 BUSTED 6/10 at roll 3; Attempt 2 COMPLETE 6/8 — 🎯 4-WIN TARGET HIT, withdrew $65.48.)
-- **Attempts:** 4 completed + **1 open (attempt 5, roll 3 — 2-0)** · **Targets hit (4 wins):** **1** ✅ · **Busts:** 3 (attempt 1 @ roll 1, attempt 3 @ roll 3, attempt 4 @ roll 3) · **Best run:** **4 wins (attempt 2 — TARGET)**
+- **Attempts:** 4 completed + **1 open (attempt 5, roll 4 — 3-0, target roll)** · **Targets hit (4 wins):** **1** ✅ · **Busts:** 3 (attempt 1 @ roll 1, attempt 3 @ roll 3, attempt 4 @ roll 3) · **Best run:** **4 wins (attempt 2 — TARGET); attempt 5 now 3-0, one win from the 2nd target**
 - **Total real risk (attempts × $10):** **$50.00** risked (attempt 5's $10 in play) · **Total withdrawn:** **$65.48**
-- **Net P/L (withdrawn − deposited):** **+$15.48** realized (attempt 1 −$10; attempt 2 +$55.48; attempt 3 −$10; attempt 4 −$10 BUST; attempt 5 −$10 in-play, **$27.40 live balance**, 2-0 → roll 3)
+- **Net P/L (withdrawn − deposited):** **+$15.48** realized (attempt 1 −$10; attempt 2 +$55.48; attempt 3 −$10; attempt 4 −$10 BUST; attempt 5 −$10 in-play, **$46.31 live balance**, 3-0 → roll 4 = target)
 
 > Tracked like `fades.md` / `results_log.md`: any change → commit → push → PR → squash-merge.
