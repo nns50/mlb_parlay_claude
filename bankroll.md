@@ -70,15 +70,17 @@ P(4 straight wins in an attempt) ≈ 0.60⁴ ≈ **13%** → expect ~8 attempts 
 | 5 | 6/14 | 1 | $10.00 | NYY ML −130 (BetOnline.ag, 1.769) | 58.5% | **WIN** (NYY 8-3 TOR) | **$17.69** | **Attempt 5 roll 1 CASHED.** NYY 42-27/+102 elite, Warren held TOR; NYY won 8-3. $10×1.769 = $17.69. Roll 2 next slate (6/15). |
 | 5 | 6/15 | 2 | $17.69 | PHI ML −182 (LowVig.ag, 1.549) | 67.5% | **WIN** (PHI 7-0 MIA) | **$27.40** | **Attempt 5 roll 2 CASHED.** Wheeler dominant (PHI 7-0, MIA shut out). $17.69×1.549 = $27.40. Attempt 5 now **2-0** → roll 3. |
 | 5 | 6/16 | 3 | $27.40 | SEA ML −145 (BetUS, 1.690) | 61% | **WIN** (SEA 3-1 BAL) | **$46.31** | **Attempt 5 roll 3 CASHED.** Gilbert dealt vs BAL, SEA won 3-1. $27.40×1.690 = $46.31. Attempt 5 now **3-0** → roll 4 today (6/17) = the 4-win target roll. |
+| 5 | 6/17 | 4 | $46.31 | LAD ML −158 (BetOnline.ag, 1.633) | 63% | **WIN** (LAD 5-4 TB) | **$75.63** | **🎯 4-WIN TARGET HIT → STOP & WITHDRAW $75.63.** Ohtani-anchored LAD (1.06 ERA ace-edge, +2.7pp) held off TB 5-4. $46.31×1.633 = $75.63. **Attempt 5 = SUCCESS (4 straight wins: NYY, PHI, SEA, LAD).** Restart next slate at $10. |
+| — | — | — | — | — WITHDRAWN $75.63 — | — | **TARGET** | **$0 → restart $10** | Attempt 5 complete: $10 → $75.63 over 4 rolls (NYY 6/14, PHI 6/15, SEA 6/16, LAD 6/17). Net realized profit on attempt 5 = **+$65.63**. Next slate starts fresh attempt 6 at $10. |
 
 ---
 
 ## Running totals (update on every settle)
 
-- **Current:** **Attempt 5 OPEN — 3-0 (NYY 8-3 6/14; PHI 7-0 6/15; SEA 3-1 6/16) → roll 4 today 6/17 = THE 4-WIN TARGET ROLL.** Balance **$46.31**. Pick today's single safest qualifying fav (independent of the parlay, not an A-list fade); a win HITS the 4-win target → STOP & withdraw (~$74+).
+- **Current:** **🎯 ATTEMPT 5 COMPLETE — 4-WIN TARGET HIT 6/17 (NYY 8-3 6/14; PHI 7-0 6/15; SEA 3-1 6/16; LAD 5-4 6/17) → WITHDREW $75.63.** Balance **$0 → restart attempt 6 at $10 next slate (6/18).** This is the **2nd target hit** (attempt 2 hit 6/8 for $65.48).
   (Attempt 4 BUSTED 6/13 at roll 3; Attempt 3 BUSTED 6/10 at roll 3; Attempt 2 COMPLETE 6/8 — 🎯 4-WIN TARGET HIT, withdrew $65.48.)
-- **Attempts:** 4 completed + **1 open (attempt 5, roll 4 — 3-0, target roll)** · **Targets hit (4 wins):** **1** ✅ · **Busts:** 3 (attempt 1 @ roll 1, attempt 3 @ roll 3, attempt 4 @ roll 3) · **Best run:** **4 wins (attempt 2 — TARGET); attempt 5 now 3-0, one win from the 2nd target**
-- **Total real risk (attempts × $10):** **$50.00** risked (attempt 5's $10 in play) · **Total withdrawn:** **$65.48**
-- **Net P/L (withdrawn − deposited):** **+$15.48** realized (attempt 1 −$10; attempt 2 +$55.48; attempt 3 −$10; attempt 4 −$10 BUST; attempt 5 −$10 in-play, **$46.31 live balance**, 3-0 → roll 4 = target)
+- **Attempts:** 5 completed · **Targets hit (4 wins):** **2** ✅✅ (attempt 2 $65.48; attempt 5 $75.63) · **Busts:** 3 (attempt 1 @ roll 1, attempt 3 @ roll 3, attempt 4 @ roll 3) · **Best run:** **4 wins ×2 (attempts 2 & 5 — both TARGET)**
+- **Total real risk (attempts × $10):** **$50.00** risked (5 attempts) · **Total withdrawn:** **$141.11** ($65.48 + $75.63)
+- **Net P/L (withdrawn − deposited):** **+$91.11** realized (attempt 1 −$10; attempt 2 +$55.48; attempt 3 −$10; attempt 4 −$10; attempt 5 +$65.63) — **2 successful 4-win ladders banked.**
 
 > Tracked like `fades.md` / `results_log.md`: any change → commit → push → PR → squash-merge.
