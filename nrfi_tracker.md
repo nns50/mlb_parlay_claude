@@ -59,9 +59,9 @@ Its own ledger lives here; the dashboard renders it from this file.
 
 | Date | Matchup | Pick | TrueP | Price | Result | Reasoning (why this pick) |
 |------|---------|------|-------|-------|--------|----------------------------|
-| 6/17 | NYM @ CIN (McLean/Lodolo) | YRFI | 55% | _model-only_ | **TBD** | GABP hitter park + two live tops; 1st-inning risk despite McLean K-stuff. |
-| 6/17 | KC @ WSH (Avila/Littell) | YRFI | 56% | _model-only_ | **TBD** | Two-bad-SP shootout (6.19 / 5.32) — strongest YRFI lean. |
-| 6/17 | MIA @ PHI (Alcantara/Painter) | NRFI | 54% | _model-only_ | **TBD** | Alcantara clean 1sts; rookie Painter the lone risk. |
+| 6/17 | NYM @ CIN (McLean/Lodolo) | YRFI | 55% | _model-only_ | **L** (1st 0-0 → NRFI) | GABP hitter park + two live tops; 1st-inning risk despite McLean K-stuff. |
+| 6/17 | KC @ WSH (Avila/Littell) | YRFI | 56% | _model-only_ | **W** (1st 1-0 → YRFI) | Two-bad-SP shootout (6.19 / 5.32) — strongest YRFI lean. |
+| 6/17 | MIA @ PHI (Alcantara/Painter) | NRFI | 54% | _model-only_ | **L** (1st 2-2 → YRFI) | Alcantara clean 1sts; rookie Painter the lone risk. |
 | 6/17 | DET @ HOU (Mize/Lambert) | NRFI | 53% | _model-only_ | **TBD** | Two league-avg arms, contact-ish tops; mild NRFI. |
 | 6/17 | SD @ STL (Rodriguez/Leahy) | YRFI | 53% | _model-only_ | **TBD** | Rookie B.Rodriguez 1st-inning variance + hittable Leahy. |
 | 6/17 | TB @ LAD (McClanahan/Ohtani) | NRFI | 56% | _model-only_ | **TBD** | Ohtani 1.06 mows the 1st; two strong arms — cleanest NRFI. |
@@ -139,7 +139,7 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 6/16 | TOR @ BOS (Cease/Tolle) | NRFI | 55% | _model-only_ | **W** (1st 0-0 → NRFI) | Cease (13.63 K9) mows the 1st clean; rookie Tolle the only YRFI risk. |
 | 6/16 | CWS @ NYY (Martin/Cole) | NRFI | 53% | _model-only_ | **L** (1st 1-0 → YRFI) | Cole clean 1sts + CWS avg top; NYY top vs Martin the swing. |
 | 6/16 | NYM @ CIN (Senga/Singer) | YRFI | 57% | _model-only_ | **W** (1st 0-4 → YRFI) | Senga post-IL shaky (9.00 ERA) + GABP hitter park; the live half. |
-| 6/16 | SF @ ATL (Houser/Holmes) | YRFI | 53% | _model-only_ | **TBD** | ATL top can cash early vs Houser; SF top weak. Mild YRFI. |
+| 6/16 | SF @ ATL (Houser/Holmes) | YRFI | 53% | _model-only_ | **W** (1st 1-2 → YRFI) | ATL top can cash early vs Houser; SF top weak. Mild YRFI. |
 | 6/16 | CLE @ MIL (Cecconi/Gasser) | YRFI | 55% | _model-only_ | **L** (1st 0-0 → NRFI) | Gasser shaky (6.38 ERA) early; CLE top can jump. |
 | 6/16 | SD @ STL (King/Pallante) | NRFI | 54% | _model-only_ | **W** (1st 0-0 → NRFI) | King clean early; SD top slumping. |
 | 6/16 | COL @ CHC (Feltner/Cabrera) | YRFI | 57% | _model-only_ | **W** (1st 0-1 → YRFI) | Wrigley wind 17mph OUT + two hittable arms — strongest YRFI lean. |
@@ -153,7 +153,7 @@ Its own ledger lives here; the dashboard renders it from this file.
 ---
 
 ## Running totals (update on every settle)
-- **Record:** **43-30** (tracker opened 6/10/26). **NRFI:** **23-20** · **YRFI:** **20-10**.
+- **Record:** **45-32** (tracker opened 6/10/26). **NRFI:** **23-21** · **YRFI:** **22-11**.
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
 - **Open:** **6/17: 14 model-only reads open** (settle off the 1st-inning line score next run). 6/16's reads auto-settled this session via `nrfi_settle.py --apply` (14 results stamped → record **43-30**; NRFI 23-20 · YRFI 20-10).
 - **Settled 6/11** (auto via `nrfi_settle.py --apply`): LAD@PIT YRFI **L** (1st 0-0 → NRFI), SEA@BAL NRFI **L**
