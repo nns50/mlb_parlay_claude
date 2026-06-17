@@ -65,7 +65,7 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 6/17 | DET @ HOU (Mize/Lambert) | NRFI | 53% | _model-only_ | **W** (1st 0-0 → NRFI) | Two league-avg arms, contact-ish tops; mild NRFI. |
 | 6/17 | SD @ STL (Rodriguez/Leahy) | YRFI | 53% | _model-only_ | **W** (1st 1-0 → YRFI) | Rookie B.Rodriguez 1st-inning variance + hittable Leahy. |
 | 6/17 | TB @ LAD (McClanahan/Ohtani) | NRFI | 56% | _model-only_ | **W** (1st 0-0 → NRFI) | Ohtani 1.06 mows the 1st; two strong arms — cleanest NRFI. |
-| 6/17 | LAA @ AZ (Aldegheri/E.Rodriguez) | NRFI | 54% | _model-only_ | **TBD** | E-Rod 2.55 clean early + quiet LAA top; rookie Aldegheri the risk. |
+| 6/17 | LAA @ AZ (Aldegheri/E.Rodriguez) | NRFI | 54% | _model-only_ | **L** (1st 1-0 → YRFI) | E-Rod 2.55 clean early + quiet LAA top; rookie Aldegheri the risk. |
 | 6/17 | TOR @ BOS (Scherzer/Bennett) | NRFI | 53% | _model-only_ | **TBD** | Scherzer mows early; rookie Bennett vs TOR top the YRFI risk. |
 | 6/17 | CWS @ NYY (Kay/Rodón) | NRFI | 54% | _model-only_ | **TBD** | Rodón 9.87 K9 clean vs weak CWS top; NYY top vs Kay the live half. |
 | 6/17 | SF @ ATL G2 (TBD/Ritchie) | YRFI | 53% | _model-only (SP TBD — provisional)_ | **TBD** | Rookie Ritchie 1st-inning risk; SF away SP unannounced. |
@@ -153,7 +153,7 @@ Its own ledger lives here; the dashboard renders it from this file.
 ---
 
 ## Running totals (update on every settle)
-- **Record:** **48-32** (tracker opened 6/10/26). **NRFI:** **25-21** · **YRFI:** **23-11**.
+- **Record:** **48-33** (tracker opened 6/10/26). **NRFI:** **25-22** · **YRFI:** **23-11**.
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
 - **Open:** **6/17: 14 model-only reads open** (settle off the 1st-inning line score next run). 6/16's reads auto-settled this session via `nrfi_settle.py --apply` (14 results stamped → record **43-30**; NRFI 23-20 · YRFI 20-10).
 - **Settled 6/11** (auto via `nrfi_settle.py --apply`): LAD@PIT YRFI **L** (1st 0-0 → NRFI), SEA@BAL NRFI **L**
