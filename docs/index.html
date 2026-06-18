@@ -128,7 +128,7 @@ tbody tr:hover{background:var(--surf2)}
 <body>
 <header>
   <h1>⚾ MLB Parlay Dashboard</h1>
-  <span class="updated"><span class="freshdot fresh">● live</span> · Updated 2026-06-18 15:16 ET</span>
+  <span class="updated"><span class="freshdot fresh">● live</span> · Updated 2026-06-18 20:10 ET</span>
 </header>
 <nav class="jump">
   <a href="#overview">Overview</a>
@@ -165,8 +165,8 @@ tbody tr:hover{background:var(--surf2)}
     </div>
     <div class="h">
       <div class="lbl">CLV+ rate</div>
-      <div class="big">26.5%</div>
-      <div class="sub">beat the close · n=34</div>
+      <div class="big">28.6%</div>
+      <div class="sub">beat the close · n=35</div>
     </div>
     <div class="h">
       <div class="lbl">Bankroll</div>
@@ -193,7 +193,7 @@ tbody tr:hover{background:var(--surf2)}
     <div class="stat" style="border-left:3px solid var(--blue,#3b82f6)">
       <div class="lbl">Latest build</div>
       <div class="val" style="font-size:18px">2026-06-18</div>
-      <div class="sub">runs: 11:00</div>
+      <div class="sub">runs: 11:00 · 16:00</div>
     </div>
     <div class="stat" style="border-left:3px solid var(--yellow)">
       <div class="lbl">Open tickets (TBD)</div>
@@ -208,28 +208,24 @@ tbody tr:hover{background:var(--surf2)}
   </div>
 
   <div class="card" style="margin:4px 0 6px">
-    <h2>Today's board — 2026-06-18 · Run 11:00 ET ET</h2>
+    <h2>Today's board — 2026-06-18 · Run 16:00 ET ET</h2>
     <div class="sub">Picks from the latest run block (best-effort parse — the parlay file is the source of truth)</div>
     
       <div style="padding:8px 0;border-bottom:1px solid var(--border)">
-        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">Tier 1 — best standalone (the real value) [lead play]</div>
-        <div style="font-size:13px;line-height:1.45">MIN ML −120 (BetUS / LowVig; best of book).</div>
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">Tier 1 — best standalone (lead value)</div>
+        <div style="font-size:13px;line-height:1.45">NYY ML −149 (LowVig, 1.671).</div>
       </div>
       <div style="padding:8px 0;border-bottom:1px solid var(--border)">
-        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">Tier 2 — highest-floor 2-leg (best WIN CHANCE)</div>
-        <div style="font-size:13px;line-height:1.45">NYY ML −149 × ATL ML −132</div>
-      </div>
-      <div style="padding:8px 0;border-bottom:1px solid var(--border)">
-        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">Tier 3 — the +200 build (your explicit ask)</div>
-        <div style="font-size:13px;line-height:1.45">NYY ML −149 × MIN ML −120</div>
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">Tier 2 = Tier 3 — highest-floor 2-leg AND the +200 ask (they coincide today)</div>
+        <div style="font-size:13px;line-height:1.45">NYY ML −149 × SEA ML −120 = 3.064 dec (+206).</div>
       </div>
     
       <div style="margin-top:12px">
         <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:4px">
-          <span>Odds API credits</span><span class="mono">19,396 left · used 604 / 20,000-mo</span>
+          <span>Odds API credits</span><span class="mono">19,369 left · used 631 / 20,000-mo</span>
         </div>
         <div style="height:7px;background:var(--border);border-radius:4px;overflow:hidden">
-          <div style="height:100%;width:3.0%;background:var(--green)"></div>
+          <div style="height:100%;width:3.2%;background:var(--green)"></div>
         </div>
       </div>
   </div>
@@ -555,8 +551,8 @@ tbody tr:hover{background:var(--surf2)}
 
   <div class="section-title" id="nrfi">First-inning tracker (NRFI / YRFI)</div>
   <div class="tcard">
-    <h2>NRFI / YRFI record &amp; tracked reads <span class="mono pos">51-37</span></h2>
-    <div class="sub">From nrfi_tracker.md · NRFI = Under 0.5 runs in the 1st, YRFI = Over 0.5 · overall NRFI 27-25 · YRFI 24-12 · grouped by day with daily win% · separate from the parlay ledger</div>
+    <h2>NRFI / YRFI record &amp; tracked reads <span class="mono pos">52-37</span></h2>
+    <div class="sub">From nrfi_tracker.md · NRFI = Under 0.5 runs in the 1st, YRFI = Over 0.5 · overall NRFI 27-25 · YRFI 25-12 · grouped by day with daily win% · separate from the parlay ledger</div>
     
     <details class="nrfi-day" open>
       <summary>
@@ -1232,8 +1228,8 @@ tbody tr:hover{background:var(--surf2)}
     <details class="nrfi-day" open>
       <summary>
         <span class="nrfi-day-date mono">6/18</span>
-        <span class="mono muted">pending</span>
-        <span class="muted small">9 open</span>
+        <span class="mono pos">1-0 · 100% W</span>
+        <span class="muted small">1 settled · 8 open</span>
       </summary>
       <table><thead><tr><th>Matchup</th><th>Pick</th><th>TrueP</th><th>Price</th><th>Result</th><th>Reasoning</th></tr></thead>
       <tbody>
@@ -1242,7 +1238,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag ">YRFI</span></td>
         <td class="mono">53%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono win">W</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Gray clean early but rookie Yesavage vs a live BOS top is the 1st-inning risk.</td>
       </tr>
       <tr>
@@ -1985,7 +1981,7 @@ tbody tr:hover{background:var(--surf2)}
     <table><thead><tr><th>Date</th><th>Runs</th><th>Result</th><th>Summary</th></tr></thead><tbody>
       <tr>
         <td class="mono">2026-06-18</td>
-        <td class="mono muted">11:00</td>
+        <td class="mono muted">11:00 / 16:00</td>
         <td><span class="badge tbd">TBD</span></td>
         <td class="muted small">—</td>
       </tr>
@@ -2198,10 +2194,10 @@ Chart.defaults.font.size = 11;
   new Chart(document.getElementById('clvChart'), {
     type: 'bar',
     data: {
-      labels: ["6/5 Mariners ML (Woo, @ DE", "6/5 Dodgers ML (Sasaki, vs", "6/5 Mariners ML / Dodgers ", "6/5 Yankees ML (Weathers, ", "6/7 deGrom (TEX) ML (vs CL", "6/7 Braves ML (Elder, vs P", "6/7 LAD ML (Sheehan, vs LA", "6/7 PHI ML (Nola, vs CWS)", "6/8 PHI ML (S\u00e1nchez, vs TO", "6/8 MIL ML (Harrison, vs A", "6/9 MIA ML (Meyer, vs AZ)", "6/9 ATL ML (Holmes, vs CWS", "6/10 LAD ML (Ohtani, @ PIT)", "6/10 PHI ML (Luzardo, @ TOR", "6/10 DET ML (Valdez, vs MIN", "6/10 ATL ML (Sale, vs CWS) ", "6/12 SEA ML (B. Miller, @ W", "6/13 TEX ML (deGrom, @ BOS)", "6/13 MIL ML (Drohan, vs PHI", "6/13 AZ ML (Soroka, @ CIN)", "6/14 ATH ML (Springs, vs CO", "6/15 PHI ML (Wheeler, vs MI", "6/15 LAD ML (Lauer, vs TB)", "6/15 HOU ML (Teng, vs DET)", "6/16 SEA ML (Gilbert, vs BA", "6/16 ATL ML (Holmes, vs SF)", "6/16 TOR ML (Cease, @ BOS)", "6/16 PHI ML (Luzardo, vs MI", "6/17 SEA ML (Kirby, vs BAL)"],
+      labels: ["6/5 Mariners ML (Woo, @ DE", "6/5 Dodgers ML (Sasaki, vs", "6/5 Mariners ML / Dodgers ", "6/5 Yankees ML (Weathers, ", "6/7 deGrom (TEX) ML (vs CL", "6/7 Braves ML (Elder, vs P", "6/7 LAD ML (Sheehan, vs LA", "6/7 PHI ML (Nola, vs CWS)", "6/8 PHI ML (S\u00e1nchez, vs TO", "6/8 MIL ML (Harrison, vs A", "6/9 MIA ML (Meyer, vs AZ)", "6/9 ATL ML (Holmes, vs CWS", "6/10 LAD ML (Ohtani, @ PIT)", "6/10 PHI ML (Luzardo, @ TOR", "6/10 DET ML (Valdez, vs MIN", "6/10 ATL ML (Sale, vs CWS) ", "6/12 SEA ML (B. Miller, @ W", "6/13 TEX ML (deGrom, @ BOS)", "6/13 MIL ML (Drohan, vs PHI", "6/13 AZ ML (Soroka, @ CIN)", "6/14 ATH ML (Springs, vs CO", "6/15 PHI ML (Wheeler, vs MI", "6/15 LAD ML (Lauer, vs TB)", "6/15 HOU ML (Teng, vs DET)", "6/16 SEA ML (Gilbert, vs BA", "6/16 ATL ML (Holmes, vs SF)", "6/16 TOR ML (Cease, @ BOS)", "6/16 PHI ML (Luzardo, vs MI", "6/17 SEA ML (Kirby, vs BAL)", "6/18 NYY ML (Weathers, vs C"],
       datasets: [{
-        data: [1, 1, 1, 0, -10, 10, 10, 10, -10, -10, -10, 10, -10, -10, 10, 10, -10, -10, -10, -10, -10, -10, 10, -10, 10, 10, -10, 10, -10],
-        backgroundColor: ["#22c55e", "#22c55e", "#22c55e", "#8b949e", "#ef4444", "#22c55e", "#22c55e", "#22c55e", "#ef4444", "#ef4444", "#ef4444", "#22c55e", "#ef4444", "#ef4444", "#22c55e", "#22c55e", "#ef4444", "#ef4444", "#ef4444", "#ef4444", "#ef4444", "#ef4444", "#22c55e", "#ef4444", "#22c55e", "#22c55e", "#ef4444", "#22c55e", "#ef4444"],
+        data: [1, 1, 1, 0, -10, 10, 10, 10, -10, -10, -10, 10, -10, -10, 10, 10, -10, -10, -10, -10, -10, -10, 10, -10, 10, 10, -10, 10, -10, 1],
+        backgroundColor: ["#22c55e", "#22c55e", "#22c55e", "#8b949e", "#ef4444", "#22c55e", "#22c55e", "#22c55e", "#ef4444", "#ef4444", "#ef4444", "#22c55e", "#ef4444", "#ef4444", "#22c55e", "#22c55e", "#ef4444", "#ef4444", "#ef4444", "#ef4444", "#ef4444", "#ef4444", "#22c55e", "#ef4444", "#22c55e", "#22c55e", "#ef4444", "#22c55e", "#ef4444", "#22c55e"],
         borderRadius: 3,
       }]
     },
@@ -2209,7 +2205,7 @@ Chart.defaults.font.size = 11;
       responsive: true, maintainAspectRatio: false,
       plugins: {
         legend: {display: false},
-        tooltip: {callbacks: {label: ctx => 'CLV: ' + ["+", "+", "+", "=", "+ (live, line ran to -10000)", "+ 85%cl", "+ 85%cl", "+ 85%cl", "- 60%cl", "- 56%cl", "- 55%cl", "= 58%cl", "- 54%cl", "- 54%cl", "= 61%cl", "+ 58%cl", "- 56%cl", "- 40%cl", "- 39%cl", "- 53%cl", "- 34%cl", "- 63%cl", "+ 63%cl", "- 47%cl", "= 58%cl", "= 60%cl", "- 47%cl", "= 61%cl", "- 54%cl"][ctx.dataIndex]}}
+        tooltip: {callbacks: {label: ctx => 'CLV: ' + ["+", "+", "+", "=", "+ (live, line ran to -10000)", "+ 85%cl", "+ 85%cl", "+ 85%cl", "- 60%cl", "- 56%cl", "- 55%cl", "= 58%cl", "- 54%cl", "- 54%cl", "= 61%cl", "+ 58%cl", "- 56%cl", "- 40%cl", "- 39%cl", "- 53%cl", "- 34%cl", "- 63%cl", "+ 63%cl", "- 47%cl", "= 58%cl", "= 60%cl", "- 47%cl", "= 61%cl", "- 54%cl", "+"][ctx.dataIndex]}}
       },
       scales: {
         x: {grid: {color: '#21262d'}, ticks: {maxRotation: 60, font: {size: 9}}},
