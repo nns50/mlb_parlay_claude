@@ -72,12 +72,13 @@ P(4 straight wins in an attempt) ≈ 0.60⁴ ≈ **13%** → expect ~8 attempts 
 | 5 | 6/16 | 3 | $27.40 | SEA ML −145 (BetUS, 1.690) | 61% | **WIN** (SEA 3-1 BAL) | **$46.31** | **Attempt 5 roll 3 CASHED.** Gilbert dealt vs BAL, SEA won 3-1. $27.40×1.690 = $46.31. Attempt 5 now **3-0** → roll 4 today (6/17) = the 4-win target roll. |
 | 5 | 6/17 | 4 | $46.31 | LAD ML −158 (BetOnline.ag, 1.633) | 63% | **WIN** (LAD 5-4 TB) | **$75.63** | **🎯 4-WIN TARGET HIT → STOP & WITHDRAW $75.63.** Ohtani-anchored LAD (1.06 ERA ace-edge, +2.7pp) held off TB 5-4. $46.31×1.633 = $75.63. **Attempt 5 = SUCCESS (4 straight wins: NYY, PHI, SEA, LAD).** Restart next slate at $10. |
 | — | — | — | — | — WITHDRAWN $75.63 — | — | **TARGET** | **$0 → restart $10** | Attempt 5 complete: $10 → $75.63 over 4 rolls (NYY 6/14, PHI 6/15, SEA 6/16, LAD 6/17). Net realized profit on attempt 5 = **+$65.63**. Next slate starts fresh attempt 6 at $10. |
+| 6 | 6/18 | 1 | $10.00 | NYY ML −149 (LowVig.ag, 1.671) | 60.5% | **TBD** | — | **Attempt 6 roll 1.** Single highest-floor qualifying fav on the board: NYY 45-27/+122 elite, home vs a CWS in freefall (Burke; CWS outscored 22-7 by NYY over 6/16-6/17, run diff +16→−3). No-vig 58.4% → +2.1pp clears the gate; not an A-list fade (B1 is CWS-as-dog, not NYY). Weathers 4.36 SP is mediocre so no ace-edge bump — team/opponent-driven floor. $10×1.671 = $16.71 on a win. |
 
 ---
 
 ## Running totals (update on every settle)
 
-- **Current:** **🎯 ATTEMPT 5 COMPLETE — 4-WIN TARGET HIT 6/17 (NYY 8-3 6/14; PHI 7-0 6/15; SEA 3-1 6/16; LAD 5-4 6/17) → WITHDREW $75.63.** Balance **$0 → restart attempt 6 at $10 next slate (6/18).** This is the **2nd target hit** (attempt 2 hit 6/8 for $65.48).
+- **Current:** **ATTEMPT 6 IN PROGRESS — roll 1 of 6/18 = NYY ML −149 (1.671), $10.00 → $16.71 on a win (TBD).** (Attempt 5 COMPLETE 6/17 — 🎯 4-WIN TARGET HIT, withdrew $75.63; 2nd target hit overall.)
   (Attempt 4 BUSTED 6/13 at roll 3; Attempt 3 BUSTED 6/10 at roll 3; Attempt 2 COMPLETE 6/8 — 🎯 4-WIN TARGET HIT, withdrew $65.48.)
 - **Attempts:** 5 completed · **Targets hit (4 wins):** **2** ✅✅ (attempt 2 $65.48; attempt 5 $75.63) · **Busts:** 3 (attempt 1 @ roll 1, attempt 3 @ roll 3, attempt 4 @ roll 3) · **Best run:** **4 wins ×2 (attempts 2 & 5 — both TARGET)**
 - **Total real risk (attempts × $10):** **$50.00** risked (5 attempts) · **Total withdrawn:** **$141.11** ($65.48 + $75.63)
