@@ -68,7 +68,7 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 6/17 | COL @ CHC (Sullivan/Assad) | YRFI | 54% | _model-only_ | **L** (1st 0-0 → NRFI) | Wrigley + rookie Sullivan 1st-inning variance vs live CHC top. |
 | 6/17 | PIT @ ATH (Ashcraft/Civale) | NRFI | 53% | _model-only_ | **L** (1st 3-0 → YRFI) | Two contact-ish arms, league-avg tops; mild NRFI. |
 | 6/17 | BAL @ SEA (Bradish/Kirby) | NRFI | 54% | _model-only_ | **W** (1st 0-0 → NRFI) | Kirby clean early at home; BAL top vs Bradish the only risk. |
-| 6/18 | TOR @ BOS (Yesavage/Gray) | YRFI | 53% | _model-only_ | TBD | Gray clean early but rookie Yesavage vs a live BOS top is the 1st-inning risk. |
+| 6/18 | TOR @ BOS (Yesavage/Gray) | YRFI | 53% | _model-only_ | **W** (1st 1-0 → YRFI) | Gray clean early but rookie Yesavage vs a live BOS top is the 1st-inning risk. |
 | 6/18 | CLE @ MIL (Messick/Drohan) | YRFI | 55% | _model-only_ | TBD | Two rookie SPs + MIL strong top; both tops can jump early. Strongest YRFI. |
 | 6/18 | MIN @ TEX (Ryan/Leiter) | NRFI | 53% | _model-only_ | TBD | Joe Ryan (10.06 K9) mows the 1st; Leiter vs a cold MIN top the lone risk. |
 | 6/18 | BAL @ SEA (Baz/Woo) | YRFI | 54% | _model-only_ | TBD | Woo gave up early runs lately (7 ER vs BAL 6/11); BAL top live 2nd look. |
@@ -157,7 +157,7 @@ Its own ledger lives here; the dashboard renders it from this file.
 ---
 
 ## Running totals (update on every settle)
-- **Record:** **51-37** (tracker opened 6/10/26). **NRFI:** **27-25** · **YRFI:** **24-12**.
+- **Record:** **52-37** (tracker opened 6/10/26). **NRFI:** **27-25** · **YRFI:** **25-12**.
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
 - **Open:** **6/18: 9 model-only reads open** (settle off the 1st-inning line score next run). 6/17's 14 reads auto-settled this session → record **51-37** (NRFI 27-25 · YRFI 24-12).
 - **Settled 6/11** (auto via `nrfi_settle.py --apply`): LAD@PIT YRFI **L** (1st 0-0 → NRFI), SEA@BAL NRFI **L**
