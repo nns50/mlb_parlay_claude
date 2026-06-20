@@ -41,7 +41,7 @@ Do not lay a price on these as favorites. Re-verify last-15 form each session.
 
 | ID | Team | Reason | Added | Last val | Fade log (most-recent first) | Status |
 |----|------|--------|-------|----------|------------------------------|--------|
-| A1 | **Cubs** | **L15 7-8 (.467), −10 run diff (6/17); not on the 6/18 slate.** | 5/25/26 | **6/18/26** | **L (6/17: beat COL 8-6 at home as −197 heavy fav — fade MISSED)** · W (6/16: lost 2-5 to COL at home as −190 heavy fav — fade HIT) · L (6/15: beat COL 5-4 at home as heavy fav — fade MISSED) · L (6/11: beat COL 9-3 @ COL as −147 fav) · W (6/10: lost 2-3 @ COL as −147 fav) · W (6/9: lost 3-7 @ COL) · L (6/6: beat SF 3-2) · W (6/5) · L (6/4) | **ACTIVE but cooling → leaning NEUTRAL** — fade-as-fav now **5-5** recent (won 8-6 over COL 6/17 to take the series). L15 climbed to **7-8/−10** (less clearly sub-.500). NOT on the 6/18 slate. Re-verify run-diff next time CHC is favored; if L15 clears ~.550 transition to NEUTRAL. |
+| A1 | **Cubs** | **L15 8-7 (.533), +5 run diff (6/19) — recovered** | 5/25/26 | **6/19/26** | **L (6/19: beat TOR 16-2 at home as heavy fav — fade MISSED; 7-run 1st inning)** · **L (6/17: beat COL 8-6 at home as −197 heavy fav — fade MISSED)** · W (6/16: lost 2-5 to COL at home as −190 heavy fav — fade HIT) · L (6/15: beat COL 5-4 at home as heavy fav — fade MISSED) · L (6/11: beat COL 9-3 @ COL as −147 fav) · W (6/10: lost 2-3 @ COL as −147 fav) · W (6/9: lost 3-7 @ COL) · L (6/6: beat SF 3-2) · W (6/5) · L (6/4) | **NEUTRAL → leaning RETIRE** — fade-as-fav now **5-6** recent; L15 recovered to **8-7/+5** (no longer sub-.500, run diff positive). CHC is not a team we fade as fav right now. Retire if L15 holds above .520 next check. |
 | A3 | **Tigers** | L15 ~7-8 (6/10); cooled back | 5/28/26 | **6/11/26** | **L (6/11: DET −122 won 11-0 vs MIN as fav — fade MISSED)** · W (6/10: lost 4-6 vs MIN as fav) · L (6/9: beat MIN 10-4 as fav) · L (6/7: beat SEA 5-4) · W (6/6) · L (6/3 won as DOG) · W (5/29) · W (5/28) | **NEUTRAL→leaning RETIRE** — fade-as-fav now 3-4 recent (11-0 blowout 6/11); DET clearly not fade-worthy as a fav right now. Don't lay against either. Re-verify run-diff before any DET lean. |
 
 > **Corollary (added 6/3/26):** "Fade as FAVORITE" ≠ "safe to bet AGAINST." A fade-list team can
@@ -111,7 +111,7 @@ Not team fades, but recurring data errors to actively guard against each run.
 - **D1 (+200-chase):** 3-0 ✅ — most reliable fade.
 - **D2/D3 (construction):** 1-0 each ✅.
 - **D4 (own-SP ERA ~5+ fav):** **3-3** — now 3 straight misses (6/7 PHI/Nola 9-5; 6/15 LAD/Lauer 4-3; 6/16 MIL/Gasser 2-1) after 3 early hits (6/6, 6/5, 5/28). At .500 it's **reject-as-anchor only** — no longer a "bet against the trap fav" edge.
-- **A1 (Cubs as fav):** **5-5** — 6/17 missed (CHC −197 beat COL 8-6 to take the series); L15 climbed to 7-8/−10. Cooling toward NEUTRAL; not on 6/18 slate.
+- **A1 (Cubs as fav):** **5-6** — 6/19 missed AGAIN (CHC 16-2 blowout vs TOR, 7-run 1st); L15 recovered to 8-7/+5. **Transitioning to NEUTRAL → leaning RETIRE.** CHC is no longer clearly "was hot now cold" — they've stabilized.
 - **C6 (don't over-fade elite K-aces):** re-validated 6/16 — Cease O6.5K (played Tier-1) hit 7K in 5 IP; elite K-rate clears the line even on a short start.
 - **D5 (bullpen-game ≠ ML boost):** 1-0 ✅ NEW 6/4 — ATL bumped to 69% vs TOR's pen game, lost 7-2.
 - **C1 (contact-lineup K-Over):** 2-1 — real but variance-heavy; don't hard-fade one-suppressor aces.
