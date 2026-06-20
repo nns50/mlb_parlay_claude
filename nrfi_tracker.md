@@ -186,9 +186,9 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 6/19 | MIN @ AZ (Prielipp/Soroka) | NRFI | 54% | _model-only_ | **W** (1st 0-0 → NRFI) | Soroka clean 1st; MIN top quiet vs rookie. |
 | 6/19 | BAL @ LAD (Gibson/Sasaki) | YRFI | 56% | _model-only_ | **W** (1st 0-2 → YRFI) | LAD top cashed early vs rookie Gibson as expected. |
 | 6/19 | BOS @ SEA (Suárez/Miller) | NRFI | 54% | _model-only_ | **W** (1st 0-0 → NRFI) | Both quality arms produced clean 1sts; lean validated. |
-| 6/20 | CWS @ DET (Fedde/Melton) | NRFI | 53% | _model-only_ | TBD | Melton young but works clean; CWS top volatile. |
-| 6/20 | CIN @ NYY (Abbott/Warren) | YRFI | 54% | _model-only_ | TBD | NYY elite top vs Abbott; Warren gives up early contact. |
-| 6/20 | TOR @ CHC (Corbin/Rea) | NRFI | 53% | _model-only_ | TBD | Rea decent early; Corbin veteran. Neutral. |
+| 6/20 | CWS @ DET (Fedde/Melton) | NRFI | 53% | _model-only_ | **L** (1st 1-0 → YRFI) | Melton young but works clean; CWS top volatile. |
+| 6/20 | CIN @ NYY (Abbott/Warren) | YRFI | 54% | _model-only_ | **W** (1st 0-1 → YRFI) | NYY elite top vs Abbott; Warren gives up early contact. |
+| 6/20 | TOR @ CHC (Corbin/Rea) | NRFI | 53% | _model-only_ | **W** (1st 0-0 → NRFI) | Rea decent early; Corbin veteran. Neutral. |
 | 6/20 | SD @ TEX (Buehler/Eovaldi) | NRFI | 53% | _model-only_ | TBD | Both capable early-frame control arms; no loaded tops. |
 | 6/20 | WSH @ TB (Cavalli/Seymour) | YRFI | 53% | _model-only_ | TBD | Seymour uncertain; WSH top live. |
 | 6/20 | SF @ MIA (McDonald/Meyer) | NRFI | 55% | _model-only_ | TBD | Meyer (2.75 ERA) mows early — best NRFI arm on core. |
@@ -204,7 +204,7 @@ Its own ledger lives here; the dashboard renders it from this file.
 ---
 
 ## Running totals (update on every settle)
-- **Record:** **66-58** (tracker opened 6/10/26). **NRFI:** **33-36** · **YRFI:** **33-22**.
+- **Record:** **68-59** (tracker opened 6/10/26). **NRFI:** **34-37** · **YRFI:** **34-22**.
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
 - **Open:** **6/20: 14 model-only reads open** (settle off the 1st-inning line score next run). 6/19's 14 reads settled 6W-8L (NRFI 3-4, YRFI 3-4) — bad day; notable miss: deGrom/TEX strong NRFI read (5-6 combined 1st) and PIT@COL YRFI (Coors + Freeland — clean 1st, NRFI). Record updated from 60-50 to 66-58.
 - **Settled 6/11** (auto via `nrfi_settle.py --apply`): LAD@PIT YRFI **L** (1st 0-0 → NRFI), SEA@BAL NRFI **L**
