@@ -74,16 +74,16 @@ P(4 straight wins in an attempt) ≈ 0.60⁴ ≈ **13%** → expect ~8 attempts 
 | — | — | — | — | — WITHDRAWN $75.63 — | — | **TARGET** | **$0 → restart $10** | Attempt 5 complete: $10 → $75.63 over 4 rolls (NYY 6/14, PHI 6/15, SEA 6/16, LAD 6/17). Net realized profit on attempt 5 = **+$65.63**. Next slate starts fresh attempt 6 at $10. |
 | 6 | 6/18 | 1 | $10.00 | NYY ML −149 (LowVig.ag, 1.671) | 60.5% | **LOSS** (CWS 5-1 NYY) | **$0.00** | **Attempt 6 BUSTS at roll 1.** NYY 45-27/+122 elite at home, but Burke outpitched Weathers and CWS completed the road series win 5-1. The team/opponent-driven 60.5% floor (no ace-edge — Weathers 4.36) was really a coin-flip; the 60-64 calib band's overconfidence flag realized. Full-rollover risk: fresh $10 wiped at roll 1. Restart attempt 7 at $10 on 6/19. |
 | 7 | 6/19 | 1 | $10.00 | AZ ML −167 (BetUS, 1.599) | 63.5% | **WIN** (AZ 9-5 MIN) | **$15.99** | Soroka ace-edge (+2.4pp), AZ home vs MIN rookie Prielipp. $10×1.599=$15.99. Roll 2 today (6/20). |
-| 7 | 6/20 | 2 | $15.99 | PIT ML −195 (BetUS, 1.513) | 68% | **TBD** | — | Skenes ace-edge (+4.6pp), TrueP 68%, no-vig 63.4% (62-66% sweet spot). COL 29-47/Sugano ERA 4.54. $15.99×1.513=$24.19 if W. |
+| 7 | 6/20 | 2 | $15.99 | PIT ML −195 (BetUS, 1.513) | 68% | **LOSS** (PIT 1-2 COL) | **$0.00** | Skenes dominated (8K) but COL bullpen held PIT to 1 run; COL 2-1. Full-rollover risk: $15.99→$0. **Attempt 7 BUSTS at roll 2.** Restart attempt 8 at $10 on 6/21. |
+| 8 | 6/21 | 1 | $10.00 | PHI ML −175 (BetUS, 1.571) | 70% | **TBD** | — | Wheeler ace-edge (+7.4pp), TrueP 70%, no-vig 62.6% (62-66% sweet spot). NYM starter Peterson 5.93 ERA / structural short starts. $10×1.571=$15.71 if W. |
 
 ---
 
 ## Running totals (update on every settle)
 
-- **Current:** **ATTEMPT 7 ACTIVE — roll 2 of 6/20 (balance $15.99 after 6/19 roll 1 W).** Roll 1 CASHED (6/19 AZ ML −167 → $10→$15.99). Roll 2 today: PIT ML −195 ($15.99→$24.19 target). (Attempt 6 BUSTED 6/18 at roll 1 — NYY ML −149 lost 1-5 to CWS.) (Attempt 5 COMPLETE 6/17 — 🎯 4-WIN TARGET HIT, withdrew $75.63; 2nd target hit overall.)
-  (Attempt 4 BUSTED 6/13 at roll 3; Attempt 3 BUSTED 6/10 at roll 3; Attempt 2 COMPLETE 6/8 — 🎯 4-WIN TARGET HIT, withdrew $65.48.)
-- **Attempts:** 6 completed · **Targets hit (4 wins):** **2** ✅✅ (attempt 2 $65.48; attempt 5 $75.63) · **Busts:** 4 (attempt 1 @ roll 1, attempt 3 @ roll 3, attempt 4 @ roll 3, attempt 6 @ roll 1) · **Best run:** **4 wins ×2 (attempts 2 & 5 — both TARGET)**
-- **Total real risk (attempts × $10):** **$60.00** risked (6 attempts) · **Total withdrawn:** **$141.11** ($65.48 + $75.63)
-- **Net P/L (withdrawn − deposited):** **+$81.11** realized (attempt 1 −$10; attempt 2 +$55.48; attempt 3 −$10; attempt 4 −$10; attempt 5 +$65.63; attempt 6 −$10) — **2 successful 4-win ladders banked.**
+- **Current:** **ATTEMPT 8 ACTIVE — roll 1 of 6/21 (balance $10.00, fresh restart).** Attempt 7 BUSTED at roll 2 (6/20 PIT ML −195 → PIT 1-2 COL). (Attempt 6 BUSTED 6/18 at roll 1; Attempt 5 COMPLETE 6/17 — 🎯 4-WIN TARGET HIT, withdrew $75.63; 2nd target hit overall.) (Attempt 4 BUSTED 6/13 at roll 3; Attempt 3 BUSTED 6/10 at roll 3; Attempt 2 COMPLETE 6/8 — 🎯 4-WIN TARGET HIT, withdrew $65.48.)
+- **Attempts:** 7 completed · **Targets hit (4 wins):** **2** ✅✅ (attempt 2 $65.48; attempt 5 $75.63) · **Busts:** 5 (attempt 1 @ roll 1, attempt 3 @ roll 3, attempt 4 @ roll 3, attempt 6 @ roll 1, attempt 7 @ roll 2) · **Best run:** **4 wins ×2 (attempts 2 & 5 — both TARGET)**
+- **Total real risk (attempts × $10):** **$70.00** risked (7 attempts) · **Total withdrawn:** **$141.11** ($65.48 + $75.63)
+- **Net P/L (withdrawn − deposited):** **+$71.11** realized (attempt 1 −$10; attempt 2 +$55.48; attempt 3 −$10; attempt 4 −$10; attempt 5 +$65.63; attempt 6 −$10; attempt 7 −$10) — **2 successful 4-win ladders banked.**
 
 > Tracked like `fades.md` / `results_log.md`: any change → commit → push → PR → squash-merge.
