@@ -202,30 +202,35 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 6/20 | MIN @ AZ (Bradley/Gallen) | YRFI | 55% | _model-only_ | **W** (1st 2-0 → YRFI) | Gallen struggling (5.35 ERA); MIN top can score early. |
 | 6/20 | BAL @ LAD (Rogers/Yamamoto) | NRFI | 55% | _model-only_ | **W** (1st 0-0 → NRFI) | Yamamoto (2.52 ERA) elite early; LAD top vs Rogers only risk. |
 | 6/20 | BOS @ SEA (Early/Hancock) | YRFI | 53% | _model-only_ | **W** (1st 0-1 → YRFI) | Both young arms; slight early-run lean. |
-| 6/22 | KC @ TB (Wacha/Rasmussen) | NRFI | ~57% | _model-only_ | TBD | Rasmussen dominates 1st inning (2.59 ERA, 9.45 K9); KC mediocre top-of-order. Strong NRFI lean. |
-| 6/22 | NYY @ DET (Cole/Valdez) | NRFI | ~53% | _model-only_ | TBD | Both SPs efficient early. Cole clean 1sts; DET top quiet. |
+| 6/22 | KC @ TB (Wacha/Rasmussen) | NRFI | ~57% | _model-only_ | **W** (1st 0-0 → NRFI) | Rasmussen dominates 1st inning (2.59 ERA, 9.45 K9); KC mediocre top-of-order. Strong NRFI lean. |
+| 6/22 | NYY @ DET (Cole/Valdez) | NRFI | ~53% | _model-only_ | **W** (1st 0-0 → NRFI) | Both SPs efficient early. Cole clean 1sts; DET top quiet. |
 | 6/22 | CHC @ NYM (Imanaga/Senga) | NRFI | ~55% | _model-only_ | TBD | Both arms tend to be clean first-inning starters. |
-| 6/22 | BOS @ COL (Bennett/Feltner) | YRFI | ~63% | _model-only_ | TBD | **Coors Field + Bennett 4.79 + Feltner 5.05 = strongest YRFI lean of the day.** |
-| 6/22 | LAD @ MIN (Lauer/Matthews) | YRFI | ~58% | _model-only_ | TBD | Lauer 5.37 ERA shaky early; LAD elite top (Ohtani/Betts/Freeman) likely to score in 1st. |
-| 6/22 | ATL @ SD (Holmes/King) | YRFI | ~55% | _model-only_ | TBD | Holmes only 2.0 IP last start (volatile early); ATL top explosive. |
-| 6/22 | CLE @ CWS (Williams/Kay) | NRFI | ~53% | _model-only_ | TBD | Williams K-heavy (10.11 K9); typically efficient early. |
-| 6/22 | PHI @ WSH (TBD/Griffin) | YRFI | ~55% | _model-only_ | TBD | PHI TBD SP risk; PHI lineup vs any weaker arm YRFI-lean. |
+| 6/22 | BOS @ COL (Bennett/Feltner) | YRFI | ~63% | _model-only_ | **L** (1st 0-0 → NRFI) | **Coors Field + Bennett 4.79 + Feltner 5.05 = strongest YRFI lean of the day.** |
+| 6/22 | LAD @ MIN (Lauer/Matthews) | YRFI | ~58% | _model-only_ | **W** (1st 1-1 → YRFI) | Lauer 5.37 ERA shaky early; LAD elite top (Ohtani/Betts/Freeman) likely to score in 1st. |
+| 6/22 | ATL @ SD (Holmes/King) | YRFI | ~55% | _model-only_ | **L** (1st 0-0 → NRFI) | Holmes only 2.0 IP last start (volatile early); ATL top explosive. |
+| 6/22 | CLE @ CWS (Williams/Kay) | NRFI | ~53% | _model-only_ | **W** (1st 0-0 → NRFI) | Williams K-heavy (10.11 K9); typically efficient early. |
+| 6/22 | PHI @ WSH (TBD/Griffin) | YRFI | ~55% | _model-only_ | **W** (1st 0-1 → YRFI) | PHI TBD SP risk; PHI lineup vs any weaker arm YRFI-lean. |
 | 6/22 | MIL @ CIN (TBD/Singer) | NEUTRAL | ~50% | _model-only_ | TBD | MIL TBD SP = opener/high variance 1st inning. |
 | 6/22 | BAL @ LAA (Bradish/Aldegheri) | NEUTRAL | ~52% | _model-only_ | TBD | Bradish decent early; LAA bottom-tier offense. |
-| 6/22 | HOU @ TOR (Brown/TBD) | YRFI | ~55% | _model-only_ | TBD | TOR TBD SP = elevated 1st-inning variance; HOU scores in bunches. |
+| 6/22 | HOU @ TOR (Brown/TBD) | YRFI | ~55% | _model-only_ | **W** (1st 1-0 → YRFI) | TOR TBD SP = elevated 1st-inning variance; HOU scores in bunches. |
 | 6/22 | TEX @ MIA (Rocker/Phillips) | NEUTRAL | ~52% | _model-only_ | TBD | Phillips's 1st-inning vulnerability; Rocker unverified. |
 | 6/22 | AZ @ STL (Kelly/Pallante) | NEUTRAL | ~51% | _model-only_ | TBD | Kelly ERA 5.81 is the risk; Pallante unverified. |
 | 6/21 | LAA @ ATH (Detmers/Perkins) | NRFI | 53% | _model-only_ | **L** (1st 0-4 → YRFI) | Detmers decent LHP; ATH back-end Perkins uncertain but both tops quiet. |
 | 6/21 | BAL @ LAD (Young/Sheehan) | YRFI | 57% | _model-only_ | **W** (1st 2-1 → YRFI) | LAD elite top (Ohtani/Betts/Freeman) vs rookie Young — live half. Strongest YRFI lean. |
 | 6/21 | BOS @ SEA (Tolle/Gilbert) | NRFI | 55% | _model-only_ | **W** (1st 0-0 → NRFI) | Gilbert ace dominant early frames; BOS avg top vs Gilbert. |
 | 6/21 | NYM @ PHI (Peterson/Wheeler) | YRFI | 53% | _model-only_ | **W** (1st 0-2 → YRFI) | PHI top strong vs shaky Peterson; CBP hitter park. |
+| 6/24 | LAD @ MIN | Ohtani / Ryan | **NRFI** | ~55% | _model-only_ | TBD | Ohtani (1.47 ERA) surgical early; Ryan (2.99/10.20 K9) also efficient. Both elite; expect clean 1st innings. |
+| 6/24 | ATH @ SF | Jump / Mahle | **YRFI** | ~57% | _model-only_ | TBD | Mahle (6.04 ERA, 1-7) vulnerable early; ATH top-of-order should score in the 1st. Jump solid but SF bats live. |
+| 6/24 | ATL @ SD | Pérez / Sears | **NEUTRAL** | ~52% | _model-only_ | TBD | Pérez (2.78 ERA) clean early; Sears 0 GS in 2026 (IL return) = coin-flip. Petco/wind-in tempers YRFI. |
+| 6/24 | AZ @ STL | Bratt / Liberatore | **YRFI** | ~56% | _model-only_ | TBD | Liberatore struggled badly (1.2 IP/5ER last start); AZ top should score early. Bratt 0 GS 2026 = unknown. |
 
 ---
 
 ## Running totals (update on every settle)
-- **Record:** **78-64** (tracker opened 6/10/26). **NRFI:** **38-41** · **YRFI:** **40-23**.
+- **Record:** **84-66** (tracker opened 6/10/26). **NRFI:** **41-41** · **YRFI:** **43-25**.
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
-- **Open:** **6/22: 13 model-only reads open** (first games ~6:10 PM ET). Settle via `nrfi_settle.py --apply` next session.
+- **Open:** **6/24: 4 pre-game reads** (LAD@MIN, ATH@SF, ATL@SD, AZ@STL). Settle via `nrfi_settle.py --apply` next session.
+- **Settled 6/22** (auto via `nrfi_settle.py --apply`): 8 reads settled 5W-3L (NRFI 3-0, YRFI 2-3). Record updated from 78-64 to **84-66**. Neutral reads (MIL@CIN, BAL@LAA, TEX@MIA, AZ@STL) excluded (lean ~50/51%). CHC@NYM postponed → left open. Strong NRFI (Rasmussen/Cole) both hit; the Coors YRFI missed badly (total only 5 runs, wind In suppressed it — calibration lesson confirmed).
 - **Settled 6/21** (auto via `nrfi_settle.py --apply` in session_start.sh): 4 reads → 3W-1L.
   - LAA@ATH NRFI ❌ L (1st 0-4 → YRFI — Perkins/ATH exploded 4 runs)
   - BAL@LAD YRFI ✅ W (1st 2-1 → YRFI — LAD top cashed early vs Young)
