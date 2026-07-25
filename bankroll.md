@@ -77,15 +77,16 @@ P(4 straight wins in an attempt) ≈ 0.60⁴ ≈ **13%** → expect ~8 attempts 
 | 7 | 6/20 | 2 | $15.99 | PIT ML −195 (BetUS, 1.513) | 68% | **LOSS** (PIT 1-2 COL) | **$0.00** | Skenes dominated (8K) but COL bullpen held PIT to 1 run; COL 2-1. Full-rollover risk: $15.99→$0. **Attempt 7 BUSTS at roll 2.** Restart attempt 8 at $10 on 6/21. |
 | 8 | 6/21 | 1 | $10.00 | PHI ML −175 (BetUS, 1.571) | 70% | **WIN** (PHI 6-2 NYM) | **$15.71** | Wheeler 2.01 ERA dominated Peterson 5.93 / structural spiral. PHI won 6-2. $10×1.571=$15.71. ✓ |
 | 8 | 6/22 | 2 | $15.71 | TB ML −174 (FanDuel, 1.575) | 65.9% | **LOSS** (KC 2, TB 1) | **$0.00** | Rasmussen pitched well (6 IP/2ER) but TB couldn't score. KC won 2-1. **Attempt 8 BUSTS at roll 2 ($15.71 → $0).** Restart at $10. |
-| 9 | 6/24 | 1 | $10.00 | LAD ML −153 (LowVig.ag, 1.654) | 62.1% | **TBD** | — | Ohtani (1.47 ERA / 0.88 WHIP / K9 9.53) ace-edge at home vs MIN; LAD 51-29 vs MIN 38-43. TrueP 62.1% = baseline 59.1% + ace_edge +3pp. In the 62-66% sweet spot. Not A-list fade. Edge +3.0pp ✓. $10×1.654=$16.54 if W. |
+| 9 | 6/24 | 1 | $10.00 | LAD ML −153 (LowVig.ag, 1.654) | 62.1% | **WIN** (LAD 4-3 MIN) | **$16.54** | LAD won 4-3 vs MIN (StatsAPI confirmed 7/25). $10×1.654=$16.54. ✓ Roll 2 next (7/25). |
+| 9 | 7/25 | 2 | $16.54 | LAD ML −155 (search est., 1.645) | 61% | **TBD** | — | Yamamoto 2.78 ERA / 0.88 WHIP ace-edge @ NYM. LAD 66-38 best team vs NYM 43-61. McLean (NYM) hot (0 ER last 2 starts — thin margin). In −150/−200 zone ✓. Not A-list fade ✓. Not in parlay (independent) ✓. TrueP 61% = baseline 58.3% + ace_edge +3pp − McLean_hot_flag −0.3pp. Edge +2.7pp ✓. If WIN: $16.54×1.645=$27.21. |
 
 ---
 
 ## Running totals (update on every settle)
 
-- **Current:** **ATTEMPT 9 ACTIVE — roll 1 of 6/24 (balance $10.00; fresh start).** LAD ML −153 @ LowVig.ag (Ohtani ace-edge, TrueP 62.1%, edge +3.0pp). Attempt 8 BUSTED at roll 2 (6/22 TB ML −174 → KC 2 TB 1). Attempt 7 BUSTED at roll 2 (6/20 PIT ML −195 → PIT 1-2 COL). (Attempt 6 BUSTED 6/18 at roll 1; Attempt 5 COMPLETE 6/17 — 🎯 4-WIN TARGET HIT, withdrew $75.63; 2nd target hit overall.) (Attempt 4 BUSTED 6/13 at roll 3; Attempt 3 BUSTED 6/10 at roll 3; Attempt 2 COMPLETE 6/8 — 🎯 4-WIN TARGET HIT, withdrew $65.48.)
+- **Current:** **ATTEMPT 9 ACTIVE — roll 2 of 7/25 (balance $16.54).** Roll 1 (6/24 LAD vs MIN) CASHED — LAD 4-3 ✓. Roll 2 = LAD ML −155 @ NYM (Yamamoto ace-edge, TrueP 61%, edge +2.7pp). Attempt 8 BUSTED at roll 2 (6/22 TB ML −174 → KC 2 TB 1). Attempt 7 BUSTED at roll 2 (6/20 PIT ML −195 → PIT 1-2 COL). (Attempt 6 BUSTED 6/18 at roll 1; Attempt 5 COMPLETE 6/17 — 🎯 4-WIN TARGET HIT, withdrew $75.63; 2nd target hit overall.) (Attempt 4 BUSTED 6/13 at roll 3; Attempt 3 BUSTED 6/10 at roll 3; Attempt 2 COMPLETE 6/8 — 🎯 4-WIN TARGET HIT, withdrew $65.48.)
 - **Attempts:** 8 completed · **Targets hit (4 wins):** **2** ✅✅ (attempt 2 $65.48; attempt 5 $75.63) · **Busts:** 6 (attempt 1 @ roll 1, attempt 3 @ roll 3, attempt 4 @ roll 3, attempt 6 @ roll 1, attempt 7 @ roll 2, attempt 8 @ roll 2) · **Best run:** **4 wins ×2 (attempts 2 & 5 — both TARGET)**
-- **Total real risk (attempts × $10):** **$80.00** risked (8 completed attempts) · **Total withdrawn:** **$141.11** ($65.48 + $75.63)
-- **Net P/L (withdrawn − deposited):** **+$61.11** realized (attempt 1 −$10; attempt 2 +$55.48; attempt 3 −$10; attempt 4 −$10; attempt 5 +$65.63; attempt 6 −$10; attempt 7 −$10; attempt 8 −$10) — **2 successful 4-win ladders banked.** Attempt 9 in progress (Roll 1 TBD — LAD ML vs MIN, 6/24).
+- **Total real risk (attempts × $10):** **$80.00** risked (8 completed attempts, attempt 9 ongoing) · **Total withdrawn:** **$141.11** ($65.48 + $75.63)
+- **Net P/L (withdrawn − deposited):** **+$61.11** realized (attempt 1 −$10; attempt 2 +$55.48; attempt 3 −$10; attempt 4 −$10; attempt 5 +$65.63; attempt 6 −$10; attempt 7 −$10; attempt 8 −$10) — **2 successful 4-win ladders banked.** Attempt 9: Roll 1 WIN (6/24), Roll 2 TBD (7/25).
 
 > Tracked like `fades.md` / `results_log.md`: any change → commit → push → PR → squash-merge.

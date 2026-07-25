@@ -29,6 +29,33 @@ Its own ledger lives here; the dashboard renders it from this file.
 
 ---
 
+## Tonight's reads — 2026-07-25 (model leans, un-priced; pull `totals_1st_1_innings` at the book)
+
+> 11:00 ET morning reads — 15-game Saturday slate. One model-lean per game, model-only/no-bet (pull the real 1st-inning total at the book; promote only a read clearing +2pp after devig). All evening games PENDING lineup confirmation. Odds API deactivated — prices via book pull only.
+
+| # | Matchup | Starters | Lean | TrueP | Why (1st-inning read) |
+|---|---------|----------|------|-------|------------------------|
+| 1 | KC @ DET | Wacha / Mize | NEUTRAL | ~52% | Both quality journeyman arms; Comerica suppresses offense slightly. KC road offense mediocre. Near coin-flip. |
+| 2 | AZ @ WSH | Bratt / Griffin | **YRFI** | ~56% | Both moderate-quality arms. AZ W4 streak with active offense. YRFI lean. |
+| 3 | LAA @ SF | Johnson / Ray | **YRFI** | ~60% | **Oracle Park 13 mph wind OUT to CF = strong YRFI tilt.** Both SPs give up contact. Strongest YRFI today. |
+| 4 | TOR @ BOS | Cease / Gray | **NRFI** | ~57% | Both elite arms tend to work quickly early. Cease (13.37 K/9) usually K's the order in the 1st. Gray (6 IP/1ER pattern) also clean. Wind In from RF at Fenway helps slightly. |
+| 5 | SD @ MIA | Vásquez / Pérez | **NRFI** | ~55% | Dome (roof closed, 72°F). Pérez when healthy is typically dominant early. MIA L10 0-10 offense ice cold. |
+| 6 | NYY @ PHI | Weathers / TBD | **YRFI** | ~60% | PHI TBD SP = maximum 1st-inning variance. PHI lineup + NYY lineup both active. |
+| 7 | CLE @ TB | Bibee / Martinez | **NRFI** | ~56% | Martinez elite contact-management (9-2, 2.59 ERA). CLE L3 cold offense. Tropicana dome (controlled). |
+| 8 | CHC @ PIT | Imanaga / Skenes | **NRFI** | ~62% | **Strongest NRFI of the day.** Both elite arms (Imanaga 8.53 K/9, Skenes 10.77 K/9). Neither has given up early runs in recent form. PNC Park pitcher-friendly. |
+| 9 | ATL @ BAL | Elder / Young | **YRFI** | ~58% | ATL's explosive top of order (Acuña/Albies/Riley zone) pushes YRFI hard. Elder (4.06 ERA) inconsistent early. Young 8-2 clean but ATL offense too dynamic. |
+| 10 | ATH @ MIN | Basso / TBD | **YRFI** | ~58% | MIN TBD SP = 1st-inning variance spike. ATH L10 3-7 offense quiet but TBD SP elevates YRFI. |
+| 11 | HOU @ CWS | Brown / Burke | **YRFI** | ~57% | Brown has been ROUGH (ERA 8.24 last 3). HOU big offensive lineup. Rate Field outdoor (July heat). |
+| 12 | COL @ MIL | Feltner / Gasser | NEUTRAL | ~52% | American Family Field dome (controlled). Gasser 4.91 ERA is the risk early; Feltner (COL) also leaky. Near neutral. |
+| 13 | LAD @ NYM | Yamamoto / McLean | **NRFI** | ~60% | Both arms are elite and HOT. Yamamoto: 9-inning CG last start. McLean: 0 ER in last 2 starts. LAD vs NYM with two dominant starters = strong NRFI. |
+| 14 | CIN @ STL | Greene / Pallante | **NRFI** | ~58% | Greene 14.33 K/9 (elite), likely to K the 1st inning. STL L10 3-7 cold offense. |
+| 15 | SEA @ TEX | Woo / Eovaldi | NEUTRAL | ~51% | Globe Life Field dome. Both average arms. Coin-flip. |
+
+**Day's strongest NRFI:** CHC @ PIT (Imanaga/Skenes, both elite ~62%); LAD @ NYM (Yamamoto/McLean, both hot ~60%)
+**Day's strongest YRFI:** LAA @ SF (Oracle Park wind out 13 mph ~60%); NYY @ PHI (TBD SP ~60%)
+
+---
+
 ## Tonight's reads — 2026-06-22 (model leans, un-priced; pull `totals_1st_1_innings` at the book)
 
 > 11:00 ET morning reads — 13-game slate. One model-lean per game, all model-only/no-bet (pull the real 1st-inning total at the book; promote only a read clearing +2pp after devig). All PENDING lineup confirmation.

@@ -76,6 +76,9 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 6/4 | Sale Over 6.5 K (vs TOR) | K-Over | -179 | 64% | 61.5% | +2.5 | **L** (5.2 IP, 6 K — one-tier-deeper alt O5.5 would've cashed) | Y | — (no odds API) | S |
 | 6/5 | Mariners ML (Woo, @ DET) | ML-fav | -120 | 59% | 52.2% | **+6.8** | **L** (lost 3-7) — slate's sharpest edge, +EV bet/variance loss. Grade: **+EV (good bet)** | Y | + | P |
 | 6/5 | Dodgers ML (Sasaki, vs LAA) | ML-fav | -188 | 66% | 62.7% | +3.3 | **W** (won 1-0) — Tier 2 leg + bankroll. Grade: **+EV** | Y | + | P |
+| 7/25 | Cease Over 7.5 K (TOR @ BOS) | K-Over | -116 | 60% | 51.2% | **+8.8** | TBD | N | — | P |
+| 7/25 | TB Rays ML (vs CLE, Tropicana) | ML-fav | -146 | 60.1% | 57.1% | **+3.0** | TBD | N | — | P |
+| 7/25 | LAD ML (Yamamoto, @ NYM) [BANKROLL ROLL 2] | ML-fav | -155 | 61% | 58.3% | **+2.7** | TBD | N | — | S |
 
 ## Recommended but NOT played (calibration both ways)
 
