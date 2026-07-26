@@ -29,30 +29,30 @@ Its own ledger lives here; the dashboard renders it from this file.
 
 ---
 
-## Tonight's reads — 2026-07-25 (model leans, un-priced; pull `totals_1st_1_innings` at the book)
+## Tonight's reads — 2026-07-26 (model leans, un-priced; pull `totals_1st_1_innings` at the book)
 
-> 11:00 ET morning reads — 15-game Saturday slate. One model-lean per game, model-only/no-bet (pull the real 1st-inning total at the book; promote only a read clearing +2pp after devig). All evening games PENDING lineup confirmation. Odds API deactivated — prices via book pull only.
+> 11:00 ET morning reads — 15-game Sunday slate. One model-lean per game, model-only/no-bet (pull the real 1st-inning total at the book; promote only a read clearing +2pp after devig). Odds API deactivated this session — no live prop board; leans are model-only.
 
 | # | Matchup | Starters | Lean | TrueP | Why (1st-inning read) |
 |---|---------|----------|------|-------|------------------------|
-| 1 | KC @ DET | Wacha / Mize | NEUTRAL | ~52% | Both quality journeyman arms; Comerica suppresses offense slightly. KC road offense mediocre. Near coin-flip. |
-| 2 | AZ @ WSH | Bratt / Griffin | **YRFI** | ~56% | Both moderate-quality arms. AZ W4 streak with active offense. YRFI lean. |
-| 3 | LAA @ SF | Johnson / Ray | **YRFI** | ~60% | **Oracle Park 13 mph wind OUT to CF = strong YRFI tilt.** Both SPs give up contact. Strongest YRFI today. |
-| 4 | TOR @ BOS | Cease / Gray | **NRFI** | ~57% | Both elite arms tend to work quickly early. Cease (13.37 K/9) usually K's the order in the 1st. Gray (6 IP/1ER pattern) also clean. Wind In from RF at Fenway helps slightly. |
-| 5 | SD @ MIA | Vásquez / Pérez | **NRFI** | ~55% | Dome (roof closed, 72°F). Pérez when healthy is typically dominant early. MIA L10 0-10 offense ice cold. |
-| 6 | NYY @ PHI | Weathers / TBD | **YRFI** | ~60% | PHI TBD SP = maximum 1st-inning variance. PHI lineup + NYY lineup both active. |
-| 7 | CLE @ TB | Bibee / Martinez | **NRFI** | ~56% | Martinez elite contact-management (9-2, 2.59 ERA). CLE L3 cold offense. Tropicana dome (controlled). |
-| 8 | CHC @ PIT | Imanaga / Skenes | **NRFI** | ~62% | **Strongest NRFI of the day.** Both elite arms (Imanaga 8.53 K/9, Skenes 10.77 K/9). Neither has given up early runs in recent form. PNC Park pitcher-friendly. |
-| 9 | ATL @ BAL | Elder / Young | **YRFI** | ~58% | ATL's explosive top of order (Acuña/Albies/Riley zone) pushes YRFI hard. Elder (4.06 ERA) inconsistent early. Young 8-2 clean but ATL offense too dynamic. |
-| 10 | ATH @ MIN | Basso / TBD | **YRFI** | ~58% | MIN TBD SP = 1st-inning variance spike. ATH L10 3-7 offense quiet but TBD SP elevates YRFI. |
-| 11 | HOU @ CWS | Brown / Burke | **YRFI** | ~57% | Brown has been ROUGH (ERA 8.24 last 3). HOU big offensive lineup. Rate Field outdoor (July heat). |
-| 12 | COL @ MIL | Feltner / Gasser | NEUTRAL | ~52% | American Family Field dome (controlled). Gasser 4.91 ERA is the risk early; Feltner (COL) also leaky. Near neutral. |
-| 13 | LAD @ NYM | Yamamoto / McLean | **NRFI** | ~60% | Both arms are elite and HOT. Yamamoto: 9-inning CG last start. McLean: 0 ER in last 2 starts. LAD vs NYM with two dominant starters = strong NRFI. |
-| 14 | CIN @ STL | Greene / Pallante | **NRFI** | ~58% | Greene 14.33 K/9 (elite), likely to K the 1st inning. STL L10 3-7 cold offense. |
-| 15 | SEA @ TEX | Woo / Eovaldi | NEUTRAL | ~51% | Globe Life Field dome. Both average arms. Coin-flip. |
+| 1 | CLE @ TB | Messick / Rasmussen | **NRFI** | ~58% | Both elite-quality arms (Messick 2.68 ERA, Rasmussen 3.28 ERA); Tropicana dome controlled. Clean-1st profile on both sides. |
+| 2 | AZ @ WSH | Drake / Mikolas | **YRFI** | ~57% | Mikolas struggling (5.61 ERA); wind 3 mph Out To LF at Nats Park. Drake is a small-sample rookie — 1st-inning variance both ways. |
+| 3 | CHC @ PIT | Taillon / Ashcraft | **YRFI** | ~54% | Wind 3 mph Out To RF at PNC; Ashcraft's command still unproven at this level. Mild lean only. |
+| 4 | TOR @ BOS | Gausman / Suarez | **NRFI** | ~54% | **Suarez is making his first start back from a groin-strain IL stint** — likely on a pitch-count leash (C3 structural flag), but starters are typically eased in carefully early rather than exposed. Wind 8 mph In From RF at Fenway suppresses. Gausman a clean, established vet. Mild NRFI; re-verify Suarez's workload plan close to first pitch. |
+| 5 | ATL @ BAL | López / Baz | **YRFI** | ~55% | López (inconsistent starts) vs ATL's dynamic top-of-order; wind 5 mph R-to-L at Camden (neutral-ish). |
+| 6 | KC @ DET | Avila / Valdez | **YRFI** | ~57% | Both shaky arms this season (Avila 4.86 ERA; Valdez 4.57 ERA, coming off a disaster 0.2 IP/6 ER start post-bereavement-leave). Two-bad-SP early-inning risk on both sides. |
+| 7 | LAD @ NYM | Sheehan / Peralta | **YRFI** | ~60% | **Two-bad-SP shootout — both own-SP ERA traps (Sheehan 5.13, Peralta 5.01)**, both with recent multi-run 1st-2nd-inning blowups. Strongest YRFI lean of the day despite Citi Field's mild wind-in. |
+| 8 | SD @ MIA | Buehler / Junk | **YRFI** | ~55% | Buehler's control has deteriorated (5 BB in his last start, 4 BB the one before) — walks put him in early trouble. Dome (roof closed), so park is neutral; pitcher risk is the driver. |
+| 9 | ATH @ MIN | Springs / Prielipp | **YRFI** | ~54% | Wind 8 mph Out To LF + 92°F heat at Target Field boosts carry/offense mildly. No strong SP signal either way. |
+| 10 | HOU @ CWS | Blanco / Fedde | **NRFI** | ~53% | Wind 7 mph In From RF at Rate Field suppresses; near coin-flip on SP quality. Mild NRFI on park effect alone. |
+| 11 | COL @ MIL | Freeland / Misiorowski | **NRFI** | ~58% | **Misiorowski is elite (1.57 ERA, 13.54 K/9) even on a workload-managed pitch count** (per his 4.0 IP/65-pitch reset last start) — should still retire the side clean in the 1st. Freeland (COL) is the risk, but the dome (roof closed) neutralizes Coors-style YRFI tilt. |
+| 12 | CIN @ STL | Abbott / Leahy | **YRFI** | ~54% | Wind 5 mph Out To CF + 94°F heat at Busch; both are mid-tier arms (Abbott 3.89 ERA, Leahy 3.59 ERA) without a clean-1st track record. |
+| 13 | SEA @ TEX | Gilbert / deGrom | **NRFI** | ~60% | **Strongest NRFI of the day.** Both elite K-arms (Gilbert 9.68 K/9, deGrom 10.94 K/9) in a dome (Globe Life retractable, closed-neutral); both typically retire the order cleanly to open a game. |
+| 14 | LAA @ SF | Soriano / Whisenhunt | NEUTRAL | ~52% | Weather pending at build time; no strong SP-quality signal identified. Re-check near first pitch. |
+| 15 | NYY @ PHI | Warren / Sánchez | **YRFI** | ~55% | Sánchez (2.65 ERA) should retire NYY's top clean, but **Warren has been shaky/short-outing prone recently** (used in relief 7/22) — PHI's own lineup (Schwarber/Harper/Turner) is live against him in the bottom half. Weather pending at build time. |
 
-**Day's strongest NRFI:** CHC @ PIT (Imanaga/Skenes, both elite ~62%); LAD @ NYM (Yamamoto/McLean, both hot ~60%)
-**Day's strongest YRFI:** LAA @ SF (Oracle Park wind out 13 mph ~60%); NYY @ PHI (TBD SP ~60%)
+**Day's strongest NRFI:** SEA @ TEX (Gilbert/deGrom, both elite ~60%); COL @ MIL (Misiorowski elite even on a pitch-count leash ~58%)
+**Day's strongest YRFI:** LAD @ NYM (Sheehan/Peralta, both own-SP-ERA traps ~60%)
 
 ---
 
@@ -246,17 +246,53 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 6/21 | BAL @ LAD (Young/Sheehan) | YRFI | 57% | _model-only_ | **W** (1st 2-1 → YRFI) | LAD elite top (Ohtani/Betts/Freeman) vs rookie Young — live half. Strongest YRFI lean. |
 | 6/21 | BOS @ SEA (Tolle/Gilbert) | NRFI | 55% | _model-only_ | **W** (1st 0-0 → NRFI) | Gilbert ace dominant early frames; BOS avg top vs Gilbert. |
 | 6/21 | NYM @ PHI (Peterson/Wheeler) | YRFI | 53% | _model-only_ | **W** (1st 0-2 → YRFI) | PHI top strong vs shaky Peterson; CBP hitter park. |
-| 6/24 | LAD @ MIN | Ohtani / Ryan | **NRFI** | ~55% | _model-only_ | TBD | Ohtani (1.47 ERA) surgical early; Ryan (2.99/10.20 K9) also efficient. Both elite; expect clean 1st innings. |
-| 6/24 | ATH @ SF | Jump / Mahle | **YRFI** | ~57% | _model-only_ | TBD | Mahle (6.04 ERA, 1-7) vulnerable early; ATH top-of-order should score in the 1st. Jump solid but SF bats live. |
-| 6/24 | ATL @ SD | Pérez / Sears | **NEUTRAL** | ~52% | _model-only_ | TBD | Pérez (2.78 ERA) clean early; Sears 0 GS in 2026 (IL return) = coin-flip. Petco/wind-in tempers YRFI. |
-| 6/24 | AZ @ STL | Bratt / Liberatore | **YRFI** | ~56% | _model-only_ | TBD | Liberatore struggled badly (1.2 IP/5ER last start); AZ top should score early. Bratt 0 GS 2026 = unknown. |
+| 6/24 | LAD @ MIN (Ohtani/Ryan) | NRFI | 55% | _model-only_ | **W** (1st 0-0 → NRFI) | Ohtani (1.47 ERA) surgical early; Ryan (2.99/10.20 K9) also efficient. Both elite; clean 1st innings as expected. |
+| 6/24 | ATH @ SF (Jump/Mahle) | YRFI | 57% | _model-only_ | **L** (1st 0-0 → NRFI) | Mahle (6.04 ERA, 1-7) was expected to be vulnerable early but worked a clean 1st; ATH top didn't cash. |
+| 6/24 | ATL @ SD (Pérez/Sears) | NEUTRAL | 52% | _model-only_ | (1st 0-0 → NRFI, excluded — neutral) | Pérez (2.78 ERA) clean early; Sears 0 GS in 2026 (IL return) = coin-flip. Petco/wind-in tempers YRFI. |
+| 6/24 | AZ @ STL (Bratt/Liberatore) | YRFI | 56% | _model-only_ | **L** (1st 0-0 → NRFI) | Liberatore struggled badly last start but worked a clean 1st this time; AZ top didn't cash early either. |
+| 7/25 | KC @ DET (Wacha/Mize) | NEUTRAL | 52% | _model-only_ | (1st 0-0 → NRFI, excluded — neutral) | Both quality journeyman arms; Comerica suppresses offense slightly. |
+| 7/25 | AZ @ WSH (Bratt/Griffin) | YRFI | 56% | _model-only_ | **L** (1st 0-0 → NRFI) | Both moderate arms produced a clean 1st; AZ's active offense didn't cash early. |
+| 7/25 | LAA @ SF (Johnson/Ray) | YRFI | 60% | _model-only_ | **L** (1st 0-0 → NRFI) | Oracle wind-out lean missed — both starters worked a clean opening frame. |
+| 7/25 | TOR @ BOS (Cease/Gray) | NRFI | 57% | _model-only_ | **W** (1st 0-0 → NRFI) | Cease (13.37 K/9) mowed the order; Gray also clean. Elite-arm NRFI thesis held. |
+| 7/25 | SD @ MIA (Vásquez/Pérez) | NRFI | 55% | _model-only_ | **W** (1st 0-0 → NRFI) | Dome + Pérez dominant early + cold MIA offense — clean NRFI as leaned. |
+| 7/25 | NYY @ PHI (Weathers/TBD) | YRFI | 60% | _model-only_ | **W** (1st 0-1 → YRFI) | PHI TBD-SP variance thesis hit — PHI scored in the 1st. |
+| 7/25 | CLE @ TB (Bibee/Martinez) | NRFI | 56% | _model-only_ | **W** (1st 0-0 → NRFI) | Martinez's elite contact management + cold CLE offense held the 1st clean. |
+| 7/25 | CHC @ PIT (Imanaga/Skenes) | NRFI | 62% | _model-only_ | **W** (1st 0-0 → NRFI) | Strongest NRFI lean of the day — both elite arms delivered clean 1sts as expected. |
+| 7/25 | ATL @ BAL (Elder/Young) | YRFI | 58% | _model-only_ | **L** (1st 0-0 → NRFI) | ATL's explosive top stayed quiet in the 1st; Young worked clean. |
+| 7/25 | ATH @ MIN (Basso/TBD) | YRFI | 58% | _model-only_ | **L** (1st 0-0 → NRFI) | TBD-SP variance thesis missed — 1st stayed clean on both sides. |
+| 7/25 | HOU @ CWS (Brown/Burke) | YRFI | 57% | _model-only_ | **L** (1st 0-0 → NRFI) | Brown's rough recent form didn't translate to a 1st-inning run; HOU's big lineup went quiet early too. |
+| 7/25 | COL @ MIL (Feltner/Gasser) | NEUTRAL | 52% | _model-only_ | (1st 0-0 → NRFI, excluded — neutral) | Dome-controlled; near-neutral read as leaned. |
+| 7/25 | LAD @ NYM (Yamamoto/McLean) | NRFI | 60% | _model-only_ | **W** (1st 0-0 → NRFI) | Both hot elite arms delivered clean 1sts as leaned. |
+| 7/25 | CIN @ STL (Greene/Pallante) | NRFI | 58% | _model-only_ | **L** (1st 0-1 → YRFI) | Greene's K-heavy profile didn't prevent an early run against him. |
+| 7/25 | SEA @ TEX (Woo/Eovaldi) | NEUTRAL | 51% | _model-only_ | (1st 0-3 → YRFI, excluded — neutral) | Coin-flip read; TEX offense broke through early (3 runs), well outside the neutral lean either way. |
+| 7/26 | CLE @ TB (Messick/Rasmussen) | NRFI | 58% | _model-only_ | TBD | Both elite arms (Messick 2.68 ERA, Rasmussen 3.28 ERA); Tropicana dome controlled. |
+| 7/26 | AZ @ WSH (Drake/Mikolas) | YRFI | 57% | _model-only_ | TBD | Mikolas struggling (5.61 ERA); wind out to LF at Nats Park. |
+| 7/26 | CHC @ PIT (Taillon/Ashcraft) | YRFI | 54% | _model-only_ | TBD | Wind out to RF at PNC; Ashcraft's command unproven at this level. |
+| 7/26 | TOR @ BOS (Gausman/Suarez) | NRFI | 54% | _model-only_ | TBD | Suarez's first start back from IL (groin) — likely on a pitch-count leash; wind in from RF at Fenway suppresses. |
+| 7/26 | ATL @ BAL (López/Baz) | YRFI | 55% | _model-only_ | TBD | López inconsistent vs ATL's dynamic top-of-order. |
+| 7/26 | KC @ DET (Avila/Valdez) | YRFI | 57% | _model-only_ | TBD | Both shaky arms (Avila 4.86, Valdez 4.57 post-bereavement disaster start). |
+| 7/26 | LAD @ NYM (Sheehan/Peralta) | YRFI | 60% | _model-only_ | TBD | Two-bad-SP shootout — both own-SP-ERA traps (5.13/5.01), recent multi-run 1st/2nd-inning blowups. |
+| 7/26 | SD @ MIA (Buehler/Junk) | YRFI | 55% | _model-only_ | TBD | Buehler's control has deteriorated (5 BB last start) — walks invite early trouble. |
+| 7/26 | ATH @ MIN (Springs/Prielipp) | YRFI | 54% | _model-only_ | TBD | Wind out to LF + 92°F heat at Target Field boosts offense mildly. |
+| 7/26 | HOU @ CWS (Blanco/Fedde) | NRFI | 53% | _model-only_ | TBD | Wind in from RF at Rate Field suppresses; near coin-flip on SP quality. |
+| 7/26 | COL @ MIL (Freeland/Misiorowski) | NRFI | 58% | _model-only_ | TBD | Misiorowski elite (1.57 ERA, 13.54 K/9) even on a workload-managed pitch count; dome neutralizes Coors tilt. |
+| 7/26 | CIN @ STL (Abbott/Leahy) | YRFI | 54% | _model-only_ | TBD | Wind out to CF + 94°F heat at Busch; both mid-tier arms without a clean-1st track record. |
+| 7/26 | SEA @ TEX (Gilbert/deGrom) | NRFI | 60% | _model-only_ | TBD | Both elite K-arms (9.68/10.94 K9) in a neutral dome; typically retire the order cleanly early. |
+| 7/26 | LAA @ SF (Soriano/Whisenhunt) | NEUTRAL | 52% | _model-only_ | TBD | Weather pending at build time; no strong SP signal identified. |
+| 7/26 | NYY @ PHI (Warren/Sánchez) | YRFI | 55% | _model-only_ | TBD | Sánchez should retire NYY clean, but Warren shaky/short-outing prone — PHI's own bats live vs him. |
 
 ---
 
 ## Running totals (update on every settle)
-- **Record:** **84-66** (tracker opened 6/10/26). **NRFI:** **41-41** · **YRFI:** **43-25**.
+- **Record:** **91-74** (tracker opened 6/10/26). **NRFI:** **47-42** · **YRFI:** **44-32**.
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
-- **Open:** **6/24: 4 pre-game reads** (LAD@MIN, ATH@SF, ATL@SD, AZ@STL). Settle via `nrfi_settle.py --apply` next session.
+- **Open:** **7/26: 15 pre-game reads** (full slate). Settle via `nrfi_settle.py --apply` next session.
+- **Settled 6/24 + 7/25** (backfilled 7/26 — these reads were logged in "Tonight's reads" but never copied into
+  the Ledger table in their build sessions, so `nrfi_settle.py` had nothing to match; fixed by hand this run
+  using `mlb_api.sh raw schedule?...hydrate=linescore` for the 1st-inning score). 6/24: 3 decided (1W-2L,
+  1 neutral excluded). 7/25: 12 decided (6W-6L, 3 neutral excluded) — NRFI 5-1, YRFI 1-5 on the day (the
+  elite-arm NRFI theses (Cease, Skenes/Imanaga, Yamamoto/McLean) all held; the YRFI TBD-SP-variance thesis
+  missed repeatedly — TBD/uncertain-SP alone isn't a reliable YRFI driver without a live bat trio also firing).
 - **Settled 6/22** (auto via `nrfi_settle.py --apply`): 8 reads settled 5W-3L (NRFI 3-0, YRFI 2-3). Record updated from 78-64 to **84-66**. Neutral reads (MIL@CIN, BAL@LAA, TEX@MIA, AZ@STL) excluded (lean ~50/51%). CHC@NYM postponed → left open. Strong NRFI (Rasmussen/Cole) both hit; the Coors YRFI missed badly (total only 5 runs, wind In suppressed it — calibration lesson confirmed).
 - **Settled 6/21** (auto via `nrfi_settle.py --apply` in session_start.sh): 4 reads → 3W-1L.
   - LAA@ATH NRFI ❌ L (1st 0-4 → YRFI — Perkins/ATH exploded 4 runs)
