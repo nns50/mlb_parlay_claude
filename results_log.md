@@ -82,6 +82,9 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 7/26 | Gilbert Over 6.5 K (SEA @ TEX) | K-Over | -110 | 63% | 49.9% (one-sided est.) | **+13.1** | **L** (5.2 IP / 3 ER / **4 K** @ TEX — gamelog-confirmed; SEA won 6-4 but the K count never came; 5-of-6 recent form met a quiet night, no pre-flagged suppressor) | Y | — | P |
 | 7/26 | PHI ML (Sánchez, vs NYY) [BANKROLL ROLL 3] | ML-fav | -164 | 63% | 59.8% | **+3.2** | **W** (PHI 11-4 NYY — Sánchez ace-edge held; bankroll roll 3 CASHED $27.21→$43.81, attempt 9 now 3-0). Grade: **+EV (clears gate) — WON** | Y | — | S |
 | 7/26 | STL ML (Leahy, vs CIN) | ML-fav | -132 | 57% | 54.7% | **+2.0** | **L** (CIN 5-3 STL — the Tier-3 chase leg busted; D1 again). Grade: **thin +EV (barely cleared gate) — lost** | Y | — | P |
+| 7/30 | Burke Over 6.5 K (NYY @ CWS) [adj: ace_edge+3, cold_aids_kover+3] | K-Over | -148 | 62.3% | 56.3% | **+6.0** | TBD | Y | — | P |
+| 7/30 | NYY@CWS Under 7.5 [adj: wind_in_under+3] | Total | -110 | 54.5% | 51.5% | **+3.0** | TBD | Y | — | P |
+| 7/30 | BOS ML (Gray, @ ATH) [BANKROLL ROLL 4 — 4-WIN TARGET] [adj: ace_edge+3] | ML-fav | -174 | 65.1% | 62.1% | **+3.0** | TBD | Y | — | S |
 
 ## Recommended but NOT played (calibration both ways)
 
@@ -212,6 +215,11 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 6/6 | CLE Guardians -5.5 RL (vs TEX) — USER PLAYED | RL | -130 | * | — | — | **W** (CLE 6-0, by 6) — user Ticket 2 leg | Y | — | P |
 | 6/6 | LA Dodgers -1.5 RL (vs LAA) — USER PLAYED | RL | (SGP) | * | — | — | **W** (LAD 9-2, won by 7) — user Ticket 2 SGP leg | Y | — | P |
 | 6/6 | Kochanowicz Over 5.5 hits allowed (LAA, vs LAD) — USER PLAYED | Hit-prop | (SGP) | * | — | — | **W** (pulled 0.1 IP / 6 ER, cleared early) — user Ticket 2 SGP leg | Y | — | P |
+| 7/30 | STL ML (Pallante, vs CHC) [adj: ace_edge+3] | ML-fav | -108 | 53.9% | 50.9% | +2.0 | TBD | N | — | P |
+| 7/30 | LAD ML (Sasaki, vs SEA) [adj: custom+2] | ML-fav | -150 | 60.6% | 58.6% | +2.0 | TBD | N | — | P |
+| 7/30 | McLean Over 6.5 K (MIA @ NYM) [adj: ace_edge+3, custom-2] | K-Over | +108 | 46.3% | 45.3% | +1.0 | TBD — below +2pp gate, scan-only | N | — | S |
+| 7/30 | NYM ML (McLean, vs MIA) [adj: custom-3] | ML-fav | -125 | 51.3% | 54.3% | −3.0 | TBD — REJECT (Mets 46-63/.422 below-.500 team, number driven by SP alone) | N | — | P |
+| 7/30 | TEX Rangers ML (@ TB) [adj: none] | ML-dog | +158 | 37.8% | 37.8% | 0.0 | TBD — Winn's opener-like usage noted but NOT boosted per D5 discipline; no edge either side | N | — | P |
 
 ---
 
