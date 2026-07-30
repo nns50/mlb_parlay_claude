@@ -2,7 +2,7 @@
  {
   "pk": 822946,
   "state": "Preview",
-  "detail": "Scheduled",
+  "detail": "Pre-Game",
   "away": "Texas Rangers",
   "away_sp_id": 668390,
   "away_sp": "Cole Winn",
@@ -13,7 +13,7 @@
  {
   "pk": 823674,
   "state": "Preview",
-  "detail": "Scheduled",
+  "detail": "Pre-Game",
   "away": "Kansas City Royals",
   "away_sp_id": 702070,
   "away_sp": "Noah Cameron",
@@ -24,7 +24,7 @@
  {
   "pk": 824568,
   "state": "Preview",
-  "detail": "Scheduled",
+  "detail": "Pre-Game",
   "away": "New York Yankees",
   "away_sp_id": 677960,
   "away_sp": "Ryan Weathers",
@@ -84,8 +84,8 @@
   "away_sp_id": 543243,
   "away_sp": "Sonny Gray",
   "home": "Athletics",
-  "home_sp_id": null,
-  "home_sp": null
+  "home_sp_id": 686930,
+  "home_sp": "Mason Barnett"
  },
  {
   "pk": 823271,

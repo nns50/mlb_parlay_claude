@@ -128,7 +128,7 @@ tbody tr:hover{background:var(--surf2)}
 <body>
 <header>
   <h1>⚾ MLB Parlay Dashboard</h1>
-  <span class="updated"><span class="freshdot stale">⚠ data may be stale</span> · Updated 2026-07-30 05:13 ET</span>
+  <span class="updated"><span class="freshdot fresh">● live</span> · Updated 2026-07-30 15:21 ET</span>
 </header>
 <nav class="jump">
   <a href="#overview">Overview</a>
@@ -192,13 +192,13 @@ tbody tr:hover{background:var(--surf2)}
   <div class="stats">
     <div class="stat" style="border-left:3px solid var(--blue,#3b82f6)">
       <div class="lbl">Latest build</div>
-      <div class="val" style="font-size:18px">2026-07-26</div>
+      <div class="val" style="font-size:18px">2026-07-30</div>
       <div class="sub">runs: 11:00</div>
     </div>
     <div class="stat" style="border-left:3px solid var(--yellow)">
       <div class="lbl">Open tickets (TBD)</div>
-      <div class="val" style="font-size:18px">7</div>
-      <div class="sub">06-20, 06-24, 07-25, 07-26</div>
+      <div class="val" style="font-size:18px">8</div>
+      <div class="sub">06-24, 07-25, 07-26, 07-30</div>
     </div>
     <div class="stat" style="border-left:3px solid var(--green)">
       <div class="lbl">Ladder progress</div>
@@ -208,28 +208,28 @@ tbody tr:hover{background:var(--surf2)}
   </div>
 
   <div class="card" style="margin:4px 0 6px">
-    <h2>Today's board — 2026-07-26 · Run 11:00 ET ET</h2>
+    <h2>Today's board — 2026-07-30 · Run 11:00 ET ET</h2>
     <div class="sub">Picks from the latest run block (best-effort parse — the parlay file is the source of truth)</div>
     
       <div style="padding:8px 0;border-bottom:1px solid var(--border)">
         <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">Tier 1 — Best standalone +EV play</div>
-        <div style="font-size:13px;line-height:1.45">Logan Gilbert Over 6.5 Strikeouts (SEA @ TEX) at −110 (DraftKings)</div>
+        <div style="font-size:13px;line-height:1.45">Sean Burke Over 6.5 Strikeouts (CWS vs NYY) at −148 (best book found)</div>
       </div>
       <div style="padding:8px 0;border-bottom:1px solid var(--border)">
-        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">Tier 2 — Highest-floor 2-leg (best WIN CHANCE, regardless of payout)</div>
-        <div style="font-size:13px;line-height:1.45">2-Legger: Logan Gilbert Over 6.5 K (−110) + Philadelphia Phillies ML (−164)</div>
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">Tier 2 — Highest-floor 2-leg (best WIN CHANCE)</div>
+        <div style="font-size:13px;line-height:1.45">Same-game pair: Sean Burke Over 6.5 K (−148) + NYY@CWS Under 7.5 (−110)</div>
       </div>
       <div style="padding:8px 0;border-bottom:1px solid var(--border)">
-        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">Tier 3 — +200 build (higher payout, flagged floor drop)</div>
-        <div style="font-size:13px;line-height:1.45">3-Legger: Gilbert O6.5K (−110) + PHI ML (−164) + STL ML (−132)</div>
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">Tier 3 — the +200 build</div>
+        <div style="font-size:13px;line-height:1.45">This IS Tier 2 — the pair already lands at +220, inside the target band, with no 3rd leg needed.</div>
       </div>
     
       <div style="margin-top:12px">
         <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:4px">
-          <span>Odds API credits</span><span class="mono" style="color:var(--red)">KEY DEACTIVATED — reactivate billing at the-odds-api.com</span>
+          <span>Odds API credits</span><span class="mono">491 left · used 9 / 20,000-mo</span>
         </div>
         <div style="height:7px;background:var(--border);border-radius:4px;overflow:hidden">
-          <div style="height:100%;width:100%;background:var(--red);opacity:.45"></div>
+          <div style="height:100%;width:97.5%;background:var(--red)"></div>
         </div>
       </div>
   </div>
@@ -568,14 +568,103 @@ tbody tr:hover{background:var(--surf2)}
 
   <div class="section-title" id="nrfi">First-inning tracker (NRFI / YRFI)</div>
   <div class="tcard">
-    <h2>NRFI / YRFI record &amp; tracked reads <span class="mono pos">91-74</span></h2>
-    <div class="sub">From nrfi_tracker.md · NRFI = Under 0.5 runs in the 1st, YRFI = Over 0.5 · overall NRFI 47-42 · YRFI 44-32 · grouped by day with daily win% · separate from the parlay ledger</div>
+    <h2>NRFI / YRFI record &amp; tracked reads <span class="mono pos">98-81</span></h2>
+    <div class="sub">From nrfi_tracker.md · NRFI = Under 0.5 runs in the 1st, YRFI = Over 0.5 · overall NRFI 49-45 · YRFI 49-36 · grouped by day with daily win% · separate from the parlay ledger</div>
     
     <details class="nrfi-day" open>
       <summary>
-        <span class="nrfi-day-date mono">7/26</span>
+        <span class="nrfi-day-date mono">7/30</span>
         <span class="mono muted">pending</span>
-        <span class="muted small">14 open</span>
+        <span class="muted small">10 open</span>
+      </summary>
+      <table><thead><tr><th>Matchup</th><th>Pick</th><th>TrueP</th><th>Price</th><th>Result</th><th>Reasoning</th></tr></thead>
+      <tbody>
+      <tr>
+        <td>TEX @ TB (Winn/McClanahan)</td>
+        <td><span class="tag ">YRFI</span></td>
+        <td class="mono">55%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono muted">TBD</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Winn on an alarming short-leash pattern (0.1-1.1 IP last 6 outings) — command/health risk. Dome neutral.</td>
+      </tr>
+      <tr>
+        <td>KC @ MIN (Cameron/Ober)</td>
+        <td><span class="tag ">YRFI</span></td>
+        <td class="mono">55%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono muted">TBD</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Both mediocre arms; wind out to LF at Target Field boosts carry mildly.</td>
+      </tr>
+      <tr>
+        <td>NYY @ CWS (Weathers/Burke)</td>
+        <td><span class="tag pos">NRFI</span></td>
+        <td class="mono">58%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono muted">TBD</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Burke dominant recent form (10 K last start); wind in from CF suppresses.</td>
+      </tr>
+      <tr>
+        <td>CHC @ STL (Assad/Pallante)</td>
+        <td><span class="tag pos">NRFI</span></td>
+        <td class="mono">55%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono muted">TBD</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Pallante shutout last start; Assad on a short leash but avoiding damage.</td>
+      </tr>
+      <tr>
+        <td>PIT @ CIN (Ramírez/Lowder)</td>
+        <td><span class="tag ">YRFI</span></td>
+        <td class="mono">57%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono muted">TBD</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Both shaky/short-leash (Ramírez essentially an opener; Lowder 5.61 ERA).</td>
+      </tr>
+      <tr>
+        <td>MIA @ NYM (Pérez/McLean)</td>
+        <td><span class="tag pos">NRFI</span></td>
+        <td class="mono">58%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono muted">TBD</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">McLean elite and metronomic (exactly 6.0 IP 6 straight starts); Pérez also sharp recently.</td>
+      </tr>
+      <tr>
+        <td>WSH @ ATL (Irvin/Holmes)</td>
+        <td><span class="tag ">YRFI</span></td>
+        <td class="mono">54%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono muted">TBD</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Irvin hasn't pitched since 5/23 (IL return, C3 rust risk); Holmes moderate.</td>
+      </tr>
+      <tr>
+        <td>BOS @ ATH (Gray/Barnett)</td>
+        <td><span class="tag pos">NRFI</span></td>
+        <td class="mono">58%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono muted">TBD</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Gray is a legitimate ace; ATH's punchless lineup limits early damage.</td>
+      </tr>
+      <tr>
+        <td>SF @ SD (TBA/Sears)</td>
+        <td><span class="tag pos">NRFI</span></td>
+        <td class="mono">54%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono muted">TBD</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">SF SP TBA (E4 gate, no bet); Sears reliable, Petco a pitcher's park.</td>
+      </tr>
+      <tr>
+        <td>SEA @ LAD (Woo/Sasaki)</td>
+        <td><span class="tag pos">NRFI</span></td>
+        <td class="mono">57%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono muted">TBD</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Sasaki's best form of the season his last two starts (5K/0ER, 9K/1ER).</td>
+      </tr></tbody></table>
+    </details>
+    <details class="nrfi-day" open>
+      <summary>
+        <span class="nrfi-day-date mono">7/26</span>
+        <span class="mono pos">7-7 · 50% W</span>
+        <span class="muted small">14 settled</span>
       </summary>
       <table><thead><tr><th>Matchup</th><th>Pick</th><th>TrueP</th><th>Price</th><th>Result</th><th>Reasoning</th></tr></thead>
       <tbody>
@@ -584,7 +673,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag pos">NRFI</span></td>
         <td class="mono">58%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono win">W</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Both elite arms (Messick 2.68 ERA, Rasmussen 3.28 ERA); Tropicana dome controlled.</td>
       </tr>
       <tr>
@@ -592,7 +681,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag ">YRFI</span></td>
         <td class="mono">57%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono win">W</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Mikolas struggling (5.61 ERA); wind out to LF at Nats Park.</td>
       </tr>
       <tr>
@@ -600,7 +689,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag ">YRFI</span></td>
         <td class="mono">54%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono loss">L</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Wind out to RF at PNC; Ashcraft's command unproven at this level.</td>
       </tr>
       <tr>
@@ -608,7 +697,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag pos">NRFI</span></td>
         <td class="mono">54%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono win">W</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Suarez's first start back from IL (groin) — likely on a pitch-count leash; wind in from RF at Fenway suppresses.</td>
       </tr>
       <tr>
@@ -616,7 +705,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag ">YRFI</span></td>
         <td class="mono">55%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono loss">L</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">López inconsistent vs ATL's dynamic top-of-order.</td>
       </tr>
       <tr>
@@ -624,7 +713,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag ">YRFI</span></td>
         <td class="mono">57%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono win">W</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Both shaky arms (Avila 4.86, Valdez 4.57 post-bereavement disaster start).</td>
       </tr>
       <tr>
@@ -632,7 +721,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag ">YRFI</span></td>
         <td class="mono">60%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono win">W</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Two-bad-SP shootout — both own-SP-ERA traps (5.13/5.01), recent multi-run 1st/2nd-inning blowups.</td>
       </tr>
       <tr>
@@ -640,7 +729,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag ">YRFI</span></td>
         <td class="mono">55%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono loss">L</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Buehler's control has deteriorated (5 BB last start) — walks invite early trouble.</td>
       </tr>
       <tr>
@@ -648,7 +737,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag ">YRFI</span></td>
         <td class="mono">54%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono win">W</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Wind out to LF + 92°F heat at Target Field boosts offense mildly.</td>
       </tr>
       <tr>
@@ -656,7 +745,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag pos">NRFI</span></td>
         <td class="mono">53%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono loss">L</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Wind in from RF at Rate Field suppresses; near coin-flip on SP quality.</td>
       </tr>
       <tr>
@@ -664,7 +753,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag pos">NRFI</span></td>
         <td class="mono">58%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono loss">L</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Misiorowski elite (1.57 ERA, 13.54 K/9) even on a workload-managed pitch count; dome neutralizes Coors tilt.</td>
       </tr>
       <tr>
@@ -672,7 +761,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag ">YRFI</span></td>
         <td class="mono">54%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono loss">L</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Wind out to CF + 94°F heat at Busch; both mid-tier arms without a clean-1st track record.</td>
       </tr>
       <tr>
@@ -680,7 +769,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag pos">NRFI</span></td>
         <td class="mono">60%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono loss">L</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Both elite K-arms (9.68/10.94 K9) in a neutral dome; typically retire the order cleanly early.</td>
       </tr>
       <tr>
@@ -688,7 +777,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag ">YRFI</span></td>
         <td class="mono">55%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono win">W</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Sánchez should retire NYY clean, but Warren shaky/short-outing prone — PHI's own bats live vs him.</td>
       </tr></tbody></table>
     </details>
@@ -2780,6 +2869,12 @@ tbody tr:hover{background:var(--surf2)}
     <h2>All daily builds</h2>
     <div class="sub">Most recent first</div>
     <table><thead><tr><th>Date</th><th>Runs</th><th>Result</th><th>Summary</th></tr></thead><tbody>
+      <tr>
+        <td class="mono">2026-07-30</td>
+        <td class="mono muted">11:00</td>
+        <td><span class="badge tbd">TBD</span></td>
+        <td class="muted small">_TBD — settle via `tools/settle.py` next session._</td>
+      </tr>
       <tr>
         <td class="mono">2026-07-26</td>
         <td class="mono muted">11:00</td>

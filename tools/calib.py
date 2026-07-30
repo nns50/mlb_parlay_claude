@@ -145,6 +145,8 @@ def main():
             excluded_star += 1
             continue
         res = parse_result(c[7])
+        if res not in ("W", "L"):
+            continue  # TBD / pending legs aren't decided yet — exclude from n until settled
         b = band(truep)
         buckets[b][0] += 1
         if res == "W":

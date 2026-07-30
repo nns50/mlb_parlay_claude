@@ -29,30 +29,25 @@ Its own ledger lives here; the dashboard renders it from this file.
 
 ---
 
-## Tonight's reads — 2026-07-26 (model leans, un-priced; pull `totals_1st_1_innings` at the book)
+## Tonight's reads — 2026-07-30 (model leans, un-priced; pull `totals_1st_1_innings` at the book)
 
-> 11:00 ET morning reads — 15-game Sunday slate. One model-lean per game, model-only/no-bet (pull the real 1st-inning total at the book; promote only a read clearing +2pp after devig). Odds API deactivated this session — no live prop board; leans are model-only.
+> 11:00 ET morning reads — 10-game slate. One model-lean per game, model-only/no-bet (pull the real 1st-inning total at the book; promote only a read clearing +2pp after devig). Weather still PENDING for most games at build time (games start 12:10-6:10 PM local).
 
 | # | Matchup | Starters | Lean | TrueP | Why (1st-inning read) |
 |---|---------|----------|------|-------|------------------------|
-| 1 | CLE @ TB | Messick / Rasmussen | **NRFI** | ~58% | Both elite-quality arms (Messick 2.68 ERA, Rasmussen 3.28 ERA); Tropicana dome controlled. Clean-1st profile on both sides. |
-| 2 | AZ @ WSH | Drake / Mikolas | **YRFI** | ~57% | Mikolas struggling (5.61 ERA); wind 3 mph Out To LF at Nats Park. Drake is a small-sample rookie — 1st-inning variance both ways. |
-| 3 | CHC @ PIT | Taillon / Ashcraft | **YRFI** | ~54% | Wind 3 mph Out To RF at PNC; Ashcraft's command still unproven at this level. Mild lean only. |
-| 4 | TOR @ BOS | Gausman / Suarez | **NRFI** | ~54% | **Suarez is making his first start back from a groin-strain IL stint** — likely on a pitch-count leash (C3 structural flag), but starters are typically eased in carefully early rather than exposed. Wind 8 mph In From RF at Fenway suppresses. Gausman a clean, established vet. Mild NRFI; re-verify Suarez's workload plan close to first pitch. |
-| 5 | ATL @ BAL | López / Baz | **YRFI** | ~55% | López (inconsistent starts) vs ATL's dynamic top-of-order; wind 5 mph R-to-L at Camden (neutral-ish). |
-| 6 | KC @ DET | Avila / Valdez | **YRFI** | ~57% | Both shaky arms this season (Avila 4.86 ERA; Valdez 4.57 ERA, coming off a disaster 0.2 IP/6 ER start post-bereavement-leave). Two-bad-SP early-inning risk on both sides. |
-| 7 | LAD @ NYM | Sheehan / Peralta | **YRFI** | ~60% | **Two-bad-SP shootout — both own-SP ERA traps (Sheehan 5.13, Peralta 5.01)**, both with recent multi-run 1st-2nd-inning blowups. Strongest YRFI lean of the day despite Citi Field's mild wind-in. |
-| 8 | SD @ MIA | Buehler / Junk | **YRFI** | ~55% | Buehler's control has deteriorated (5 BB in his last start, 4 BB the one before) — walks put him in early trouble. Dome (roof closed), so park is neutral; pitcher risk is the driver. |
-| 9 | ATH @ MIN | Springs / Prielipp | **YRFI** | ~54% | Wind 8 mph Out To LF + 92°F heat at Target Field boosts carry/offense mildly. No strong SP signal either way. |
-| 10 | HOU @ CWS | Blanco / Fedde | **NRFI** | ~53% | Wind 7 mph In From RF at Rate Field suppresses; near coin-flip on SP quality. Mild NRFI on park effect alone. |
-| 11 | COL @ MIL | Freeland / Misiorowski | **NRFI** | ~58% | **Misiorowski is elite (1.57 ERA, 13.54 K/9) even on a workload-managed pitch count** (per his 4.0 IP/65-pitch reset last start) — should still retire the side clean in the 1st. Freeland (COL) is the risk, but the dome (roof closed) neutralizes Coors-style YRFI tilt. |
-| 12 | CIN @ STL | Abbott / Leahy | **YRFI** | ~54% | Wind 5 mph Out To CF + 94°F heat at Busch; both are mid-tier arms (Abbott 3.89 ERA, Leahy 3.59 ERA) without a clean-1st track record. |
-| 13 | SEA @ TEX | Gilbert / deGrom | **NRFI** | ~60% | **Strongest NRFI of the day.** Both elite K-arms (Gilbert 9.68 K/9, deGrom 10.94 K/9) in a dome (Globe Life retractable, closed-neutral); both typically retire the order cleanly to open a game. |
-| 14 | LAA @ SF | Soriano / Whisenhunt | NEUTRAL | ~52% | Weather pending at build time; no strong SP-quality signal identified. Re-check near first pitch. |
-| 15 | NYY @ PHI | Warren / Sánchez | **YRFI** | ~55% | Sánchez (2.65 ERA) should retire NYY's top clean, but **Warren has been shaky/short-outing prone recently** (used in relief 7/22) — PHI's own lineup (Schwarber/Harper/Turner) is live against him in the bottom half. Weather pending at build time. |
+| 1 | TEX @ TB | Winn / McClanahan | **YRFI** | ~55% | **Winn has thrown 0.1-1.1 IP in each of his last 6 outings** (opener/short-leash usage, possible command issue) — real risk he doesn't cleanly retire the side. McClanahan (3.09 ERA) solid. Tropicana dome neutral (72°F, 0 wind). |
+| 2 | KC @ MIN | Cameron / Ober | **YRFI** | ~55% | Both mediocre arms (Cameron 4.93 ERA, Ober 4.56 ERA, Ober trending shorter/rougher recently). Wind 9 mph Out To LF at Target Field boosts carry mildly. |
+| 3 | NYY @ CWS | Weathers / Burke | **NRFI** | ~58% | Burke (3.19 ERA, 9.89 K/9) dealt 10 K last start — elite recent form. Wind 5 mph In From CF at Rate Field suppresses. Weathers (10.17 K/9) also missed bats last time out. |
+| 4 | CHC @ STL | Assad / Pallante | **NRFI** | ~55% | Pallante threw a 7 IP / 0 ER shutout last start (dominant recent form); Assad has been on a short leash (3.0, then 1.0 IP in his last two) but has avoided damage in most of those brief outings. Weather PENDING. |
+| 5 | PIT @ CIN | Ramírez / Lowder | **YRFI** | ~57% | Both shaky/short-leash (Ramírez essentially an opener — 1-2 IP outings all July; Lowder 5.61 ERA with several sub-3-IP starts). Early-inning risk on both sides. Weather PENDING. |
+| 6 | MIA @ NYM | Pérez / McLean | **NRFI** | ~58% | McLean (3.32 ERA, 10.71 K/9) has gone exactly 6.0 IP in 6 straight starts — elite, reliable early. Pérez (3.56 ERA) also missed 8-9 bats in 3 of his last 4. Weather PENDING. |
+| 7 | WSH @ ATL | Irvin / Holmes | **YRFI** | ~54% | **Irvin hasn't pitched since 5/23** (2+ month gap — IL return, C3 structural risk) — rust/short-leash uncertainty. Holmes (3.79 ERA) moderate. Weather PENDING; mild lean only given the uncertainty. |
+| 8 | BOS @ ATH | Gray / Barnett | **NRFI** | ~58% | Gray (2.78 ERA) is a legitimate ace, even after one rough start (5 ER 7/25). Barnett is on a short leash (rookie, 0.2-3.1 IP range) but ATH's punchless lineup limits early damage vs Gray. Weather PENDING. |
+| 9 | SF @ SD | TBA / Sears | **NRFI** | ~54% | SF's starter is TBA (E4 gate — no bet on any SF-SP-dependent leg); Sears (3.86 ERA) has been reliable in short outings. Petco is a pitcher's park. Thin lean — TBD-SP alone hasn't been a reliable YRFI driver historically (7/25 review). |
+| 10 | SEA @ LAD | Woo / Sasaki | **NRFI** | ~57% | Sasaki has turned a corner — 5 K/0 ER (5.2 IP) then 9 K/1 ER (7.0 IP) his last two starts, best form of his season. Woo (4.37 ERA) solid despite a rough last outing. Weather PENDING. |
 
-**Day's strongest NRFI:** SEA @ TEX (Gilbert/deGrom, both elite ~60%); COL @ MIL (Misiorowski elite even on a pitch-count leash ~58%)
-**Day's strongest YRFI:** LAD @ NYM (Sheehan/Peralta, both own-SP-ERA traps ~60%)
+**Day's strongest NRFI:** NYY @ CWS (Burke dominant, wind suppressing, ~58%); MIA @ NYM (McLean's elite consistency, ~58%); BOS @ ATH (Gray ace-edge, ~58%)
+**Day's strongest YRFI:** TEX @ TB (Winn's alarming short-outing pattern, ~55%); KC @ MIN (~55%)
 
 ---
 
@@ -265,28 +260,42 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 7/25 | LAD @ NYM (Yamamoto/McLean) | NRFI | 60% | _model-only_ | **W** (1st 0-0 → NRFI) | Both hot elite arms delivered clean 1sts as leaned. |
 | 7/25 | CIN @ STL (Greene/Pallante) | NRFI | 58% | _model-only_ | **L** (1st 0-1 → YRFI) | Greene's K-heavy profile didn't prevent an early run against him. |
 | 7/25 | SEA @ TEX (Woo/Eovaldi) | NEUTRAL | 51% | _model-only_ | (1st 0-3 → YRFI, excluded — neutral) | Coin-flip read; TEX offense broke through early (3 runs), well outside the neutral lean either way. |
-| 7/26 | CLE @ TB (Messick/Rasmussen) | NRFI | 58% | _model-only_ | TBD | Both elite arms (Messick 2.68 ERA, Rasmussen 3.28 ERA); Tropicana dome controlled. |
-| 7/26 | AZ @ WSH (Drake/Mikolas) | YRFI | 57% | _model-only_ | TBD | Mikolas struggling (5.61 ERA); wind out to LF at Nats Park. |
-| 7/26 | CHC @ PIT (Taillon/Ashcraft) | YRFI | 54% | _model-only_ | TBD | Wind out to RF at PNC; Ashcraft's command unproven at this level. |
-| 7/26 | TOR @ BOS (Gausman/Suarez) | NRFI | 54% | _model-only_ | TBD | Suarez's first start back from IL (groin) — likely on a pitch-count leash; wind in from RF at Fenway suppresses. |
-| 7/26 | ATL @ BAL (López/Baz) | YRFI | 55% | _model-only_ | TBD | López inconsistent vs ATL's dynamic top-of-order. |
-| 7/26 | KC @ DET (Avila/Valdez) | YRFI | 57% | _model-only_ | TBD | Both shaky arms (Avila 4.86, Valdez 4.57 post-bereavement disaster start). |
-| 7/26 | LAD @ NYM (Sheehan/Peralta) | YRFI | 60% | _model-only_ | TBD | Two-bad-SP shootout — both own-SP-ERA traps (5.13/5.01), recent multi-run 1st/2nd-inning blowups. |
-| 7/26 | SD @ MIA (Buehler/Junk) | YRFI | 55% | _model-only_ | TBD | Buehler's control has deteriorated (5 BB last start) — walks invite early trouble. |
-| 7/26 | ATH @ MIN (Springs/Prielipp) | YRFI | 54% | _model-only_ | TBD | Wind out to LF + 92°F heat at Target Field boosts offense mildly. |
-| 7/26 | HOU @ CWS (Blanco/Fedde) | NRFI | 53% | _model-only_ | TBD | Wind in from RF at Rate Field suppresses; near coin-flip on SP quality. |
-| 7/26 | COL @ MIL (Freeland/Misiorowski) | NRFI | 58% | _model-only_ | TBD | Misiorowski elite (1.57 ERA, 13.54 K/9) even on a workload-managed pitch count; dome neutralizes Coors tilt. |
-| 7/26 | CIN @ STL (Abbott/Leahy) | YRFI | 54% | _model-only_ | TBD | Wind out to CF + 94°F heat at Busch; both mid-tier arms without a clean-1st track record. |
-| 7/26 | SEA @ TEX (Gilbert/deGrom) | NRFI | 60% | _model-only_ | TBD | Both elite K-arms (9.68/10.94 K9) in a neutral dome; typically retire the order cleanly early. |
+| 7/26 | CLE @ TB (Messick/Rasmussen) | NRFI | 58% | _model-only_ | **W** (1st 0-0 → NRFI) | Both elite arms (Messick 2.68 ERA, Rasmussen 3.28 ERA); Tropicana dome controlled. |
+| 7/26 | AZ @ WSH (Drake/Mikolas) | YRFI | 57% | _model-only_ | **W** (1st 1-0 → YRFI) | Mikolas struggling (5.61 ERA); wind out to LF at Nats Park. |
+| 7/26 | CHC @ PIT (Taillon/Ashcraft) | YRFI | 54% | _model-only_ | **L** (1st 0-0 → NRFI) | Wind out to RF at PNC; Ashcraft's command unproven at this level. |
+| 7/26 | TOR @ BOS (Gausman/Suarez) | NRFI | 54% | _model-only_ | **W** (1st 0-0 → NRFI) | Suarez's first start back from IL (groin) — likely on a pitch-count leash; wind in from RF at Fenway suppresses. |
+| 7/26 | ATL @ BAL (López/Baz) | YRFI | 55% | _model-only_ | **L** (1st 0-0 → NRFI) | López inconsistent vs ATL's dynamic top-of-order. |
+| 7/26 | KC @ DET (Avila/Valdez) | YRFI | 57% | _model-only_ | **W** (1st 2-0 → YRFI) | Both shaky arms (Avila 4.86, Valdez 4.57 post-bereavement disaster start). |
+| 7/26 | LAD @ NYM (Sheehan/Peralta) | YRFI | 60% | _model-only_ | **W** (1st 0-1 → YRFI) | Two-bad-SP shootout — both own-SP-ERA traps (5.13/5.01), recent multi-run 1st/2nd-inning blowups. |
+| 7/26 | SD @ MIA (Buehler/Junk) | YRFI | 55% | _model-only_ | **L** (1st 0-0 → NRFI) | Buehler's control has deteriorated (5 BB last start) — walks invite early trouble. |
+| 7/26 | ATH @ MIN (Springs/Prielipp) | YRFI | 54% | _model-only_ | **W** (1st 0-3 → YRFI) | Wind out to LF + 92°F heat at Target Field boosts offense mildly. |
+| 7/26 | HOU @ CWS (Blanco/Fedde) | NRFI | 53% | _model-only_ | **L** (1st 1-2 → YRFI) | Wind in from RF at Rate Field suppresses; near coin-flip on SP quality. |
+| 7/26 | COL @ MIL (Freeland/Misiorowski) | NRFI | 58% | _model-only_ | **L** (1st 0-3 → YRFI) | Misiorowski elite (1.57 ERA, 13.54 K/9) even on a workload-managed pitch count; dome neutralizes Coors tilt. |
+| 7/26 | CIN @ STL (Abbott/Leahy) | YRFI | 54% | _model-only_ | **L** (1st 0-0 → NRFI) | Wind out to CF + 94°F heat at Busch; both mid-tier arms without a clean-1st track record. |
+| 7/26 | SEA @ TEX (Gilbert/deGrom) | NRFI | 60% | _model-only_ | **L** (1st 0-1 → YRFI) | Both elite K-arms (9.68/10.94 K9) in a neutral dome; typically retire the order cleanly early. |
 | 7/26 | LAA @ SF (Soriano/Whisenhunt) | NEUTRAL | 52% | _model-only_ | TBD | Weather pending at build time; no strong SP signal identified. |
-| 7/26 | NYY @ PHI (Warren/Sánchez) | YRFI | 55% | _model-only_ | TBD | Sánchez should retire NYY clean, but Warren shaky/short-outing prone — PHI's own bats live vs him. |
+| 7/26 | NYY @ PHI (Warren/Sánchez) | YRFI | 55% | _model-only_ | **W** (1st 0-1 → YRFI) | Sánchez should retire NYY clean, but Warren shaky/short-outing prone — PHI's own bats live vs him. |
+| 7/30 | TEX @ TB (Winn/McClanahan) | YRFI | 55% | _model-only_ | TBD | Winn on an alarming short-leash pattern (0.1-1.1 IP last 6 outings) — command/health risk. Dome neutral. |
+| 7/30 | KC @ MIN (Cameron/Ober) | YRFI | 55% | _model-only_ | TBD | Both mediocre arms; wind out to LF at Target Field boosts carry mildly. |
+| 7/30 | NYY @ CWS (Weathers/Burke) | NRFI | 58% | _model-only_ | TBD | Burke dominant recent form (10 K last start); wind in from CF suppresses. |
+| 7/30 | CHC @ STL (Assad/Pallante) | NRFI | 55% | _model-only_ | TBD | Pallante shutout last start; Assad on a short leash but avoiding damage. |
+| 7/30 | PIT @ CIN (Ramírez/Lowder) | YRFI | 57% | _model-only_ | TBD | Both shaky/short-leash (Ramírez essentially an opener; Lowder 5.61 ERA). |
+| 7/30 | MIA @ NYM (Pérez/McLean) | NRFI | 58% | _model-only_ | TBD | McLean elite and metronomic (exactly 6.0 IP 6 straight starts); Pérez also sharp recently. |
+| 7/30 | WSH @ ATL (Irvin/Holmes) | YRFI | 54% | _model-only_ | TBD | Irvin hasn't pitched since 5/23 (IL return, C3 rust risk); Holmes moderate. |
+| 7/30 | BOS @ ATH (Gray/Barnett) | NRFI | 58% | _model-only_ | TBD | Gray is a legitimate ace; ATH's punchless lineup limits early damage. |
+| 7/30 | SF @ SD (TBA/Sears) | NRFI | 54% | _model-only_ | TBD | SF SP TBA (E4 gate, no bet); Sears reliable, Petco a pitcher's park. |
+| 7/30 | SEA @ LAD (Woo/Sasaki) | NRFI | 57% | _model-only_ | TBD | Sasaki's best form of the season his last two starts (5K/0ER, 9K/1ER). |
 
 ---
 
 ## Running totals (update on every settle)
-- **Record:** **91-74** (tracker opened 6/10/26). **NRFI:** **47-42** · **YRFI:** **44-32**.
+- **Record:** **98-81** (tracker opened 6/10/26). **NRFI:** **49-45** · **YRFI:** **49-36**.
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
-- **Open:** **7/26: 15 pre-game reads** (full slate). Settle via `nrfi_settle.py --apply` next session.
+- **Open:** **7/30: 10 pre-game reads** (full slate). Settle via `nrfi_settle.py --apply` next session.
+- **Settled 7/26** (auto via `nrfi_settle.py --apply`, run 7/30): 14 decided, 7W-7L (NRFI 2-3, YRFI 5-4).
+  Record updated from 91-74 to 98-81. LAA@SF (Soriano/Whisenhunt, NEUTRAL) still TBD — game likely
+  postponed/unresolved, left open. **No parlay builds ran 7/27-7/29** (session gap) — those slates have
+  no NRFI reads logged; resuming the daily cadence today (7/30).
 - **Settled 6/24 + 7/25** (backfilled 7/26 — these reads were logged in "Tonight's reads" but never copied into
   the Ledger table in their build sessions, so `nrfi_settle.py` had nothing to match; fixed by hand this run
   using `mlb_api.sh raw schedule?...hydrate=linescore` for the 1st-inning score). 6/24: 3 decided (1W-2L,
