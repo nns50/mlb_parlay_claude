@@ -3,13 +3,17 @@
 
 WHY THIS EXISTS
     The CLV column is the primary scoreboard (converges far faster than ROI at this sample),
-    but it requires a near-first-pitch price snapshot for every open leg. Before odds_api.sh
-    was live, this was a manual book-by-book pull — so the column stayed blank. Now it's
-    automated: this reads every TBD + uncaptured-CLV row, calls `tools/odds_api.sh clv` for
-    each ML leg, and prints copy-ready proposals so you can fill the CLV column in one pass.
+    but it requires a near-first-pitch price snapshot for every open leg. Originally this
+    shelled out to `odds_api.sh clv` per ML leg (1 credit each) and flagged everything else
+    MANUAL. Now it reads the CACHED slate (warmed by session_start.sh at the start of the
+    16:00/18:00 runs — i.e. near first pitch) directly, which covers THREE markets at ZERO
+    extra credits: ML (h2h), GAME TOTALS, and RUN LINES (spreads). K/hitter props and team
+    totals are not in the cached feed and stay MANUAL.
 
-    Run it on the 15:30 / 18:30 near-first-pitch run. Props / totals / K-legs are flagged
-    MANUAL (need a hand price lookup — they're not in the h2h feed).
+    It also prints an ⚠ EDGE-GONE warning when the closing no-vig has moved past the row's
+    pre-registered TrueP (or within the +2pp gate) — a leg whose edge evaporated at the
+    close should NOT be (re)bet, which makes this a pre-lock decision aid, not just a
+    ledger-measurement step.
 
 USAGE
     tools/clv_capture.py                              # targets today's date (read-only proposals)
@@ -20,15 +24,16 @@ USAGE
 CLV FILL KEY
     +   closing no-vig ImplP > bet no-vig ImplP  (line moved TO our side — good)
     −   closing no-vig ImplP < bet no-vig ImplP  (line moved against us — bad)
-    =   flat (no meaningful move)
+    =   flat (±0.5pp dead-band)
 
 --apply MODE
     Computes the verdict (closing no-vig vs the row's logged no-vig ImplP, ±0.5pp dead-band)
-    and rewrites ONLY the CLV cell of each matched ML row, preserving every other cell exactly.
-    Captures bet-OR-recommended legs (no Played=Y gate) per doctrine. Idempotent: rows whose CLV
-    is already filled are skipped, so re-running spends no extra quota. Props/RL/totals stay "—"
-    (h2h-only feed) and are left for a manual pull.
+    and rewrites ONLY the CLV cell of each matched row, preserving every other cell exactly.
+    Captures bet-OR-recommended legs (no Played=Y gate) per doctrine. Idempotent: rows whose
+    CLV is already filled are skipped, so re-running spends no quota. Covered: ML + game
+    totals + run lines (cached slate). MANUAL: K/hitter props, team totals, parlay tickets.
 """
+import json
 import os
 import re
 import subprocess
@@ -38,6 +43,7 @@ from datetime import date
 HERE = os.path.dirname(os.path.abspath(__file__))
 ODDS_API = os.path.join(HERE, "odds_api.sh")
 DEFAULT_LEDGER = os.path.join(HERE, "..", "results_log.md")
+CACHE_DIR = os.path.join(os.environ.get("TMPDIR", "/tmp"), "odds_cache")
 
 # Shared with settle.py — longer nicknames first so "white sox" matches before bare "sox".
 NICK = {
@@ -51,6 +57,9 @@ NICK = {
     "brewers": "MIL", "cardinals": "STL", "cubs": "CHC", "reds": "CIN",
 }
 NICK_ORDER = sorted(NICK, key=len, reverse=True)
+ABBR2NICK = {}
+for _n, _a in NICK.items():          # first nickname per abbr wins (dupes like AZ are aliases)
+    ABBR2NICK.setdefault(_a, _n)
 
 # Abbreviations that may appear literally in leg text (e.g. "TB ML", "LAD ML").
 # Checked as whole-word matches (\bABBR\b) AFTER NICK fails, to avoid false substring hits.
@@ -62,10 +71,6 @@ ABBREV = {
     "bal": "BAL", "bos": "BOS", "tor": "TOR", "kc":  "KC",  "min": "MIN",
     "mia": "MIA", "wsh": "WSH", "ath": "ATH", "cws": "CWS", "az": "AZ",
 }
-
-PROP_HINT = re.compile(
-    r"\b(over|under|\d+\.\d+\s*k|hits|total|team\s+total|tt|k-over|k-under|run\s+line|rl)\b", re.I
-)
 
 
 def cells(line):
@@ -85,13 +90,11 @@ def table_rows_from_sections(text, *header_substrs):
     in_sec = False
     cur_label = ""
     for ln in text.splitlines():
-        # Entering a target section?
         matched = next((h for h in header_substrs if h in ln), None)
         if matched:
             in_sec = True
             cur_label = matched
             continue
-        # Leaving (next heading that isn't a target section)?
         if in_sec and ln.lstrip().startswith("#") and not any(h in ln for h in header_substrs):
             in_sec = False
             cur_label = ""
@@ -109,35 +112,205 @@ def _pct(s):
     return float(m.group(1)) if m else None
 
 
-def verdict_from_clv_output(out, bet_implp_cell):
-    """Derive the CLV cell string from cmd_clv stdout + the row's logged no-vig ImplP.
+def imp(price):
+    """American price → implied probability (with vig)."""
+    p = float(price)
+    return 100.0 / (p + 100.0) if p > 0 else (-p) / ((-p) + 100.0)
 
-    Returns e.g. '+ 72%cl' (verdict char + closing no-vig), or None if undeterminable.
-    Prefers the exact compare (closing no-vig vs logged bet no-vig, ±0.5pp dead-band);
-    falls back to cmd_clv's own proxy verdict when the row has no usable ImplP.
-    """
+
+# ── leg classification (which closing market settles this leg's CLV) ──────────
+
+def classify_leg(leg, typ):
+    """→ (kind, info): kind ∈ h2h | totals | spreads | manual | skip.
+    totals info = ('Over'|'Under', point); spreads info = signed point (e.g. -1.5)."""
+    t = (typ or "").lower()
+    l = (leg or "").lower().replace("−", "-")
+    if "parlay" in t or "×" in (leg or ""):
+        return "skip", "parlay ticket — no single closing line"
+    if (re.search(r"k-over|k-under|hitter|prop", t)
+            or re.search(r"\d+(?:\.\d+)?\s*k\b", l)
+            or "hits" in l or "team total" in l or re.search(r"\btt\b", l)):
+        return "manual", "K/hitter prop or team total — not in the cached slate feed"
+    if "total" in t or re.search(r"\b(over|under)\s+\d", l):
+        m = re.search(r"\b(over|under)\s+(\d+(?:\.\d+)?)", l)
+        if m:
+            return "totals", (m.group(1).capitalize(), float(m.group(2)))
+        return "manual", "total leg without a parseable Over/Under <point>"
+    if "run line" in t or re.fullmatch(r"rl", t) or re.search(r"[+-](?:1|2)\.5\b", l):
+        m = re.search(r"([+-])((?:1|2)\.5)\b", l)
+        if m:
+            return "spreads", float(m.group(1) + m.group(2))
+        return "manual", "run-line leg without a parseable ±point"
+    if "ml" in t:
+        return "h2h", None
+    return "manual", f"unrecognized leg type {typ!r}"
+
+
+def find_team(text):
+    low = text.lower()
+    for nick in NICK_ORDER:
+        if nick in low:
+            return NICK[nick], nick
+    for abbr, full_abbr in ABBREV.items():
+        if re.search(rf"\b{re.escape(abbr)}\b", low):
+            return full_abbr, ABBR2NICK.get(full_abbr, abbr)
+    return None, None
+
+
+# ── cached-slate closing computation (0 credits) ──────────────────────────────
+
+def load_cached_slate(d, allow_warm=True):
+    """The slate cache session_start warms at run start (= near first pitch for 16/18 runs).
+    Missing + allow_warm → one `slate` call (3 credits) rebuilds it; else None."""
+    p = os.path.join(CACHE_DIR, f"slate_{d}.json")
+    if not os.path.exists(p) and allow_warm:
+        try:
+            subprocess.run(["bash", ODDS_API, "slate", d], capture_output=True,
+                           text=True, timeout=45)
+        except Exception:  # noqa: BLE001
+            return None
+    if not os.path.exists(p):
+        return None
+    try:
+        with open(p, encoding="utf-8") as fh:
+            return json.load(fh)
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def match_game(slate, nick):
+    """The one game whose team names contain the nickname; None if 0 or >1 (doubleheader)."""
+    hits = [g for g in (slate or [])
+            if nick and nick in f"{g.get('away_team', '')} {g.get('home_team', '')}".lower()]
+    return hits[0] if len(hits) == 1 else None
+
+
+def close_novig(game, kind, info, nick):
+    """Closing no-vig prob (0-1) for OUR side of the leg from one cached game, or
+    (None, reason). Pure over the parsed JSON — selftest-able."""
+    if not game:
+        return None, "game not matched in the cached slate"
+    # Collect (name, point, price) per market across books
+    outs = []
+    for bk in game.get("bookmakers", []):
+        for mkt in bk.get("markets", []):
+            if mkt.get("key") != kind:
+                continue
+            for o in mkt.get("outcomes", []):
+                outs.append((o.get("name", ""), o.get("point"), o.get("price")))
+    if not outs:
+        return None, f"no {kind} prices in the cached feed for this game"
+
+    if kind == "h2h":
+        def side_of(name):
+            return nick in name.lower()
+        pool = [(n, p) for n, _, p in outs if p is not None]
+    elif kind == "totals":
+        side, point = info
+        pool = [(n, p) for n, pt, p in outs
+                if p is not None and pt is not None and abs(pt - point) < 1e-9]
+        if not pool:
+            pts = sorted({pt for _, pt, _ in outs if pt is not None})
+            return None, (f"closing board no longer quotes total {point:g} "
+                          f"(available: {', '.join(f'{x:g}' for x in pts)}) — the NUMBER moved; "
+                          f"pull the {point:g} close by hand (a moved total is itself information)")
+
+        def side_of(name):
+            return name.lower() == side.lower()
+    else:  # spreads
+        point = info
+        pool = [(n, p) for n, pt, p in outs
+                if p is not None and pt is not None and abs(abs(pt) - abs(point)) < 1e-9]
+        if not pool:
+            return None, f"closing board no longer quotes the ±{abs(point):g} run line"
+        my_names = [n for n, pt, p in outs
+                    if pt is not None and abs(pt - point) < 1e-9 and nick in n.lower()]
+        if not my_names:
+            return None, f"our team @{point:+g} not on the closing run-line board"
+
+        def side_of(name):
+            return name in my_names
+
+    best = {}
+    for n, p in pool:
+        if n not in best or p > best[n]:
+            best[n] = p
+    if len(best) < 2:
+        return None, "only one side priced at the close — can't devig"
+    if any(abs(p) > 2000 for p in best.values()):
+        return None, "implausible closing price (>|2000|) — game likely started/settled; skip"
+    my = [n for n in best if side_of(n)]
+    if len(my) != 1:
+        return None, "couldn't isolate our side on the closing board"
+    overround = sum(imp(p) for p in best.values())
+    novig = imp(best[my[0]]) / overround
+    if novig >= 0.95 or novig <= 0.05:
+        return None, "closing no-vig implausible (≥95%/≤5%) — stale/settled feed; skip"
+    return (novig, f"close best {my[0]} {best[my[0]]:+.0f} → no-vig {novig*100:.1f}%"), None
+
+
+def verdict_from_close(closing_pct, bet_implp_cell):
+    """'+ 64%cl' / '− 55%cl' / '= 60%cl' from a closing no-vig % vs the row's logged
+    no-vig ImplP (±0.5pp dead-band). None if the row has no usable ImplP."""
+    bet_novig = _pct(bet_implp_cell)
+    if bet_novig is None or closing_pct is None:
+        return None
+    diff = closing_pct - bet_novig
+    ch = "+" if diff > 0.5 else "−" if diff < -0.5 else "="
+    return f"{ch} {int(round(closing_pct))}%cl"
+
+
+def edge_warning(closing_pct, truep_cell):
+    """Pre-lock decision aid: does the CLOSE leave any edge? None = no warning."""
+    tp = _pct(truep_cell)
+    if tp is None or closing_pct is None:
+        return None
+    if closing_pct >= tp:
+        return (f"⚠ EDGE GONE at the close — closing no-vig {closing_pct:.1f}% ≥ TrueP "
+                f"{tp:.0f}%; do NOT (re)bet this leg at the current number")
+    if closing_pct > tp - 2:
+        return (f"⚠ edge at the close is under the +2pp gate "
+                f"({tp - closing_pct:+.1f}pp) — action, not value, at the current number")
+    return None
+
+
+# ── legacy per-leg fallback (odds_api.sh clv — costs 1 credit; used only w/o cache) ──
+
+def verdict_from_clv_output(out, bet_implp_cell):
+    """Derive the CLV cell string from cmd_clv stdout + the row's logged no-vig ImplP."""
     if not out:
         return None
-    # Plausibility guard: reject settled/garbage closing lines (e.g. a -10000 → 97% "close"
-    # the feed returns for an in-progress/ended game) so --apply doesn't write junk CLV.
-    pm = re.search(r"Close best.*?:\s*([+-]?\d+)\s", out)       # the closing American price
+    pm = re.search(r"Close best.*?:\s*([+-]?\d+)\s", out)
     if pm and abs(int(pm.group(1))) > 2000:
         return None
-    m = re.search(r"no-vig\s+(\d+(?:\.\d+)?)\s*%", out)        # "Close best X: ... no-vig NN%"
+    m = re.search(r"no-vig\s+(\d+(?:\.\d+)?)\s*%", out)
     closing = float(m.group(1)) if m else None
     if closing is not None and (closing >= 95 or closing <= 5):
         return None
-    bet_novig = _pct(bet_implp_cell)
-    if closing is not None and bet_novig is not None:
-        diff = closing - bet_novig
-        ch = "+" if diff > 0.5 else "−" if diff < -0.5 else "="
-        return f"{ch} {int(round(closing))}%cl"
-    # Fallback: use the proxy verdict line cmd_clv prints.
+    v = verdict_from_close(closing, bet_implp_cell)
+    if v:
+        return v
     if "moved TO your side" in out:
         return f"+ {int(round(closing))}%cl" if closing is not None else "+"
     if "moved against you" in out:
         return f"− {int(round(closing))}%cl" if closing is not None else "−"
     return None
+
+
+def clean_price(raw):
+    return re.sub(r"[~≈≈\s]", "", raw).strip()
+
+
+def run_clv(price_str, team_nick, target_date):
+    p = clean_price(price_str)
+    if not re.match(r"^[+-]?\d+$", p):
+        return None, f"price {price_str!r} is not a parseable American odds value"
+    try:
+        r = subprocess.run(["bash", ODDS_API, "clv", p, team_nick, target_date],
+                           capture_output=True, text=True, timeout=30)
+        return (r.stdout.strip() or None), (r.stderr.strip() or None)
+    except Exception as e:  # noqa: BLE001
+        return None, str(e)
 
 
 def apply_clv_to_cell(raw_line, new_clv):
@@ -146,66 +319,29 @@ def apply_clv_to_cell(raw_line, new_clv):
     # | Date | Leg | Type | Price | TrueP | ImplP | Edge | Result | Played | CLV | Bucket |
     #  0  1     2     3       4       5       6       7        8         9      10      11    12
     if len(parts) <= 11:
-        return raw_line  # malformed — leave untouched
+        return raw_line
     parts[10] = f" {new_clv} "
     return "|".join(parts)
 
 
 def md_date(d_str):
-    """YYYY-MM-DD → M/D (no leading zeros) matching the ledger's Date column."""
     _, m, day = d_str.split("-")
     return f"{int(m)}/{int(day)}"
-
-
-def find_team(text):
-    low = text.lower()
-    for nick in NICK_ORDER:
-        if nick in low:
-            return NICK[nick], nick
-    # Fall back to whole-word abbreviation match (e.g. "TB ML", "LAD ML")
-    for abbr, full_abbr in ABBREV.items():
-        if re.search(rf"\b{re.escape(abbr)}\b", low):
-            return full_abbr, abbr.upper()
-    return None, None
-
-
-def clean_price(raw):
-    """Strip tildes / approximation chars and return a bare American price string."""
-    return re.sub(r"[~≈≈\s]", "", raw).strip()
-
-
-def run_clv(price_str, team_nick, target_date):
-    """Call odds_api.sh clv; return (stdout_text, error_string)."""
-    p = clean_price(price_str)
-    if not re.match(r"^[+-]?\d+$", p):
-        return None, f"price {price_str!r} is not a parseable American odds value"
-    try:
-        r = subprocess.run(
-            ["bash", ODDS_API, "clv", p, team_nick, target_date],
-            capture_output=True, text=True, timeout=30,
-        )
-        return (r.stdout.strip() or None), (r.stderr.strip() or None)
-    except Exception as e:  # noqa: BLE001
-        return None, str(e)
 
 
 def main():
     argv = sys.argv[1:]
     apply_mode = "--apply" in argv
     argv = [a for a in argv if a != "--apply"]
-    target_date = next(
-        (a for a in argv if re.match(r"\d{4}-\d{2}-\d{2}", a)),
-        date.today().isoformat(),
-    )
+    target_date = next((a for a in argv if re.match(r"\d{4}-\d{2}-\d{2}", a)),
+                       date.today().isoformat())
     ledger = next((a for a in argv if a.endswith(".md")), DEFAULT_LEDGER)
     target_md = md_date(target_date)
 
     with open(ledger, encoding="utf-8") as fh:
         text = fh.read()
 
-    all_rows = table_rows_from_sections(
-        text, "## Played legs", "## Recommended but NOT played"
-    )
+    all_rows = table_rows_from_sections(text, "## Played legs", "## Recommended but NOT played")
 
     # cols: 0=Date 1=Leg 2=Type 3=Price 4=TrueP 5=ImplP 6=Edge 7=Result 8=Played 9=CLV 10=Bucket
     open_legs = []
@@ -214,11 +350,10 @@ def main():
             continue
         if not c[0].startswith(target_md):
             continue
-        result = c[7]
-        clv = c[9].strip() if len(c) > 9 else "—"
-        if "tbd" not in result.lower():
+        if "tbd" not in c[7].lower():
             continue
-        if clv not in ("—", "–", ""):   # already captured — skip (idempotent)
+        clv = c[9].strip() if len(c) > 9 else "—"
+        if clv not in ("—", "–", ""):
             continue
         open_legs.append((sec, c, raw))
 
@@ -233,50 +368,60 @@ def main():
         print("=" * 66)
         return
 
-    print(f"\n  {len(open_legs)} open leg(s) to capture.  "
-          f"Run closest to first pitch for the best closing-line read.\n")
+    slate = load_cached_slate(target_date)
+    src = ("cached slate (0 credits — warmed by session_start near first pitch)"
+           if slate else "NO cache — ML falls back to per-leg odds_api.sh clv (1 credit each)")
+    print(f"\n  {len(open_legs)} open leg(s) to capture.  Closing source: {src}\n")
 
-    edits = {}   # raw_line -> new_clv (for --apply)
+    edits = {}
     for sec, c, raw in open_legs:
-        leg   = c[1]
-        typ   = c[2]
-        price = c[3]
-        implp = c[5] if len(c) > 5 else ""
-        label = f"[{typ}]" if typ else ""
-        print(f"── {leg}  {label}  price: {price}")
+        leg, typ, price, truep, implp = c[1], c[2], c[3], c[4], c[5] if len(c) > 5 else ""
+        print(f"── {leg}  [{typ}]  price: {price}")
 
-        # Props / totals / non-ML legs: can't be automated with h2h feed
-        if PROP_HINT.search(leg) or "ML" not in typ.upper():
-            print("   ⚠ MANUAL — prop / total / run-line: pull closing price from a book.")
-            print("     CLV fill key: + (closed in your favor) | − (moved against) | = (flat)")
-            print()
+        kind, info = classify_leg(leg, typ)
+        if kind in ("manual", "skip"):
+            print(f"   ⚠ MANUAL — {info}")
+            print("     CLV fill key: + (closed in your favor) | − (moved against) | = (flat)\n")
             continue
 
         team_abbr, team_nick = find_team(leg)
-        if not team_abbr:
-            print("   ⚠ MANUAL — couldn't extract team name from leg text.")
-            print(f"     Try: tools/odds_api.sh clv {clean_price(price)} \"<team>\" {target_date}")
-            print()
+        if not team_nick:
+            print("   ⚠ MANUAL — couldn't extract a team from the leg text.\n")
             continue
 
-        print(f"   team matched: {team_nick!r} ({team_abbr}) — calling odds_api.sh clv …")
-        out, err = run_clv(price, team_nick, target_date)
-        if err and not out:
-            print(f"   ERROR: {err}")
-            print(f"   Manual: tools/odds_api.sh clv {clean_price(price)} \"{team_nick}\" {target_date}")
-        else:
+        verdict = None
+        if slate is not None:
+            game = match_game(slate, team_nick)
+            got, err = close_novig(game, kind, info, team_nick)
             if err:
-                print(f"   (stderr: {err})")
+                print(f"   ⚠ MANUAL — {err}\n")
+                continue
+            novig, desc = got
+            closing_pct = novig * 100
+            print(f"   {desc}  [{kind}, cached]")
+            verdict = verdict_from_close(closing_pct, implp)
+            warn = edge_warning(closing_pct, truep)
+            if warn:
+                print(f"   {warn}")
+        elif kind == "h2h":
+            out, err = run_clv(price, team_nick, target_date)
+            if err and not out:
+                print(f"   ERROR: {err}\n")
+                continue
             if out:
                 for ln in out.splitlines():
                     print(f"   {ln}")
             verdict = verdict_from_clv_output(out, implp)
-            if verdict:
-                print(f"   → CLV verdict: {verdict}")
-                if apply_mode:
-                    edits[raw] = verdict
-            elif apply_mode:
-                print("   (could not derive a verdict to write — left as —)")
+        else:
+            print("   ⚠ MANUAL — no cache and non-ML; pull the closing number from a book.\n")
+            continue
+
+        if verdict:
+            print(f"   → CLV verdict: {verdict}")
+            if apply_mode:
+                edits[raw] = verdict
+        elif apply_mode:
+            print("   (could not derive a verdict to write — left as —)")
         print()
 
     if apply_mode and edits:
@@ -288,7 +433,7 @@ def main():
         print(f"  ✓ APPLIED {len(edits)} CLV verdict(s) into {os.path.basename(ledger)}.")
         print("  → Re-run tools/calib.py to reconcile the rollup tables.")
     elif apply_mode:
-        print("  (nothing to write — no ML legs produced a verdict.)")
+        print("  (nothing to write — no leg produced a verdict.)")
     else:
         print("  → Apply: update CLV column (+/−/=) in results_log.md for each leg above,")
         print("    or re-run with --apply to write them automatically.")

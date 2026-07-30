@@ -535,7 +535,25 @@ def compute_summary(results: dict, rolls: list[dict]) -> dict:
     s_chron = sorted(s_legs, key=lambda l: _date_key(l.get('date', '')))
     s_cur_streak, s_best_streak, s_streak_active = _streaks(s_chron)
 
+    # ── Brier skill vs market — parsed from calib.py itself (single source of truth,
+    # zero drift risk; the selftest separately reconciles P/L + calib-N with the same
+    # script). None-safe: an old calib without §1b just leaves the tile off.
+    brier = {'model': None, 'market': None, 'skill': None, 'n': None}
+    try:
+        import subprocess
+        cout = subprocess.run(['python3', str(REPO / 'tools' / 'calib.py')],
+                              capture_output=True, text=True, timeout=30).stdout
+        bm = re.search(r'n=(\d+) scored legs\s+Brier\(TrueP\) ([\d.]+)\s+'
+                       r'Brier\(market ImplP\) ([\d.]+)', cout)
+        sk = re.search(r'skill ([+-][\d.]+)', cout)
+        if bm and sk:
+            brier = {'n': int(bm.group(1)), 'model': float(bm.group(2)),
+                     'market': float(bm.group(3)), 'skill': float(sk.group(1))}
+    except Exception:  # noqa: BLE001 — dashboard must render even if calib fails
+        pass
+
     return {
+        'brier': brier,
         'leg_record': f"{wins}-{losses}",
         'leg_win_pct': round(wins / max(wins + losses, 1) * 100, 1),
         'total_legs': wins + losses,
@@ -1235,6 +1253,21 @@ def render_html(rolls, results, parlays_list, summary, br_data, clv_data,
         tier_rows_html = '<div class="muted" style="font-size:12px;padding:8px 0">No tier headings parsed from the latest run — read the parlay file directly.</div>'
     lb_hdr = (f"{lb['date']} · Run {lb['run']} ET" if lb['run'] else (lb['date'] or '—'))
 
+    # ── Brier-skill tile (the leg-selection scoreboard, via summary['brier']/calib.py) ──
+    br = summary.get('brier') or {}
+    if br.get('skill') is not None:
+        b_sk = br['skill']
+        b_col = 'var(--green)' if b_sk > 0 else 'var(--red)'
+        b_verdict = 'TrueP beats the price' if b_sk > 0 else 'shrink toward the market'
+        brier_tile = f"""
+    <div class="stat" style="border-left:3px solid {b_col}">
+      <div class="lbl">Brier skill vs market</div>
+      <div class="val">{b_sk:+.4f} <span style="font-size:13px;color:var(--muted)">· {b_verdict}</span></div>
+      <div class="sub">Brier(TrueP) {br['model']:.4f} vs market {br['market']:.4f} · n={br['n']} decided legs</div>
+    </div>"""
+    else:
+        brier_tile = ''
+
     # ── Odds API credit gauge (20K/month paid tier) ──
     cred_html = ''
     if lb.get('credits_unavailable') and lb['credits_remaining'] is None:
@@ -1495,7 +1528,7 @@ tbody tr:hover{{background:var(--surf2)}}
       <div class="lbl">Ticket record</div>
       <div class="val">{summary['ticket_record']}</div>
       <div class="sub">parlay builds · n={summary['ticket_total']}</div>
-    </div>
+    </div>{brier_tile}
   </div>
   <p class="note">Doctrine claims parlays run near -EV chalk+vig. This split is the measurement: if standalones (S) outrun parlay legs (P) over a real sample, that's the evidence to keep the +200 chase eyes-open as entertainment, not strategy.</p>
   </section>
@@ -1751,6 +1784,9 @@ def selftest() -> int:
     s = d['summary']
     check("S/P split non-negative & summed",
           s['s_n'] >= 0 and s['p_n'] >= 0 and (s['s_n'] + s['p_n']) > 0)
+    check("Brier skill parsed from calib.py (tile data present)",
+          (s.get('brier') or {}).get('skill') is not None,
+          f"brier={s.get('brier')}")
 
     # 3b. Singles & parlay streak keys present; |streak| never exceeds its record's n.
     check("single + parlay streak keys present",

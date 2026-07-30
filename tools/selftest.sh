@@ -118,6 +118,43 @@ assert changed==[10], f"apply must touch ONLY the CLV cell (idx 10); touched {ch
 PY
 then ok "verdict rejects garbage line; apply edits ONLY the CLV cell"; else no "clv_capture" "$(cat /tmp/_selftest_out)"; fi
 
+# ── 5a. clv_capture v2 — cached-slate markets (h2h/totals/RL) + edge-gone warn ─
+echo "5a. clv_capture cached markets (classify / close_novig / edge-gone)"
+if python3 - <<'PY' 2>/tmp/_selftest_out
+import importlib.util as u
+s=u.spec_from_file_location("v","tools/clv_capture.py"); m=u.module_from_spec(s); s.loader.exec_module(m)
+# classification routes by type + notation; K-props and parlays never hit the feed
+assert m.classify_leg("Rays ML (vs TEX)","ML-fav")[0]=="h2h"
+assert m.classify_leg("TEX @ TB Over 8.0","Total-Over")==("totals",("Over",8.0))
+assert m.classify_leg("Rays -1.5 RL (vs TEX)","Run line")==("spreads",-1.5)
+assert m.classify_leg("Gilbert Over 6.5 K","K-Over")[0]=="manual"
+assert m.classify_leg("Sánchez O7.5K","K-Over")[0]=="manual"
+assert m.classify_leg("A × B (Tier 2)","Parlay (+corr)")[0]=="skip"
+# closing no-vig from a synthetic cached game (best-across-books, same-point pairing)
+game={"away_team":"Texas Rangers","home_team":"Tampa Bay Rays","bookmakers":[
+ {"title":"A","markets":[
+   {"key":"totals","outcomes":[{"name":"Over","price":-104,"point":8.0},{"name":"Under","price":-118,"point":8.0}]},
+   {"key":"h2h","outcomes":[{"name":"Tampa Bay Rays","price":-139},{"name":"Texas Rangers","price":126}]},
+   {"key":"spreads","outcomes":[{"name":"Tampa Bay Rays","price":160,"point":-1.5},{"name":"Texas Rangers","price":-194,"point":1.5}]}]},
+ {"title":"B","markets":[
+   {"key":"totals","outcomes":[{"name":"Over","price":-101,"point":8.0},{"name":"Under","price":-121,"point":8.0}]}]}]}
+got,err=m.close_novig(game,"totals",("Over",8.0),"rays"); assert err is None
+assert abs(got[0]-0.4814)<0.002, got   # best O -101 vs best U -118 → no-vig 48.1%
+got,err=m.close_novig(game,"totals",("Over",9.5),"rays")
+assert got is None and "NUMBER moved" in err, err   # moved total = info, not silence
+got,err=m.close_novig(game,"h2h",None,"rays"); assert err is None and abs(got[0]-0.568)<0.005
+got,err=m.close_novig(game,"spreads",-1.5,"rays"); assert err is None
+# verdict dead-band + the pre-lock edge-gone warning
+assert m.verdict_from_close(56.8,"52.0%").startswith("+")
+assert m.verdict_from_close(52.3,"52.0%").startswith("=")
+assert m.verdict_from_close(48.0,"52.0%").startswith("−")
+assert "EDGE GONE" in m.edge_warning(56.8,"54%")
+assert "under the +2pp gate" in m.edge_warning(53.0,"54%")
+assert m.edge_warning(48.0,"54%") is None
+PY
+then ok "classify + close_novig (3 markets) + verdict dead-band + edge-gone correct"; else no "clv_capture v2" "$(cat /tmp/_selftest_out)"; fi
+has "session_start reuses a fresh slate cache (free-tier quota guard)" "Slate cache FRESH" "$(cat tools/session_start.sh)"
+
 # ── 5a2. recheck.py — SP-scratch / status-flip diff (offline fixtures) ────────
 echo "5a2. recheck (pre-lock SP-scratch detector)"
 if ./tools/recheck.py --selftest >/tmp/_selftest_out 2>&1; then
