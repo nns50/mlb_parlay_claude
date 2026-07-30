@@ -177,6 +177,20 @@ tools/parlay.py --leg 60:-130 --leg 55:+110 --corr moderate --sgp +320   # compa
 Each `--leg` is `TrueP%[:americanPrice]`. `--corr` tiers (2-leg only): `strong/moderate/weak/none` and
 `neg-weak/neg-moderate/neg-strong` (rough ρ; positive = legs win together, negative = legs fight → skip).
 
+## `kprice.py` — one-shot K-prop pricing (paid tier; the anti-"estimated alt price" tool)
+
+`tools/kprice.py <pitcher> [date]` resolves the pitcher to today's game (probables snapshot) and the
+odds event, pulls `pitcher_strikeouts` + `pitcher_strikeouts_alternate` (~2 credits), and prints every
+posted K line with the best price per side across all books and the no-vig split per line — flagging
+the STANDARD line and the one-lower alt. This mechanizes two doctrine rules: "never estimate alt
+prices" (burn 5/26 Burns: est −185, actual ~−400) and "whenever a K-Over is faded, price the K-Under."
+**Refuses to spend when the API reports <1000 credits remaining** (free tier) unless `--force`;
+`--standard-only` halves the cost; `--event <id>` disambiguates doubleheaders.
+
+On the paid tier, `clv_capture.py --apply` uses the same machinery to **auto-close K-prop legs'
+CLV** (~1 credit per event, cached per run) — gated on the API reporting ≥5000 remaining, so the free
+tier never spends.
+
 ## `recheck.py` — pre-lock SP-scratch / status detector (E3/E4 made mechanical)
 
 A scratched or swapped starter silently invalidates every K-leg AND every ML/total premised on that

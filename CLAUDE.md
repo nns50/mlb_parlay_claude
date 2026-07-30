@@ -134,7 +134,9 @@ Hard gate: may not recommend OR reject an SP leg until this is filled and shown,
 - **DON'T over-fade a genuinely elite-K ace's K-Over off ONE suppressor** (lone 2nd-meeting,
   mild-but-starting illness, one contact lineup). Raw whiff dominance routinely overrides a single
   suppressor. On one suppressor: downgrade ONE tier, LOG the Over as a live standalone candidate,
-  pull both the standard + one-lower alt prices via `tools/odds_api.sh props <eventId> pitcher_strikeouts` (paid tier, ~1 credit) or a book in low-quota mode, decide on price — do NOT stamp "HARD FADE." Stack
+  pull both the standard + one-lower alt prices via `tools/kprice.py <pitcher>` (paid tier, ~2 credits —
+  every posted K line across all books, devigged, in one shot) or a book in low-quota mode, decide on
+  price — do NOT stamp "HARD FADE." Stack
   the fade only when MULTIPLE suppressors pile up (contact lineup AND short-leash/opener AND
   tight-zone ump). (burns 6/3 Sanchez 9K, 6/3 Burns 9K, 6/2 Harrison 12K — all faded, all cashed → fades.md C6)
 - **Whenever a K-Over is faded/rejected, price the K-UNDER and log it.** Same signals (contact
@@ -233,7 +235,9 @@ surface only props clearing +2pp standalone / +3-4pp to anchor.** Prop-specific 
   for the same +195.)
 - **K-Over alt lines:** if the standard line is ~50/50, the one-lower alt is usually the safer parlay
   leg even at -150/-200 (reserve the +EV standard line for standalones). **But never estimate alt
-  prices** — use `tools/odds_api.sh props <eventId> pitcher_strikeouts` (paid tier, ~1 credit/event)
+  prices** — use `tools/kprice.py <pitcher>` (paid tier, ~2 credits: standard + alternate K lines,
+  best price per side per line, no-vig each — refuses to spend on the free tier) or raw
+  `tools/odds_api.sh props <eventId> pitcher_strikeouts` (~1 credit/event)
   or pull from a book in low-quota mode; books juice the one-K-lower alt to -300/-500 on elite
   arms. If juicier than expected, revert to the standard line or drop the leg. (burn 5/26 Burns alt
   5.5 est -185, actual ~-400 → ticket paid +103 not +221)

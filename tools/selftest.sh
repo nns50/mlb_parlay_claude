@@ -155,6 +155,32 @@ PY
 then ok "classify + close_novig (3 markets) + verdict dead-band + edge-gone correct"; else no "clv_capture v2" "$(cat /tmp/_selftest_out)"; fi
 has "session_start reuses a fresh slate cache (free-tier quota guard)" "Slate cache FRESH" "$(cat tools/session_start.sh)"
 
+# ── 5a3. kprice.py — K-prop line table (pure parse; no credits) ──────────────
+echo "5a3. kprice (best-by-point, accent match, no-vig, quota guard)"
+if python3 - <<'PY' 2>/tmp/_selftest_out
+import importlib.util as u
+s=u.spec_from_file_location("k","tools/kprice.py"); m=u.module_from_spec(s); s.loader.exec_module(m)
+ev={"bookmakers":[
+ {"title":"DK","markets":[{"key":"pitcher_strikeouts","outcomes":[
+   {"description":"Logan Gilbert","name":"Over","point":6.5,"price":-110},
+   {"description":"Logan Gilbert","name":"Under","point":6.5,"price":-120},
+   {"description":"Other Guy","name":"Over","point":4.5,"price":-200}]}]},
+ {"title":"FD","markets":[{"key":"pitcher_strikeouts_alternate","outcomes":[
+   {"description":"Logan Gilbert","name":"Over","point":6.5,"price":-105},
+   {"description":"Logan Gilbert","name":"Over","point":5.5,"price":-210},
+   {"description":"Logan Gilbert","name":"Under","point":5.5,"price":170}]}]}]}
+t=m.best_by_point(ev,"gilbert")
+assert t[6.5]["Over"]==(-105,"FD") and t[6.5]["Under"]==(-120,"DK"), t  # best across books+markets
+assert t[5.5]["Over"]==(-210,"FD") and 4.5 not in t                     # other pitcher excluded
+nv=m.novig_at_point(t[6.5]); assert abs(nv[0]-0.4843)<0.002, nv         # -105/-120 → O 48.4%
+assert m.novig_at_point({"Over":(-210,"FD")}) is None                   # one-sided → no devig
+ev2={"bookmakers":[{"title":"B","markets":[{"key":"pitcher_strikeouts","outcomes":[
+   {"description":"Cristopher Sánchez","name":"Over","point":7.5,"price":120}]}]}]}
+assert 7.5 in m.best_by_point(ev2,"Sanchez")                            # accent-insensitive
+assert m.MIN_CREDITS>=1000                                              # free-tier spend guard
+PY
+then ok "best_by_point across books/markets; accent match; novig; one-sided; spend guard"; else no "kprice" "$(cat /tmp/_selftest_out)"; fi
+
 # ── 5a2. recheck.py — SP-scratch / status-flip diff (offline fixtures) ────────
 echo "5a2. recheck (pre-lock SP-scratch detector)"
 if ./tools/recheck.py --selftest >/tmp/_selftest_out 2>&1; then

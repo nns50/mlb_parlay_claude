@@ -41,6 +41,7 @@ import sys
 from datetime import date
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
 ODDS_API = os.path.join(HERE, "odds_api.sh")
 DEFAULT_LEDGER = os.path.join(HERE, "..", "results_log.md")
 CACHE_DIR = os.path.join(os.environ.get("TMPDIR", "/tmp"), "odds_cache")
@@ -373,15 +374,78 @@ def main():
            if slate else "NO cache — ML falls back to per-leg odds_api.sh clv (1 credit each)")
     print(f"\n  {len(open_legs)} open leg(s) to capture.  Closing source: {src}\n")
 
+    # ── rich-tier K-prop auto-close (paid 20K tier only; ~1 credit per EVENT) ──
+    # On the free tier this never spends: gated on the API reporting ≥5000 remaining.
+    import kprice
+    from settle import parse_kprop as settle_parse_kprop
+    props_cache = {}
+    quota_state = {"rich": None}
+
+    def try_kprop_close(leg_txt):
+        """(closing_pct, desc) for a K-prop leg from the live props market, or (None, why)."""
+        parsed = settle_parse_kprop(leg_txt)
+        if not parsed:
+            return None, "prop / team total — not in the cached slate feed"
+        if quota_state["rich"] is None:
+            rem = kprice.quota_remaining()
+            quota_state["rich"] = rem is not None and rem >= 5000
+        if not quota_state["rich"]:
+            return None, ("K-prop close needs the paid tier (API reports <5000 credits) — "
+                          "pull the closing K line by hand")
+        surname, direction, point = parsed
+        _, nick = find_team(leg_txt)
+        if not nick:
+            return None, "no team in the leg text to resolve the odds event"
+        try:
+            eid = kprice.event_id_for_team(target_date, nick)
+            if eid not in props_cache:
+                props_cache[eid] = kprice.fetch_event_props(eid, "pitcher_strikeouts")
+            tbl = kprice.best_by_point(props_cache[eid], surname)
+            entry = next((tbl[pt] for pt in tbl if abs(pt - point) < 1e-9), None)
+            if not entry:
+                return None, (f"closing K board has no {point:g} line for {surname} "
+                              f"(available: {', '.join(f'{p:g}' for p in sorted(tbl)) or 'none'})")
+            nv = kprice.novig_at_point(entry)
+            if nv is None:
+                return None, f"one-sided K close at {point:g} — can't devig"
+            myp = nv[0] if direction == "Over" else nv[1]
+            if myp >= 0.95 or myp <= 0.05:
+                return None, "implausible K close (≥95%/≤5%) — stale/settled; skip"
+            pr, book = entry[direction]
+            return myp * 100, (f"close best {direction} {point:g}K {pr:+.0f} @{book} "
+                               f"→ no-vig {myp*100:.1f}%")
+        except SystemExit as e:
+            return None, str(e)
+        except Exception as e:  # noqa: BLE001
+            return None, f"K-prop close failed ({e})"
+
     edits = {}
     for sec, c, raw in open_legs:
         leg, typ, price, truep, implp = c[1], c[2], c[3], c[4], c[5] if len(c) > 5 else ""
         print(f"── {leg}  [{typ}]  price: {price}")
 
         kind, info = classify_leg(leg, typ)
-        if kind in ("manual", "skip"):
-            print(f"   ⚠ MANUAL — {info}")
-            print("     CLV fill key: + (closed in your favor) | − (moved against) | = (flat)\n")
+        if kind == "skip":
+            print(f"   ⚠ SKIP — {info}\n")
+            continue
+        if kind == "manual":
+            closing_pct, desc = try_kprop_close(leg)
+            if closing_pct is None:
+                print(f"   ⚠ MANUAL — {desc}")
+                print("     CLV fill key: + (closed in your favor) | − (moved against) | = (flat)\n")
+                continue
+            print(f"   {desc}  [K-prop, live props feed]")
+            verdict = verdict_from_close(closing_pct, implp)
+            warn = edge_warning(closing_pct, truep)
+            if warn:
+                print(f"   {warn}")
+            if verdict:
+                print(f"   → CLV verdict: {verdict}")
+                if apply_mode:
+                    edits[raw] = verdict
+            elif apply_mode:
+                print("   (could not derive a verdict to write — left as —)")
+            print()
             continue
 
         team_abbr, team_nick = find_team(leg)
