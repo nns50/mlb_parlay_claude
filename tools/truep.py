@@ -13,6 +13,9 @@ USAGE
     tools/truep.py --base-prob 54.3 --adj ace_edge
     tools/truep.py --base-prob 64.1 --adj own_sp_hi,fade_as_fav
     tools/truep.py --base-prob 56.7 --custom "-2:Sonny Gray duel caps the floor"
+    tools/truep.py --base-prob 56.7 --custom=-2:short-reason
+      # ⚠ a NEGATIVE custom with no space in the reason needs the = form (--custom=-2:x) —
+      #   argparse reads a bare '-2:x' as an option and errors; a spaced reason also works.
     tools/truep.py --list          # print the adjustment registry and exit
 
 NOTES
@@ -113,6 +116,16 @@ def main():
     print(f"net adjustment                   {total:+6.1f}pp")
     print(f"TrueP (clamped 1–99)             {truep:6.1f}%")
     print(f"pre-registered edge vs baseline  {truep - base:+6.1f}pp")
+    print("─" * 60)
+    # Machine-parseable attribution tag: paste it into the ledger leg cell so calib.py's
+    # §1c can score each adjustment's skill as decided rows accrue (the prerequisite for
+    # ever auto-calibrating these magnitudes instead of trusting the written values).
+    tag_parts = [f"{n}{ADJUSTMENTS[n][0]:+g}" for n in names]
+    tag_parts += [f"custom{float(c.partition(':')[0]):+g}" for c in args.custom]
+    tag = f"[adj: {', '.join(tag_parts)}]" if tag_parts else "[adj: none]"
+    print(f"Ledger tag — paste into the leg cell: {tag}")
+    print("  (calib.py §1c attributes per-adjustment skill from these; '[adj: none]' rows")
+    print("   are the market-anchored control group.)")
     print("─" * 60)
     print("Log this TrueP at BET TIME (never reconstruct). Edge vs the BEST-priced")
     print("no-vig line is the min-edge gate: ≥+2pp standalone / ≥+3-4pp parlay anchor.")

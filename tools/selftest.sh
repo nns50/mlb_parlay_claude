@@ -230,6 +230,17 @@ has "devig -150/+130 → ~42% dog side"  "42" "$DV"
 # ── 8. truep.py — registry loads ─────────────────────────────────────────────
 echo "8. truep.py"
 has "truep --list shows the ace_edge adjustment" "ace_edge" "$(./tools/truep.py --list 2>&1)"
+has "truep emits the [adj: …] ledger tag" "[adj: ace_edge+3, custom-2]" \
+    "$(./tools/truep.py --base-prob 54.3 --adj ace_edge --custom=-2:test 2>&1)"
+if python3 - <<'PY' 2>/tmp/_selftest_out
+import importlib.util as u
+s=u.spec_from_file_location("c","tools/calib.py"); m=u.module_from_spec(s); s.loader.exec_module(m)
+assert m.parse_adj_tags("PHI ML [adj: ace_edge+3, wind_in_under+3]")==["ace_edge","wind_in_under"]
+assert m.parse_adj_tags("LAD ML [adj: none]")==[]         # tagged control row
+assert m.parse_adj_tags("LAD ML (no tag)") is None        # untagged rows are skipped
+assert m.parse_adj_tags("X [adj: custom-2]")==["custom"]
+PY
+then ok "calib.parse_adj_tags: names / none-control / untagged all correct"; else no "parse_adj_tags" "$(cat /tmp/_selftest_out)"; fi
 
 # ── 9. cron_build.sh — prompt-only (single source) ───────────────────────────
 echo "9. cron_build.sh --prompt-only"
