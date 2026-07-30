@@ -317,7 +317,7 @@ def parse_latest_build() -> dict:
     """Today's board: the LAST run block of the most-recent parlay file →
     tier picks + the latest Odds API credit count. Best-effort (free-form md)."""
     out = {'date': None, 'run': None, 'tiers': [],
-           'credits_remaining': None, 'credits_used': None}
+           'credits_remaining': None, 'credits_used': None, 'credits_unavailable': False}
     d = REPO / "parlays"
     files = sorted(d.glob("*.md")) if d.exists() else []
     if not files:
@@ -332,6 +332,13 @@ def parse_latest_build() -> dict:
         out['credits_remaining'] = int(m.group(1).replace(',', ''))
         if m.group(2):
             out['credits_used'] = int(m.group(2).replace(',', ''))
+
+    # Explicit "credits unavailable" marker (deactivated key / quota call failed). An
+    # EXPLICIT marker satisfies the credits-recorded guard — a missing line still fails,
+    # so cron builds can't silently skip the quota step; they must write a number OR the marker.
+    if out['credits_remaining'] is None and re.search(
+            r'Odds API credits[^\n]{0,40}?(UNAVAILABLE|DEACTIVATED|N/?A\b)', text, re.I):
+        out['credits_unavailable'] = True
 
     # Last "## Run ..." block — matches "## Run 11:00 ET — Build A" AND
     # off-schedule headers like "## Run (user-requested) — Build A".
@@ -1230,7 +1237,17 @@ def render_html(rolls, results, parlays_list, summary, br_data, clv_data,
 
     # ── Odds API credit gauge (20K/month paid tier) ──
     cred_html = ''
-    if lb['credits_remaining'] is not None:
+    if lb.get('credits_unavailable') and lb['credits_remaining'] is None:
+        cred_html = """
+      <div style="margin-top:12px">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:4px">
+          <span>Odds API credits</span><span class="mono" style="color:var(--red)">KEY DEACTIVATED — reactivate billing at the-odds-api.com</span>
+        </div>
+        <div style="height:7px;background:var(--border);border-radius:4px;overflow:hidden">
+          <div style="height:100%;width:100%;background:var(--red);opacity:.45"></div>
+        </div>
+      </div>"""
+    elif lb['credits_remaining'] is not None:
         rem = lb['credits_remaining']
         cap = 20000
         pct_used = max(0.0, min(100.0, (cap - rem) / cap * 100))
@@ -1666,7 +1683,8 @@ def render_from(d) -> str:
                        d['br_data'], d['clv_data'], d['trend_data'], d['types'],
                        d['edges'], d['fades'], d['pl_data'], d['clvroi_data'],
                        d.get('latest_build') or {'date': None, 'run': None, 'tiers': [],
-                                                 'credits_remaining': None, 'credits_used': None},
+                                                 'credits_remaining': None, 'credits_used': None,
+                                                 'credits_unavailable': False},
                        d.get('nrfi') or {'rows': [], 'nrfi': (0, 0), 'yrfi': (0, 0), 'total': (0, 0)})
 
 
@@ -1712,9 +1730,11 @@ def selftest() -> int:
     check("nrfi_tracker.md: ≥1 read parsed", len(d['nrfi']['rows']) >= 1,
           f"got {len(d['nrfi']['rows'])}")
     lb = d['latest_build']
-    check("latest build: ≥1 tier + credits parsed",
-          len(lb['tiers']) >= 1 and lb['credits_remaining'] is not None,
-          f"tiers={len(lb['tiers'])} credits={lb['credits_remaining']}")
+    creds_recorded = lb['credits_remaining'] is not None or lb.get('credits_unavailable')
+    check("latest build: ≥1 tier + credits recorded (number or explicit UNAVAILABLE)",
+          len(lb['tiers']) >= 1 and creds_recorded,
+          f"tiers={len(lb['tiers'])} credits={lb['credits_remaining']} "
+          f"unavailable={lb.get('credits_unavailable')}")
 
     # 2. Reconcile units P/L + calibration N against calib.py (the source of truth).
     calib_pl, calib_n = _calib_units_pl()

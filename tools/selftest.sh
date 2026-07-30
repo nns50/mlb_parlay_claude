@@ -141,6 +141,21 @@ else
 fi
 has "parlay normal math (60:-150 + 55:+120 → 33.0%)" "33.0%" "$(./tools/parlay.py --leg 60:-150 --leg 55:+120 2>&1)"
 
+# ── 6b. ticket.py — the +200-band construction optimizer ─────────────────────
+echo "6b. ticket.py (band search, corr pairs, doctrine guards)"
+TKT="$(./tools/ticket.py --leg '63:-110:SEA-TEX:Gilbert O6.5K' --leg '63:-164:NYY-PHI:PHI ML' --leg '57:-132:CIN-STL:STL ML' 2>&1)"
+has "band pick = max-floor +207 @ 39.7% (7/26 reproduction)" "+207  floor  39.7%" "$TKT"
+has "the +440 3-legger stays OUT of band (frontier only)" "+440  floor  22.6%" "$TKT"
+TKC="$(./tools/ticket.py --leg '63:-164:NYY-PHI:PHI ML:moderate' --leg '58:-115:NYY-PHI:Sanchez O6.5K:moderate' 2>&1)"
+has "same-game pos-corr pair up-adjusts (43.7% > naive 36.5%)" "floor  43.7%" "$TKC"
+has "corr pair prints the min acceptable SGP quote" "worth taking only if the quote beats" "$TKC"
+TKN="$(./tools/ticket.py --leg '60:-140:A-B:ML:neg-moderate' --leg '58:-115:A-B:OppK:neg-moderate' --leg '58:-125:C-D:C ML' --leg '56:-115:C-D:CK' 2>&1)"
+has "negative pair rejected, never recommended" "negatively-correlated pair" "$TKN"
+has "undeclared same-game pair rejected (one leg per game)" "without a declared corr tier" "$TKN"
+if ./tools/ticket.py --leg "0.63:-110:X:frac" --leg "60:-120:Y:ok" >/tmp/_selftest_out 2>&1; then
+  no "ticket.py rejects fractional TrueP (0.63)" "accepted a fraction — footgun regression"
+else ok "ticket.py rejects fractional TrueP (0.63)"; fi
+
 # ── 7. devig.sh — no-vig math ─────────────────────────────────────────────────
 echo "7. devig.sh"
 DV="$(./tools/devig.sh -150 +130 2>&1)"

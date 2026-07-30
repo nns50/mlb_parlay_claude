@@ -115,6 +115,12 @@ cmd_check() {
     quota_line
     rm -f "$HDRS_FILE"; return 0
   fi
+  if echo "$body" | grep -q 'DEACTIVATED_KEY'; then
+    echo "DEACTIVATED: the Odds API key is deactivated (subscription cancelled or payment failed)." >&2
+    echo "  → USER ACTION REQUIRED: reactivate billing at https://the-odds-api.com (only the account owner can fix this)." >&2
+    echo "  Until then: prices via manual book pulls / WebSearch (flag them), automated CLV capture is paused." >&2
+    rm -f "$HDRS_FILE"; exit 4
+  fi
   echo "BLOCKED/ERROR: unexpected response (bad key? quota? network):" >&2
   echo "$body" | head -c 300 >&2; echo >&2
   rm -f "$HDRS_FILE"; exit 2
@@ -241,16 +247,22 @@ cmd_raw() { local p="${1:?path}"; api_get "$p"; rm -f "$HDRS_FILE"; echo; }
 
 # Remaining monthly credits. FREE: the /sports endpoint returns the quota headers but does
 # NOT consume a credit, so this can be called after every routine run at no cost.
+# On any failure it prints the EXACT marker line to paste into the parlay file, so the
+# credits-recorded guard (generate_dashboard --selftest) passes on an explicit marker
+# instead of failing on a missing number.
 cmd_quota() {
-  api_get "sports?all=true" >/dev/null 2>&1
-  local rem used
+  local body rem used
+  body="$(api_get "sports?all=true" 2>/dev/null)"
   rem=$(grep -i '^x-requests-remaining:' "$HDRS_FILE" 2>/dev/null | awk '{print $2}' | tr -d '\r')
   used=$(grep -i '^x-requests-used:'      "$HDRS_FILE" 2>/dev/null | awk '{print $2}' | tr -d '\r')
   rm -f "$HDRS_FILE"
   if [[ -n "$rem" ]]; then
-    echo "Odds API credits — remaining: ${rem}   used this month: ${used:-?}   (as of $(TZ=America/New_York date '+%Y-%m-%d %H:%M ET'))"
+    echo "Odds API credits remaining: ${rem} (used ${used:-?} this month)   (as of $(TZ=America/New_York date '+%Y-%m-%d %H:%M ET'))"
+  elif echo "$body" | grep -q 'DEACTIVATED_KEY'; then
+    echo "Odds API credits remaining: UNAVAILABLE (key DEACTIVATED — reactivate billing at the-odds-api.com)"
+    return 1
   else
-    echo "Odds API credits — unavailable (no key, or api.the-odds-api.com blocked)."
+    echo "Odds API credits remaining: UNAVAILABLE (no key, or api.the-odds-api.com blocked)"
     return 1
   fi
 }

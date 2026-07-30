@@ -172,6 +172,35 @@ tools/parlay.py --leg 60:-130 --leg 55:+110 --corr moderate --sgp +320   # compa
 Each `--leg` is `TrueP%[:americanPrice]`. `--corr` tiers (2-leg only): `strong/moderate/weak/none` and
 `neg-weak/neg-moderate/neg-strong` (rough ρ; positive = legs win together, negative = legs fight → skip).
 
+## `ticket.py` — exhaustive +200-band ticket search (the construction optimizer)
+
+`parlay.py` prices ONE ticket; this finds the BEST one. The ledger's construction leak (as of 7/29/26):
+legs hit ~68-70% but hand-built tickets ran ~50%, D1 (the +200-chase 3rd leg) went 4-1 against, and the
+same-game positive-correlation stack kept being the best route to ~+200. Feed it EVERY gate-cleared leg
+from the slate scan; it enumerates every legal 1-3-leg construction (doctrine-aware: one leg per game
+unless BOTH legs declare the same corr tier, max one pair per ticket, negative pairs auto-rejected),
+prices pairs via `parlay.py`'s joint model, and prints:
+
+1. the **payout/floor frontier** — what +200 truly costs vs +150 (the honest Tier-2-vs-Tier-3 view);
+2. the **target band** (default +180..+260) ranked by TRUE combined prob — the recommended ticket is
+   the max-floor route to the payout, with EV, ¼-Kelly stake, and (for corr pairs) the minimum SGP
+   quote worth taking vs betting the legs separately;
+3. **rejected constructions** with doctrine reasons.
+
+```
+tools/ticket.py --leg "63:-110:SEA-TEX:Gilbert O6.5K" --leg "63:-164:NYY-PHI:PHI ML" \
+                --leg "57:-132:CIN-STL:STL ML"
+tools/ticket.py --leg "63:-164:NYY-PHI:PHI ML:moderate" \
+                --leg "58:-115:NYY-PHI:Sanchez O6.5K:moderate"      # deliberate same-game stack
+tools/ticket.py --file legs.txt --min-price 180 --max-price 260 --top 5
+```
+
+Each `--leg` is `TrueP:price:game[:label[:tier]]` (TrueP whole-number percent, BEST shopped American
+price, any shared game id; tier only for deliberate same-game pairs). Legs are assumed ALREADY
+devig-gated upstream (`devig.sh` + the min-edge gate) — the tool's own `--min-edge` (default 0) only
+drops legs that are -EV at the offered price. Run it on every build: Tier 2 = its best-floor pick,
+Tier 3 = its band pick; never hand-pick a 3rd leg the search didn't rank first.
+
 ## `settle.py` — match a day's finals to open legs and PROPOSE settle edits
 
 Automates the error-prone settle lookup: pulls `mlb_api.sh finals <date>`, finds `results_log.md` rows
