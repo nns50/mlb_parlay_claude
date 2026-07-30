@@ -275,10 +275,10 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 7/26 | SEA @ TEX (Gilbert/deGrom) | NRFI | 60% | _model-only_ | **L** (1st 0-1 → YRFI) | Both elite K-arms (9.68/10.94 K9) in a neutral dome; typically retire the order cleanly early. |
 | 7/26 | LAA @ SF (Soriano/Whisenhunt) | NEUTRAL | 52% | _model-only_ | TBD | Weather pending at build time; no strong SP signal identified. |
 | 7/26 | NYY @ PHI (Warren/Sánchez) | YRFI | 55% | _model-only_ | **W** (1st 0-1 → YRFI) | Sánchez should retire NYY clean, but Warren shaky/short-outing prone — PHI's own bats live vs him. |
-| 7/30 | TEX @ TB (Winn/McClanahan) | YRFI | 55% | _model-only_ | TBD | Winn on an alarming short-leash pattern (0.1-1.1 IP last 6 outings) — command/health risk. Dome neutral. |
-| 7/30 | KC @ MIN (Cameron/Ober) | YRFI | 55% | _model-only_ | TBD | Both mediocre arms; wind out to LF at Target Field boosts carry mildly. |
-| 7/30 | NYY @ CWS (Weathers/Burke) | NRFI | 58% | _model-only_ | TBD | Burke dominant recent form (10 K last start); wind in from CF suppresses. |
-| 7/30 | CHC @ STL (Assad/Pallante) | NRFI | 55% | _model-only_ | TBD | Pallante shutout last start; Assad on a short leash but avoiding damage. |
+| 7/30 | TEX @ TB (Winn/McClanahan) | YRFI | 55% | _model-only_ | **L** (1st 0-0 → NRFI) | Winn on an alarming short-leash pattern (0.1-1.1 IP last 6 outings) — command/health risk. Dome neutral. |
+| 7/30 | KC @ MIN (Cameron/Ober) | YRFI | 55% | _model-only_ | **L** (1st 0-0 → NRFI) | Both mediocre arms; wind out to LF at Target Field boosts carry mildly. |
+| 7/30 | NYY @ CWS (Weathers/Burke) | NRFI | 58% | _model-only_ | **W** (1st 0-0 → NRFI) | Burke dominant recent form (10 K last start); wind in from CF suppresses. |
+| 7/30 | CHC @ STL (Assad/Pallante) | NRFI | 55% | _model-only_ | **W** (1st 0-0 → NRFI) | Pallante shutout last start; Assad on a short leash but avoiding damage. |
 | 7/30 | PIT @ CIN (Ramírez/Lowder) | YRFI | 57% | _model-only_ | TBD | Both shaky/short-leash (Ramírez essentially an opener; Lowder 5.61 ERA). |
 | 7/30 | MIA @ NYM (Pérez/McLean) | NRFI | 58% | _model-only_ | TBD | McLean elite and metronomic (exactly 6.0 IP 6 straight starts); Pérez also sharp recently. |
 | 7/30 | WSH @ ATL (Irvin/Holmes) | YRFI | 54% | _model-only_ | TBD | Irvin hasn't pitched since 5/23 (IL return, C3 rust risk); Holmes moderate. |
@@ -289,9 +289,11 @@ Its own ledger lives here; the dashboard renders it from this file.
 ---
 
 ## Running totals (update on every settle)
-- **Record:** **98-81** (tracker opened 6/10/26). **NRFI:** **49-45** · **YRFI:** **49-36**.
+- **Record:** **100-83** (tracker opened 6/10/26). **NRFI:** **51-45** · **YRFI:** **49-38**.
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
-- **Open:** **7/30: 10 pre-game reads** (full slate). Settle via `nrfi_settle.py --apply` next session.
+- **Open:** **7/30: 8 reads still open** (NYY@CWS + CHC@STL settled off the completed 1st inning at the
+  16:00 run — 0-0 both, NRFI/NRFI; the other 6 games haven't started). Settle via `nrfi_settle.py --apply`
+  next session.
 - **Settled 7/26** (auto via `nrfi_settle.py --apply`, run 7/30): 14 decided, 7W-7L (NRFI 2-3, YRFI 5-4).
   Record updated from 91-74 to 98-81. LAA@SF (Soriano/Whisenhunt, NEUTRAL) still TBD — game likely
   postponed/unresolved, left open. **No parlay builds ran 7/27-7/29** (session gap) — those slates have
