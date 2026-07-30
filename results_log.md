@@ -84,7 +84,7 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 7/26 | STL ML (Leahy, vs CIN) | ML-fav | -132 | 57% | 54.7% | **+2.0** | **L** (CIN 5-3 STL — the Tier-3 chase leg busted; D1 again). Grade: **thin +EV (barely cleared gate) — lost** | Y | — | P |
 | 7/30 | Burke Over 6.5 K (NYY @ CWS) [adj: ace_edge+3, cold_aids_kover+3] | K-Over | -148 | 62.3% | 56.3% | **+6.0** | TBD | Y | — | P |
 | 7/30 | NYY@CWS Under 7.5 [adj: wind_in_under+3] | Total | -110 | 54.5% | 51.5% | **+3.0** | TBD | Y | — | P |
-| 7/30 | BOS ML (Gray, @ ATH) [BANKROLL ROLL 4 — 4-WIN TARGET] [adj: ace_edge+3] | ML-fav | -174 | 65.1% | 62.1% | **+3.0** | TBD | Y | — | S |
+| 7/30 | BOS ML (Gray, @ ATH) [BANKROLL ROLL 4 — 4-WIN TARGET] [adj: ace_edge+3] | ML-fav | -174 | 65.1% | 62.1% | **+3.0** | TBD | Y | + 63%cl | S |
 
 ## Recommended but NOT played (calibration both ways)
 
@@ -215,10 +215,10 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 6/6 | CLE Guardians -5.5 RL (vs TEX) — USER PLAYED | RL | -130 | * | — | — | **W** (CLE 6-0, by 6) — user Ticket 2 leg | Y | — | P |
 | 6/6 | LA Dodgers -1.5 RL (vs LAA) — USER PLAYED | RL | (SGP) | * | — | — | **W** (LAD 9-2, won by 7) — user Ticket 2 SGP leg | Y | — | P |
 | 6/6 | Kochanowicz Over 5.5 hits allowed (LAA, vs LAD) — USER PLAYED | Hit-prop | (SGP) | * | — | — | **W** (pulled 0.1 IP / 6 ER, cleared early) — user Ticket 2 SGP leg | Y | — | P |
-| 7/30 | STL ML (Pallante, vs CHC) [adj: ace_edge+3] | ML-fav | -108 | 53.9% | 50.9% | +2.0 | TBD | N | — | P |
-| 7/30 | LAD ML (Sasaki, vs SEA) [adj: custom+2] | ML-fav | -150 | 60.6% | 58.6% | +2.0 | TBD | N | — | P |
-| 7/30 | McLean Over 6.5 K (MIA @ NYM) [adj: ace_edge+3, custom-2] | K-Over | +108 | 46.3% | 45.3% | +1.0 | TBD — below +2pp gate, scan-only | N | — | S |
-| 7/30 | NYM ML (McLean, vs MIA) [adj: custom-3] | ML-fav | -125 | 51.3% | 54.3% | −3.0 | TBD — REJECT (Mets 46-63/.422 below-.500 team, number driven by SP alone) | N | — | P |
+| 7/30 | STL ML (Pallante, vs CHC) [adj: ace_edge+3] | ML-fav | -108 | 53.9% | 50.9% | +2.0 | TBD | N | − 50%cl | P |
+| 7/30 | LAD ML (Sasaki, vs SEA) [adj: custom+2] | ML-fav | -150 | 60.6% | 58.6% | +2.0 | TBD | N | + 59%cl | P |
+| 7/30 | McLean Over 6.5 K (MIA @ NYM) [adj: ace_edge+3, custom-2] | K-Over | +108 | 46.3% | 45.3% | +1.0 | TBD — below +2pp gate, scan-only | N | + 47%cl | S |
+| 7/30 | NYM ML (McLean, vs MIA) [adj: custom-3] | ML-fav | -125 | 51.3% | 54.3% | −3.0 | TBD — REJECT (Mets 46-63/.422 below-.500 team, number driven by SP alone) | N | = 54%cl | P |
 | 7/30 | TEX Rangers ML (@ TB) [adj: none] | ML-dog | +158 | 37.8% | 37.8% | 0.0 | TBD — Winn's opener-like usage noted but NOT boosted per D5 discipline; no edge either side | N | — | P |
 
 ---
@@ -373,6 +373,7 @@ opposing lineup contact quality, result (hits allowed).
 | 6/7 | Freeland (COL LHP, vs MIL @ Coors) | WATCH — pull line | 8.06 ERA/1.71 WHIP, Coors; MIL 21% K but only .226 vs LHP | **no-trigger** (MIL won 12-4 @ Coors — Over hits would almost certainly have CASHED; line never pulled) | candidate #1 — park+profile cleanest; .226-vs-LHP caveat; low hook risk (eats IP) |
 | 6/7 | ~~Chandler~~ Montgomery (PIT, @ ATL) | VOID | PIT probable = Mason Montgomery, not Chandler (pre-seed wrong) | — | candidate VOID — re-scan Montgomery if pulling the Angle-B line at 16:00 |
 | 6/7 | Flaherty (DET RHP, vs SEA) | WATCH — pull line | 5.31 ERA/1.60 WHIP but 10.92 K/9; SEA .247/22% | **no-trigger** (SEA scored 4 in a 5-4 DET win — marginal; line never pulled) | candidate #3 — high K/9 converts hits→Ks, weakest |
+| 7/30 | Irvin O4.5 hits allowed (WSH, vs ATL) | WATCH — no-vig 47.2% (best −102 DK / −130 Under) | Game is C3/UNVERIFIED-gated (Irvin hasn't started since 5/23) — no bet placed on this angle either, consistent with the gate | TBD | candidate — IL-return rust could push hits allowed up, but no TrueP registered; log-only |
 
 **Angle B record: 1-0** (6/7 = 3 WATCH candidates; pull the real line + devig near first pitch — Gilbert/PHI passed: opener/start-length unknown). Watch: (a) hits-allowed correlates with IP — a quick hook (few outs) can CAP
 hits even in a blowup, so it has the same left-tail start-length risk as K-Overs; (b) books shade these
