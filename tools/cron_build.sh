@@ -92,7 +92,7 @@ case "$BUILD" in
 8. ODDS API CREDITS: run tools/odds_api.sh quota (FREE — 0 credits) and add 'Odds API credits remaining: <N> (used <M> this month)' to this run's section in today's parlay file BEFORE committing.
 8b. DASHBOARD: run 'python3 tools/generate_dashboard.py' to refresh docs/index.html from the updated ledgers, and stage it in the same commit (GitHub Pages auto-deploys on merge).
 9. Commit → push → open PR → squash-merge → reset per CLAUDE.md git workflow.
-10. Push notification: load PushNotification via ToolSearch (if needed), send title 'MLB Parlay Build B update — <today>': CLV fills (count +/−), lineup upgrades, whether the build changed, Odds API credits remaining. APPEND the NRFI/YRFI line from 'python3 tools/nrfi_digest.py <today> --compact'.
+10. Push notification: load PushNotification via ToolSearch (if needed), send title 'MLB Parlay Build B update — <today>': CLV fills (count +/−), ANY ⚠ EDGE-GONE legs (name them — user must not bet those) and ⚠/⛔ recheck flags (SP scratches / started games), lineup upgrades, whether the build changed, Odds API credits remaining. APPEND the NRFI/YRFI line from 'python3 tools/nrfi_digest.py <today> --compact'.
 11. Email: load mcp__Gmail__create_draft via ToolSearch (if needed), draft to icecold67@live.com subject 'MLB Parlay — <today YYYY-MM-DD> Build B update', body = CLV fills per open leg, PENDING→CONFIRMED upgrades, superseded legs, current active build, Odds API credits remaining (prose under 200 words), THEN append a '--- NRFI/YRFI <today> ---' section = the full output of 'python3 tools/nrfi_digest.py <today> --format md'. The table is in ADDITION to the word limit."
   ;;
 
@@ -109,7 +109,7 @@ case "$BUILD" in
 6. ODDS API CREDITS: run tools/odds_api.sh quota (FREE — 0 credits) and add 'Odds API credits remaining: <N> (used <M> this month)' to this run's section in today's parlay file BEFORE committing.
 6b. DASHBOARD: run 'python3 tools/generate_dashboard.py' to refresh docs/index.html from the updated ledgers, and stage it in the same commit (GitHub Pages auto-deploys on merge).
 7. Commit → push → open PR → squash-merge → reset per CLAUDE.md git workflow.
-8. Push notification: load PushNotification via ToolSearch (if needed), send title 'MLB Parlay Final check — <today>': final build legs confirmed, late lineup updates, first-pitch re-check flags, Odds API credits remaining. APPEND the NRFI/YRFI line from 'python3 tools/nrfi_digest.py <today> --compact' (by 18:00 most games are settled, so this carries the day's final win%).
+8. Push notification: load PushNotification via ToolSearch (if needed), send title 'MLB Parlay Final check — <today>': final build legs confirmed, ANY ⚠ EDGE-GONE legs (name them — user must not bet those) and ⚠/⛔ recheck flags (SP scratches / started games), late lineup updates, first-pitch re-check flags, Odds API credits remaining. APPEND the NRFI/YRFI line from 'python3 tools/nrfi_digest.py <today> --compact' (by 18:00 most games are settled, so this carries the day's final win%).
 9. Email: load mcp__Gmail__create_draft via ToolSearch (if needed), draft to icecold67@live.com subject 'MLB Parlay — <today YYYY-MM-DD> Final check', body = late lineup confirmations, remaining CLV fills, final active build legs+prices, first-pitch re-check flags, Odds API credits remaining (prose under 200 words), THEN append a '--- NRFI/YRFI <today> ---' section = the full output of 'python3 tools/nrfi_digest.py <today> --format md' (the day's final win% + picks table). The table is in ADDITION to the word limit."
   ;;
 

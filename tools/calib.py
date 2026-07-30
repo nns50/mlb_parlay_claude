@@ -98,6 +98,24 @@ def band(p):
     return f"{lo}-{lo + 4}"
 
 
+ADJ_TAG = re.compile(r"\[adj:\s*([^\]]*)\]")
+
+
+def parse_adj_tags(cell):
+    """'… [adj: ace_edge+3, wind_in_under+3]' → ['ace_edge','wind_in_under'];
+    '[adj: none]' → [] (a tagged, market-anchored control row); untagged → None."""
+    m = ADJ_TAG.search(cell or "")
+    if not m:
+        return None
+    names = []
+    for part in m.group(1).split(","):
+        part = part.strip()
+        if not part or part.lower() == "none":
+            continue
+        names.append(re.sub(r"[+-][\d.]+$", "", part))
+    return names
+
+
 def main():
     with open(LEDGER, encoding="utf-8") as fh:
         text = fh.read()
@@ -197,6 +215,45 @@ def main():
             print("   ⚠ n<40 — directional only; don't resize adjustment magnitudes off this yet.")
     else:
         print(f"   (only {len(pooled)} scorable legs — need ≥10)")
+
+    # ---- 1c. Per-adjustment attribution (accrues from [adj: …] ledger tags) ---
+    # truep.py prints a paste-able tag naming the adjustments behind each TrueP; rows
+    # carrying it can be scored PER ADJUSTMENT (does ace_edge earn its +3pp?), with
+    # '[adj: none]' rows as the market-anchored control. This is the accrual path to
+    # eventually auto-calibrating the registry magnitudes instead of trusting them.
+    per = defaultdict(lambda: [0, 0, 0.0, 0.0])   # name -> [n, wins, Σbrier_model, Σbrier_mkt]
+    for c in played + recs:
+        if len(c) < 8:
+            continue
+        tags = parse_adj_tags(c[1])
+        if tags is None:
+            continue
+        truep, starred = parse_pct(c[4])
+        implp, _ = parse_pct(c[5])
+        res = parse_result(c[7])
+        if truep is None or starred or implp is None or res not in ("W", "L"):
+            continue
+        y = 1.0 if res == "W" else 0.0
+        for t in (tags or ["(none — market-anchored)"]):
+            e = per[t]
+            e[0] += 1
+            e[1] += int(res == "W")
+            e[2] += (truep / 100.0 - y) ** 2
+            e[3] += (implp / 100.0 - y) ** 2
+    print("\n-- 1c. Per-adjustment attribution  (from [adj: …] tags in leg cells) --")
+    if not per:
+        print("   (no tagged decided rows yet — truep.py now prints a paste-able tag;")
+        print("    paste it into each leg cell and this section fills itself.")
+        print("    Judge nothing before n≥20 per adjustment.)")
+    else:
+        print(f"   {'adjustment':<26} {'n':>3}  {'W-L':>6}  {'hit%':>5}  {'skill/leg':>9}")
+        for t in sorted(per, key=lambda x: -per[x][0]):
+            n, w, bm, bk = per[t]
+            skill = (bk - bm) / n if n else 0.0
+            flag = "" if n >= 20 else "  (n<20 — directional)"
+            print(f"   {t:<26} {n:>3}  {w:>2}-{n - w:<3}  {w / n * 100:>4.0f}%  {skill:>+9.4f}{flag}")
+        print("   (skill/leg = per-row Brier edge vs the market on rows carrying the tag;")
+        print("    positive = the adjustment is earning its pp.)")
 
     # ---- 2. Record by bet type (played) ---------------------------------------
     by_type = defaultdict(lambda: [0, 0, 0])  # type -> [W, L, Push]

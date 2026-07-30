@@ -53,6 +53,9 @@ CLAUDE.md is crisp **doctrine**; those files are **live data**. Burn tags below 
   - `tools/truep.py --base-prob <novig%> --adj <names> [--custom "+N:reason"]` — derive a pre-registered
     TrueP from the market no-vig baseline + FIXED written adjustments (`--list` for the registry), so
     calibration measures the adjustments, not a gut number. Run `devig.sh` first to get the baseline.
+    **Paste the `[adj: …]` ledger tag it prints into the leg cell** (`[adj: none]` for pure-market rows) —
+    `calib.py` §1c scores each adjustment's skill from tagged rows; at ~20+ decided rows per adjustment
+    the registry magnitudes can be auto-calibrated instead of trusted. (Accrual started 7/30/26.)
   - `tools/settle.py [YYYY-MM-DD]` — pulls finals + proposes W/L for every TBD team-side leg that date;
     **K-props settle off the pitcher's gamelog** (findpitcher → K count vs the line, opponent-verified —
     kills the mid-game/team-result prop mis-settle class); other props/totals stay MANUAL. READ-ONLY —
