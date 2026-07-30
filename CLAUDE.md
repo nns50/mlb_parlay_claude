@@ -427,7 +427,11 @@ rejected candidates with reasons, and a `Result` section starting TBD.
   ET hour is 15–19** (both 16:00 and 18:00 qualify) and **WRITES the verdict directly into the CLV column** —
   no manual copy step. It captures **bet-OR-recommended legs** (no Played=Y gate — every recommended leg is
   Played=N), computing the verdict from the closing no-vig vs the row's logged no-vig ImplP (±0.5pp dead-band),
-  and is idempotent (filled rows skipped → re-running spends no quota). Props/RL stay manual (h2h-only feed).
+  and is idempotent (filled rows skipped → re-running spends no quota). **Coverage (v2, 7/30/26): ML + game
+  totals + run lines are ALL captured from the CACHED slate at 0 credits** (session_start warms it at run
+  start = near first pitch); K/hitter props + team totals stay manual. It also prints **⚠ EDGE GONE** when
+  the closing no-vig has moved past a TBD leg's TrueP (or inside the +2pp gate) — a leg whose edge
+  evaporated at the close must NOT be (re)bet, so read the warnings before locking, not just the verdicts.
   ⚠️ The OLD `clv_capture.sh` gated on Played=Y and captured nothing (that was the real blank-CLV bug, not the
   cron) — it's deprecated; use the `.py --apply`. (Codified 6/4/26; auto-capture 6/6/26; retimed to 11/16/18 +
   switched to auto-applying `.py` 6/7/26.)

@@ -64,11 +64,24 @@ if [[ -x "./tools/odds_api.sh" ]]; then
   ODDS_STATUS="$(./tools/odds_api.sh check 2>&1)"
   echo "$ODDS_STATUS" | sed 's/^/  /'
   if echo "$ODDS_STATUS" | grep -q "^OK"; then
-    echo "  Warming odds slate cache ($TODAY) — 3 credits, valid all session..."
-    SLATE_OUT="$(./tools/odds_api.sh slate "$TODAY" 2>&1)" || true
-    echo "$SLATE_OUT" | sed 's/^/  /'
-    # Quota mode derived from remaining credits after the warm call
-    QUOTA_REM=$(echo "$SLATE_OUT" | grep "requests remaining" | grep -oE '[0-9]+' | head -1)
+    # Quota guard (free tier = 500/mo): reuse a cache younger than 90 min instead of
+    # re-warming — back-to-back sessions in the same window were burning 3 credits each.
+    # 90 min keeps every scheduled run fresh (11→16→18 gaps are ≥2h) while interactive
+    # sessions piggyback. Delete the cache file to force a re-warm.
+    CF="${TMPDIR:-/tmp}/odds_cache/slate_${TODAY}.json"
+    if [[ -f "$CF" && -n "$(find "$CF" -mmin -90 2>/dev/null)" ]]; then
+      AGE_MIN=$(( ( $(date +%s) - $(stat -c %Y "$CF" 2>/dev/null || echo 0) ) / 60 ))
+      echo "  Slate cache FRESH (${AGE_MIN}m old < 90m) — reusing, 0 credits. (rm \"$CF\" to force re-warm)"
+      SLATE_OUT="$(./tools/odds_api.sh quota 2>/dev/null)" || true
+      echo "  $SLATE_OUT"
+    else
+      echo "  Warming odds slate cache ($TODAY) — 3 credits, valid all session..."
+      SLATE_OUT="$(./tools/odds_api.sh slate "$TODAY" 2>&1)" || true
+      echo "$SLATE_OUT" | sed 's/^/  /'
+    fi
+    # Quota mode derived from remaining credits (matches both the slate warm's
+    # "N requests remaining" and quota's "credits remaining: N" phrasing)
+    QUOTA_REM=$(echo "$SLATE_OUT" | grep -iE "(requests|credits) remaining" | grep -oE '[0-9]+' | head -1)
     QUOTA_REM="${QUOTA_REM:-9999}"
     if   (( QUOTA_REM < 20 )); then
       echo "  ⚠ LOW QUOTA (${QUOTA_REM} remaining) — avoid additional API calls this session."
