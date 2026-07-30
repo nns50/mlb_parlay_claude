@@ -155,6 +155,49 @@ def main():
         total_w += w
     print(f"   {'TOTAL':<8} {total_n:>2}  {total_w:>2} won")
 
+    # ---- 1b. Brier skill vs the market (does TrueP beat the logged price?) ----
+    # Pools EVERY decided LEG row (played + not-played) with an explicit TrueP and a
+    # parseable ImplP — forecasts were pre-registered either way, so all of them score.
+    # Brier = mean((forecast − outcome)²), lower is better; the DELTA vs the market's
+    # no-vig ImplP on the SAME rows is the honest "do the written adjustments add
+    # anything?" number. This converges far faster than band tables (a proper scoring
+    # rule uses every row, not 5-wide buckets) — it's the leg-selection scoreboard.
+    def scorable(rows):
+        out = []
+        for c in rows:
+            if len(c) < 8:
+                continue
+            if "×" in c[1] or "parlay" in c[2].lower():   # leg-level only (no ticket rows)
+                continue
+            truep, starred = parse_pct(c[4])
+            implp, _ = parse_pct(c[5])
+            res = parse_result(c[7])
+            if truep is None or starred or implp is None or res not in ("W", "L"):
+                continue
+            if not (1 <= truep <= 99 and 1 <= implp <= 99):
+                continue
+            out.append((truep / 100.0, implp / 100.0, 1.0 if res == "W" else 0.0))
+        return out
+
+    pooled = scorable(played) + scorable(recs)
+    print("\n-- 1b. Brier skill vs market  (TrueP vs logged no-vig ImplP, every decided leg) --")
+    if len(pooled) >= 10:
+        b_model = sum((p - y) ** 2 for p, _, y in pooled) / len(pooled)
+        b_market = sum((q - y) ** 2 for _, q, y in pooled) / len(pooled)
+        skill = b_market - b_model
+        print(f"   n={len(pooled)} scored legs   Brier(TrueP) {b_model:.4f}   "
+              f"Brier(market ImplP) {b_market:.4f}   (coin-flip ref 0.2500)")
+        if skill > 0:
+            print(f"   skill {skill:+.4f} → TrueP BEATS the logged price — the written "
+                  f"adjustments are adding signal")
+        else:
+            print(f"   skill {skill:+.4f} → TrueP does NOT beat the logged price — shrink "
+                  f"adjustments toward the no-vig baseline")
+        if len(pooled) < 40:
+            print("   ⚠ n<40 — directional only; don't resize adjustment magnitudes off this yet.")
+    else:
+        print(f"   (only {len(pooled)} scorable legs — need ≥10)")
+
     # ---- 2. Record by bet type (played) ---------------------------------------
     by_type = defaultdict(lambda: [0, 0, 0])  # type -> [W, L, Push]
     for c in played:

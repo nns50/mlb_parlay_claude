@@ -32,8 +32,9 @@ CLAUDE.md is crisp **doctrine**; those files are **live data**. Burn tags below 
   only in a NEW session, so `check` is how each session learns whether it's on.)
 - **Session open:** `tools/session_start.sh` runs the mechanical open in one shot (check + yesterday
   finals + standings + which recent parlays are still TBD + every fade's status). `tools/calib.py`
-  recomputes the calibration bands / units-ROI / by-type record / **STANDALONE-vs-PARLAY split** from
-  `results_log.md` (read-only).
+  recomputes the calibration bands / units-ROI / by-type record / **STANDALONE-vs-PARLAY split** /
+  **Brier-skill-vs-market** (does TrueP beat the logged no-vig price? — the leg-selection scoreboard;
+  it converges far faster than band tables) from `results_log.md` (read-only).
 - **Odds source — `tools/odds_api.sh` (The Odds API), PREFERRED over hand-entered prices.** Run `check`
   first (needs the env var `ODDS_API_KEY` + `api.the-odds-api.com` allowlisted; activates only in a NEW
   session, like mlb_api). OK → use it for line-shopping (`best h2h|totals|spreads` → best price + book),
@@ -52,8 +53,14 @@ CLAUDE.md is crisp **doctrine**; those files are **live data**. Burn tags below 
   - `tools/truep.py --base-prob <novig%> --adj <names> [--custom "+N:reason"]` — derive a pre-registered
     TrueP from the market no-vig baseline + FIXED written adjustments (`--list` for the registry), so
     calibration measures the adjustments, not a gut number. Run `devig.sh` first to get the baseline.
-  - `tools/settle.py [YYYY-MM-DD]` — pulls finals + proposes W/L for every TBD team-side leg that date
-    (props flagged MANUAL). READ-ONLY — apply the proposals + `fades.md`/`bankroll.md`/parlay file by hand.
+  - `tools/settle.py [YYYY-MM-DD]` — pulls finals + proposes W/L for every TBD team-side leg that date;
+    **K-props settle off the pitcher's gamelog** (findpitcher → K count vs the line, opponent-verified —
+    kills the mid-game/team-result prop mis-settle class); other props/totals stay MANUAL. READ-ONLY —
+    apply the proposals + `fades.md`/`bankroll.md`/parlay file by hand.
+  - `tools/recheck.py snap [date]` / `tools/recheck.py [date]` — **SP-scratch detector (E3/E4 made
+    mechanical).** The 11:00 build snapshots the slate's probables (committed as an audit record); the
+    16:00/18:00 lock runs diff live StatsAPI state vs it — ⚠ SP CHANGED / ⛔ started invalidates every
+    leg premised on that arm/game BEFORE lock, not after the loss.
   - `tools/parlay.py --leg TrueP:price --leg TrueP:price [--corr <tier>] [--sgp <price>]` — correlation-
     aware true combined prob vs the offered price; tells you SGP-vs-independent and the gate verdict.
     Use it for EVERY parlay (esp. same-game) — it catches when negative correlation makes a ticket -EV.
