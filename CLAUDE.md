@@ -57,6 +57,13 @@ CLAUDE.md is crisp **doctrine**; those files are **live data**. Burn tags below 
   - `tools/parlay.py --leg TrueP:price --leg TrueP:price [--corr <tier>] [--sgp <price>]` — correlation-
     aware true combined prob vs the offered price; tells you SGP-vs-independent and the gate verdict.
     Use it for EVERY parlay (esp. same-game) — it catches when negative correlation makes a ticket -EV.
+  - `tools/ticket.py --leg TrueP:price:game[:label[:tier]] ...` — **the construction optimizer: run it
+    EVERY build with ALL gate-clearing legs.** Enumerates every legal 1-3-leg ticket (one leg per game
+    unless both legs declare the same corr tier; ≤1 pair; negative pairs auto-rejected), prices pairs via
+    parlay.py's model, and prints the payout/floor FRONTIER + the MAX-FLOOR ticket in the +180..+260 band
+    (with ¼-Kelly + the min acceptable SGP quote). Tier 2 = its best-floor pick; Tier 3 = its band pick —
+    never hand-pick a 3rd leg the search didn't rank first. (Codified 7/29/26: legs hit ~70% but
+    hand-built tickets ran ~50%, and D1 went 4-1 — construction, not leg-picking, was the leak.)
 
 ### Pre-publish GATE HEADER — every build opens with this; a ✗ blocks the dependent leg
 | Gate | ✓/⚠/✗ | Evidence |
@@ -252,7 +259,13 @@ surface only props clearing +2pp standalone / +3-4pp to anchor.** Prop-specific 
 - **The +200 chase is the most-validated fade on the board** — don't bolt a 3rd leg / payout knob
   onto a clean 2-legger to stamp exactly +200; it drops the floor ~15-18pp and the chase leg keeps
   busting. Take the highest-floor ticket even at +120-180. (burns: 6/1 chase cost us, 6/2 declining
-  the +270 saved us, 6/3 chase leg busted again → fades.md D1)
+  the +270 saved us, 6/3 chase leg busted again, 7/26 STL chase leg busted → fades.md D1, 4-1)
+- **Construction is a SEARCH, not an assembly — the ~+200 ask is answered by `tools/ticket.py`.** The
+  route to hitting +200 more often is never a 3rd leg; it's (a) a 2-leg product that already reaches the
+  band — two ~-105/-115 legs, or a value dog × a fav — and (b) the same-game POSITIVE-corr stack (ML +
+  own SP K-Over), which buys ~4-9pp of floor at the same payout (6/8, 6/12, 6/16, 6/17, 6/19 all cashed
+  this way). ticket.py searches every legal construction and surfaces exactly these; hand-assembly kept
+  finding the worse ticket (6/9 user-caught swap, 6/17 cross-game +189 lost while the stack won).
 
 ### Always present THREE tiers (honest framing: these parlays are structurally near -EV — chalk + vig)
 Every build presents all three, in this order:
@@ -328,7 +341,9 @@ No qualifying play → NO BET, balance carries. Update `bankroll.md` (commit/pus
 5. Each ML/spread → SP-freshness for the relevant starter(s) + SP quality + lineup health.
 6. Apply the **minimum-edge gate** (devigged) — drop legs that don't clear it. If NOTHING clears,
    the honest output is **NO BET** (show the scan + closest -EV looks, don't force a ticket).
-7. Build the THREE tiers (above) from qualifying legs; show per-leg odds + combined decimal math.
+7. Build the THREE tiers (above) from qualifying legs — **via `tools/ticket.py` (feed every qualifying
+   leg; Tier 2 = its best-floor pick, Tier 3 = its band pick), not hand-assembly**; show per-leg odds +
+   combined decimal math + the tool's frontier so the floor cost of the band is visible.
 8. List rejected candidates with reasons.
 9. Flag uncertainty; recommend re-checking lines + lineups at game time.
 10. **$10 rollover bankroll** (`bankroll.md`): pick the bankroll bet (single safest qualifying favorite
