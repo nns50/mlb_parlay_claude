@@ -123,6 +123,11 @@ tools/calib.py [path/to/results_log.md]   # defaults to ../results_log.md
 - **STANDALONE vs PARLAY split** (section 2b): reads the `Bucket` column (S/P) and breaks out leg-level
   record by bucket — the parlay-tax test. (Watch the gap: parlay *legs* can win ~68% individually while
   parlay *tickets* win far less — that gap IS the tax.) Standalone leg-level ROI lives in `bankroll.md`.
+- **Brier skill vs market** (section 1b): scores EVERY decided leg (played + not-played) with an explicit
+  TrueP against the outcome, and scores the logged no-vig ImplP on the same rows. The delta answers the
+  single most important leg-selection question — *do the written adjustments beat the price?* — and,
+  being a proper scoring rule over all rows, it converges far faster than 5-wide band tables. Positive
+  skill = keep the adjustment registry; negative = shrink toward the no-vig baseline.
 
 ## `devig.sh` — no-vig implied prob + edge calculator
 
@@ -172,6 +177,24 @@ tools/parlay.py --leg 60:-130 --leg 55:+110 --corr moderate --sgp +320   # compa
 Each `--leg` is `TrueP%[:americanPrice]`. `--corr` tiers (2-leg only): `strong/moderate/weak/none` and
 `neg-weak/neg-moderate/neg-strong` (rough ρ; positive = legs win together, negative = legs fight → skip).
 
+## `recheck.py` — pre-lock SP-scratch / status detector (E3/E4 made mechanical)
+
+A scratched or swapped starter silently invalidates every K-leg AND every ML/total premised on that
+arm — two whole burn classes (E3 carried-over probables, E4 TBA starters). The 11:00 build runs
+`recheck.py snap <date>` to snapshot the slate's probables + game states into
+`parlays/.probables/<date>.json` (committed with the build as an audit record); the 16:00/18:00 lock
+runs call `recheck.py <date>`, which re-pulls live StatsAPI and diffs:
+
+```
+⛔ game started/final       → status gate closed, cannot lock
+⚠ probable CHANGED/REMOVED → every leg built on the old arm is INVALID — re-run SP-freshness or drop
+⚠ game gone from the feed  → PPD/suspended, void dependent legs
+ℹ probable posted (was TBA) → leg can graduate from PENDING after SP-freshness
+```
+
+Exit 1 when anything ⚠/⛔ fires so the cron output can't miss it. `--selftest` runs the diff logic on
+offline fixtures (wired into selftest.sh §5a2).
+
 ## `ticket.py` — exhaustive +200-band ticket search (the construction optimizer)
 
 `parlay.py` prices ONE ticket; this finds the BEST one. The ledger's construction leak (as of 7/29/26):
@@ -205,9 +228,14 @@ Tier 3 = its band pick; never hand-pick a 3rd leg the search didn't rank first.
 
 Automates the error-prone settle lookup: pulls `mlb_api.sh finals <date>`, finds `results_log.md` rows
 that are still TBD for that date, maps each leg's team (by nickname) to its final, and proposes W/L for
-team-side bets (ML / run line / spread). Props / totals / K-legs → flagged **MANUAL**. **READ-ONLY** —
-prints proposals; you apply them (and `fades.md` / `bankroll.md` / the parlay file) so the audit trail
-stays deliberate.
+team-side bets (ML / run line / spread). **K-props ("Gilbert Over 6.5 K" and compact "Sánchez O7.5K" /
+"Peterson U4.5K") settle deterministically off the pitcher's GAMELOG** — findpitcher (accent-stripped) →
+pitchers only → the settle date + the leg's team abbrs disambiguate common surnames → K count vs the
+line. This kills two real mis-settle classes: the mid-game/team-result prop flips (6/9 Burns, 6/16
+Cease) AND a silent bug where compact "O7.5K" notation slipped past the prop guard and settled off the
+TEAM score. Ambiguous / no appearance that date → MANUAL. Other props / totals → **MANUAL**.
+**READ-ONLY** — prints proposals; you apply them (and `fades.md` / `bankroll.md` / the parlay file) so
+the audit trail stays deliberate.
 
 ```
 tools/settle.py                 # settle yesterday

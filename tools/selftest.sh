@@ -67,6 +67,7 @@ EXP_ROI="$(echo "$PROSE" | grep -oE 'ROI [+-][0-9.]+%')"
 has  "calib ROI is a unit % matching prose (not the inflated dollar +213%)" "$EXP_ROI" "$COUT"
 has  "calib parlay record matches prose ($EXP_REC)" "$EXP_REC" "$COUT"
 hasnt "calib ROI not the corrupted +213.6%" "+213" "$COUT"
+has   "calib Brier-skill section scores TrueP vs market" "Brier(TrueP)" "$COUT"
 
 # ── 4. settle.py find_team — abbreviation fallback (agrees w/ clv_capture) ────
 echo "4. settle.find_team"
@@ -78,6 +79,27 @@ assert m.find_team("Dodgers ML")[0]=="LAD"
 assert m.find_team("TB ML (@ MIA)")[0]=="TB"
 PY
 then ok "find_team: LAD/Dodgers/TB resolve (abbr + nick)"; else no "find_team" "$(cat /tmp/_selftest_out)"; fi
+
+# ── 4b. settle.py K-prop parse + verdict (the 6/16 Cease mis-settle class) ────
+echo "4b. settle K-prop (gamelog-based prop settle)"
+if python3 - <<'PY' 2>/tmp/_selftest_out
+import importlib.util as u
+s=u.spec_from_file_location("s","tools/settle.py"); m=u.module_from_spec(s); s.loader.exec_module(m)
+# both notations parse; team legs don't
+assert m.parse_kprop("Gilbert Over 6.5 K (SEA @ TEX)")==("Gilbert","Over",6.5)
+assert m.parse_kprop("Sánchez O7.5K (vs SD)")==("Sánchez","Over",7.5)
+assert m.parse_kprop("Peterson U4.5K +102")==("Peterson","Under",4.5)
+assert m.parse_kprop("PHI ML (vs NYY)") is None
+assert m.parse_kprop("BOS @ COL Over 12.0 +107") is None, "team total must NOT parse as a K-prop"
+# verdicts (.5 lines cannot push)
+assert m.kprop_verdict("Over",6.5,7)=="W" and m.kprop_verdict("Over",6.5,4)=="L"
+assert m.kprop_verdict("Under",4.5,1)=="W" and m.kprop_verdict("Under",4.5,5)=="L"
+# ORDER guard: main() must try propose_kprop BEFORE the PROP_HINT/team fallthrough —
+# compact "O7.5K" slips past PROP_HINT's \b and used to settle off the TEAM result.
+src=open("tools/settle.py").read(); body=src[src.index("def main"):]
+assert body.index("propose_kprop") < body.index("PROP_HINT.search"), "K-prop check must run first"
+PY
+then ok "parse_kprop both notations; verdicts; K-prop checked before team fallthrough"; else no "settle K-prop" "$(cat /tmp/_selftest_out)"; fi
 
 # ── 5. clv_capture.py verdict guard + cell-surgical write ─────────────────────
 echo "5. clv_capture (--apply safety)"
@@ -95,6 +117,12 @@ changed=[i for i,(a,b) in enumerate(zip(op,npp)) if a!=b]
 assert changed==[10], f"apply must touch ONLY the CLV cell (idx 10); touched {changed}"
 PY
 then ok "verdict rejects garbage line; apply edits ONLY the CLV cell"; else no "clv_capture" "$(cat /tmp/_selftest_out)"; fi
+
+# ── 5a2. recheck.py — SP-scratch / status-flip diff (offline fixtures) ────────
+echo "5a2. recheck (pre-lock SP-scratch detector)"
+if ./tools/recheck.py --selftest >/tmp/_selftest_out 2>&1; then
+  ok "recheck diff: scratch ⚠ / started ⛔ / TBA-posted ℹ / vanished ⚠ / unchanged silent"
+else no "recheck --selftest" "$(cat /tmp/_selftest_out)"; fi
 
 # ── 5b. nrfi_settle.py — verdict mapping + matchup parse ──────────────────────
 echo "5b. nrfi_settle (NRFI/YRFI W/L logic)"
