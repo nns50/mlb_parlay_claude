@@ -128,7 +128,7 @@ tbody tr:hover{background:var(--surf2)}
 <body>
 <header>
   <h1>⚾ MLB Parlay Dashboard</h1>
-  <span class="updated"><span class="freshdot fresh">● live</span> · Updated 2026-07-31 15:24 ET</span>
+  <span class="updated"><span class="freshdot fresh">● live</span> · Updated 2026-07-31 20:12 ET</span>
 </header>
 <nav class="jump">
   <a href="#overview">Overview</a>
@@ -165,8 +165,8 @@ tbody tr:hover{background:var(--surf2)}
     </div>
     <div class="h">
       <div class="lbl">CLV+ rate</div>
-      <div class="big">28.9%</div>
-      <div class="sub">beat the close · n=45</div>
+      <div class="big">27.6%</div>
+      <div class="sub">beat the close · n=58</div>
     </div>
     <div class="h">
       <div class="lbl">Bankroll</div>
@@ -193,7 +193,7 @@ tbody tr:hover{background:var(--surf2)}
     <div class="stat" style="border-left:3px solid var(--blue,#3b82f6)">
       <div class="lbl">Latest build</div>
       <div class="val" style="font-size:18px">2026-07-31</div>
-      <div class="sub">runs: 11:00</div>
+      <div class="sub">runs: 11:00 · 16:00</div>
     </div>
     <div class="stat" style="border-left:3px solid var(--yellow)">
       <div class="lbl">Open tickets (TBD)</div>
@@ -226,10 +226,10 @@ tbody tr:hover{background:var(--surf2)}
     
       <div style="margin-top:12px">
         <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:4px">
-          <span>Odds API credits</span><span class="mono">19,978 left · used 22 / 20,000-mo</span>
+          <span>Odds API credits</span><span class="mono">19,952 left · used 48 / 20,000-mo</span>
         </div>
         <div style="height:7px;background:var(--border);border-radius:4px;overflow:hidden">
-          <div style="height:100%;width:0.1%;background:var(--green)"></div>
+          <div style="height:100%;width:0.2%;background:var(--green)"></div>
         </div>
       </div>
   </div>
@@ -2608,6 +2608,13 @@ tbody tr:hover{background:var(--surf2)}
     <table><thead><tr><th>Date</th><th>Ticket</th><th>Odds</th><th>P/L</th><th>Result</th></tr></thead><tbody>
       <tr>
         <td class="mono">7/31</td>
+        <td>Skenes O7.5K -138 × PIT ML -119 (Build B Tier 2/3 — hig</td>
+        <td class="mono">+217</td>
+        <td class="mono">+10.2</td>
+        <td><span class="badge tbd">TBD</span></td>
+      </tr>
+      <tr>
+        <td class="mono">7/31</td>
         <td>Cease O7.5K -120 × TOR ML -174 (Tier 2/3 — highest floo</td>
         <td class="mono">+189</td>
         <td class="mono">+9.4</td>
@@ -3007,7 +3014,7 @@ tbody tr:hover{background:var(--surf2)}
     <table><thead><tr><th>Date</th><th>Runs</th><th>Result</th><th>Summary</th></tr></thead><tbody>
       <tr>
         <td class="mono">2026-07-31</td>
-        <td class="mono muted">11:00</td>
+        <td class="mono muted">11:00 / 16:00</td>
         <td><span class="badge tbd">TBD</span></td>
         <td class="muted small">_TBD — settle next session via `tools/settle.py`._</td>
       </tr>
@@ -3274,10 +3281,10 @@ Chart.defaults.font.size = 11;
   new Chart(document.getElementById('clvChart'), {
     type: 'bar',
     data: {
-      labels: ["6/5 Mariners ML (Woo, @ DE", "6/5 Dodgers ML (Sasaki, vs", "6/5 Mariners ML / Dodgers ", "6/5 Yankees ML (Weathers, ", "6/7 deGrom (TEX) ML (vs CL", "6/7 Braves ML (Elder, vs P", "6/7 LAD ML (Sheehan, vs LA", "6/7 PHI ML (Nola, vs CWS)", "6/8 PHI ML (S\u00e1nchez, vs TO", "6/8 MIL ML (Harrison, vs A", "6/9 MIA ML (Meyer, vs AZ)", "6/9 ATL ML (Holmes, vs CWS", "6/10 LAD ML (Ohtani, @ PIT)", "6/10 PHI ML (Luzardo, @ TOR", "6/10 DET ML (Valdez, vs MIN", "6/10 ATL ML (Sale, vs CWS) ", "6/12 SEA ML (B. Miller, @ W", "6/13 TEX ML (deGrom, @ BOS)", "6/13 MIL ML (Drohan, vs PHI", "6/13 AZ ML (Soroka, @ CIN)", "6/14 ATH ML (Springs, vs CO", "6/15 PHI ML (Wheeler, vs MI", "6/15 LAD ML (Lauer, vs TB)", "6/15 HOU ML (Teng, vs DET)", "6/16 SEA ML (Gilbert, vs BA", "6/16 ATL ML (Holmes, vs SF)", "6/16 TOR ML (Cease, @ BOS)", "6/16 PHI ML (Luzardo, vs MI", "6/17 SEA ML (Kirby, vs BAL)", "6/18 NYY ML (Weathers, vs C", "6/18 SEA ML (Woo, vs BAL) \u2014", "6/19 deGrom/TEX ML (vs SD) ", "6/19 Soroka/AZ ML (vs MIN) ", "6/20 PIT ML (Skenes, @ COL)", "6/21 PHI ML \u2212175 (NYM @ PHI", "6/21 SEA ML \u2212123 (BOS @ SEA", "7/30 STL ML (Pallante, vs C", "7/30 LAD ML (Sasaki, vs SEA", "7/30 McLean Over 6.5 K (MIA", "7/30 NYM ML (McLean, vs MIA"],
+      labels: ["6/5 Mariners ML (Woo, @ DE", "6/5 Dodgers ML (Sasaki, vs", "7/31 Skenes Over 7.5 K (PIT", "7/31 Cease Over 7.5 K (STL ", "7/31 TOR ML (Cease, vs STL)", "7/31 PIT ML (Skenes, vs CIN", "6/5 Mariners ML / Dodgers ", "6/5 Yankees ML (Weathers, ", "6/7 deGrom (TEX) ML (vs CL", "6/7 Braves ML (Elder, vs P", "6/7 LAD ML (Sheehan, vs LA", "6/7 PHI ML (Nola, vs CWS)", "6/8 PHI ML (S\u00e1nchez, vs TO", "6/8 MIL ML (Harrison, vs A", "6/9 MIA ML (Meyer, vs AZ)", "6/9 ATL ML (Holmes, vs CWS", "6/10 LAD ML (Ohtani, @ PIT)", "6/10 PHI ML (Luzardo, @ TOR", "6/10 DET ML (Valdez, vs MIN", "6/10 ATL ML (Sale, vs CWS) ", "6/12 SEA ML (B. Miller, @ W", "6/13 TEX ML (deGrom, @ BOS)", "6/13 MIL ML (Drohan, vs PHI", "6/13 AZ ML (Soroka, @ CIN)", "6/14 ATH ML (Springs, vs CO", "6/15 PHI ML (Wheeler, vs MI", "6/15 LAD ML (Lauer, vs TB)", "6/15 HOU ML (Teng, vs DET)", "6/16 SEA ML (Gilbert, vs BA", "6/16 ATL ML (Holmes, vs SF)", "6/16 TOR ML (Cease, @ BOS)", "6/16 PHI ML (Luzardo, vs MI", "6/17 SEA ML (Kirby, vs BAL)", "6/18 NYY ML (Weathers, vs C", "6/18 SEA ML (Woo, vs BAL) \u2014", "6/19 deGrom/TEX ML (vs SD) ", "6/19 Soroka/AZ ML (vs MIN) ", "6/20 PIT ML (Skenes, @ COL)", "6/21 PHI ML \u2212175 (NYM @ PHI", "6/21 SEA ML \u2212123 (BOS @ SEA", "7/30 STL ML (Pallante, vs C", "7/30 LAD ML (Sasaki, vs SEA", "7/30 McLean Over 6.5 K (MIA", "7/30 NYM ML (McLean, vs MIA", "7/31 Bibee Under 4.5 K (AZ ", "7/31 MIL ML (Drohan, vs LAA", "7/31 BOS@LAD Over 8.5 [adj:", "7/31 CHC ML (Imanaga, vs NY", "7/31 TB ML (Martinez, vs CW", "7/31 NYM ML (Peralta, vs MI"],
       datasets: [{
-        data: [1, 1, 1, 0, -10, 10, 10, 10, -10, -10, -10, 10, -10, -10, 10, 10, -10, -10, -10, -10, -10, -10, 10, -10, 10, 10, -10, 10, -10, 1, 10, 10, 10, -10, -10, 10, -10, 10, 10, 10],
-        backgroundColor: ["#22c55e", "#22c55e", "#22c55e", "#8b949e", "#ef4444", "#22c55e", "#22c55e", "#22c55e", "#ef4444", "#ef4444", "#ef4444", "#22c55e", "#ef4444", "#ef4444", "#22c55e", "#22c55e", "#ef4444", "#ef4444", "#ef4444", "#ef4444", "#ef4444", "#ef4444", "#22c55e", "#ef4444", "#22c55e", "#22c55e", "#ef4444", "#22c55e", "#ef4444", "#22c55e", "#22c55e", "#22c55e", "#22c55e", "#ef4444", "#ef4444", "#22c55e", "#ef4444", "#22c55e", "#22c55e", "#22c55e"],
+        data: [1, 1, 10, 10, -10, -10, 1, 0, -10, 10, 10, 10, -10, -10, -10, 10, -10, -10, 10, 10, -10, -10, -10, -10, -10, -10, 10, -10, 10, 10, -10, 10, -10, 1, 10, 10, 10, -10, -10, 10, -10, 10, 10, 10, 10, -10, -10, 10, -10, -10],
+        backgroundColor: ["#22c55e", "#22c55e", "#22c55e", "#22c55e", "#ef4444", "#ef4444", "#22c55e", "#8b949e", "#ef4444", "#22c55e", "#22c55e", "#22c55e", "#ef4444", "#ef4444", "#ef4444", "#22c55e", "#ef4444", "#ef4444", "#22c55e", "#22c55e", "#ef4444", "#ef4444", "#ef4444", "#ef4444", "#ef4444", "#ef4444", "#22c55e", "#ef4444", "#22c55e", "#22c55e", "#ef4444", "#22c55e", "#ef4444", "#22c55e", "#22c55e", "#22c55e", "#22c55e", "#ef4444", "#ef4444", "#22c55e", "#ef4444", "#22c55e", "#22c55e", "#22c55e", "#22c55e", "#ef4444", "#ef4444", "#22c55e", "#ef4444", "#ef4444"],
         borderRadius: 3,
       }]
     },
@@ -3285,7 +3292,7 @@ Chart.defaults.font.size = 11;
       responsive: true, maintainAspectRatio: false,
       plugins: {
         legend: {display: false},
-        tooltip: {callbacks: {label: ctx => 'CLV: ' + ["+", "+", "+", "=", "+ (live, line ran to -10000)", "+ 85%cl", "+ 85%cl", "+ 85%cl", "- 60%cl", "- 56%cl", "- 55%cl", "= 58%cl", "- 54%cl", "- 54%cl", "= 61%cl", "+ 58%cl", "- 56%cl", "- 40%cl", "- 39%cl", "- 53%cl", "- 34%cl", "- 63%cl", "+ 63%cl", "- 47%cl", "= 58%cl", "= 60%cl", "- 47%cl", "= 61%cl", "- 54%cl", "+", "+ 85%cl", "= 59%cl", "= 61%cl", "- 34%cl", "- 63%cl", "= 54%cl", "- 50%cl", "+ 59%cl", "+ 47%cl", "= 54%cl"][ctx.dataIndex]}}
+        tooltip: {callbacks: {label: ctx => 'CLV: ' + ["+", "+", "= 56%cl", "+ 54%cl", "- 36%cl", "- 47%cl", "+", "=", "+ (live, line ran to -10000)", "+ 85%cl", "+ 85%cl", "+ 85%cl", "- 60%cl", "- 56%cl", "- 55%cl", "= 58%cl", "- 54%cl", "- 54%cl", "= 61%cl", "+ 58%cl", "- 56%cl", "- 40%cl", "- 39%cl", "- 53%cl", "- 34%cl", "- 63%cl", "+ 63%cl", "- 47%cl", "= 58%cl", "= 60%cl", "- 47%cl", "= 61%cl", "- 54%cl", "+", "+ 85%cl", "= 59%cl", "= 61%cl", "- 34%cl", "- 63%cl", "= 54%cl", "- 50%cl", "+ 59%cl", "+ 47%cl", "= 54%cl", "= 52%cl", "- 40%cl", "- 48%cl", "+ 75%cl", "- 55%cl", "- 52%cl"][ctx.dataIndex]}}
       },
       scales: {
         x: {grid: {color: '#21262d'}, ticks: {maxRotation: 60, font: {size: 9}}},
