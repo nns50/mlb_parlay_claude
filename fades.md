@@ -41,8 +41,7 @@ Do not lay a price on these as favorites. Re-verify last-15 form each session.
 
 | ID | Team | Reason | Added | Last val | Fade log (most-recent first) | Status |
 |----|------|--------|-------|----------|------------------------------|--------|
-| A1 | **Cubs** | **L15 8-7 (.533), +5 run diff (6/19) — recovered** | 5/25/26 | **6/19/26** | **L (6/19: beat TOR 16-2 at home as heavy fav — fade MISSED; 7-run 1st inning)** · **L (6/17: beat COL 8-6 at home as −197 heavy fav — fade MISSED)** · W (6/16: lost 2-5 to COL at home as −190 heavy fav — fade HIT) · L (6/15: beat COL 5-4 at home as heavy fav — fade MISSED) · L (6/11: beat COL 9-3 @ COL as −147 fav) · W (6/10: lost 2-3 @ COL as −147 fav) · W (6/9: lost 3-7 @ COL) · L (6/6: beat SF 3-2) · W (6/5) · L (6/4) | **NEUTRAL → leaning RETIRE** — fade-as-fav now **5-6** recent; L15 recovered to **8-7/+5** (no longer sub-.500, run diff positive). CHC is not a team we fade as fav right now. Retire if L15 holds above .520 next check. |
-| A3 | **Tigers** | L15 ~7-8 (6/10); cooled back | 5/28/26 | **6/11/26** | **L (6/11: DET −122 won 11-0 vs MIN as fav — fade MISSED)** · W (6/10: lost 4-6 vs MIN as fav) · L (6/9: beat MIN 10-4 as fav) · L (6/7: beat SEA 5-4) · W (6/6) · L (6/3 won as DOG) · W (5/29) · W (5/28) | **NEUTRAL→leaning RETIRE** — fade-as-fav now 3-4 recent (11-0 blowout 6/11); DET clearly not fade-worthy as a fav right now. Don't lay against either. Re-verify run-diff before any DET lean. |
+| A3 | **Tigers** | L15 7-8 (7/31), +7 run diff — mediocre, not clearly hot or cold | 5/28/26 | **7/31/26** | **(7/31: L15 recomputed via teamform — 7-8, +7 run diff, mixed 6/10 stretch vs CHC/KC/BAL)** · L (6/11: DET −122 won 11-0 vs MIN as fav — fade MISSED) · W (6/10: lost 4-6 vs MIN as fav) · L (6/9: beat MIN 10-4 as fav) · L (6/7: beat SEA 5-4) · W (6/6) · L (6/3 won as DOG) · W (5/29) · W (5/28) | **NEUTRAL** — L15 7-8/+7 is genuinely mediocre (neither clearly recovered nor clearly bad); DET −132 fav vs ATH today gets no fade lean either way, priced at face value. Re-verify next check. |
 
 > **Corollary (added 6/3/26):** "Fade as FAVORITE" ≠ "safe to bet AGAINST." A fade-list team can
 > win outright as a live dog (Tigers swept TB 6/3; TB −1.5 vs DET-class burned 6/1). Never lay a
@@ -55,7 +54,7 @@ standalone, not parlay-floor legs.
 
 | ID | Team | Reason | Added | Last val | Value log | Status |
 |----|------|--------|-------|----------|-----------|--------|
-| B1 | **White Sox** | 39-34 (.534), L10 6-4 — re-heat revived: won the NYY finale 5-1 as a +180 dog | 5/28/26 | **6/19/26** | **W (6/18: beat NYY 5-1 @ NYY as +180 road dog — dog value HIT, Burke outpitched Weathers, took the road game)** · L (6/17: lost 5-10 @ NYY as +135 road dog) · L (6/16: lost 2-12 @ NYY as +161 road dog) · W (6/14: beat LAD 6-4 as home dog) · L (6/13: lost 1-7 to LAD) · W (6/12: beat LAD 8-2 as +178 dog) · W (6/10: beat ATL 2-1) · W (6/9: beat ATL 6-5) · L (6/7) · W (6/6) · L (6/5) · W (6/4) | **WATCH** — dog value now **7-4** recent; the 6/18 5-1 upset @ NYY revives it (CWS now 39-34/.534, L10 6-4, top of a weak AL Central). @ DET today as a +180 ROAD DOG vs Skubal — no dog-value lean here (Skubal is an ace edge for DET), but CWS-as-dog is alive again vs lesser arms. |
+| B1 | **White Sox** | 57-51 (.528), L15 9-6 (+17 run diff, 7/31) — genuine dog value, currently leads AL Central | 5/28/26 | **7/31/26** | **(7/31: L15 recomputed — 9-6, +17 run diff, took 2 of 3 vs NYY 7/28-7/30)** · W (6/18: beat NYY 5-1 @ NYY as +180 road dog — dog value HIT) · L (6/17: lost 5-10 @ NYY as +135 road dog) · L (6/16: lost 2-12 @ NYY as +161 road dog) · W (6/14: beat LAD 6-4 as home dog) · L (6/13: lost 1-7 to LAD) · W (6/12: beat LAD 8-2 as +178 dog) · W (6/10: beat ATL 2-1) · W (6/9: beat ATL 6-5) · L (6/7) · W (6/6) · L (6/5) · W (6/4) | **WATCH — reaffirmed** — dog value real (L15 9-6/+17, first in AL Central at 57-51). @ TB today CWS is +123 road dog vs Nick Martinez — worth a scan-row look at the value angle, not yet an auto-play. |
 | B2 | **Pirates** | **L10 2-8, re-heat dead; blown out 2-11 @ ATH 6/15 as a road dog** | 5/26/26 | **6/16/26** | **L (6/15: lost 2-11 @ ATH as +124 road dog — dog value MISSED, shelled)** · L (6/11: lost 8-6 to LAD as +150 home dog) · W (6/10: beat LAD 9-8 walk-off as +150 dog) · L (6/9: lost 3-12 to LAD) · L (6/6) · L (6/5) · W (6/4) | **WATCH→leaning RETIRE** — 2-5 recent dog tests, L10 2-8; the re-heat is dead. PIT +124 @ ATH again today — no dog-value lean. Retire next run if it stays cold. |
 | B3 | **Twins** | Still cold — **L10 3-7, −24 run diff (6/4)**; offense quiet, pen ok | 5/28/26 | **6/4/26** | L (6/4: L10 3-7) · L (5/28 lost 6-2) | **NEUTRAL (soft-matchup only)** |
 | B4 | **Tigers** | dog value cooling — lost 2-4 @ HOU 6/16 AND 2-4 @ HOU 6/17 (Mize) | 6/3/26 | **6/17/26** | **L (6/17: lost 2-4 @ HOU again — dog value MISSED 2nd straight)** · L (6/16: lost 2-4 @ HOU as road dog) · W (6/15: won 9-3 @ HOU as +159 road dog) · W (6/3 won 7-2 as +122 dog) | **WATCH→leaning RETIRE (dog value 2-2)** — dropped both back-to-back @ HOU; the HOU series re-heat is over. Standalone-only; retire next run if it stays cold. |
@@ -99,6 +98,11 @@ Not team fades, but recurring data errors to actively guard against each run.
 ---
 
 ## Retired (kept for history)
+- **A1 — Cubs (fade-as-favorite)** — RETIRED **7/31/26**. The "was-hot-now-cold" premise no longer
+  holds at all: **L15 10-5 (.667), +43 run diff (teamform 7/31)**, well clear of the .550 retire bar
+  the doctrine sets, and the fade-as-fav log had already drifted to 5-6 (coin-flip) with two straight
+  misses (6/17, 6/19 blowouts). CHC (62-47, .569, +89 season run diff) is now a legitimately good team —
+  no longer a team to fade when favored. Re-add only if they relapse to a sub-.450 last-15.
 - **A2 — Rangers (fade-as-favorite)** — RETIRED **6/4/26**. The "was-hot-now-cold / just-bad" premise no
   longer holds: **L15 8-7, L10 6-4, W5 active streak, +11 run diff.** L15 .533 is a hair under the strict
   .550 retire bar, but the fade was already NEUTRAL, had **missed its last test** (5/29 — TEX blew out KC
