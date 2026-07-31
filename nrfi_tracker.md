@@ -290,7 +290,7 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 7/30 | BOS @ ATH (Gray/Barnett) | NRFI | 58% | _model-only_ | **W** (1st 0-0 → NRFI) | Gray is a legitimate ace; ATH's punchless lineup limits early damage. |
 | 7/30 | SF @ SD (TBA/Sears) | NRFI | 54% | _model-only_ | **L** (1st 1-0 → YRFI) | SF SP TBA (E4 gate, no bet); Sears reliable, Petco a pitcher's park. |
 | 7/30 | SEA @ LAD (Woo/Sasaki) | NRFI | 57% | _model-only_ | **L** (1st 0-2 → YRFI) | Sasaki's best form of the season his last two starts (5K/0ER, 9K/1ER). |
-| 7/31 | NYY @ CHC (Warren/Imanaga) | YRFI | 56% | _model-only_ | TBD | Warren shaky last 2 outings; Imanaga clean recent form. |
+| 7/31 | NYY @ CHC (Warren/Imanaga) | YRFI | 56% | _model-only_ | **L** (1st 0-0 → NRFI) | Warren shaky last 2 outings; Imanaga clean recent form. |
 | 7/31 | PIT @ CIN (Skenes/Greene) | NRFI | 58% | _model-only_ | TBD | Skenes elite/consistent; Greene wildly volatile in a 4-GS sample. |
 | 7/31 | PHI @ BAL (TBA/Young) | NEUTRAL | 52% | _model-only_ | TBD | PHI SP still TBA (E4 gate) — no SP-quality read. |
 | 7/31 | STL @ TOR (Leahy/Cease) | NRFI | 60% | _model-only_ | TBD | Cease dominant (CG shutout last start) — should retire STL's top clean. |
@@ -309,7 +309,7 @@ Its own ledger lives here; the dashboard renders it from this file.
 ---
 
 ## Running totals (update on every settle)
-- **Record:** **102-87** (tracker opened 6/10/26). **NRFI:** **53-47** · **YRFI:** **49-40**.
+- **Record:** **102-88** (tracker opened 6/10/26). **NRFI:** **53-47** · **YRFI:** **49-41**.
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
 - **Open:** **7/30 fully settled** (auto via `nrfi_settle.py --apply` at this session's start — all 10
   games decided, record moved to 102-87). **7/31: 14 reads open** (15 games minus the PHI@BAL NEUTRAL,
