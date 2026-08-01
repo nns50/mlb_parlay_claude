@@ -318,7 +318,7 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 8/1 | KC @ COL (Avila/Feltner) | YRFI | 59% | _model-only_ | TBD | Both shaky arms (4.95/5.73 ERA) at Coors — strongest YRFI lean of the day. |
 | 8/1 | SF @ SD (Mahle/Buehler) | YRFI | 54% | _model-only_ | TBD | Both mediocre this season (4.96/5.13 ERA). |
 | 8/1 | BOS @ LAD (Tolle/Yamamoto) | NRFI | 58% | _model-only_ | TBD | Yamamoto elite (2.72 ERA/0.90 WHIP); Tolle solid — strongest NRFI of the day. |
-| 8/1 | MIL @ LAA (Gasser/Soriano) | NRFI | 53% | _model-only_ | TBD | Both decent enough; mild lean. |
+| 8/1 | MIL @ LAA (Gasser/Suter) | NRFI | 52% | _model-only_ | TBD | **SP CHANGED (16:00 recheck): José Soriano → Brent Suter** (E3 gate) — Suter is a soft-tossing lefty reliever/swingman, not the announced Soriano; downgraded lean slightly (contact-prone but not a hard-thrower, first-inning read stays mild NRFI). |
 | 8/1 | DET @ ATH (Valdez/Perkins) | YRFI | 55% | _model-only_ | TBD | Perkins a recent bullpen-to-rotation convert (31% GS, 6.45 ERA) — real risk. |
 
 ---
