@@ -145,6 +145,14 @@ assert m.stat_from_box(None,{"earnedRuns":2},"er")==2
 # find_team binds the FIRST team in the text (the bet side), not dict order
 assert m.find_team("BAL -1.5 RL (@ DET)")[0]=="BAL"
 assert m.find_team("TB ML (@ MIA)")[0]=="TB"
+# ── adversarial-audit (8/1) regression pins ──
+assert m.kprop_verdict("Over",7.0,7)=="Push" and m.kprop_verdict("Under",7.0,7)=="Push"
+assert m.parse_kprop("**Rasmussen O5.5K -151 (KC @ TB)**")==("Rasmussen","Over",5.5)  # bold strip
+assert m.parse_hprop("STL team total Over 4.5 runs") is None   # team totals are TOTALS
+assert m.parse_hprop("NYY TT Over 4.5 runs") is None
+assert m.resolve_game("TB ML G2",[e1]) is None    # hinted leg + lone final = ambiguous
+assert m.find_team("ARI ML (Nelson, vs LAA)")[0]=="AZ"          # ARI alias (6/15 mis-settle root)
+assert m.find_team("Grayson Rodriguez (@ NYY)")[0]=="NYY"       # no 'rays'-in-'Grayson' bind
 # 2B/1B literals parse (matrix promised them; they only had word forms before 8/1 audit)
 assert m.parse_hprop("Betts Over 0.5 2B")==("Betts","Over",0.5,"doubles")
 assert m.parse_hprop("Arraez O1.5 1B")==("Arraez","Over",1.5,"singles")
@@ -163,6 +171,11 @@ import importlib.util as u
 s=u.spec_from_file_location("v","tools/clv_capture.py"); m=u.module_from_spec(s); s.loader.exec_module(m)
 assert m.find_team("BAL ML (@ DET)")[0]=="BAL", "clv side-binding must prefer first mention"
 assert m.find_team("Rays ML (vs CLE)")==("TB","rays")
+# adversarial-audit (8/1) pins: ARI alias; canonical feed nickname for aliases
+# (d-backs is not a substring of 'Arizona Diamondbacks'); no nickname-inside-name binds
+assert m.find_team("ARI ML (vs LAA)")[0]=="AZ"
+assert m.find_team("D-backs ML (Kelly, vs WSH)")==("AZ","diamondbacks")
+assert m.find_team("Grayson Rodriguez (@ NYY)")[0]=="NYY"
 k=u.spec_from_file_location("k","tools/kprice.py"); km=u.module_from_spec(k); k.loader.exec_module(km)
 ev={"bookmakers":[{"title":"DK","markets":[{"key":"batter_total_bases","outcomes":[
   {"description":"Shohei Ohtani","name":"Over","point":1.5,"price":-125},
@@ -170,8 +183,18 @@ ev={"bookmakers":[{"title":"DK","markets":[{"key":"batter_total_bases","outcomes
 t=km.best_by_point(ev,"ohtani",market_prefix="batter_total_bases")
 assert t[1.5]["Over"]==(-125,"DK"), t
 assert km.best_by_point(ev,"ohtani") == {}   # default K prefix ignores batter markets
+# same-surname chimera refusal: two Contrerases must yield NO table, not merged prices
+ev2={"bookmakers":[{"title":"DK","markets":[{"key":"batter_hits","outcomes":[
+  {"description":"Willson Contreras","name":"Over","point":0.5,"price":-200},
+  {"description":"William Contreras","name":"Under","point":0.5,"price":250}]}]}]}
+assert km.best_by_point(ev2,"contreras",market_prefix="batter_hits")=={}
 PY
-then ok "clv side-binding; best_by_point market_prefix routes batter markets"; else no "clv/kprice v2" "$(cat /tmp/_selftest_out)"; fi
+then ok "clv side-binding + aliases; kprice market_prefix + same-surname refusal"; else no "clv/kprice v2" "$(cat /tmp/_selftest_out)"; fi
+# date matching must be EXACT (startswith let 6/22 rows settle off a 6/2 run) and
+# parlay ticket rows must never settle off one leg
+hasnt "settle date match is exact (no prefix collision)" 'c[0].startswith(target)' "$(cat tools/settle.py)"
+hasnt "clv date match is exact (no prefix collision)" 'c[0].startswith(target_md)' "$(cat tools/clv_capture.py)"
+has   "settle guards parlay ticket rows (settle from legs)" "parlay ticket — settle from its component legs" "$(cat tools/settle.py)"
 
 # ── 5. clv_capture.py verdict guard + cell-surgical write ─────────────────────
 echo "5. clv_capture (--apply safety)"

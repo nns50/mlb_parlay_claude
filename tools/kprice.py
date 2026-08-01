@@ -140,20 +140,27 @@ def best_by_point(event_json, surname, market_prefix="pitcher_strikeouts"):
     props). Pure — selftested."""
     want = _ascii(surname)
     table = {}
+    names = set()
     for bk in (event_json or {}).get("bookmakers", []):
         book = bk.get("title", "?")
         for mkt in bk.get("markets", []):
             if not str(mkt.get("key", "")).startswith(market_prefix):
                 continue
             for o in mkt.get("outcomes", []):
-                if want not in _ascii(o.get("description", "")):
+                desc = o.get("description", "")
+                if want not in _ascii(desc):
                     continue
+                names.add(desc)
                 side, pt, pr = o.get("name"), o.get("point"), o.get("price")
                 if side not in ("Over", "Under") or pt is None or pr is None:
                     continue
                 cur = table.setdefault(pt, {})
                 if side not in cur or pr > cur[side][0]:
                     cur[side] = (pr, book)
+    # Same-surname ambiguity (both Contrerases in one game) would merge two players'
+    # prices into one chimera table — refuse instead; caller passes a fuller name (audit 8/1).
+    if len(names) > 1:
+        return {}
     return table
 
 
@@ -204,7 +211,8 @@ def main():
     table = best_by_point(data, args.pitcher)
     if not table:
         raise SystemExit("no K-prop outcomes for this pitcher in the response "
-                         "(market not posted yet, or tier lacks props)")
+                         "(market not posted yet, tier lacks props, or TWO players share "
+                         "the surname — pass a fuller name, e.g. 'Willson Contreras')")
 
     # "standard" heuristic: the line with both sides + the most balanced juice
     def balance(pt):
