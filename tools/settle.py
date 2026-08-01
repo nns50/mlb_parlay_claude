@@ -10,13 +10,15 @@ WHY THIS EXISTS
 WHAT IT DOES
     1. Pulls finals via `mlb_api.sh finals <date>` (StatsAPI; needs the API reachable).
     2. Scans results_log.md for rows whose Date matches and whose Result is TBD.
-    3. Maps each leg's team (by nickname) to the game's final and proposes W/L for
-       team-side bets (ML / run line / spread).
-    4. K-props ("X Over 6.5 K" / "X O6.5K" / "X U4.5K") are settled off the pitcher's
-       GAMELOG for that date (findpitcher → gamelog K count vs the line) — deterministic,
-       which kills the mid-game/team-result mis-settle class (6/9 Burns, 6/16 Cease).
-       Ambiguous names / no start that date → MANUAL. Other props/totals → MANUAL
-       (the score alone can't settle them).
+    3. Proposes a verdict for the FULL leg universe: team ML by score; RUN LINES by
+       MARGIN (any ±x.5 point — a −1.5 fav winning by 1 loses); GAME totals (away+home)
+       and TEAM totals (own runs) vs the line, integer lines can Push.
+    4. K-props ("X Over 6.5 K" / "X O6.5K" / "X U4.5K") settle off the pitcher's
+       GAMELOG (findpitcher → K count vs line, opponent-verified); hitter/pitcher
+       counting props (hits/TB/HR/RBI/R/HRR/SB/BB/2B/1B/hits-allowed/outs/ER) settle
+       off the BOXSCORE. DNP / ambiguous names → MANUAL (books void DNP props).
+    5. DOUBLEHEADER-safe throughout: a team with 2 finals that date settles only with
+       an explicit G1/G2 hint in the leg text; otherwise MANUAL — never guess the game.
 
 USAGE
     tools/settle.py                 # settles yesterday (relative to today)
@@ -91,7 +93,7 @@ HPROP = re.compile(
     r"([^\s|]+)\s+(Over|Under|O(?=\d)|U(?=\d))\s*(\d+(?:\.\d+)?)\s*"
     r"(hits\s+allowed|earned\s+runs?|stolen\s+bases?|total\s+bases|tb|"
     r"hits\+runs\+rbis?|h\+r\+rbi|hrr|home\s*runs?|hr|rbis?|runs(?:\s+scored)?|"
-    r"walks?|doubles?|singles?|outs?|hits|sb|bb|er)\b", re.I)
+    r"walks?|doubles?|singles?|outs?|hits|sb|bb|er|1b|2b)\b", re.I)
 
 _STAT_KEY = {"hits allowed": "hitsallowed", "total bases": "tb", "tb": "tb",
              "hits+runs+rbi": "hrr", "hits+runs+rbis": "hrr", "h+r+rbi": "hrr", "hrr": "hrr",
@@ -101,8 +103,8 @@ _STAT_KEY = {"hits allowed": "hitsallowed", "total bases": "tb", "tb": "tb",
              "earned run": "er", "earned runs": "er", "er": "er",
              "stolen base": "sb", "stolen bases": "sb", "sb": "sb",
              "walk": "bb", "walks": "bb", "bb": "bb",
-             "double": "doubles", "doubles": "doubles",
-             "single": "singles", "singles": "singles",
+             "double": "doubles", "doubles": "doubles", "2b": "doubles",
+             "single": "singles", "singles": "singles", "1b": "singles",
              "out": "outs", "outs": "outs"}
 
 
@@ -353,19 +355,14 @@ def cells(line):
     return [c.strip() for c in line.strip().strip("|").split("|")]
 
 
-def pull_finals(d):
-    """Return {abbr: (own, opp, opp_abbr, state)} from `mlb_api.sh finals <date>`."""
-    try:
-        out = subprocess.run(["bash", MLB_API, "finals", d], capture_output=True,
-                             text=True, timeout=30).stdout
-    except Exception as e:  # noqa: BLE001
-        print(f"⚠ could not run mlb_api.sh finals {d}: {e}", file=sys.stderr)
-        return {}
+def parse_finals(out):
+    """{abbr: [(own, opp, opp_abbr, state), ...]} from `mlb_api.sh finals` text. Pure
+    (selftest fixtures pin the line format — the whole settle path leans on this regex).
+    Lines look like:  SF 18 - CHC 3   [Final]
+    Each team maps to a LIST of finals (feed order = schedule order, G1 first) — a
+    doubleheader used to CLOBBER G1 with G2, silently settling a G1 leg off the G2
+    score (7/29 ATL-NYM: the G1 loss read as a W). resolve_game() disambiguates."""
     games = {}
-    # lines like:  SF 18 - CHC 3   [Final]
-    # Each team maps to a LIST of finals (feed order = schedule order, G1 first) —
-    # a doubleheader used to CLOBBER G1 with G2, silently settling a G1 leg off the
-    # G2 score (7/29 ATL-NYM: the G1 loss read as a W). resolve_game() disambiguates.
     for ln in out.splitlines():
         m = re.match(r"\s*([A-Z]{2,3})\s+(\d+)\s*-\s*([A-Z]{2,3})\s+(\d+)\s*\[([^\]]+)\]", ln)
         if not m:
@@ -373,7 +370,18 @@ def pull_finals(d):
         a, as_, h, hs, state = m.group(1), int(m.group(2)), m.group(3), int(m.group(4)), m.group(5)
         games.setdefault(a, []).append((as_, hs, h, state))
         games.setdefault(h, []).append((hs, as_, a, state))
-    return games, out
+    return games
+
+
+def pull_finals(d):
+    """(parse_finals(output), raw output) from `mlb_api.sh finals <date>`; {} on failure."""
+    try:
+        out = subprocess.run(["bash", MLB_API, "finals", d], capture_output=True,
+                             text=True, timeout=30).stdout
+    except Exception as e:  # noqa: BLE001
+        print(f"⚠ could not run mlb_api.sh finals {d}: {e}", file=sys.stderr)
+        return {}
+    return parse_finals(out), out
 
 
 GAME_HINT = re.compile(r"\bG(?:ame)?\s*([12])\b", re.I)
@@ -463,7 +471,7 @@ def main():
             proposals.append(kp)
             continue
         # Hitter/pitcher counting props (hits/TB/HR/RBI/runs/HRR/hits-allowed) settle off
-        # the boxscore; game totals stay MANUAL below (a team-total line needs the market).
+        # the boxscore; game/team totals settle from the final via propose_total below.
         hp = propose_hprop(leg, d)
         if hp:
             proposals.append(hp)
@@ -489,9 +497,11 @@ def main():
             proposals.append((leg, "—", f"game not Final yet (state={state})"))
             continue
         # Run line / spread: settle by MARGIN, not W/L — a −1.5 fav that wins by 1 LOSES
-        # the leg. (Latent mis-settle: these previously fell through to the ML branch.)
+        # the leg. Any ±x.5 point remaining at this stage IS a spread (K/props/totals
+        # branches already consumed their notation above) — requiring an "RL" token here
+        # let "BAL -1.5 (@ DET)" silently settle as ML (audit 8/1).
         sp = SPREAD_RX.search(leg.replace("−", "-"))
-        if sp and re.search(r"\b(rl|run\s*line|spread)\b", leg, re.I):
+        if sp:
             point = float(sp.group(1) + sp.group(2))
             verdict = spread_verdict(own, opp, point)
             proposals.append((leg, verdict,
