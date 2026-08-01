@@ -86,12 +86,25 @@ def find_pitcher_game(d, surname):
 
 
 def event_id_for_team(d, team_name):
-    """Odds event id whose matchup contains team_name (free /events call).
-    Doubleheader (2 events) → SystemExit listing both ids."""
-    out = _sh(["bash", ODDS_API, "events", d])
+    """Odds event id whose matchup contains team_name. CACHE-FIRST: the slate cache's
+    game objects carry the event id (0 credits, and it survives the /events feed's
+    habit of dropping same-day games mid-slate); the free /events call is the fallback.
+    Doubleheader (2 matches) → SystemExit listing the ids."""
     want = _ascii(team_name)
-    rows = [ln.split(None, 1) for ln in out.splitlines() if ln.strip()]
-    ids = [(r[0], r[1]) for r in rows if len(r) == 2 and want and want in _ascii(r[1])]
+    ids = []
+    cf = os.path.join(os.environ.get("TMPDIR", "/tmp"), "odds_cache", f"slate_{d}.json")
+    try:
+        with open(cf, encoding="utf-8") as fh:
+            for g in json.load(fh):
+                names = f"{g.get('away_team', '')} {g.get('home_team', '')}"
+                if g.get("id") and want and want in _ascii(names):
+                    ids.append((g["id"], f"{g.get('away_team')} @ {g.get('home_team')}"))
+    except Exception:  # noqa: BLE001 — no/bad cache → fall through to /events
+        pass
+    if not ids:
+        out = _sh(["bash", ODDS_API, "events", d])
+        rows = [ln.split(None, 1) for ln in out.splitlines() if ln.strip()]
+        ids = [(r[0], r[1]) for r in rows if len(r) == 2 and want and want in _ascii(r[1])]
     if len(ids) == 1:
         return ids[0][0]
     if not ids:
@@ -108,20 +121,29 @@ def fetch_event_props(event_id, markets):
             f"?regions=us&markets={markets}&oddsFormat=american&dateFormat=iso")
     raw = _sh(["bash", ODDS_API, "raw", path])
     try:
-        return json.loads(raw)
+        data = json.loads(raw)
     except json.JSONDecodeError:
         raise SystemExit(f"unparseable props response: {raw[:200]}")
+    if isinstance(data, dict) and data.get("error_code") == "EVENT_NOT_FOUND":
+        raise SystemExit("event id expired — the provider rolled its pre-match feed "
+                         "(ids rotate; same-day games can drop temporarily). Re-warm the "
+                         f"slate cache (rm the slate_*.json + odds_api.sh slate) and retry.")
+    if isinstance(data, dict) and data.get("error_code"):
+        raise SystemExit(f"props fetch error: {data.get('error_code')} — {data.get('message', '')[:120]}")
+    return data
 
 
-def best_by_point(event_json, surname):
-    """{point: {'Over': (price, book), 'Under': (price, book)}} for the pitcher, best
-    price per side per line across all books + both K markets. Pure — selftested."""
+def best_by_point(event_json, surname, market_prefix="pitcher_strikeouts"):
+    """{point: {'Over': (price, book), 'Under': (price, book)}} for the named player,
+    best price per side per line across all books whose market key starts with
+    market_prefix (default: both K markets; pass e.g. 'batter_total_bases' for hitter
+    props). Pure — selftested."""
     want = _ascii(surname)
     table = {}
     for bk in (event_json or {}).get("bookmakers", []):
         book = bk.get("title", "?")
         for mkt in bk.get("markets", []):
-            if not str(mkt.get("key", "")).startswith("pitcher_strikeouts"):
+            if not str(mkt.get("key", "")).startswith(market_prefix):
                 continue
             for o in mkt.get("outcomes", []):
                 if want not in _ascii(o.get("description", "")):

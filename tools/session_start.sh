@@ -69,7 +69,10 @@ if [[ -x "./tools/odds_api.sh" ]]; then
     # 90 min keeps every scheduled run fresh (11→16→18 gaps are ≥2h) while interactive
     # sessions piggyback. Delete the cache file to force a re-warm.
     CF="${TMPDIR:-/tmp}/odds_cache/slate_${TODAY}.json"
-    if [[ -f "$CF" && -n "$(find "$CF" -mmin -90 2>/dev/null)" ]]; then
+    # An EMPTY cache (feed gap / provider rollover) must never be "fresh" — it would
+    # poison line-shop + CLV for 90 min. Only reuse a cache that actually has games.
+    CF_N="$(jq 'length' "$CF" 2>/dev/null || echo 0)"
+    if [[ -f "$CF" && "${CF_N:-0}" -gt 0 && -n "$(find "$CF" -mmin -90 2>/dev/null)" ]]; then
       AGE_MIN=$(( ( $(date +%s) - $(stat -c %Y "$CF" 2>/dev/null || echo 0) ) / 60 ))
       echo "  Slate cache FRESH (${AGE_MIN}m old < 90m) — reusing, 0 credits. (rm \"$CF\" to force re-warm)"
       SLATE_OUT="$(./tools/odds_api.sh quota 2>/dev/null)" || true

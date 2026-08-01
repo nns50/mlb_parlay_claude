@@ -101,6 +101,52 @@ assert body.index("propose_kprop") < body.index("PROP_HINT.search"), "K-prop che
 PY
 then ok "parse_kprop both notations; verdicts; K-prop checked before team fallthrough"; else no "settle K-prop" "$(cat /tmp/_selftest_out)"; fi
 
+# ── 4c. settle full-prop universe: hitter props / game totals / RL-by-margin ──
+echo "4c. settle hitter props + totals + run-line margin (7/30 expansion)"
+if python3 - <<'PY' 2>/tmp/_selftest_out
+import importlib.util as u
+s=u.spec_from_file_location("s","tools/settle.py"); m=u.module_from_spec(s); s.loader.exec_module(m)
+# hitter/pitcher counting props parse (full + compact notation; stat-token priority)
+assert m.parse_hprop("Ohtani Over 1.5 TB (LAD vs SEA)")==("Ohtani","Over",1.5,"tb")
+assert m.parse_hprop("Judge O0.5 HR (NYY @ CWS)")==("Judge","Over",0.5,"hr")
+assert m.parse_hprop("Kochanowicz Over 5.5 hits allowed (vs LAD)")==("Kochanowicz","Over",5.5,"hitsallowed")
+assert m.parse_hprop("Ohtani U2.5 H+R+RBI")==("Ohtani","Under",2.5,"hrr")
+assert m.parse_hprop("Kwan Over 0.5 hits (CLE @ CIN)")==("Kwan","Over",0.5,"hits")
+assert m.parse_hprop("PHI @ MIA Over 8.5") is None          # game total ≠ player prop
+assert m.parse_hprop("Gilbert Over 6.5 K") is None          # K-props stay with parse_kprop
+# boxscore stat math (TB = H + 2B + 2·3B + 3·HR) + hits-allowed from pitching
+assert m.stat_from_box({"hits":2,"doubles":1,"triples":0,"homeRuns":1},None,"tb")==6
+assert m.stat_from_box({"hits":2,"runs":1,"rbi":3},None,"hrr")==6
+assert m.stat_from_box(None,{"hits":7},"hitsallowed")==7
+# verdicts: integer lines can push; run line settles by MARGIN not W/L
+assert m.prop_verdict("Over",2.0,2)=="Push" and m.prop_verdict("Over",1.5,2)=="W"
+assert m.spread_verdict(10,9,-1.5)=="L"    # won by 1 — the -1.5 fav LOSES the leg
+assert m.spread_verdict(10,8,-1.5)=="W" and m.spread_verdict(3,4,1.5)=="W"
+# game total settles off the final; team totals stay manual
+games={"PHI":(6,8,"MIA","Final"),"MIA":(8,6,"PHI","Final")}
+assert m.propose_total("PHI @ MIA Over 8.5",games)[1]=="W"    # total 14
+assert m.propose_total("PHI @ MIA Under 8.5",games)[1]=="L"
+assert m.propose_total("PHI team total Over 4.5",games) is None
+# find_team binds the FIRST team in the text (the bet side), not dict order
+assert m.find_team("BAL -1.5 RL (@ DET)")[0]=="BAL"
+assert m.find_team("TB ML (@ MIA)")[0]=="TB"
+PY
+then ok "parse_hprop priorities; TB/HRR math; push; RL margin; totals; side binding"; else no "settle props v2" "$(cat /tmp/_selftest_out)"; fi
+if python3 - <<'PY' 2>/tmp/_selftest_out
+import importlib.util as u
+s=u.spec_from_file_location("v","tools/clv_capture.py"); m=u.module_from_spec(s); s.loader.exec_module(m)
+assert m.find_team("BAL ML (@ DET)")[0]=="BAL", "clv side-binding must prefer first mention"
+assert m.find_team("Rays ML (vs CLE)")==("TB","rays")
+k=u.spec_from_file_location("k","tools/kprice.py"); km=u.module_from_spec(k); k.loader.exec_module(km)
+ev={"bookmakers":[{"title":"DK","markets":[{"key":"batter_total_bases","outcomes":[
+  {"description":"Shohei Ohtani","name":"Over","point":1.5,"price":-125},
+  {"description":"Shohei Ohtani","name":"Under","point":1.5,"price":-105}]}]}]}
+t=km.best_by_point(ev,"ohtani",market_prefix="batter_total_bases")
+assert t[1.5]["Over"]==(-125,"DK"), t
+assert km.best_by_point(ev,"ohtani") == {}   # default K prefix ignores batter markets
+PY
+then ok "clv side-binding; best_by_point market_prefix routes batter markets"; else no "clv/kprice v2" "$(cat /tmp/_selftest_out)"; fi
+
 # ── 5. clv_capture.py verdict guard + cell-surgical write ─────────────────────
 echo "5. clv_capture (--apply safety)"
 if python3 - <<'PY' 2>/tmp/_selftest_out

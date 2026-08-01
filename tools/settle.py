@@ -84,6 +84,97 @@ def kprop_verdict(direction, line, k):
     return "W" if k < line else "L"
 
 
+# Hitter/pitcher counting props: "Ohtani Over 1.5 TB", "Judge O0.5 HR", "Soto U1.5 hits",
+# "Kochanowicz Over 5.5 hits allowed", "Ohtani Over 2.5 H+R+RBI". Alternation order matters:
+# 'hits allowed' before 'hits', 'hrr'/'h+r+rbi' before 'hr'.
+HPROP = re.compile(
+    r"([^\s|]+)\s+(Over|Under|O(?=\d)|U(?=\d))\s*(\d+(?:\.\d+)?)\s*"
+    r"(hits\s+allowed|total\s+bases|tb|hits\+runs\+rbis?|h\+r\+rbi|hrr|"
+    r"home\s*runs?|hr|rbis?|runs(?:\s+scored)?|hits)\b", re.I)
+
+_STAT_KEY = {"hits allowed": "hitsallowed", "total bases": "tb", "tb": "tb",
+             "hits+runs+rbi": "hrr", "hits+runs+rbis": "hrr", "h+r+rbi": "hrr", "hrr": "hrr",
+             "home run": "hr", "home runs": "hr", "hr": "hr",
+             "rbi": "rbi", "rbis": "rbi", "runs": "runs", "run": "runs",
+             "runs scored": "runs", "hits": "hits"}
+
+
+def parse_hprop(text):
+    """-> (surname, 'Over'|'Under', line, statkey) or None. Pure (selftest-able)."""
+    m = HPROP.search(text or "")
+    if not m:
+        return None
+    direction = "Over" if m.group(2).upper().startswith("O") else "Under"
+    stat = re.sub(r"\s+", " ", m.group(4).lower().strip())
+    key = _STAT_KEY.get(stat)
+    if key is None:
+        return None
+    return m.group(1), direction, float(m.group(3)), key
+
+
+def stat_from_box(batting, pitching, key):
+    """Compute the prop stat from boxscore stat dicts (batting/pitching). Pure.
+    TB = H + 2B + 2·3B + 3·HR (i.e. singles+2·2B+3·3B+4·HR)."""
+    b = batting or {}
+    if key == "hitsallowed":
+        return (pitching or {}).get("hits")
+    if not b:
+        return None
+    if key == "tb":
+        need = ("hits", "doubles", "triples", "homeRuns")
+        if any(b.get(x) is None for x in need):
+            return None
+        return b["hits"] + b["doubles"] + 2 * b["triples"] + 3 * b["homeRuns"]
+    if key == "hrr":
+        if any(b.get(x) is None for x in ("hits", "runs", "rbi")):
+            return None
+        return b["hits"] + b["runs"] + b["rbi"]
+    return b.get({"hits": "hits", "hr": "homeRuns", "rbi": "rbi", "runs": "runs"}[key])
+
+
+def prop_verdict(direction, line, val):
+    """W/L/Push for a counting prop (integer lines can push). Pure."""
+    if abs(val - line) < 1e-9:
+        return "Push"
+    return kprop_verdict(direction, line, val)
+
+
+def spread_verdict(own, opp, point):
+    """W/L/Push for a run line from OUR side's score + signed point (e.g. -1.5, +1.5).
+    Pure. Fav -1.5 needs a 2+ margin; dog +1.5 survives a 1-run loss."""
+    adj = own - opp + point
+    if abs(adj) < 1e-9:
+        return "Push"
+    return "W" if adj > 0 else "L"
+
+
+SPREAD_RX = re.compile(r"([+-])(\d+\.5)\b")
+TOTAL_RX = re.compile(r"\b(Over|Under|O(?=\d)|U(?=\d))\s*(\d+(?:\.\d+)?)\b")
+
+
+def propose_total(leg, games):
+    """Settle a GAME total off the final score (away+home vs the line). Team totals
+    need one side's runs vs a market line the leg text may not carry → MANUAL there.
+    Returns (leg, verdict, why) or None if the leg isn't a game total."""
+    l = leg.lower()
+    if "team total" in l or re.search(r"\btt\b", l):
+        return None
+    m = TOTAL_RX.search(leg)
+    if not m:
+        return None
+    direction = "Over" if m.group(1).upper().startswith("O") else "Under"
+    line = float(m.group(2))
+    abbr, _ = find_team(leg)
+    if not abbr or abbr not in games:
+        return (leg, "MANUAL", "total: team not matched to a final — check manually")
+    own, opp, opp_abbr, state = games[abbr]
+    if not state.lower().startswith("final"):
+        return (leg, "—", f"game not Final yet (state={state})")
+    total = own + opp
+    return (leg, prop_verdict(direction, line, total),
+            f"game total {total} vs {direction} {line:g} ({abbr} {own}-{opp} {opp_abbr})")
+
+
 _PITCHER_CACHE = {}
 
 
@@ -151,6 +242,86 @@ def propose_kprop(leg, d):
         return (leg, "MANUAL", f"K-prop lookup failed ({e}) — settle by hand")
 
 
+_SCHED_CACHE = {}
+_BOX_CACHE = {}
+
+
+def _schedule(d):
+    """[{pk, names, state}] for the date (cached). names = 'away home' lowercase."""
+    if d not in _SCHED_CACHE:
+        import json
+        out = _sh(["bash", MLB_API, "raw", f"schedule?sportId=1&date={d}"])
+        games = []
+        try:
+            for day in json.loads(out).get("dates", []):
+                for g in day.get("games", []):
+                    games.append({
+                        "pk": g.get("gamePk"),
+                        "names": (g.get("teams", {}).get("away", {}).get("team", {}).get("name", "")
+                                  + " "
+                                  + g.get("teams", {}).get("home", {}).get("team", {}).get("name", "")).lower(),
+                        "state": g.get("status", {}).get("abstractGameState", "?")})
+        except Exception:  # noqa: BLE001
+            pass
+        _SCHED_CACHE[d] = games
+    return _SCHED_CACHE[d]
+
+
+def _boxscore(pk):
+    if pk not in _BOX_CACHE:
+        import json
+        out = _sh(["bash", MLB_API, "raw", f"game/{pk}/boxscore"])
+        try:
+            _BOX_CACHE[pk] = json.loads(out)
+        except Exception:  # noqa: BLE001
+            _BOX_CACHE[pk] = {}
+    return _BOX_CACHE[pk]
+
+
+def propose_hprop(leg, d):
+    """Settle a hitter/pitcher counting prop off the StatsAPI BOXSCORE (deterministic —
+    extends the K-prop approach to the full prop universe: hits/TB/HR/RBI/runs/HRR/
+    hits-allowed). Returns (leg, verdict, why) or None if the leg isn't such a prop."""
+    parsed = parse_hprop(leg)
+    if not parsed:
+        return None
+    surname, direction, line, key = parsed
+    want = unicodedata.normalize("NFD", surname)
+    want = "".join(ch for ch in want if not unicodedata.combining(ch)).lower()
+    try:
+        # Resolve the team from the leg MINUS the prop phrase — otherwise the stat token
+        # collides with team abbrs ("Over 1.5 TB" would bind Tampa Bay).
+        abbr, _tok = find_team(HPROP.sub(" ", leg))
+        nickname = ABBR2NICK.get(abbr)          # full-name fragment for schedule matching
+        cands = [g for g in _schedule(d)
+                 if nickname and nickname in g["names"]] if nickname else list(_schedule(d))
+        if not cands:
+            return (leg, "MANUAL", f"prop: no {d} game matched the leg's team — settle by hand")
+        hits = []
+        for g in cands:
+            if not g["state"].lower().startswith("final"):
+                return (leg, "—", f"game not Final yet (state={g['state']})")
+            box = _boxscore(g["pk"])
+            for side in ("away", "home"):
+                for p in box.get("teams", {}).get(side, {}).get("players", {}).values():
+                    nm = p.get("person", {}).get("fullName", "")
+                    norm = unicodedata.normalize("NFD", nm)
+                    norm = "".join(ch for ch in norm if not unicodedata.combining(ch)).lower()
+                    if want and want in norm:
+                        st = p.get("stats", {})
+                        val = stat_from_box(st.get("batting"), st.get("pitching"), key)
+                        if val is not None:
+                            hits.append((nm, val))
+        if len(hits) != 1:
+            return (leg, "MANUAL", f"prop: {surname!r} matched {len(hits)} player-lines "
+                                   f"in the boxscore — settle by hand")
+        pname, val = hits[0]
+        verdict = prop_verdict(direction, line, val)
+        return (leg, verdict, f"{pname} {val} {key} vs {direction} {line:g} (boxscore {d})")
+    except Exception as e:  # noqa: BLE001
+        return (leg, "MANUAL", f"prop lookup failed ({e}) — settle by hand")
+
+
 def cells(line):
     return [c.strip() for c in line.strip().strip("|").split("|")]
 
@@ -181,16 +352,26 @@ def md_date(d):
     return f"{int(m)}/{int(day)}"
 
 
+ABBR2NICK = {}
+for _n, _a in NICK.items():          # first nickname per abbr wins (AZ aliases collapse)
+    ABBR2NICK.setdefault(_a, _n)
+
+
 def find_team(text):
+    """The team the leg is ON — the EARLIEST team mention in the text (ledger convention
+    writes the bet side first: 'BAL -1.5 RL (@ DET)' is a BAL leg). Position-based, not
+    dict-order — dict-order silently bound 'BAL … (@ DET)' to DET (side-flip bug, 7/30)."""
     low = text.lower()
+    best = None  # (pos, abbr, token)
     for nick in NICK_ORDER:
-        if nick in low:
-            return NICK[nick], nick
-    # Fall back to a whole-word abbreviation match (e.g. "LAD ML", "TB ML").
+        p = low.find(nick)
+        if p >= 0 and (best is None or p < best[0]):
+            best = (p, NICK[nick], nick)
     for abbr, full_abbr in ABBREV.items():
-        if re.search(rf"\b{re.escape(abbr)}\b", low):
-            return full_abbr, abbr.upper()
-    return None, None
+        m = re.search(rf"\b{re.escape(abbr)}\b", low)
+        if m and (best is None or m.start() < best[0]):
+            best = (m.start(), full_abbr, abbr.upper())
+    return (best[1], best[2]) if best else (None, None)
 
 
 def main():
@@ -232,6 +413,16 @@ def main():
         if kp:
             proposals.append(kp)
             continue
+        # Hitter/pitcher counting props (hits/TB/HR/RBI/runs/HRR/hits-allowed) settle off
+        # the boxscore; game totals stay MANUAL below (a team-total line needs the market).
+        hp = propose_hprop(leg, d)
+        if hp:
+            proposals.append(hp)
+            continue
+        tot = propose_total(leg, games)
+        if tot:
+            proposals.append(tot)
+            continue
         if PROP_HINT.search(leg):
             proposals.append((leg, "MANUAL", "prop / total — a score can't settle it"))
             continue
@@ -242,6 +433,15 @@ def main():
         own, opp, opp_abbr, state = games[abbr]
         if not state.lower().startswith("final"):
             proposals.append((leg, "—", f"game not Final yet (state={state})"))
+            continue
+        # Run line / spread: settle by MARGIN, not W/L — a −1.5 fav that wins by 1 LOSES
+        # the leg. (Latent mis-settle: these previously fell through to the ML branch.)
+        sp = SPREAD_RX.search(leg.replace("−", "-"))
+        if sp and re.search(r"\b(rl|run\s*line|spread)\b", leg, re.I):
+            point = float(sp.group(1) + sp.group(2))
+            verdict = spread_verdict(own, opp, point)
+            proposals.append((leg, verdict,
+                              f"{abbr} {own}-{opp} {opp_abbr} w/ {point:+g} → margin {own - opp:+d}"))
             continue
         verdict = "W" if own > opp else ("L" if own < opp else "Push")
         proposals.append((leg, verdict, f"{abbr} {own}-{opp} {opp_abbr} ({state})"))
