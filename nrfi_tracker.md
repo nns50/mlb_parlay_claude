@@ -29,30 +29,30 @@ Its own ledger lives here; the dashboard renders it from this file.
 
 ---
 
-## Tonight's reads — 2026-07-31 (model leans, un-priced; pull `totals_1st_1_innings` at the book)
+## Tonight's reads — 2026-08-01 (model leans, un-priced; pull `totals_1st_1_innings` at the book)
 
 > 11:00 ET morning reads — 15-game slate. One model-lean per game, model-only/no-bet (pull the real 1st-inning total at the book; promote only a read clearing +2pp after devig). Weather still PENDING for all games at build time.
 
 | # | Matchup | Starters | Lean | TrueP | Why (1st-inning read) |
 |---|---------|----------|------|-------|------------------------|
-| 1 | NYY @ CHC | Warren / Imanaga | **YRFI** | ~56% | Warren shaky last 2 outings (short/rough); Imanaga clean (2 scoreless of last 5). Warren's side is the risk. |
-| 2 | PIT @ CIN | Skenes / Greene | **NRFI** | ~58% | Skenes elite and consistent (11.11 K/9) — should keep CIN's top quiet. Greene wildly volatile (4 GS, huge start-to-start swings) tempers confidence on the PIT-bats side, but Skenes' side alone supports the lean. |
-| 3 | PHI @ BAL | TBA / Young | **NEUTRAL** | ~52% | PHI's starter is TBA (E4 gate) — no SP-quality read possible on that side. |
-| 4 | STL @ TOR | Leahy / Cease | **NRFI** | ~60% | Cease dominant (13.26 K/9, CG shutout last start) — should retire STL's top cleanly. Leahy also solid. |
-| 5 | AZ @ CLE | Bratt / Bibee | **YRFI** | ~56% | Bratt is a small-sample rookie (4 GS, 6.32 ERA, never past 5.0 IP) — real risk he doesn't cleanly navigate the 1st. |
-| 6 | CWS @ TB | Fedde / Martinez | **YRFI** | ~55% | Fedde is a swingman on short outings (4-5 IP consistently); Martinez's contact-management is strong but Fedde's side is the risk. |
-| 7 | MIA @ NYM | Junk / Peralta | **YRFI** | ~57% | Peralta's recent starts have leaked early runs (5,1,2,7,2 ER over last 5) despite a high K/9. |
-| 8 | WSH @ ATL | Griffin / Elder | **NRFI** | ~54% | Both fairly solid arms (Griffin 2.76 ERA, Elder bounced back 7/25) — mild lean, no strong signal. |
-| 9 | TEX @ HOU | Eovaldi / Brown | **NRFI** | ~55% | Both good arms (Eovaldi recovered strong, Brown talented when right) — mild lean, dome-neutral park. |
-| 10 | KC @ COL | Wacha / Sugano | **YRFI** | ~58% | Sugano has a 3.5-week gap since his last outing (rust risk) and an already-low K-rate; Coors Field amplifies any early damage. |
-| 11 | MIL @ LAA | Drohan / R. Johnson | **YRFI** | ~57% | R. Johnson's last start was a disaster (3.1 IP / 8 ER, season ERA 7.34) — real risk he doesn't survive the 1st clean. |
-| 12 | DET @ ATH | UNCONFIRMED / Springs | **YRFI** | ~55% | Springs' last start was a disaster (1.1 IP / 4 ER / 0 K, season ERA 6.23); DET's own probable is unconfirmed at the source — lower-confidence lean on Springs' side alone. |
-| 13 | SF @ SD | Whisenhunt / Rodriguez | **YRFI** | ~54% | Rodriguez is effectively an opener (45 appearances, virtually all ≤2.0 IP) — added early volatility; Whisenhunt (3 career starts) also unstable. Petco's pitcher-friendly park tempers the lean toward neutral. |
-| 14 | BOS @ LAD | Suarez / Henriquez | **YRFI** | ~58% | Henriquez is a full-time reliever (0 GS all season) being run as LAD's "starter" tonight — a bullpen game; LAD's stacked lineup facing an unfamiliar Suarez adds to the early-run risk. |
-| 15 | MIN @ SEA | Matthews / Miller | **YRFI** | ~57% | Miller's last start was alarming (0 K in 5.1 IP, season K/9 9.31) — unconfirmed cause, but a real recent-form red flag. Matthews (rookie) also inconsistent. |
+| 1 | STL @ TOR | Mathews / Gausman | **YRFI** | ~54% | Mathews has zero 2026 MLB data — likely an MLB debut; first-inning jitters are a real risk. Gausman (4.51 ERA) unremarkable. |
+| 2 | MIN @ SEA | Prielipp / Gilbert | **NRFI** | ~57% | Gilbert is an established ace (3.44 ERA, 0.99 WHIP) who should retire MIN's top cleanly; Prielipp solid enough on the other side. |
+| 3 | CWS @ TB | Hicks / Rasmussen | **YRFI** | ~58% | Hicks is a pure reliever (0 GS all season) being run as CWS's opener tonight — real 1st-inning volatility on an unfamiliar bulk role. |
+| 4 | MIA @ NYM | T. Phillips / Thornton | **NRFI** | ~53% | Both reasonably clean arms (Phillips 3.52 ERA recently stretched to rotation length; Thornton 2.43 ERA small-sample rookie) — mild lean, no strong signal. |
+| 5 | PIT @ CIN | Ashcraft / Abbott | **NRFI** | ~53% | Both mid-tier, consistent full-time starters (4.05 / 3.85 ERA) — mild lean, no strong signal either way. |
+| 6 | PHI @ BAL | Sánchez / Baz | **NRFI** | ~57% | Sánchez is dominant (2.73 ERA, 10.19 K/9) — should keep BAL's top quiet; Baz solid enough on the other side. |
+| 7 | TEX @ HOU | deGrom / Blanco | **YRFI** | ~56% | Blanco is on just his 2nd start back from an apparent long absence (8.10 ERA on tiny sample) — real risk he doesn't navigate the 1st clean, even with deGrom dealing on the other side. |
+| 8 | AZ @ CLE | Drake / Messick | **YRFI** | ~56% | Drake is making just his 2nd career MLB start (5.00 ERA) — extreme small-sample risk on the AZ side outweighs Messick's quality on the other. |
+| 9 | WSH @ ATL | Mikolas / López | **YRFI** | ~56% | Mikolas has a bad season line (5.65 ERA) and a weak recent-form K/9 (2.92) — contact-prone, real early-run risk on the WSH side. |
+| 10 | NYY @ CHC | Fried / Peterson | **YRFI** | ~57% | Fried's SP-freshness is compromised by an apparent 2-month IL gap (small post-return sample); Peterson has a rough season line (5.80 ERA) — both sides carry real risk. |
+| 11 | KC @ COL | Avila / Feltner | **YRFI** | ~59% | Both shaky arms (4.95 / 5.73 ERA) at Coors Field — the day's strongest YRFI lean. |
+| 12 | SF @ SD | Mahle / Buehler | **YRFI** | ~54% | Both mediocre this season (4.96 / 5.13 ERA) — mild lean, no dominant arm on either side. |
+| 13 | BOS @ LAD | Tolle / Yamamoto | **NRFI** | ~58% | Yamamoto is elite (2.72 ERA, 0.90 WHIP) and Tolle has been solid in his rookie starter role (3.32 ERA) — the day's strongest NRFI lean. |
+| 14 | MIL @ LAA | Gasser / Soriano | **NRFI** | ~53% | Both decent enough (4.71 / 3.29 ERA) — mild lean, no strong signal. |
+| 15 | DET @ ATH | Valdez / Perkins | **YRFI** | ~55% | Perkins is a recent bullpen-to-rotation convert (31% GS, 6.45 ERA) — real risk on the ATH side even with Valdez established on the other. |
 
-**Day's strongest NRFI:** STL @ TOR (Cease dominant, ~60%); PIT @ CIN (Skenes elite, ~58%)
-**Day's strongest YRFI:** BOS @ LAD (LAD bullpen-game exposure, ~58%); KC @ COL (Sugano rust + Coors, ~58%)
+**Day's strongest NRFI:** BOS @ LAD (Yamamoto elite, ~58%); MIN @ SEA (Gilbert ace-quality, ~57%)
+**Day's strongest YRFI:** KC @ COL (both shaky arms + Coors, ~59%); CWS @ TB (Hicks opener exposure, ~58%)
 
 ---
 
@@ -303,17 +303,32 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 7/31 | MIL @ LAA (Drohan/R. Johnson) | YRFI | 57% | _model-only_ | **L** (1st 0-0 → NRFI) | R. Johnson's last start was a disaster (3.1 IP/8 ER). |
 | 7/31 | DET @ ATH (UNCONFIRMED/Springs) | YRFI | 55% | _model-only_ | **W** (1st 0-1 → YRFI) | Springs' last start a disaster (1.1 IP/4 ER/0K); DET SP unconfirmed. |
 | 7/31 | SF @ SD (Whisenhunt/Rodriguez) | YRFI | 54% | _model-only_ | **W** (1st 0-2 → YRFI) | Rodriguez effectively an opener; Whisenhunt unstable; Petco tempers it. |
-| 7/31 | BOS @ LAD (Suarez/Henriquez) | YRFI | 58% | _model-only_ | TBD | Henriquez a full-time reliever run as LAD's "starter" — bullpen game. |
-| 7/31 | MIN @ SEA (Matthews/Miller) | YRFI | 57% | _model-only_ | TBD | Miller's last start alarming (0 K in 5.1 IP); Matthews also inconsistent. |
+| 7/31 | BOS @ LAD (Suarez/Henriquez) | YRFI | 58% | _model-only_ | **L** (1st 0-0 → NRFI) | Henriquez a full-time reliever run as LAD's "starter" — bullpen game. |
+| 7/31 | MIN @ SEA (Matthews/Miller) | YRFI | 57% | _model-only_ | **W** (1st 0-2 → YRFI) | Miller's last start alarming (0 K in 5.1 IP); Matthews also inconsistent. |
+| 8/1 | STL @ TOR (Mathews/Gausman) | YRFI | 54% | _model-only_ | TBD | Mathews likely MLB debut (zero 2026 data) — 1st-inning jitters risk. |
+| 8/1 | MIN @ SEA (Prielipp/Gilbert) | NRFI | 57% | _model-only_ | TBD | Gilbert ace-quality (3.44 ERA/0.99 WHIP) should retire MIN's top clean. |
+| 8/1 | CWS @ TB (Hicks/Rasmussen) | YRFI | 58% | _model-only_ | TBD | Hicks (0 GS all season) running as CWS's opener — real bulk-role volatility. |
+| 8/1 | MIA @ NYM (T.Phillips/Thornton) | NRFI | 53% | _model-only_ | TBD | Both reasonably clean arms; mild lean. |
+| 8/1 | PIT @ CIN (Ashcraft/Abbott) | NRFI | 53% | _model-only_ | TBD | Both mid-tier consistent starters; mild lean. |
+| 8/1 | PHI @ BAL (Sánchez/Baz) | NRFI | 57% | _model-only_ | TBD | Sánchez dominant (2.73 ERA/10.19 K9) should keep BAL's top quiet. |
+| 8/1 | TEX @ HOU (deGrom/Blanco) | YRFI | 56% | _model-only_ | TBD | Blanco on just his 2nd start back (8.10 ERA, tiny sample) — real 1st-inning risk. |
+| 8/1 | AZ @ CLE (Drake/Messick) | YRFI | 56% | _model-only_ | TBD | Drake making his 2nd career MLB start — extreme small-sample risk. |
+| 8/1 | WSH @ ATL (Mikolas/López) | YRFI | 56% | _model-only_ | TBD | Mikolas 5.65 ERA, weak recent K/9 (2.92) — contact-prone early-run risk. |
+| 8/1 | NYY @ CHC (Fried/Peterson) | YRFI | 57% | _model-only_ | TBD | Fried's apparent IL-return gap + Peterson's rough season line (5.80 ERA). |
+| 8/1 | KC @ COL (Avila/Feltner) | YRFI | 59% | _model-only_ | TBD | Both shaky arms (4.95/5.73 ERA) at Coors — strongest YRFI lean of the day. |
+| 8/1 | SF @ SD (Mahle/Buehler) | YRFI | 54% | _model-only_ | TBD | Both mediocre this season (4.96/5.13 ERA). |
+| 8/1 | BOS @ LAD (Tolle/Yamamoto) | NRFI | 58% | _model-only_ | TBD | Yamamoto elite (2.72 ERA/0.90 WHIP); Tolle solid — strongest NRFI of the day. |
+| 8/1 | MIL @ LAA (Gasser/Soriano) | NRFI | 53% | _model-only_ | TBD | Both decent enough; mild lean. |
+| 8/1 | DET @ ATH (Valdez/Perkins) | YRFI | 55% | _model-only_ | TBD | Perkins a recent bullpen-to-rotation convert (31% GS, 6.45 ERA) — real risk. |
 
 ---
 
 ## Running totals (update on every settle)
-- **Record:** **109-92** (tracker opened 6/10/26). **NRFI:** **55-49** · **YRFI:** **54-43**.
+- **Record:** **110-93** (tracker opened 6/10/26). **NRFI:** **55-49** · **YRFI:** **55-44**.
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
-- **Open:** **7/30 fully settled** (auto via `nrfi_settle.py --apply` at this session's start — all 10
-  games decided, record moved to 102-87). **7/31: 14 reads open** (15 games minus the PHI@BAL NEUTRAL,
-  excluded) — none started yet at the 11:00 build. Settle via `nrfi_settle.py --apply` next session.
+- **Open:** **7/31 fully settled** (auto via `nrfi_settle.py --apply` at this session's start — 14
+  decided, record moved to 110-93). **8/1: 15 games, reads logged below** — none started yet at the
+  11:00 build. Settle via `nrfi_settle.py --apply` next session.
 - **Settled 7/26** (auto via `nrfi_settle.py --apply`, run 7/30): 14 decided, 7W-7L (NRFI 2-3, YRFI 5-4).
   Record updated from 91-74 to 98-81. LAA@SF (Soriano/Whisenhunt, NEUTRAL) still TBD — game likely
   postponed/unresolved, left open. **No parlay builds ran 7/27-7/29** (session gap) — those slates have
