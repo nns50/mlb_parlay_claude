@@ -89,14 +89,21 @@ def kprop_verdict(direction, line, k):
 # 'hits allowed' before 'hits', 'hrr'/'h+r+rbi' before 'hr'.
 HPROP = re.compile(
     r"([^\s|]+)\s+(Over|Under|O(?=\d)|U(?=\d))\s*(\d+(?:\.\d+)?)\s*"
-    r"(hits\s+allowed|total\s+bases|tb|hits\+runs\+rbis?|h\+r\+rbi|hrr|"
-    r"home\s*runs?|hr|rbis?|runs(?:\s+scored)?|hits)\b", re.I)
+    r"(hits\s+allowed|earned\s+runs?|stolen\s+bases?|total\s+bases|tb|"
+    r"hits\+runs\+rbis?|h\+r\+rbi|hrr|home\s*runs?|hr|rbis?|runs(?:\s+scored)?|"
+    r"walks?|doubles?|singles?|outs?|hits|sb|bb|er)\b", re.I)
 
 _STAT_KEY = {"hits allowed": "hitsallowed", "total bases": "tb", "tb": "tb",
              "hits+runs+rbi": "hrr", "hits+runs+rbis": "hrr", "h+r+rbi": "hrr", "hrr": "hrr",
              "home run": "hr", "home runs": "hr", "hr": "hr",
              "rbi": "rbi", "rbis": "rbi", "runs": "runs", "run": "runs",
-             "runs scored": "runs", "hits": "hits"}
+             "runs scored": "runs", "hits": "hits",
+             "earned run": "er", "earned runs": "er", "er": "er",
+             "stolen base": "sb", "stolen bases": "sb", "sb": "sb",
+             "walk": "bb", "walks": "bb", "bb": "bb",
+             "double": "doubles", "doubles": "doubles",
+             "single": "singles", "singles": "singles",
+             "out": "outs", "outs": "outs"}
 
 
 def parse_hprop(text):
@@ -114,10 +121,11 @@ def parse_hprop(text):
 
 def stat_from_box(batting, pitching, key):
     """Compute the prop stat from boxscore stat dicts (batting/pitching). Pure.
-    TB = H + 2B + 2·3B + 3·HR (i.e. singles+2·2B+3·3B+4·HR)."""
+    TB = H + 2B + 2·3B + 3·HR; singles = H − 2B − 3B − HR; outs from pitching."""
     b = batting or {}
-    if key == "hitsallowed":
-        return (pitching or {}).get("hits")
+    p = pitching or {}
+    if key in ("hitsallowed", "er", "outs"):
+        return p.get({"hitsallowed": "hits", "er": "earnedRuns", "outs": "outs"}[key])
     if not b:
         return None
     if key == "tb":
@@ -125,11 +133,17 @@ def stat_from_box(batting, pitching, key):
         if any(b.get(x) is None for x in need):
             return None
         return b["hits"] + b["doubles"] + 2 * b["triples"] + 3 * b["homeRuns"]
+    if key == "singles":
+        need = ("hits", "doubles", "triples", "homeRuns")
+        if any(b.get(x) is None for x in need):
+            return None
+        return b["hits"] - b["doubles"] - b["triples"] - b["homeRuns"]
     if key == "hrr":
         if any(b.get(x) is None for x in ("hits", "runs", "rbi")):
             return None
         return b["hits"] + b["runs"] + b["rbi"]
-    return b.get({"hits": "hits", "hr": "homeRuns", "rbi": "rbi", "runs": "runs"}[key])
+    return b.get({"hits": "hits", "hr": "homeRuns", "rbi": "rbi", "runs": "runs",
+                  "sb": "stolenBases", "bb": "baseOnBalls", "doubles": "doubles"}[key])
 
 
 def prop_verdict(direction, line, val):
@@ -153,12 +167,11 @@ TOTAL_RX = re.compile(r"\b(Over|Under|O(?=\d)|U(?=\d))\s*(\d+(?:\.\d+)?)\b")
 
 
 def propose_total(leg, games):
-    """Settle a GAME total off the final score (away+home vs the line). Team totals
-    need one side's runs vs a market line the leg text may not carry → MANUAL there.
-    Returns (leg, verdict, why) or None if the leg isn't a game total."""
+    """Settle a GAME total (away+home) OR a TEAM total (the named side's runs) off the
+    final score. Both are fully deterministic — team totals were wrongly MANUAL before
+    8/1/26. Returns (leg, verdict, why) or None if the leg isn't a total."""
     l = leg.lower()
-    if "team total" in l or re.search(r"\btt\b", l):
-        return None
+    team_total = "team total" in l or bool(re.search(r"\btt\b", l))
     m = TOTAL_RX.search(leg)
     if not m:
         return None
@@ -167,9 +180,16 @@ def propose_total(leg, games):
     abbr, _ = find_team(leg)
     if not abbr or abbr not in games:
         return (leg, "MANUAL", "total: team not matched to a final — check manually")
-    own, opp, opp_abbr, state = games[abbr]
+    entry = resolve_game(leg, games[abbr])
+    if entry is None:
+        return (leg, "MANUAL", f"doubleheader — {len(games[abbr])} finals for {abbr}; "
+                               f"add a G1/G2 hint to the leg or settle by hand")
+    own, opp, opp_abbr, state = entry
     if not state.lower().startswith("final"):
         return (leg, "—", f"game not Final yet (state={state})")
+    if team_total:
+        return (leg, prop_verdict(direction, line, own),
+                f"{abbr} TEAM total {own} vs {direction} {line:g} ({abbr} {own}-{opp} {opp_abbr})")
     total = own + opp
     return (leg, prop_verdict(direction, line, total),
             f"game total {total} vs {direction} {line:g} ({abbr} {own}-{opp} {opp_abbr})")
@@ -297,6 +317,13 @@ def propose_hprop(leg, d):
                  if nickname and nickname in g["names"]] if nickname else list(_schedule(d))
         if not cands:
             return (leg, "MANUAL", f"prop: no {d} game matched the leg's team — settle by hand")
+        if len(cands) > 1:                       # doubleheader — never guess which game
+            m2 = GAME_HINT.search(leg)
+            if m2 and int(m2.group(1)) - 1 < len(cands):
+                cands = [cands[int(m2.group(1)) - 1]]
+            else:
+                return (leg, "MANUAL", f"prop: doubleheader ({len(cands)} games) — add a "
+                                       f"G1/G2 hint to the leg or settle by hand")
         hits = []
         for g in cands:
             if not g["state"].lower().startswith("final"):
@@ -336,14 +363,36 @@ def pull_finals(d):
         return {}
     games = {}
     # lines like:  SF 18 - CHC 3   [Final]
+    # Each team maps to a LIST of finals (feed order = schedule order, G1 first) —
+    # a doubleheader used to CLOBBER G1 with G2, silently settling a G1 leg off the
+    # G2 score (7/29 ATL-NYM: the G1 loss read as a W). resolve_game() disambiguates.
     for ln in out.splitlines():
         m = re.match(r"\s*([A-Z]{2,3})\s+(\d+)\s*-\s*([A-Z]{2,3})\s+(\d+)\s*\[([^\]]+)\]", ln)
         if not m:
             continue
         a, as_, h, hs, state = m.group(1), int(m.group(2)), m.group(3), int(m.group(4)), m.group(5)
-        games[a] = (as_, hs, h, state)
-        games[h] = (hs, as_, a, state)
+        games.setdefault(a, []).append((as_, hs, h, state))
+        games.setdefault(h, []).append((hs, as_, a, state))
     return games, out
+
+
+GAME_HINT = re.compile(r"\bG(?:ame)?\s*([12])\b", re.I)
+
+
+def resolve_game(leg, entries):
+    """Pick THE final for a leg from a team's finals that date. One game → it. Two
+    (doubleheader) → only with an explicit G1/G2 hint in the leg text; else None
+    (MANUAL — never guess which game of a DH a leg belongs to). Pure."""
+    if not entries:
+        return None
+    if len(entries) == 1:
+        return entries[0]
+    m = GAME_HINT.search(leg or "")
+    if m:
+        idx = int(m.group(1)) - 1
+        if idx < len(entries):
+            return entries[idx]
+    return None
 
 
 def md_date(d):
@@ -430,7 +479,12 @@ def main():
         if not abbr or abbr not in games:
             proposals.append((leg, "??", "team not matched to a final — check manually"))
             continue
-        own, opp, opp_abbr, state = games[abbr]
+        entry = resolve_game(leg, games[abbr])
+        if entry is None:
+            proposals.append((leg, "MANUAL", f"doubleheader — {len(games[abbr])} finals for "
+                                             f"{abbr}; add a G1/G2 hint or settle by hand"))
+            continue
+        own, opp, opp_abbr, state = entry
         if not state.lower().startswith("final"):
             proposals.append((leg, "—", f"game not Final yet (state={state})"))
             continue

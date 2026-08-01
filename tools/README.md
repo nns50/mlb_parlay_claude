@@ -1,5 +1,32 @@
 # tools/
 
+## Coverage matrix — audit against THIS, not against burns (added 8/1/26)
+
+Every gap that survived multiple "sweeps" (RL settled by W/L not margin; DH G2 clobbering G1;
+team totals left manual; hitter props unmeasured) shared one cause: audits were **burn-driven**
+(fix what already bit) instead of **coverage-driven** (enumerate leg-type × pipeline-stage and
+check every cell). This matrix is the enumeration. A sweep = re-verify every cell in code;
+a new leg type or pipeline stage = add a row/column FIRST, then implement to fill it.
+
+| Leg type ↓ / Stage → | Price | Gates | Construct | CLV | Settle | Measure |
+|---|---|---|---|---|---|---|
+| ML (fav/dog) | `best h2h` ✓ | status/SP/recheck ✓ | ticket.py ✓ | cached slate ✓ | score, DH-guarded ✓ | calib+Brier ✓ |
+| Run line ±1.5 | `best spreads` ✓ | same ✓ | ticket.py ✓ | cached slate ✓ | **by MARGIN**, DH ✓ | ✓ |
+| Game total | `best totals` ✓ | weather/ump ✓ | ticket.py ✓ | cached slate ✓ | away+home vs line ✓ | ✓ |
+| Team total | ⚠ manual pull | weather/ump ✓ | ticket.py ✓ | ⚠ manual (market not wired) | own runs vs line ✓ | ✓ |
+| K-prop (std+alt) | kprice.py ✓ | C1-C6 gates ✓ | corr tiers ✓ | props feed (rich) ✓ | gamelog ✓ | ✓ |
+| Hitter counting (H/TB/HR/RBI/R/HRR/SB/BB/2B/1B) | `props core/all` (rich) ✓ | lineup gate ✓ | ticket.py ✓ | props feed (rich) ✓ | boxscore, DNP+DH-guarded ✓ | ✓ |
+| Pitcher props (hits-allowed/outs/ER) | `props` (rich) ✓ | SP gates ✓ | ticket.py ✓ | props feed (rich) ✓ | boxscore/gamelog ✓ | ✓ |
+| NRFI/YRFI | ⚠ model-only (line rarely pulled) | 1st-inn reads ✓ | standalone-only | n/a by doctrine | nrfi_settle ✓ | tracker+dashboard ✓ |
+| Parlay/SGP ticket | parlay.py + min-SGP ✓ | leg gates ✓ | ticket.py search ✓ | n/a (no ticket close) | legs settle it ✓ | ticket rows ✓ |
+| Live-ML (Angle A) | manual by design | — | — | "live CLV" manual | manual | N<20 directional |
+
+**Open cells, held deliberately:** team-total pricing/CLV (thin, illiquid market — wire
+`team_totals` event odds if the sweep starts surfacing them); NRFI real lines
+(`totals_1st_1_innings` exists — model-only until doctrine promotes it); alt run lines /
+alt game totals (markets exist, unused by doctrine); F5 lines (not a doctrine product).
+An open cell must be HERE with a reason — an open cell not listed is a gap.
+
 ## `mlb_api.sh` — authoritative MLB data via the public StatsAPI
 
 Deterministic source for the things WebSearch keeps hallucinating: **game status**
