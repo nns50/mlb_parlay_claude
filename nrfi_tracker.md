@@ -300,8 +300,8 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 7/31 | WSH @ ATL (Griffin/Elder) | NRFI | 54% | _model-only_ | **L** (1st 0-1 → YRFI) | Both solid arms, no strong signal either way. |
 | 7/31 | TEX @ HOU (Eovaldi/Brown) | NRFI | 55% | _model-only_ | **W** (1st 0-0 → NRFI) | Both good arms, dome-neutral park. |
 | 7/31 | KC @ COL (Wacha/Sugano) | YRFI | 58% | _model-only_ | **W** (1st 0-1 → YRFI) | Sugano 3.5-wk rust gap + Coors amplifies early damage. |
-| 7/31 | MIL @ LAA (Drohan/R. Johnson) | YRFI | 57% | _model-only_ | TBD | R. Johnson's last start was a disaster (3.1 IP/8 ER). |
-| 7/31 | DET @ ATH (UNCONFIRMED/Springs) | YRFI | 55% | _model-only_ | TBD | Springs' last start a disaster (1.1 IP/4 ER/0K); DET SP unconfirmed. |
+| 7/31 | MIL @ LAA (Drohan/R. Johnson) | YRFI | 57% | _model-only_ | **L** (1st 0-0 → NRFI) | R. Johnson's last start was a disaster (3.1 IP/8 ER). |
+| 7/31 | DET @ ATH (UNCONFIRMED/Springs) | YRFI | 55% | _model-only_ | **W** (1st 0-1 → YRFI) | Springs' last start a disaster (1.1 IP/4 ER/0K); DET SP unconfirmed. |
 | 7/31 | SF @ SD (Whisenhunt/Rodriguez) | YRFI | 54% | _model-only_ | **W** (1st 0-2 → YRFI) | Rodriguez effectively an opener; Whisenhunt unstable; Petco tempers it. |
 | 7/31 | BOS @ LAD (Suarez/Henriquez) | YRFI | 58% | _model-only_ | TBD | Henriquez a full-time reliever run as LAD's "starter" — bullpen game. |
 | 7/31 | MIN @ SEA (Matthews/Miller) | YRFI | 57% | _model-only_ | TBD | Miller's last start alarming (0 K in 5.1 IP); Matthews also inconsistent. |
@@ -309,7 +309,7 @@ Its own ledger lives here; the dashboard renders it from this file.
 ---
 
 ## Running totals (update on every settle)
-- **Record:** **108-91** (tracker opened 6/10/26). **NRFI:** **55-49** · **YRFI:** **53-42**.
+- **Record:** **109-92** (tracker opened 6/10/26). **NRFI:** **55-49** · **YRFI:** **54-43**.
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
 - **Open:** **7/30 fully settled** (auto via `nrfi_settle.py --apply` at this session's start — all 10
   games decided, record moved to 102-87). **7/31: 14 reads open** (15 games minus the PHI@BAL NEUTRAL,

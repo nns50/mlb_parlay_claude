@@ -42,6 +42,8 @@ from datetime import date
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
+from settle import parse_hprop as _parse_hprop  # noqa: E402  (leg-text prop detection)
+from settle import parse_kprop as _parse_kprop  # noqa: E402
 ODDS_API = os.path.join(HERE, "odds_api.sh")
 DEFAULT_LEDGER = os.path.join(HERE, "..", "results_log.md")
 CACHE_DIR = os.path.join(os.environ.get("TMPDIR", "/tmp"), "odds_cache")
@@ -128,6 +130,12 @@ def classify_leg(leg, typ):
     l = (leg or "").lower().replace("−", "-")
     if "parlay" in t or "×" in (leg or ""):
         return "skip", "parlay ticket — no single closing line"
+    # LEG-TEXT evidence outranks the free-text Type column: a player prop with a loose
+    # type (e.g. just "HR") must never fall into the game-totals branch off its
+    # "Over 0.5". parse_kprop/parse_hprop require a stat token, so game totals
+    # ("… Over 8.5", no stat word) still pass through to the totals branch below.
+    if _parse_kprop(leg or "") or _parse_hprop(leg or ""):
+        return "manual", "player prop — closes via the live props feed (paid tier)"
     if (re.search(r"k-over|k-under|hitter|prop", t)
             or re.search(r"\d+(?:\.\d+)?\s*k\b", l)
             or "hits" in l or "team total" in l or re.search(r"\btt\b", l)):
@@ -137,8 +145,8 @@ def classify_leg(leg, typ):
         if m:
             return "totals", (m.group(1).capitalize(), float(m.group(2)))
         return "manual", "total leg without a parseable Over/Under <point>"
-    if "run line" in t or re.fullmatch(r"rl", t) or re.search(r"[+-](?:1|2)\.5\b", l):
-        m = re.search(r"([+-])((?:1|2)\.5)\b", l)
+    if "run line" in t or re.fullmatch(r"rl", t) or re.search(r"[+-]\d+\.5\b", l):
+        m = re.search(r"([+-])(\d+\.5)\b", l)
         if m:
             return "spreads", float(m.group(1) + m.group(2))
         return "manual", "run-line leg without a parseable ±point"
