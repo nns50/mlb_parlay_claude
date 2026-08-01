@@ -241,13 +241,19 @@ Tier 3 = its band pick; never hand-pick a 3rd leg the search didn't rank first.
 ## `settle.py` — match a day's finals to open legs and PROPOSE settle edits
 
 Automates the error-prone settle lookup: pulls `mlb_api.sh finals <date>`, finds `results_log.md` rows
-that are still TBD for that date, maps each leg's team (by nickname) to its final, and proposes W/L for
-team-side bets (ML / run line / spread). **K-props ("Gilbert Over 6.5 K" and compact "Sánchez O7.5K" /
-"Peterson U4.5K") settle deterministically off the pitcher's GAMELOG** — findpitcher (accent-stripped) →
-pitchers only → the settle date + the leg's team abbrs disambiguate common surnames → K count vs the
-line. This kills two real mis-settle classes: the mid-game/team-result prop flips (6/9 Burns, 6/16
-Cease) AND a silent bug where compact "O7.5K" notation slipped past the prop guard and settled off the
-TEAM score. Ambiguous / no appearance that date → MANUAL. Other props / totals → **MANUAL**.
+that are still TBD for that date, and proposes a verdict for the FULL leg universe (7/30/26):
+
+- **Team ML** by final score; **run lines by MARGIN** (a −1.5 fav that wins by 1 LOSES — previously a
+  latent fall-through to the ML branch); **game totals** off away+home vs the line (integer lines Push).
+- **K-props** ("Gilbert Over 6.5 K", compact "Sánchez O7.5K"/"Peterson U4.5K") off the pitcher's
+  GAMELOG — findpitcher (accent-stripped) → pitchers only → settle date + leg team abbrs disambiguate.
+- **Hitter/pitcher counting props** (hits / TB / HR / RBI / runs / H+R+RBI / hits-allowed) off the
+  BOXSCORE — player accent-matched across both teams; TB = H+2B+2·3B+3·HR. A player with no
+  boxscore line (DNP) → MANUAL, matching how books void those.
+- The team is bound to the FIRST team mentioned in the leg text (the bet side by ledger convention) —
+  dict-order matching silently bound "BAL … (@ DET)" to DET. Team totals → **MANUAL**.
+
+This kills the whole prop mis-settle class (mid-game K counts, team-result flips, side-flips).
 **READ-ONLY** — prints proposals; you apply them (and `fades.md` / `bankroll.md` / the parlay file) so
 the audit trail stays deliberate.
 

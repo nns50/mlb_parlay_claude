@@ -148,14 +148,21 @@ def classify_leg(leg, typ):
 
 
 def find_team(text):
+    """The team the leg is ON — the EARLIEST team mention in the text (ledger convention
+    writes the bet side first: 'BAL ML (@ DET)' is a BAL leg). Position-based, not
+    dict-order — dict-order bound 'BAL … (@ DET)' to DET and would capture the WRONG
+    side's closing line (side-flip bug, 7/30)."""
     low = text.lower()
+    best = None  # (pos, abbr, nickname)
     for nick in NICK_ORDER:
-        if nick in low:
-            return NICK[nick], nick
+        p = low.find(nick)
+        if p >= 0 and (best is None or p < best[0]):
+            best = (p, NICK[nick], nick)
     for abbr, full_abbr in ABBREV.items():
-        if re.search(rf"\b{re.escape(abbr)}\b", low):
-            return full_abbr, ABBR2NICK.get(full_abbr, abbr)
-    return None, None
+        m = re.search(rf"\b{re.escape(abbr)}\b", low)
+        if m and (best is None or m.start() < best[0]):
+            best = (m.start(), full_abbr, ABBR2NICK.get(full_abbr, abbr))
+    return (best[1], best[2]) if best else (None, None)
 
 
 # ── cached-slate closing computation (0 credits) ──────────────────────────────
@@ -374,50 +381,69 @@ def main():
            if slate else "NO cache — ML falls back to per-leg odds_api.sh clv (1 credit each)")
     print(f"\n  {len(open_legs)} open leg(s) to capture.  Closing source: {src}\n")
 
-    # ── rich-tier K-prop auto-close (paid 20K tier only; ~1 credit per EVENT) ──
-    # On the free tier this never spends: gated on the API reporting ≥5000 remaining.
+    # ── rich-tier PROP auto-close (paid 20K tier only; ~1 credit per event+market) ──
+    # Covers K-props AND the hitter/pitcher counting props the 16:00 sweep surfaces
+    # (hits / TB / HR / RBI / runs / H+R+RBI / hits-allowed). On the free tier this
+    # never spends: gated on the API reporting ≥5000 remaining.
     import kprice
+    from settle import HPROP as SETTLE_HPROP
+    from settle import parse_hprop as settle_parse_hprop
     from settle import parse_kprop as settle_parse_kprop
+    PROP_MARKET = {"hits": "batter_hits", "tb": "batter_total_bases",
+                   "hr": "batter_home_runs", "rbi": "batter_rbis",
+                   "runs": "batter_runs_scored", "hrr": "batter_hits_runs_rbis",
+                   "hitsallowed": "pitcher_hits_allowed"}
     props_cache = {}
     quota_state = {"rich": None}
 
-    def try_kprop_close(leg_txt):
-        """(closing_pct, desc) for a K-prop leg from the live props market, or (None, why)."""
-        parsed = settle_parse_kprop(leg_txt)
-        if not parsed:
-            return None, "prop / team total — not in the cached slate feed"
+    def try_prop_close(leg_txt):
+        """(closing_pct, desc) for a prop leg from the live props market, or (None, why)."""
+        kp = settle_parse_kprop(leg_txt)
+        if kp:
+            surname, direction, point = kp
+            market, unit = "pitcher_strikeouts", "K"
+        else:
+            hp = settle_parse_hprop(leg_txt)
+            if not hp:
+                return None, "prop / team total — not in the cached slate feed"
+            surname, direction, point, statkey = hp
+            market = PROP_MARKET.get(statkey)
+            unit = statkey
+            if not market:
+                return None, f"no odds market mapped for {statkey!r} — pull by hand"
         if quota_state["rich"] is None:
             rem = kprice.quota_remaining()
             quota_state["rich"] = rem is not None and rem >= 5000
         if not quota_state["rich"]:
-            return None, ("K-prop close needs the paid tier (API reports <5000 credits) — "
-                          "pull the closing K line by hand")
-        surname, direction, point = parsed
-        _, nick = find_team(leg_txt)
+            return None, ("prop close needs the paid tier (API reports <5000 credits) — "
+                          "pull the closing line by hand")
+        # Team from the leg MINUS the prop phrase ("Over 1.5 TB" must not bind Tampa Bay)
+        _, nick = find_team(SETTLE_HPROP.sub(" ", leg_txt))
         if not nick:
             return None, "no team in the leg text to resolve the odds event"
         try:
             eid = kprice.event_id_for_team(target_date, nick)
-            if eid not in props_cache:
-                props_cache[eid] = kprice.fetch_event_props(eid, "pitcher_strikeouts")
-            tbl = kprice.best_by_point(props_cache[eid], surname)
+            ck = (eid, market)
+            if ck not in props_cache:
+                props_cache[ck] = kprice.fetch_event_props(eid, market)
+            tbl = kprice.best_by_point(props_cache[ck], surname, market_prefix=market)
             entry = next((tbl[pt] for pt in tbl if abs(pt - point) < 1e-9), None)
             if not entry:
-                return None, (f"closing K board has no {point:g} line for {surname} "
+                return None, (f"closing {unit} board has no {point:g} line for {surname} "
                               f"(available: {', '.join(f'{p:g}' for p in sorted(tbl)) or 'none'})")
             nv = kprice.novig_at_point(entry)
             if nv is None:
-                return None, f"one-sided K close at {point:g} — can't devig"
+                return None, f"one-sided {unit} close at {point:g} — can't devig"
             myp = nv[0] if direction == "Over" else nv[1]
             if myp >= 0.95 or myp <= 0.05:
-                return None, "implausible K close (≥95%/≤5%) — stale/settled; skip"
+                return None, f"implausible {unit} close (≥95%/≤5%) — stale/settled; skip"
             pr, book = entry[direction]
-            return myp * 100, (f"close best {direction} {point:g}K {pr:+.0f} @{book} "
+            return myp * 100, (f"close best {direction} {point:g} {unit} {pr:+.0f} @{book} "
                                f"→ no-vig {myp*100:.1f}%")
         except SystemExit as e:
             return None, str(e)
         except Exception as e:  # noqa: BLE001
-            return None, f"K-prop close failed ({e})"
+            return None, f"prop close failed ({e})"
 
     edits = {}
     for sec, c, raw in open_legs:
@@ -429,7 +455,7 @@ def main():
             print(f"   ⚠ SKIP — {info}\n")
             continue
         if kind == "manual":
-            closing_pct, desc = try_kprop_close(leg)
+            closing_pct, desc = try_prop_close(leg)
             if closing_pct is None:
                 print(f"   ⚠ MANUAL — {desc}")
                 print("     CLV fill key: + (closed in your favor) | − (moved against) | = (flat)\n")

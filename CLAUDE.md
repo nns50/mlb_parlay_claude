@@ -56,9 +56,12 @@ CLAUDE.md is crisp **doctrine**; those files are **live data**. Burn tags below 
     **Paste the `[adj: …]` ledger tag it prints into the leg cell** (`[adj: none]` for pure-market rows) —
     `calib.py` §1c scores each adjustment's skill from tagged rows; at ~20+ decided rows per adjustment
     the registry magnitudes can be auto-calibrated instead of trusted. (Accrual started 7/30/26.)
-  - `tools/settle.py [YYYY-MM-DD]` — pulls finals + proposes W/L for every TBD team-side leg that date;
-    **K-props settle off the pitcher's gamelog** (findpitcher → K count vs the line, opponent-verified —
-    kills the mid-game/team-result prop mis-settle class); other props/totals stay MANUAL. READ-ONLY —
+  - `tools/settle.py [YYYY-MM-DD]` — pulls finals + proposes W/L for every TBD leg that date, now
+    across the FULL universe (7/30/26): team ML by score; **run lines by MARGIN** (a −1.5 fav winning
+    by 1 loses the leg — was a latent mis-settle); **game totals off the final** (away+home vs the
+    line, integer lines can Push); **K-props off the pitcher's gamelog**; **hitter/pitcher counting
+    props (hits / TB / HR / RBI / runs / H+R+RBI / hits-allowed) off the BOXSCORE** (player
+    accent-matched; DNP → MANUAL, as books void those). Team totals stay MANUAL. READ-ONLY —
     apply the proposals + `fades.md`/`bankroll.md`/parlay file by hand.
   - `tools/recheck.py snap [date]` / `tools/recheck.py [date]` — **SP-scratch detector (E3/E4 made
     mechanical).** The 11:00 build snapshots the slate's probables (committed as an audit record); the
@@ -183,6 +186,9 @@ surface only props clearing +2pp standalone / +3-4pp to anchor.** Prop-specific 
   usually a known burner vs a slow-to-plate SP.
 - **Singles/doubles/walks:** thin/illiquid — only if a clear matchup edge (walks vs a high-BB SP, etc.).
 - All hitter-prop gates above (lineup CONFIRMED, recent form/slump, handedness, BvP≥30PA) still apply.
+- **Settle + CLV are automated for this whole universe (7/30/26)** — `settle.py` proposes W/L off the
+  boxscore and `clv_capture.py --apply` closes the props off the live feed on the paid tier — so logging
+  full-universe prop rows no longer creates manual settle/CLV debt; log every candidate the sweep surfaces.
 
 ### Moneyline / spread — verify before recommending
 - SP matchup quality (ERA, xFIP, recent form — not just season ERA); HR rate; first-inning issues.
@@ -434,11 +440,14 @@ rejected candidates with reasons, and a `Result` section starting TBD.
   ET hour is 15–19** (both 16:00 and 18:00 qualify) and **WRITES the verdict directly into the CLV column** —
   no manual copy step. It captures **bet-OR-recommended legs** (no Played=Y gate — every recommended leg is
   Played=N), computing the verdict from the closing no-vig vs the row's logged no-vig ImplP (±0.5pp dead-band),
-  and is idempotent (filled rows skipped → re-running spends no quota). **Coverage (v2, 7/30/26): ML + game
+  and is idempotent (filled rows skipped → re-running spends no quota). **Coverage (v3, 7/30/26): ML + game
   totals + run lines are ALL captured from the CACHED slate at 0 credits** (session_start warms it at run
-  start = near first pitch); K/hitter props + team totals stay manual. It also prints **⚠ EDGE GONE** when
-  the closing no-vig has moved past a TBD leg's TrueP (or inside the +2pp gate) — a leg whose edge
-  evaporated at the close must NOT be (re)bet, so read the warnings before locking, not just the verdicts.
+  start = near first pitch), **and on the paid tier K-props AND hitter/pitcher counting props (hits/TB/HR/
+  RBI/runs/HRR/hits-allowed) auto-close from the live props feed** (~1 credit per event+market, cached per
+  run; gated on the API reporting ≥5000 so the free tier never spends). Team totals stay manual. It also
+  prints **⚠ EDGE GONE** when the closing no-vig has moved past a TBD leg's TrueP (or inside the +2pp
+  gate) — a leg whose edge evaporated at the close must NOT be (re)bet, so read the warnings before
+  locking, not just the verdicts.
   ⚠️ The OLD `clv_capture.sh` gated on Played=Y and captured nothing (that was the real blank-CLV bug, not the
   cron) — it's deprecated; use the `.py --apply`. (Codified 6/4/26; auto-capture 6/6/26; retimed to 11/16/18 +
   switched to auto-applying `.py` 6/7/26.)
