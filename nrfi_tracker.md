@@ -291,25 +291,25 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 7/30 | SF @ SD (TBA/Sears) | NRFI | 54% | _model-only_ | **L** (1st 1-0 → YRFI) | SF SP TBA (E4 gate, no bet); Sears reliable, Petco a pitcher's park. |
 | 7/30 | SEA @ LAD (Woo/Sasaki) | NRFI | 57% | _model-only_ | **L** (1st 0-2 → YRFI) | Sasaki's best form of the season his last two starts (5K/0ER, 9K/1ER). |
 | 7/31 | NYY @ CHC (Warren/Imanaga) | YRFI | 56% | _model-only_ | **L** (1st 0-0 → NRFI) | Warren shaky last 2 outings; Imanaga clean recent form. |
-| 7/31 | PIT @ CIN (Skenes/Greene) | NRFI | 58% | _model-only_ | TBD | Skenes elite/consistent; Greene wildly volatile in a 4-GS sample. |
+| 7/31 | PIT @ CIN (Skenes/Greene) | NRFI | 58% | _model-only_ | **L** (1st 2-2 → YRFI) | Skenes elite/consistent; Greene wildly volatile in a 4-GS sample. |
 | 7/31 | PHI @ BAL (TBA/Young) | NEUTRAL | 52% | _model-only_ | TBD | PHI SP still TBA (E4 gate) — no SP-quality read. |
-| 7/31 | STL @ TOR (Leahy/Cease) | NRFI | 60% | _model-only_ | TBD | Cease dominant (CG shutout last start) — should retire STL's top clean. |
-| 7/31 | AZ @ CLE (Bratt/Bibee) | YRFI | 56% | _model-only_ | TBD | Bratt small-sample rookie (4 GS), never past 5.0 IP. |
-| 7/31 | CWS @ TB (Fedde/Martinez) | YRFI | 55% | _model-only_ | TBD | Fedde swingman on short outings; Martinez's side is fine. |
-| 7/31 | MIA @ NYM (Junk/Peralta) | YRFI | 57% | _model-only_ | TBD | Peralta's recent starts have leaked early runs despite high K/9. |
-| 7/31 | WSH @ ATL (Griffin/Elder) | NRFI | 54% | _model-only_ | TBD | Both solid arms, no strong signal either way. |
-| 7/31 | TEX @ HOU (Eovaldi/Brown) | NRFI | 55% | _model-only_ | TBD | Both good arms, dome-neutral park. |
-| 7/31 | KC @ COL (Wacha/Sugano) | YRFI | 58% | _model-only_ | TBD | Sugano 3.5-wk rust gap + Coors amplifies early damage. |
+| 7/31 | STL @ TOR (Leahy/Cease) | NRFI | 60% | _model-only_ | **W** (1st 0-0 → NRFI) | Cease dominant (CG shutout last start) — should retire STL's top clean. |
+| 7/31 | AZ @ CLE (Bratt/Bibee) | YRFI | 56% | _model-only_ | **W** (1st 0-1 → YRFI) | Bratt small-sample rookie (4 GS), never past 5.0 IP. |
+| 7/31 | CWS @ TB (Fedde/Martinez) | YRFI | 55% | _model-only_ | **W** (1st 1-0 → YRFI) | Fedde swingman on short outings; Martinez's side is fine. |
+| 7/31 | MIA @ NYM (Junk/Peralta) | YRFI | 57% | _model-only_ | **L** (1st 0-0 → NRFI) | Peralta's recent starts have leaked early runs despite high K/9. |
+| 7/31 | WSH @ ATL (Griffin/Elder) | NRFI | 54% | _model-only_ | **L** (1st 0-1 → YRFI) | Both solid arms, no strong signal either way. |
+| 7/31 | TEX @ HOU (Eovaldi/Brown) | NRFI | 55% | _model-only_ | **W** (1st 0-0 → NRFI) | Both good arms, dome-neutral park. |
+| 7/31 | KC @ COL (Wacha/Sugano) | YRFI | 58% | _model-only_ | **W** (1st 0-1 → YRFI) | Sugano 3.5-wk rust gap + Coors amplifies early damage. |
 | 7/31 | MIL @ LAA (Drohan/R. Johnson) | YRFI | 57% | _model-only_ | TBD | R. Johnson's last start was a disaster (3.1 IP/8 ER). |
 | 7/31 | DET @ ATH (UNCONFIRMED/Springs) | YRFI | 55% | _model-only_ | TBD | Springs' last start a disaster (1.1 IP/4 ER/0K); DET SP unconfirmed. |
-| 7/31 | SF @ SD (Whisenhunt/Rodriguez) | YRFI | 54% | _model-only_ | TBD | Rodriguez effectively an opener; Whisenhunt unstable; Petco tempers it. |
+| 7/31 | SF @ SD (Whisenhunt/Rodriguez) | YRFI | 54% | _model-only_ | **W** (1st 0-2 → YRFI) | Rodriguez effectively an opener; Whisenhunt unstable; Petco tempers it. |
 | 7/31 | BOS @ LAD (Suarez/Henriquez) | YRFI | 58% | _model-only_ | TBD | Henriquez a full-time reliever run as LAD's "starter" — bullpen game. |
 | 7/31 | MIN @ SEA (Matthews/Miller) | YRFI | 57% | _model-only_ | TBD | Miller's last start alarming (0 K in 5.1 IP); Matthews also inconsistent. |
 
 ---
 
 ## Running totals (update on every settle)
-- **Record:** **102-88** (tracker opened 6/10/26). **NRFI:** **53-47** · **YRFI:** **49-41**.
+- **Record:** **108-91** (tracker opened 6/10/26). **NRFI:** **55-49** · **YRFI:** **53-42**.
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
 - **Open:** **7/30 fully settled** (auto via `nrfi_settle.py --apply` at this session's start — all 10
   games decided, record moved to 102-87). **7/31: 14 reads open** (15 games minus the PHI@BAL NEUTRAL,

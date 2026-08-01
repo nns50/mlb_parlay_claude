@@ -122,11 +122,26 @@ assert m.stat_from_box(None,{"hits":7},"hitsallowed")==7
 assert m.prop_verdict("Over",2.0,2)=="Push" and m.prop_verdict("Over",1.5,2)=="W"
 assert m.spread_verdict(10,9,-1.5)=="L"    # won by 1 — the -1.5 fav LOSES the leg
 assert m.spread_verdict(10,8,-1.5)=="W" and m.spread_verdict(3,4,1.5)=="W"
-# game total settles off the final; team totals stay manual
-games={"PHI":(6,8,"MIA","Final"),"MIA":(8,6,"PHI","Final")}
-assert m.propose_total("PHI @ MIA Over 8.5",games)[1]=="W"    # total 14
+# game totals AND team totals settle off the final (finals are LISTS per team — DH-safe)
+games={"PHI":[(6,8,"MIA","Final")],"MIA":[(8,6,"PHI","Final")]}
+assert m.propose_total("PHI @ MIA Over 8.5",games)[1]=="W"    # game total 14
 assert m.propose_total("PHI @ MIA Under 8.5",games)[1]=="L"
-assert m.propose_total("PHI team total Over 4.5",games) is None
+assert m.propose_total("PHI team total Over 6.5",games)[1]=="L"   # PHI scored 6 (own side)
+assert m.propose_total("PHI team total Under 6.5",games)[1]=="W"
+# doubleheader guard: one final resolves; two need an explicit G1/G2 hint (never guess)
+e1,e2=(2,3,"NYM","Final"),(1,0,"NYM","Final")
+assert m.resolve_game("ATL ML",[e1])==e1
+assert m.resolve_game("ATL ML",[e1,e2]) is None
+assert m.resolve_game("ATL ML G1",[e1,e2])==e1 and m.resolve_game("ATL ML Game 2",[e1,e2])==e2
+# 8/1 stat expansion: ER / SB / walks / doubles / singles / pitcher outs
+assert m.parse_hprop("Skubal Under 2.5 earned runs")==("Skubal","Under",2.5,"er")
+assert m.parse_hprop("Ohtani O0.5 SB")==("Ohtani","Over",0.5,"sb")
+assert m.parse_hprop("Soto Over 0.5 walks")==("Soto","Over",0.5,"bb")
+assert m.parse_hprop("Sánchez Under 18.5 outs")==("Sánchez","Under",18.5,"outs")
+assert m.parse_hprop("Betts Over 0.5 doubles")==("Betts","Over",0.5,"doubles")
+assert m.stat_from_box({"hits":3,"doubles":1,"triples":0,"homeRuns":1},None,"singles")==1
+assert m.stat_from_box(None,{"outs":18},"outs")==18
+assert m.stat_from_box(None,{"earnedRuns":2},"er")==2
 # find_team binds the FIRST team in the text (the bet side), not dict order
 assert m.find_team("BAL -1.5 RL (@ DET)")[0]=="BAL"
 assert m.find_team("TB ML (@ MIA)")[0]=="TB"

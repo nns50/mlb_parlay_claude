@@ -57,12 +57,15 @@ CLAUDE.md is crisp **doctrine**; those files are **live data**. Burn tags below 
     `calib.py` §1c scores each adjustment's skill from tagged rows; at ~20+ decided rows per adjustment
     the registry magnitudes can be auto-calibrated instead of trusted. (Accrual started 7/30/26.)
   - `tools/settle.py [YYYY-MM-DD]` — pulls finals + proposes W/L for every TBD leg that date, now
-    across the FULL universe (7/30/26): team ML by score; **run lines by MARGIN** (a −1.5 fav winning
-    by 1 loses the leg — was a latent mis-settle); **game totals off the final** (away+home vs the
-    line, integer lines can Push); **K-props off the pitcher's gamelog**; **hitter/pitcher counting
-    props (hits / TB / HR / RBI / runs / H+R+RBI / hits-allowed) off the BOXSCORE** (player
-    accent-matched; DNP → MANUAL, as books void those). Team totals stay MANUAL. READ-ONLY —
-    apply the proposals + `fades.md`/`bankroll.md`/parlay file by hand.
+    across the FULL universe (8/1/26): team ML by score; **run lines by MARGIN** (a −1.5 fav winning
+    by 1 loses the leg — was a latent mis-settle); **game totals AND team totals off the final**
+    (integer lines can Push); **K-props off the pitcher's gamelog**; **hitter/pitcher counting props
+    (hits / TB / HR / RBI / runs / H+R+RBI / SB / walks / doubles / singles / hits-allowed / outs /
+    ER) off the BOXSCORE** (player accent-matched; DNP → MANUAL, as books void those).
+    **Doubleheader-safe:** a team with 2 finals that date settles ONLY with an explicit G1/G2 hint
+    in the leg text — 7/29 proved G2 silently clobbered G1 otherwise. READ-ONLY — apply the
+    proposals + `fades.md`/`bankroll.md`/parlay file by hand. **Sweeps audit the coverage matrix
+    at the top of `tools/README.md` (leg-type × stage), not just past burns.**
   - `tools/recheck.py snap [date]` / `tools/recheck.py [date]` — **SP-scratch detector (E3/E4 made
     mechanical).** The 11:00 build snapshots the slate's probables (committed as an audit record); the
     16:00/18:00 lock runs diff live StatsAPI state vs it — ⚠ SP CHANGED / ⛔ started invalidates every

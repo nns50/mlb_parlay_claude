@@ -392,7 +392,10 @@ def main():
     PROP_MARKET = {"hits": "batter_hits", "tb": "batter_total_bases",
                    "hr": "batter_home_runs", "rbi": "batter_rbis",
                    "runs": "batter_runs_scored", "hrr": "batter_hits_runs_rbis",
-                   "hitsallowed": "pitcher_hits_allowed"}
+                   "sb": "batter_stolen_bases", "bb": "batter_walks",
+                   "doubles": "batter_doubles", "singles": "batter_singles",
+                   "hitsallowed": "pitcher_hits_allowed", "outs": "pitcher_outs",
+                   "er": "pitcher_earned_runs"}
     props_cache = {}
     quota_state = {"rich": None}
 
