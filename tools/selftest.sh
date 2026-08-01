@@ -191,6 +191,11 @@ assert m.classify_leg("Rays -1.5 RL (vs TEX)","Run line")==("spreads",-1.5)
 assert m.classify_leg("Gilbert Over 6.5 K","K-Over")[0]=="manual"
 assert m.classify_leg("Sánchez O7.5K","K-Over")[0]=="manual"
 assert m.classify_leg("A × B (Tier 2)","Parlay (+corr)")[0]=="skip"
+# LEG-TEXT beats a loose Type: a player prop typed just "HR"/"BB" must never
+# route to the game-totals branch off its "Over 0.5" (8/1 routing fix)
+assert m.classify_leg("Judge Over 0.5 HR (NYY @ CWS)","HR")[0]=="manual"
+assert m.classify_leg("Soto Over 0.5 walks (vs PHI)","BB")[0]=="manual"
+assert m.classify_leg("LAD -2.5 alt RL (vs SEA)","Run line")==("spreads",-2.5)
 # closing no-vig from a synthetic cached game (best-across-books, same-point pairing)
 game={"away_team":"Texas Rangers","home_team":"Tampa Bay Rays","bookmakers":[
  {"title":"A","markets":[
