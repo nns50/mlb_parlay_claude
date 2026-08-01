@@ -59,7 +59,7 @@ ABBREV = {
     "phi": "PHI", "mil": "MIL", "sd":  "SD",  "sf":  "SF",  "col": "COL",
     "stl": "STL", "chc": "CHC", "cin": "CIN", "pit": "PIT", "tex": "TEX",
     "bal": "BAL", "bos": "BOS", "tor": "TOR", "kc":  "KC",  "min": "MIN",
-    "mia": "MIA", "wsh": "WSH", "ath": "ATH", "cws": "CWS", "az": "AZ",
+    "mia": "MIA", "wsh": "WSH", "ath": "ATH", "cws": "CWS", "az": "AZ", "ari": "AZ",
 }
 
 PROP_HINT = re.compile(r"\b(over|under|\d+\.\d+\s*k|hits|total|team total|tt)\b", re.I)
@@ -71,8 +71,10 @@ KPROP = re.compile(r"([^\s|]+)\s+(Over|Under|O(?=\d)|U(?=\d))\s*(\d+(?:\.\d+)?)\
 
 
 def parse_kprop(text):
-    """-> (surname, 'Over'|'Under', line) or None. Pure (selftest-able)."""
-    m = KPROP.search(text)
+    """-> (surname, 'Over'|'Under', line) or None. Pure (selftest-able).
+    Markdown bold is stripped first — '**Rasmussen O5.5K**' glued '**' onto the
+    surname and silently defeated pitcher lookup on bolded Tier-1 rows (audit 8/1)."""
+    m = KPROP.search((text or "").replace("**", ""))
     if not m:
         return None
     direction = "Over" if m.group(2).startswith("O") else "Under"
@@ -80,7 +82,10 @@ def parse_kprop(text):
 
 
 def kprop_verdict(direction, line, k):
-    """W/L for a K-prop given the final K count. .5 lines can't push. Pure."""
+    """W/L/Push for a K-prop given the final K count. Books post INTEGER alt K lines
+    (e.g. Over 7.0) — exactly-on is a Push/void, not an L for both sides (audit 8/1)."""
+    if abs(k - line) < 1e-9:
+        return "Push"
     if direction == "Over":
         return "W" if k > line else "L"
     return "W" if k < line else "L"
@@ -109,9 +114,18 @@ _STAT_KEY = {"hits allowed": "hitsallowed", "total bases": "tb", "tb": "tb",
 
 
 def parse_hprop(text):
-    """-> (surname, 'Over'|'Under', line, statkey) or None. Pure (selftest-able)."""
-    m = HPROP.search(text or "")
+    """-> (surname, 'Over'|'Under', line, statkey) or None. Pure (selftest-able).
+    Strips markdown bold; refuses TEAM-total phrasings ('STL team total Over 4.5 runs',
+    'NYY TT Over 4.5 runs') — those are totals, and letting them through here settled
+    the TEAM line off a player whose name contains the token (audit 8/1)."""
+    clean = (text or "").replace("**", "")
+    low = clean.lower()
+    if "team total" in low or re.search(r"\btt\b", low):
+        return None
+    m = HPROP.search(clean)
     if not m:
+        return None
+    if m.group(1).lower() in ("total", "tt", "team"):
         return None
     direction = "Over" if m.group(2).upper().startswith("O") else "Under"
     stat = re.sub(r"\s+", " ", m.group(4).lower().strip())
@@ -250,7 +264,13 @@ def propose_kprop(leg, d):
                 continue
             k, opp_txt = got
             if leg_abbrs:
+                # gamelog prints the opponent as ABBREVIATION when StatsAPI provides it
+                # ("vs STL"), full name as fallback ("@ Texas Rangers") — match BOTH,
+                # else the veto is dead code and a same-surname arm slips through (audit 8/1)
                 opp_abbr = next((NICK[nk] for nk in NICK_ORDER if nk in opp_txt), None)
+                if opp_abbr is None:
+                    opp_abbr = next((fa for ab, fa in ABBREV.items()
+                                     if re.search(rf"\b{re.escape(ab)}\b", opp_txt)), None)
                 if opp_abbr is not None and opp_abbr not in leg_abbrs:
                     continue
             cands.append((h[0], h[1], k))
@@ -388,19 +408,19 @@ GAME_HINT = re.compile(r"\bG(?:ame)?\s*([12])\b", re.I)
 
 
 def resolve_game(leg, entries):
-    """Pick THE final for a leg from a team's finals that date. One game → it. Two
-    (doubleheader) → only with an explicit G1/G2 hint in the leg text; else None
-    (MANUAL — never guess which game of a DH a leg belongs to). Pure."""
+    """Pick THE final for a leg from a team's finals that date. Pure.
+    - No hint: one final → it; two (doubleheader) → None (never guess the game).
+    - G1/G2 hint: ONLY settle when both DH finals exist and the index resolves — a
+      hinted leg with a single final is ambiguous (is that final G1 or the suspended
+      G2 completed first?) → None. (Audit 8/1: a G2 leg was silently settled off the
+      lone G1 final.)"""
     if not entries:
         return None
-    if len(entries) == 1:
-        return entries[0]
     m = GAME_HINT.search(leg or "")
     if m:
         idx = int(m.group(1)) - 1
-        if idx < len(entries):
-            return entries[idx]
-    return None
+        return entries[idx] if len(entries) >= 2 and idx < len(entries) else None
+    return entries[0] if len(entries) == 1 else None
 
 
 def md_date(d):
@@ -421,7 +441,9 @@ def find_team(text):
     low = text.lower()
     best = None  # (pos, abbr, token)
     for nick in NICK_ORDER:
-        p = low.find(nick)
+        # word-boundary, not substring — "rays" inside "Grayson" bound TB (audit 8/1)
+        m = re.search(rf"\b{re.escape(nick)}\b", low)
+        p = m.start() if m else -1
         if p >= 0 and (best is None or p < best[0]):
             best = (p, NICK[nick], nick)
     for abbr, full_abbr in ABBREV.items():
@@ -458,10 +480,18 @@ def main():
         if not ln.lstrip().startswith("|"):
             continue
         c = cells(ln)
-        if len(c) < 8 or not c[0].startswith(target):
+        # EXACT date match — startswith let "6/22" rows settle off a "6/2" run's finals
+        # (prefix collision on the 1st-3rd of every month; audit 8/1).
+        if len(c) < 8 or c[0].strip() != target:
             continue
-        leg, result = c[1], c[7]
+        leg, typ, result = c[1], c[2], c[7]
         if "tbd" not in result.lower():
+            continue
+        # Parlay/SGP ticket rows settle from their COMPONENT legs, never from one team's
+        # final — without this guard a "TB ML × Rasmussen O5.5K" row settled off whichever
+        # single leg parsed first (audit 8/1).
+        if "×" in leg or "parlay" in typ.lower():
+            proposals.append((leg, "MANUAL", "parlay ticket — settle from its component legs"))
             continue
         # K-props FIRST — compact notation ("Sánchez O7.5K") slips past PROP_HINT's \b and
         # used to fall through to the TEAM matcher, silently settling a prop off the team
@@ -500,7 +530,9 @@ def main():
         # the leg. Any ±x.5 point remaining at this stage IS a spread (K/props/totals
         # branches already consumed their notation above) — requiring an "RL" token here
         # let "BAL -1.5 (@ DET)" silently settle as ML (audit 8/1).
-        sp = SPREAD_RX.search(leg.replace("−", "-"))
+        # Strip [adj: …] tags first — a fractional custom adjustment ("custom+1.5")
+        # would otherwise read as a spread point and margin-settle an ML leg (audit 8/1).
+        sp = SPREAD_RX.search(re.sub(r"\[adj:[^\]]*\]", " ", leg).replace("−", "-"))
         if sp:
             point = float(sp.group(1) + sp.group(2))
             verdict = spread_verdict(own, opp, point)

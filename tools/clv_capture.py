@@ -74,7 +74,7 @@ ABBREV = {
     "phi": "PHI", "mil": "MIL", "sd":  "SD",  "sf":  "SF",  "col": "COL",
     "stl": "STL", "chc": "CHC", "cin": "CIN", "pit": "PIT", "tex": "TEX",
     "bal": "BAL", "bos": "BOS", "tor": "TOR", "kc":  "KC",  "min": "MIN",
-    "mia": "MIA", "wsh": "WSH", "ath": "ATH", "cws": "CWS", "az": "AZ",
+    "mia": "MIA", "wsh": "WSH", "ath": "ATH", "cws": "CWS", "az": "AZ", "ari": "AZ",
 }
 
 
@@ -163,16 +163,22 @@ def find_team(text):
     dict-order — dict-order bound 'BAL … (@ DET)' to DET and would capture the WRONG
     side's closing line (side-flip bug, 7/30)."""
     low = text.lower()
-    best = None  # (pos, abbr, nickname)
+    best = None  # (pos, abbr)
     for nick in NICK_ORDER:
-        p = low.find(nick)
-        if p >= 0 and (best is None or p < best[0]):
-            best = (p, NICK[nick], nick)
+        # word-boundary, not substring — "rays" inside "Grayson" bound TB (audit 8/1)
+        m = re.search(rf"\b{re.escape(nick)}\b", low)
+        if m and (best is None or m.start() < best[0]):
+            best = (m.start(), NICK[nick])
     for abbr, full_abbr in ABBREV.items():
         m = re.search(rf"\b{re.escape(abbr)}\b", low)
         if m and (best is None or m.start() < best[0]):
-            best = (m.start(), full_abbr, ABBR2NICK.get(full_abbr, abbr))
-    return (best[1], best[2]) if best else (None, None)
+            best = (m.start(), full_abbr)
+    if best is None:
+        return None, None
+    # Always return the CANONICAL feed nickname for the abbr — the matched alias
+    # ("d-backs") is not a substring of the feed's team name ("Arizona Diamondbacks"),
+    # which silently killed match_game/event lookup for those rows (audit 8/1).
+    return best[1], ABBR2NICK.get(best[1])
 
 
 # ── cached-slate closing computation (0 credits) ──────────────────────────────
@@ -366,7 +372,8 @@ def main():
     for sec, c, raw in all_rows:
         if len(c) < 10:
             continue
-        if not c[0].startswith(target_md):
+        # EXACT date match — startswith let "6/22" rows take a "6/2" run's closes (audit 8/1)
+        if c[0].strip() != target_md:
             continue
         if "tbd" not in c[7].lower():
             continue
