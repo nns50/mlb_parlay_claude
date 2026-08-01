@@ -305,7 +305,7 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 7/31 | SF @ SD (Whisenhunt/Rodriguez) | YRFI | 54% | _model-only_ | **W** (1st 0-2 → YRFI) | Rodriguez effectively an opener; Whisenhunt unstable; Petco tempers it. |
 | 7/31 | BOS @ LAD (Suarez/Henriquez) | YRFI | 58% | _model-only_ | **L** (1st 0-0 → NRFI) | Henriquez a full-time reliever run as LAD's "starter" — bullpen game. |
 | 7/31 | MIN @ SEA (Matthews/Miller) | YRFI | 57% | _model-only_ | **W** (1st 0-2 → YRFI) | Miller's last start alarming (0 K in 5.1 IP); Matthews also inconsistent. |
-| 8/1 | STL @ TOR (Mathews/Gausman) | YRFI | 54% | _model-only_ | TBD | Mathews likely MLB debut (zero 2026 data) — 1st-inning jitters risk. |
+| 8/1 | STL @ TOR (Mathews/Gausman) | YRFI | 54% | _model-only_ | **L** (1st 0-0 → NRFI) | Mathews likely MLB debut (zero 2026 data) — 1st-inning jitters risk. |
 | 8/1 | MIN @ SEA (Prielipp/Gilbert) | NRFI | 57% | _model-only_ | TBD | Gilbert ace-quality (3.44 ERA/0.99 WHIP) should retire MIN's top clean. |
 | 8/1 | CWS @ TB (Hicks/Rasmussen) | YRFI | 58% | _model-only_ | TBD | Hicks (0 GS all season) running as CWS's opener — real bulk-role volatility. |
 | 8/1 | MIA @ NYM (T.Phillips/Thornton) | NRFI | 53% | _model-only_ | TBD | Both reasonably clean arms; mild lean. |
@@ -324,11 +324,12 @@ Its own ledger lives here; the dashboard renders it from this file.
 ---
 
 ## Running totals (update on every settle)
-- **Record:** **110-93** (tracker opened 6/10/26). **NRFI:** **55-49** · **YRFI:** **55-44**.
+- **Record:** **110-94** (tracker opened 6/10/26). **NRFI:** **55-49** · **YRFI:** **55-45**.
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
 - **Open:** **7/31 fully settled** (auto via `nrfi_settle.py --apply` at this session's start — 14
-  decided, record moved to 110-93). **8/1: 15 games, reads logged below** — none started yet at the
-  11:00 build. Settle via `nrfi_settle.py --apply` next session.
+  decided, record moved to 110-93). **8/1: 15 games** — STL@TOR settled **L** at the 18:00 Build C lock
+  (110-94); the other 14 remain in-progress/pre-game. Settle the rest via `nrfi_settle.py --apply` next
+  session.
 - **Settled 7/26** (auto via `nrfi_settle.py --apply`, run 7/30): 14 decided, 7W-7L (NRFI 2-3, YRFI 5-4).
   Record updated from 91-74 to 98-81. LAA@SF (Soriano/Whisenhunt, NEUTRAL) still TBD — game likely
   postponed/unresolved, left open. **No parlay builds ran 7/27-7/29** (session gap) — those slates have

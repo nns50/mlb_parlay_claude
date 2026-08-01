@@ -240,7 +240,7 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 7/31 | TB ML (Martinez, vs CWS) [adj: ace_edge+3] | ML-fav | -133 | 59.0% | 56.0% | +3.0 | **L** (CWS 6-1 TB) — scan candidate at 11:00, later promoted into the recommended Build C Tier 3 (also lost there) | N | − 55%cl | P |
 | 7/31 | NYM ML (Peralta, vs MIA) [adj: custom-4] | ML-fav | -125 | 50.4% | 54.4% | −4.0 | **L** (NYM 2-5 MIA) — REJECT correct (2nd sighting of sub-.500-team-favored-on-SP-alone trap; 2-0 on this read now, still short of the 3-sighting promotion bar) | N | − 52%cl | P |
 | 8/1 | CWS@TB Over 8.0 [adj: custom+4] | Total | -102 | 54.0% | 50.0% | **+4.0** | SUPERSEDED @ 16:00 — line moved to 7.5 before this could be re-locked; see revised row below | N | — | S |
-| 8/1 | CWS@TB Over 7.5 [adj: custom+4] | Total | +100 | 52.6% | 48.6% | **+4.0** | TBD — re-derived TrueP at the new line via `truep.py`; **game went In Progress before this run's lock — status gate CLOSED, not played, logged for calibration only** | N | — | S |
+| 8/1 | CWS@TB Over 7.5 [adj: custom+4] | Total | +100 | 52.6% | 48.6% | **+4.0** | TBD — re-derived TrueP at the new line via `truep.py`; **game went In Progress before this run's lock — status gate CLOSED, not played, logged for calibration only**. 18:00 recheck: board no longer quotes 7.5 at all (live totals resumed 1.5/6.5 in-play) — no stable close available, CLV left blank rather than estimated | N | — (no stable close — total resumed live in-play) | S |
 | 8/1 | SEA ML (Gilbert, vs MIN) [adj: ace_edge+3] | ML-fav | -158 | 63.1% | 60.1% | +3.0 | TBD — scan candidate, anchor-clears but not selected; game went In Progress before 16:00 lock, moot | N | = 60%cl | P |
 | 8/1 | MIA ML (vs NYM) [adj: custom+4] | ML-dog | +118 | 49.1% | 45.1% | +4.0 | TBD — value read on the recurring NYM-fav-vs-MIA pattern (see fades.md D6, new); anchor-clears at 11:00, **edge flipped to −5.7pp at the 16:00 price (NYM -125→ still -125 but board moved) AND game now Delayed Start** — not played, correctly unselected | N | = 45%cl | P |
 | 8/1 | PHI ML (Sánchez, vs BAL) [adj: ace_edge+3] | ML-fav | -138 | 60.3% | 57.1% | +3.1 | TBD — **promoted into Build B Tier 3** (paired with ATL ML) | Y | = 57%cl | P |
@@ -254,7 +254,7 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 8/1 | MIL ML (Gasser, vs LAA) [adj: custom+2] | ML-fav | -112 | 54.2% | 52.2% | +2.0 | TBD — scan candidate, clears standalone but not the +3pp anchor bar; **HOME SP CHANGED Soriano→Suter (E3) at 16:00 recheck** — stays unselected either way | N | + 57%cl | P |
 | 8/1 | PIT ML (Ashcraft, vs CIN) [adj: none] | ML-fav | -112 | 52.1% | 52.1% | 0.0 | TBD — no-edge scan row, priced efficiently, correctly passed | N | + 53%cl | P |
 | 8/1 | CHC ML (Peterson, vs NYY) [adj: none] | ML-fav | -106 | 51.1% | 51.1% | 0.0 | TBD — no-edge scan row, Fried's apparent IL-return gap adds noise both ways, correctly passed | N | + 52%cl | P |
-| 8/1 | Sánchez O6.5K (PHI @ BAL) [adj: ace_edge+3] | K-Over | -150 | 59.9% | 56.9% | +3.0 | TBD — new candidate surfaced in the 16:00 prop sweep; lineup CONFIRMED; standalone-only (not promoted over Tier 1's +3.4pp) | N | — | S |
+| 8/1 | Sánchez O6.5K (PHI @ BAL) [adj: ace_edge+3] | K-Over | -150 | 59.9% | 56.9% | +3.0 | TBD — new candidate surfaced in the 16:00 prop sweep; lineup CONFIRMED; standalone-only (not promoted over Tier 1's +3.4pp) | N | = 57%cl | S |
 
 ---
 
