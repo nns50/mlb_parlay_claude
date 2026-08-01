@@ -31,7 +31,9 @@ CLV FILL KEY
     and rewrites ONLY the CLV cell of each matched row, preserving every other cell exactly.
     Captures bet-OR-recommended legs (no Played=Y gate) per doctrine. Idempotent: rows whose
     CLV is already filled are skipped, so re-running spends no quota. Covered: ML + game
-    totals + run lines (cached slate). MANUAL: K/hitter props, team totals, parlay tickets.
+    totals + run lines (cached slate) + on the PAID tier every counting prop (K / hits /
+    TB / HR / RBI / runs / HRR / SB / BB / 2B / 1B / hits-allowed / outs / ER) via the
+    live props feed. MANUAL: team totals, parlay tickets, live-ML.
 """
 import json
 import os
@@ -471,7 +473,7 @@ def main():
                 print(f"   ⚠ MANUAL — {desc}")
                 print("     CLV fill key: + (closed in your favor) | − (moved against) | = (flat)\n")
                 continue
-            print(f"   {desc}  [K-prop, live props feed]")
+            print(f"   {desc}  [live props feed]")
             verdict = verdict_from_close(closing_pct, implp)
             warn = edge_warning(closing_pct, truep)
             if warn:

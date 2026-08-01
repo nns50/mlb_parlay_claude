@@ -145,7 +145,18 @@ assert m.stat_from_box(None,{"earnedRuns":2},"er")==2
 # find_team binds the FIRST team in the text (the bet side), not dict order
 assert m.find_team("BAL -1.5 RL (@ DET)")[0]=="BAL"
 assert m.find_team("TB ML (@ MIA)")[0]=="TB"
+# 2B/1B literals parse (matrix promised them; they only had word forms before 8/1 audit)
+assert m.parse_hprop("Betts Over 0.5 2B")==("Betts","Over",0.5,"doubles")
+assert m.parse_hprop("Arraez O1.5 1B")==("Arraez","Over",1.5,"singles")
+# parse_finals fixture pins the mlb_api finals line format (settle's backbone) + DH lists
+fx="ATL 2 - NYM 3   [Final]\nATL 1 - NYM 0   [Final]\nSEA 6 - TEX 4   [Final]\njunk line"
+g=m.parse_finals(fx)
+assert g["SEA"]==[(6,4,"TEX","Final")] and g["TEX"]==[(4,6,"SEA","Final")]
+assert len(g["ATL"])==2 and g["ATL"][0]==(2,3,"NYM","Final") and g["ATL"][1]==(1,0,"NYM","Final")
 PY
+# RL margin branch must NOT be gated on an "RL" token — "BAL -1.5 (@ DET)" (no token)
+# used to fall through and settle as ML by W/L (audit 8/1)
+hasnt "settle margin branch not gated on an RL token" 'sp and re.search(r"\b(rl' "$(cat tools/settle.py)"
 then ok "parse_hprop priorities; TB/HRR math; push; RL margin; totals; side binding"; else no "settle props v2" "$(cat /tmp/_selftest_out)"; fi
 if python3 - <<'PY' 2>/tmp/_selftest_out
 import importlib.util as u
@@ -315,6 +326,7 @@ else ok "ticket.py rejects fractional TrueP (0.63)"; fi
 
 # ── 7. devig.sh — no-vig math ─────────────────────────────────────────────────
 echo "7. devig.sh"
+has "devig prints a ¼-Kelly stake line when TrueP given" "¼-Kelly" "$(./tools/devig.sh -130 +110 59 2>&1)"
 DV="$(./tools/devig.sh -150 +130 2>&1)"
 has "devig -150/+130 → ~58% fav side"  "58" "$DV"
 has "devig -150/+130 → ~42% dog side"  "42" "$DV"

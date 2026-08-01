@@ -440,7 +440,8 @@ rejected candidates with reasons, and a `Result` section starting TBD.
 - **CLV capture is OWNED by the 16:00 + 18:00 ET runs** (both near first pitch), not the 11:00 build. The
   16:00 run grabs the close for the evening core; the 18:00 run grabs the late/west-coast slate. The 11:00 run
   is too early (close not set). **`tools/clv_capture.py --apply` AUTO-RUNS in `session_start.sh` whenever the
-  ET hour is 15–19** (both 16:00 and 18:00 qualify) and **WRITES the verdict directly into the CLV column** —
+  ET hour is 15–19** (both 16:00 and 18:00 qualify; the auto-apply itself deliberately arms at 16:00 —
+  a 15:xx "close" is premature) and **WRITES the verdict directly into the CLV column** —
   no manual copy step. It captures **bet-OR-recommended legs** (no Played=Y gate — every recommended leg is
   Played=N), computing the verdict from the closing no-vig vs the row's logged no-vig ImplP (±0.5pp dead-band),
   and is idempotent (filled rows skipped → re-running spends no quota). **Coverage (v3, 7/30/26): ML + game

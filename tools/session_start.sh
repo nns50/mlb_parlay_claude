@@ -12,7 +12,8 @@
 #   MOSTLY READ-ONLY. It surfaces the inputs the routine needs and does not bet, settle,
 #   or build. ONE exception (added 6/7/26): in the near-first-pitch window (ET hour 16-19)
 #   it auto-APPLIES closing-line CLV into results_log.md via `clv_capture.py --apply`
-#   (idempotent, ML legs only). The judgment steps (self-settle, calibration, slate scan)
+#   (idempotent; ML+totals+RL from the cached slate, props on the paid tier). The
+#   judgment steps (self-settle, calibration, slate scan)
 #   are still done by the routine after reading this digest.
 #
 # USAGE
@@ -221,7 +222,8 @@ else
   [[ "$LIVE" != "1" ]] && echo "  (StatsAPI blocked)" || echo "  (fades.md not found)"
 fi
 
-# 6. CLV capture — auto-run + AUTO-APPLY in the near-first-pitch window (15:00–19:59 ET).
+# 6. CLV capture — auto-run + AUTO-APPLY in the near-first-pitch window (16:00–19:59 ET;
+#    deliberately NOT 15:xx — a 15:00 "close" is premature and would freeze CLV too early).
 #    Uses clv_capture.py (captures bet-OR-recommended legs, NO Played=Y gate) with --apply,
 #    so the CLV column fills automatically on the 16:00/18:00 runs — no manual copy step.
 #    Idempotent: filled rows are skipped, so re-running spends no extra quota. Props/RL stay

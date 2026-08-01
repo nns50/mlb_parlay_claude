@@ -72,7 +72,7 @@ fi
 
 if [[ -n "$TRUEP" ]]; then
   is_num "$TRUEP" || die "TrueP '$TRUEP' is not a number (percent, e.g. 59)."
-  awk -v tp="$TRUEP" -v nv="$novig_for_edge" 'BEGIN{
+  awk -v tp="$TRUEP" -v nv="$novig_for_edge" -v price="$A" 'BEGIN{
     edge = tp - nv*100;
     printf "TrueP %.1f%%  −  no-vig %.1f%%  =  Edge %+.1fpp\n", tp, nv*100, edge;
     printf "GATE: ";
@@ -81,6 +81,15 @@ if [[ -n "$TRUEP" ]]; then
     else if (edge >= 2) print "✓ clears +2pp STANDALONE bar (✗ short of +3-4pp anchor)";
     else if (edge >= 0) print "✗ positive but under the +2pp gate — action, not value";
     else                print "✗ NEGATIVE edge — do not bet (this side is -EV)";
+    # ¼-Kelly units on THIS price at THIS TrueP (doctrine: size by edge, cap 2u/leg;
+    # 1u = 1% of the regular-play bankroll). Kelly f = (p·dec − 1)/(dec − 1).
+    dec = (price < 0) ? 1 + 100/(-price) : 1 + price/100;
+    p = tp/100; b = dec - 1;
+    if (b > 0) {
+      f = (p*dec - 1)/b; qk = f*100/4;
+      if (qk < 0) qk = 0; if (qk > 2) qk = 2;
+      printf "STAKE: ¼-Kelly ≈ %.2fu at this price (cap 2u; 0u = no bet). Log the REAL $ per doctrine step 11.\n", qk;
+    }
   }'
 fi
 echo "─────────────────────────────────────────────"

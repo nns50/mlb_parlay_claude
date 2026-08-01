@@ -17,14 +17,20 @@ a new leg type or pipeline stage = add a row/column FIRST, then implement to fil
 | K-prop (std+alt) | kprice.py ✓ | C1-C6 gates ✓ | corr tiers ✓ | props feed (rich) ✓ | gamelog ✓ | ✓ |
 | Hitter counting (H/TB/HR/RBI/R/HRR/SB/BB/2B/1B) | `props core/all` (rich) ✓ | lineup gate ✓ | ticket.py ✓ | props feed (rich) ✓ | boxscore, DNP+DH-guarded ✓ | ✓ |
 | Pitcher props (hits-allowed/outs/ER) | `props` (rich) ✓ | SP gates ✓ | ticket.py ✓ | props feed (rich) ✓ | boxscore/gamelog ✓ | ✓ |
-| NRFI/YRFI | ⚠ model-only (line rarely pulled) | 1st-inn reads ✓ | standalone-only | n/a by doctrine | nrfi_settle ✓ | tracker+dashboard ✓ |
+| NRFI/YRFI | ⚠ model-only (line rarely pulled) | ⚠ judgment reads (linescore data via mlb_api; no deterministic tool) | standalone-only | n/a by doctrine | nrfi_settle ✓ | tracker+dashboard ✓ |
 | Parlay/SGP ticket | parlay.py + min-SGP ✓ | leg gates ✓ | ticket.py search ✓ | n/a (no ticket close) | legs settle it ✓ | ticket rows ✓ |
 | Live-ML (Angle A) | manual by design | — | — | "live CLV" manual | manual | N<20 directional |
+| **Staking / stake-capture** | ¼-Kelly: ticket.py (tickets) + devig.sh (single legs) ✓ | — | — | — | user reports the real $ (doctrine step 11) | ⚠ ROI "fiction" until real stakes logged (calib flags it) |
 
 **Open cells, held deliberately:** team-total pricing/CLV (thin, illiquid market — wire
 `team_totals` event odds if the sweep starts surfacing them); NRFI real lines
-(`totals_1st_1_innings` exists — model-only until doctrine promotes it); alt run lines /
-alt game totals (markets exist, unused by doctrine); F5 lines (not a doctrine product).
+(`totals_1st_1_innings` exists — model-only until doctrine promotes it); NRFI lean
+derivation (judgment by design — the reads are pre-registered TruePs, not a model tool);
+alt run lines / alt game totals (markets exist, unused by doctrine); F5 lines (not a
+doctrine product); stake capture (only the user knows the real $ — the tools print
+¼-Kelly, doctrine step 11 demands the number). **Selftest depth note:** mlb_api.sh output
+parsers are fixture-tested only for the finals format (settle.py's backbone); lineups/
+ump/weather/splits parse drift fails soft (visible garbage, not silent wrong verdicts).
 An open cell must be HERE with a reason — an open cell not listed is a gap.
 
 ## `mlb_api.sh` — authoritative MLB data via the public StatsAPI
@@ -99,9 +105,11 @@ reports whether the policy is live and how much monthly quota remains.
 (Network access → Custom; applies only in a NEW session); (2) the API key in the env var **`ODDS_API_KEY`**
 (a secret — NEVER commit it).
 
-**Budget (free tier = 500 req/mo).** Cost = (#markets × #regions)/call. `slate` (h2h,totals,spreads × us)
-= 3 credits and returns the WHOLE board, so it's **cached per run** — every leg reads the cache, not the
-API. `events` is free. `props` is per-event and quota-spending — opt-in, it warns before spending.
+**Budget (paid tier = 20K credits/mo; free tier = 500).** Cost = (#markets × #regions)/call. `slate`
+(h2h,totals,spreads × us) = 3 credits and returns the WHOLE board, so it's **cached per run** — every leg
+reads the cache, not the API — and session_start reuses a fresh (<90 min, non-empty) cache at 0 credits.
+`events`/`quota` are free. `props` is per-event and quota-spending — opt-in, it warns before spending;
+props tooling (kprice, prop CLV close) self-gates on the API reporting a rich quota (≥5000).
 
 ```
 tools/odds_api.sh check                    # key + reachability + remaining quota
@@ -114,9 +122,10 @@ tools/odds_api.sh clv <betAmerican> "<team>" [date]   # closing no-vig vs your b
 ```
 
 **How it slots in:** at **build** → `best` feeds the best two-sided price into `devig.sh` (min-edge gate vs
-the genuinely best number). At the **16:00 / 18:00 runs** → `clv` snapshots the close for every open leg and
-you write CLV into `results_log.md`. Pairs with `parlay.py` (real prices → real combined EV). Player props
-(Ks/hits) are limited/quota-heavy on the free tier → keep pricing them by hand; the API owns ML/totals/spreads.
+the genuinely best number); K-legs price via `kprice.py`, the wider prop universe via `props core/all` on
+the paid tier. At the **16:00 / 18:00 runs** → `clv_capture.py --apply` writes the close for every covered
+leg automatically (cached slate for ML/totals/RL; live props feed for counting props). Pairs with
+`parlay.py`/`ticket.py` (real prices → real combined EV).
 
 ## `session_start.sh` — one-shot session-open digest
 
@@ -278,7 +287,9 @@ that are still TBD for that date, and proposes a verdict for the FULL leg univer
   BOXSCORE — player accent-matched across both teams; TB = H+2B+2·3B+3·HR. A player with no
   boxscore line (DNP) → MANUAL, matching how books void those.
 - The team is bound to the FIRST team mentioned in the leg text (the bet side by ledger convention) —
-  dict-order matching silently bound "BAL … (@ DET)" to DET. Team totals → **MANUAL**.
+  dict-order matching silently bound "BAL … (@ DET)" to DET. **Team totals settle too** (own side's
+  runs vs the line, 8/1/26). **Doubleheaders settle only with an explicit G1/G2 hint in the leg text**
+  — G2 silently clobbered G1 before 8/1 (the 7/29 ATL-NYM G1 loss read as a W).
 
 This kills the whole prop mis-settle class (mid-game K counts, team-result flips, side-flips).
 **READ-ONLY** — prints proposals; you apply them (and `fades.md` / `bankroll.md` / the parlay file) so
