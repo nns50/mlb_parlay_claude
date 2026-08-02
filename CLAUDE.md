@@ -298,6 +298,13 @@ Every build presents all three, in this order:
    **Bias Tier 1 toward non-ML edges** (totals / team-totals / K / alts) — ML is the most efficient market,
    so a chalk-ML "best play" usually means we under-scanned the softer markets. Pick ML for Tier 1 only when
    its devigged edge genuinely beats the best non-ML candidate. (6/6/26 — the diversify-markets directive.)
+   **⚠ Variance-diversify WITHIN non-ML (8/1/26): "non-ML-first" had over-rotated Tier 1 into a K-prop
+   monoculture — 7 of 8 designated Tier-1s were K-props and ran 4-4 (Peterson/Rasmussen/Gilbert/Skenes all
+   lost, three of them one-short), while the overall 65-69 band ran 6-1. K-props are the highest-variance
+   expression of an edge. Rule: when the top edges are within ~2pp of each other, Tier 1 takes the
+   LOWER-VARIANCE market (total / team-total / ML / K-alt) over the standard K-prop; a K-prop claims Tier 1
+   only when its edge clearly exceeds every alternative — and never at a 7.5 standard line (C6 refinement:
+   one-lower alt or ML side instead).**
 2. **Highest-floor 2-leg** — the disciplined parlay (usually clean all-ML), best WIN CHANCE
    regardless of whether it reaches +200. State the floor %.
 3. **The +200 build** — what the user asked for; show the decimal math AND the floor drop vs Tier 2,
