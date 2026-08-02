@@ -366,6 +366,14 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 85–89 | 1 | 1-0 | 100% | 87.5 | Strider O4.5 (W) |
 | **TOTAL** | **31** | **20 won** | | | |
 
+> **⚠ EARLY SIGNAL (8/1/26, directional — n=17 < the 20-row bar): the `ace_edge` +3pp adjustment is
+> 7-10 (41%) with NEGATIVE per-leg Brier skill (−0.0093) vs the market**, per calib.py §1c attribution —
+> while situational `custom` adjustments run 6-3 with POSITIVE skill (+0.0156). The recent losing picks
+> concentrate in ace-tagged legs (Cease/Skenes 7.5K one-shorts, CHC/TB/STL MLs). Read: the market already
+> prices name-brand ace quality; a flat +3pp on top may be paying a premium. INTERIM ACTION until n≥20:
+> apply ace_edge at +1..+2pp when it is the ONLY adjustment on a leg, and require a second independent
+> signal before such a leg anchors a parlay. Registry magnitudes NOT rewritten yet (per the tiered bar).
+
 > **Early signals (small samples — treat as directional, not conclusions):**
 > 1. **The 60-64 band now reads 64% (9-5)** — right on the 62.5 midpoint; n=14 still short of the 20-30
 >    trust bar.
