@@ -84,6 +84,7 @@ P(4 straight wins in an attempt) ≈ 0.60⁴ ≈ **13%** → expect ~8 attempts 
 | — | — | — | — | — WITHDRAWN $68.98 — | — | **TARGET** | **$0 → restart $10** | Attempt 9 complete: $10 → $68.98 over 4 rolls (LAD, LAD, PHI, BOS). Net realized profit on attempt 9 = **+$58.98**. Next slate starts fresh attempt 10 at $10. |
 | 10 | 7/31 | 1 | $10.00 | TOR ML -184 (book, 1.5435) | 65.7% | **WIN** (TOR 3-1 STL) | **$15.43** | Cease's own dominance (2.46 ERA, 13.26 K/9, CG shutout last time out) held; TOR beat STL 3-1. $10×1.5435=$15.43. **Attempt 10 roll 1 CASHED** — roll 2 next qualifying slate. |
 | 10 | 8/1 | 2 | $15.43 | LAD ML -160 (book, 1.625) | 63.4% | **LOSS** (LAD 2-3 BOS) | **$0.00** | Yamamoto ace-edge (+3.0pp) didn't hold — BOS beat LAD 2-3. **Attempt 10 BUSTS at roll 2** ($15.43 → $0). Restart attempt 11 at $10 next qualifying slate. |
+| 11 | 8/2 | 1 | $10.00 | — NO BET — | — | — | $10.00 (carries) | Pulse's MARKET-SHADE on `type:ML-fav` (recent CLV 6+/12−) forces every favorite's TrueP to market no-vig — zero post-shade edge on any board favorite. By the 16:00 lock only BOS@LAD remains pre-game and LAD ML −172 is shaded too (no-vig 62.3%, edge 0). No qualifying favorite → NO BET, balance carries to next slate. |
 
 ---
 

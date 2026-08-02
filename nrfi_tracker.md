@@ -321,7 +321,7 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 8/1 | MIL @ LAA (Gasser/Suter) | NRFI | 52% | _model-only_ | **L** (1st 0-1 → YRFI) | **SP CHANGED (16:00 recheck): José Soriano → Brent Suter** (E3 gate) — Suter is a soft-tossing lefty reliever/swingman, not the announced Soriano; downgraded lean slightly (contact-prone but not a hard-thrower, first-inning read stays mild NRFI). |
 | 8/1 | DET @ ATH (Valdez/Perkins) | YRFI | 55% | _model-only_ | **W** (1st 2-0 → YRFI) | Perkins a recent bullpen-to-rotation convert (31% GS, 6.45 ERA) — real risk. |
 | 8/2 | PHI @ BAL (Wheeler/Bradish) | NRFI | 58% | _model-only_ | TBD | Wheeler elite (2.53 ERA/10.75 K9) should retire BAL's top clean; Bradish (3.74 ERA) decent too. |
-| 8/2 | WSH @ ATL (Cavalli/Ritchie) | YRFI | 55% | _model-only_ | TBD | Ritchie a small-sample rookie (7 GS, 4.50 ERA) — real 1st-inning risk; Cavalli (3.55 ERA) solid. |
+| 8/2 | WSH @ ATL (Cavalli/Ritchie) | YRFI | 55% | _model-only_ | **L** (1st 0-0 → NRFI) | Ritchie a small-sample rookie (7 GS, 4.50 ERA) — real 1st-inning risk; Cavalli (3.55 ERA) solid. |
 | 8/2 | STL @ TOR (Liberatore/Scherzer) | YRFI | 59% | _model-only_ | TBD | Scherzer's decline is stark this year (9.49 ERA in just 24.2 IP over 7 GS) — real injury/command risk; Liberatore also shaky (5.26 ERA). Strongest YRFI lean of the day. |
 | 8/2 | AZ @ CLE (Kelly/Williams) | NRFI | 55% | _model-only_ | TBD | Williams sharp (3.71 ERA/11.34 K9); Kelly middling (4.86 ERA). Mild lean. |
 | 8/2 | PIT @ CIN (Keller/Burns) | NRFI | 58% | _model-only_ | TBD | Burns elite (2.40 ERA/10.22 K9) should keep PIT's top quiet; Keller middling (4.83 ERA). |
@@ -332,14 +332,14 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 8/2 | KC @ COL (Lugo/Freeland) | YRFI | 60% | _model-only_ | TBD | Freeland's line has collapsed (7.34 ERA) at Coors; Lugo also middling (4.22 ERA). Strongest YRFI lean of the day besides STL@TOR. |
 | 8/2 | MIL @ LAA (Misiorowski/Ureña) | NRFI | 60% | _model-only_ | TBD | Misiorowski dominant (1.58 ERA/13.88 K9) and Ureña also sharp (2.70 ERA) — both elite arms, strongest NRFI of the day. |
 | 8/2 | DET @ ATH (Montero/Jump) | NRFI | 55% | _model-only_ | TBD | Montero solid (3.34 ERA); Jump middling small-sample (12 GS, 4.00 ERA). Mild lean. |
-| 8/2 | SF @ SD (Roupp/King) | NRFI | 55% | _model-only_ | TBD | King sharp (3.38 ERA); Roupp middling (4.12 ERA). Mild lean. |
+| 8/2 | SF @ SD (Roupp/King) | NRFI | 55% | _model-only_ | TBD | King sharp (3.38 ERA); Roupp middling (4.12 ERA). Mild lean. **⚠ 16:00 recheck: HOME SP CHANGED King → Kyle Hart (E3 gate)** — read premised on King is invalid; game already Live/Warmup at flag time, unbettable either way. |
 | 8/2 | MIN @ SEA (Bradley/Kirby) | YRFI | 55% | _model-only_ | TBD | Kirby was just shelled last start (4.0 IP/7 ER/3 K) — recent-form risk despite a decent season line; Bradley solid (3.65 ERA). |
-| 8/2 | BOS @ LAD (Bennett/Sheehan) | YRFI | 55% | _model-only_ | TBD | Sheehan's ERA has climbed (4.95); Bennett a small-sample rookie (11 GS) — real variance on both sides. |
+| 8/2 | BOS @ LAD (Bennett/Sheehan) | YRFI | 55% | **Over 0.5 −102 (FanDuel)** | TBD | Sheehan's ERA has climbed (4.95); Bennett a small-sample rookie (11 GS) — real variance on both sides. **16:00: real line pulled, no-vig YRFI(Over) 49.1% vs model 55% = +5.9pp, clears the +2pp gate — promoted from model-only to a priced read** (lineups locked, hot/wind-out weather also supports early contact). |
 
 ---
 
 ## Running totals (update on every settle)
-- **Record:** **117-101** (tracker opened 6/10/26). **NRFI:** **57-53** · **YRFI:** **60-48**.
+- **Record:** **117-102** (tracker opened 6/10/26). **NRFI:** **57-53** · **YRFI:** **60-49**.
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
 - **Open:** **8/1 fully settled** (auto via `nrfi_settle.py --apply` at this session's start — 15
   decided, record moved to 117-101). **8/2: 15 games, all pre-game** — today's reads above, settle
