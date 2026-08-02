@@ -2,7 +2,7 @@
  {
   "pk": 824807,
   "state": "Preview",
-  "detail": "Scheduled",
+  "detail": "Pre-Game",
   "away": "Philadelphia Phillies",
   "away_sp_id": 554430,
   "away_sp": "Zack Wheeler",
@@ -13,18 +13,18 @@
  {
   "pk": 824891,
   "state": "Preview",
-  "detail": "Scheduled",
+  "detail": "Pre-Game",
   "away": "Washington Nationals",
   "away_sp_id": 676917,
   "away_sp": "Cade Cavalli",
   "home": "Atlanta Braves",
-  "home_sp_id": null,
-  "home_sp": null
+  "home_sp_id": 702275,
+  "home_sp": "JR Ritchie"
  },
  {
   "pk": 822783,
   "state": "Preview",
-  "detail": "Scheduled",
+  "detail": "Pre-Game",
   "away": "St. Louis Cardinals",
   "away_sp_id": 669461,
   "away_sp": "Matthew Liberatore",
@@ -35,7 +35,7 @@
  {
   "pk": 824404,
   "state": "Preview",
-  "detail": "Scheduled",
+  "detail": "Pre-Game",
   "away": "Arizona Diamondbacks",
   "away_sp_id": 518876,
   "away_sp": "Merrill Kelly",
@@ -46,7 +46,7 @@
  {
   "pk": 824483,
   "state": "Preview",
-  "detail": "Scheduled",
+  "detail": "Pre-Game",
   "away": "Pittsburgh Pirates",
   "away_sp_id": 656605,
   "away_sp": "Mitch Keller",
@@ -57,7 +57,7 @@
  {
   "pk": 822943,
   "state": "Preview",
-  "detail": "Scheduled",
+  "detail": "Pre-Game",
   "away": "Chicago White Sox",
   "away_sp_id": 641743,
   "away_sp": "Anthony Kay",
@@ -68,7 +68,7 @@
  {
   "pk": 823592,
   "state": "Preview",
-  "detail": "Scheduled",
+  "detail": "Pre-Game",
   "away": "Miami Marlins",
   "away_sp_id": 645261,
   "away_sp": "Sandy Alcantara",
