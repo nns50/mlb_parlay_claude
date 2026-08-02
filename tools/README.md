@@ -227,6 +227,27 @@ On the paid tier, `clv_capture.py --apply` uses the same machinery to **auto-clo
 CLV** (~1 credit per event, cached per run) — gated on the API reporting ≥5000 remaining, so the free
 tier never spends.
 
+## `pulse.py` — recent-window exposure governor (strategy adapts to the flow)
+
+User-directed 8/1/26 after the ace_edge decay and the Tier-1 K-prop monoculture sat visible in the
+measurement output while nightly builds kept applying static doctrine. Principle: **recency governs
+EXPOSURE every build; the n≥20-30 evidence bar governs BELIEF** — you stop leaning on a dimension the
+moment it runs cold, without overfitting the doctrine to noise. Stateless: recomputed each run from
+`results_log.md` (last 14 days, or last 25 decided legs), per dimension (bet type, K-line bucket,
+`[adj:]` tag, TrueP band), with fixed mechanical thresholds:
+
+```
+COOL          n≥5, hit ≤ claimed−15pp   halve its adjustments; barred from Tier 1 + parlay-anchor
+SUSPEND       n≥6, hit ≤ claimed−25pp   no new legs in this dimension this build
+MARKET-SHADE  CLV −'s ≥ +'s+2 (n≥4)     TrueP = market no-vig for this dimension until CLV recovers
+GLOBAL SHRINK recent Brier loses to mkt halve every adjustment this build
+RE-WARM       automatic                 ≥3 of the dimension's last 5 decided legs won
+```
+
+session_start prints it in every digest (§7); the cron builds must APPLY the actions and fill the
+"Recent-window pulse applied" gate row. First live run flagged exactly the hand-found leaks — plus one
+nobody had named: ML-favs at 2+/11− recent CLV.
+
 ## `recheck.py` — pre-lock SP-scratch / status detector (E3/E4 made mechanical)
 
 A scratched or swapped starter silently invalidates every K-leg AND every ML/total premised on that

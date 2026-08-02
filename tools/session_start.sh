@@ -245,6 +245,16 @@ if (( ET_HOUR >= 16 && ET_HOUR <= 19 )); then
   fi
 fi
 
+# 7. PULSE — recent-window strategy governor (exposure adapts to how results are
+#    FLOWING; user-directed 8/1/26). Mechanical COOL/SUSPEND/MARKET-SHADE/GLOBAL-SHRINK
+#    actions computed from the recent window — any build THIS session MUST apply them.
+hdr "7. PULSE — recent-window exposure governor (APPLY its actions in any build)"
+if [[ -x "./tools/pulse.py" ]]; then
+  python3 ./tools/pulse.py 2>/dev/null | sed 's/^/  /' || echo "  (pulse failed — run tools/pulse.py manually)"
+else
+  echo "  (tools/pulse.py not present)"
+fi
+
 echo
 echo "════════════════════════════════════════════════════════"
 echo "  NEXT (routine judgment — not automated):"
