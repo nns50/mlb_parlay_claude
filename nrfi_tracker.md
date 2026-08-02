@@ -316,7 +316,7 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 8/1 | WSH @ ATL (Mikolas/López) | YRFI | 56% | _model-only_ | **W** (1st 0-2 → YRFI) | Mikolas 5.65 ERA, weak recent K/9 (2.92) — contact-prone early-run risk. |
 | 8/1 | NYY @ CHC (Fried/Peterson) | YRFI | 57% | _model-only_ | **W** (1st 0-1 → YRFI) | Fried's apparent IL-return gap + Peterson's rough season line (5.80 ERA). |
 | 8/1 | KC @ COL (Avila/Feltner) | YRFI | 59% | _model-only_ | **L** (1st 0-0 → NRFI) | Both shaky arms (4.95/5.73 ERA) at Coors — strongest YRFI lean of the day. |
-| 8/1 | SF @ SD (Mahle/Buehler) | YRFI | 54% | _model-only_ | TBD | Both mediocre this season (4.96/5.13 ERA). |
+| 8/1 | SF @ SD (Mahle/Buehler) | YRFI | 54% | _model-only_ | **W** (1st 0-2 → YRFI) | Both mediocre this season (4.96/5.13 ERA). |
 | 8/1 | BOS @ LAD (Tolle/Yamamoto) | NRFI | 58% | _model-only_ | **L** (1st 1-0 → YRFI) | Yamamoto elite (2.72 ERA/0.90 WHIP); Tolle solid — strongest NRFI of the day. |
 | 8/1 | MIL @ LAA (Gasser/Suter) | NRFI | 52% | _model-only_ | TBD | **SP CHANGED (16:00 recheck): José Soriano → Brent Suter** (E3 gate) — Suter is a soft-tossing lefty reliever/swingman, not the announced Soriano; downgraded lean slightly (contact-prone but not a hard-thrower, first-inning read stays mild NRFI). |
 | 8/1 | DET @ ATH (Valdez/Perkins) | YRFI | 55% | _model-only_ | TBD | Perkins a recent bullpen-to-rotation convert (31% GS, 6.45 ERA) — real risk. |
@@ -324,7 +324,7 @@ Its own ledger lives here; the dashboard renders it from this file.
 ---
 
 ## Running totals (update on every settle)
-- **Record:** **115-100** (tracker opened 6/10/26). **NRFI:** **57-52** · **YRFI:** **58-48**.
+- **Record:** **116-100** (tracker opened 6/10/26). **NRFI:** **57-52** · **YRFI:** **59-48**.
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
 - **Open:** **7/31 fully settled** (auto via `nrfi_settle.py --apply` at this session's start — 14
   decided, record moved to 110-93). **8/1: 15 games** — STL@TOR settled **L** at the 18:00 Build C lock
