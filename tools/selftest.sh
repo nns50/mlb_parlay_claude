@@ -287,6 +287,41 @@ if ./tools/recheck.py --selftest >/tmp/_selftest_out 2>&1; then
   ok "recheck diff: scratch ⚠ / started ⛔ / TBA-posted ℹ / vanished ⚠ / unchanged silent"
 else no "recheck --selftest" "$(cat /tmp/_selftest_out)"; fi
 
+# ── 5a4. pulse.py — recent-window exposure governor (fixtures) ────────────────
+echo "5a4. pulse (recent-window exposure governor)"
+if python3 - <<'PY' 2>/tmp/_selftest_out
+import importlib.util as u, datetime as dt
+s=u.spec_from_file_location("p","tools/pulse.py"); m=u.module_from_spec(s); s.loader.exec_module(m)
+T=dt.date(2026,8,1)
+hdr="## Played legs\n\n| Date | Leg | Type | Price | TrueP | ImplP | Edge | Result | Played | CLV | Bucket |\n|-|-|-|-|-|-|-|-|-|-|-|\n"
+def row(d,leg,typ,tp,res,clv="—"):
+    return f"| {d} | {leg} | {typ} | -120 | {tp}% | 55% | +2 | **{res}** | Y | {clv} | P |\n"
+# COLD dimension: ace-tagged ML-favs 1-6 in the window → COOL or SUSPEND + CLV shade
+txt=hdr
+for i,(res,clv) in enumerate([("L","−"),("L","−"),("W","+"),("L","−"),("L","−"),("L","−"),("L","−")]):
+    txt+=row(f"7/{22+i}",f"T{i} ML (vs X) [adj: ace_edge+3]","ML-fav",62,res,clv)
+recent=m.window_rows(m.parse_rows(txt,T),T); assert len(recent)==7
+dims,acts=m.actions_for(recent)
+assert any(d=="adj:ace_edge" and ("COOL" in sev or "SUSPEND" in sev) for sev,d,_ in acts), acts
+assert any(d=="type:ML-fav" and "MARKET-SHADE" in sev for sev,d,_ in acts), acts   # 1+/6−
+# RE-WARM: 3 wins in the last 5 suppresses the freeze even if the window hit% is cold
+txt2=hdr
+for i,(res,clv) in enumerate([("L","—"),("L","—"),("L","—"),("W","—"),("W","—"),("L","—"),("W","—")]):
+    txt2+=row(f"7/{22+i}",f"U{i} ML (vs X) [adj: hot_tag+3]","ML-fav",62,res,clv)
+_,a2=m.actions_for(m.window_rows(m.parse_rows(txt2,T),T))
+assert not any(d=="adj:hot_tag" and ("COOL" in sev or "SUSPEND" in sev) for sev,d,_ in a2), a2
+# CLV shade needs a ≥2 margin — a 3−/2+ coin-flip split must NOT shade
+txt3=hdr
+for i,clv in enumerate(["+","+","−","−","−"]):
+    txt3+=row(f"7/{22+i}",f"V{i} game total Over 8.5 (A @ B)","Total",56,"W",clv)
+_,a3=m.actions_for(m.window_rows(m.parse_rows(txt3,T),T))
+assert not any("MARKET-SHADE" in sev and d=="type:total" for sev,d,_ in a3), a3
+# K-line bucketing feeds the dimension name
+r=m.parse_rows(hdr+row("7/30","Cease Over 7.5 K (STL @ TOR)","K-Over",58,"L"),T)
+assert any("type:K-Over ≥7.5" in x["dims"] for x in r), r
+PY
+then ok "COOL/SUSPEND on cold dims; ML-fav CLV shade; rewarm + margin guards; K-line buckets"; else no "pulse" "$(cat /tmp/_selftest_out)"; fi
+
 # ── 5b. nrfi_settle.py — verdict mapping + matchup parse ──────────────────────
 echo "5b. nrfi_settle (NRFI/YRFI W/L logic)"
 if python3 - <<'PY' 2>/tmp/_selftest_out

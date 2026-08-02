@@ -70,6 +70,16 @@ CLAUDE.md is crisp **doctrine**; those files are **live data**. Burn tags below 
     mechanical).** The 11:00 build snapshots the slate's probables (committed as an audit record); the
     16:00/18:00 lock runs diff live StatsAPI state vs it — ⚠ SP CHANGED / ⛔ started invalidates every
     leg premised on that arm/game BEFORE lock, not after the loss.
+  - `tools/pulse.py` — **the recent-window EXPOSURE GOVERNOR (user-directed 8/1/26): run + APPLY every
+    build.** Mechanical rules over the last 14 days / 25 decided legs, per dimension (bet type, K-line
+    bucket, adjustment tag, TrueP band): **COOL** (n≥5, hit ≤ claimed−15pp → halve its adjustments, barred
+    from Tier 1/anchor), **SUSPEND** (n≥6, ≤ claimed−25pp → no new legs), **MARKET-SHADE** (recent CLV
+    runs ≥2 net-negative → TrueP = market no-vig for that dimension), **GLOBAL SHRINK** (recent Brier loses
+    to market → halve everything). Re-warms automatically by winning (≥3 of last 5). **PRINCIPLE: recency
+    governs EXPOSURE every build; the n≥20-30 evidence bar still governs BELIEF (registry rewrites) —
+    stop leaning on what's cold without overfitting doctrine to noise.** The prior miss (ace_edge failing
+    + the Tier-1 K-prop monoculture sat visible in calib output while builds kept applying static doctrine)
+    is the burn this tool exists to prevent.
   - `tools/parlay.py --leg TrueP:price --leg TrueP:price [--corr <tier>] [--sgp <price>]` — correlation-
     aware true combined prob vs the offered price; tells you SGP-vs-independent and the gate verdict.
     Use it for EVERY parlay (esp. same-game) — it catches when negative correlation makes a ticket -EV.
@@ -92,6 +102,7 @@ CLAUDE.md is crisp **doctrine**; those files are **live data**. Burn tags below 
 | TrueP pre-registered (not reconstructed) | | written pre-game; no new `*` rows |
 | `fades.md` consulted + applied | | entry IDs |
 | `results_log.md` calibration applied | | `calib.py` buckets; act only on N≥20-30 signals (else directional) |
+| **Recent-window pulse applied** | | `pulse.py` actions (COOL/SUSPEND/SHADE) listed + applied |
 | Slate-wide value scan — ALL games | | scan table present |
 | Non-ML market scanned + leads if best | | ≥1 total/team-total/K/alt read per game; Tier 1 = best edge ANY market, not reflex-ML |
 
