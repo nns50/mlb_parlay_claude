@@ -318,18 +318,32 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 8/1 | KC @ COL (Avila/Feltner) | YRFI | 59% | _model-only_ | **L** (1st 0-0 → NRFI) | Both shaky arms (4.95/5.73 ERA) at Coors — strongest YRFI lean of the day. |
 | 8/1 | SF @ SD (Mahle/Buehler) | YRFI | 54% | _model-only_ | **W** (1st 0-2 → YRFI) | Both mediocre this season (4.96/5.13 ERA). |
 | 8/1 | BOS @ LAD (Tolle/Yamamoto) | NRFI | 58% | _model-only_ | **L** (1st 1-0 → YRFI) | Yamamoto elite (2.72 ERA/0.90 WHIP); Tolle solid — strongest NRFI of the day. |
-| 8/1 | MIL @ LAA (Gasser/Suter) | NRFI | 52% | _model-only_ | TBD | **SP CHANGED (16:00 recheck): José Soriano → Brent Suter** (E3 gate) — Suter is a soft-tossing lefty reliever/swingman, not the announced Soriano; downgraded lean slightly (contact-prone but not a hard-thrower, first-inning read stays mild NRFI). |
-| 8/1 | DET @ ATH (Valdez/Perkins) | YRFI | 55% | _model-only_ | TBD | Perkins a recent bullpen-to-rotation convert (31% GS, 6.45 ERA) — real risk. |
+| 8/1 | MIL @ LAA (Gasser/Suter) | NRFI | 52% | _model-only_ | **L** (1st 0-1 → YRFI) | **SP CHANGED (16:00 recheck): José Soriano → Brent Suter** (E3 gate) — Suter is a soft-tossing lefty reliever/swingman, not the announced Soriano; downgraded lean slightly (contact-prone but not a hard-thrower, first-inning read stays mild NRFI). |
+| 8/1 | DET @ ATH (Valdez/Perkins) | YRFI | 55% | _model-only_ | **W** (1st 2-0 → YRFI) | Perkins a recent bullpen-to-rotation convert (31% GS, 6.45 ERA) — real risk. |
+| 8/2 | PHI @ BAL (Wheeler/Bradish) | NRFI | 58% | _model-only_ | TBD | Wheeler elite (2.53 ERA/10.75 K9) should retire BAL's top clean; Bradish (3.74 ERA) decent too. |
+| 8/2 | WSH @ ATL (Cavalli/Ritchie) | YRFI | 55% | _model-only_ | TBD | Ritchie a small-sample rookie (7 GS, 4.50 ERA) — real 1st-inning risk; Cavalli (3.55 ERA) solid. |
+| 8/2 | STL @ TOR (Liberatore/Scherzer) | YRFI | 59% | _model-only_ | TBD | Scherzer's decline is stark this year (9.49 ERA in just 24.2 IP over 7 GS) — real injury/command risk; Liberatore also shaky (5.26 ERA). Strongest YRFI lean of the day. |
+| 8/2 | AZ @ CLE (Kelly/Williams) | NRFI | 55% | _model-only_ | TBD | Williams sharp (3.71 ERA/11.34 K9); Kelly middling (4.86 ERA). Mild lean. |
+| 8/2 | PIT @ CIN (Keller/Burns) | NRFI | 58% | _model-only_ | TBD | Burns elite (2.40 ERA/10.22 K9) should keep PIT's top quiet; Keller middling (4.83 ERA). |
+| 8/2 | CWS @ TB (Kay/Jax) | YRFI | 54% | _model-only_ | TBD | Both middling (4.25/3.74 ERA) — mild lean toward early contact. |
+| 8/2 | MIA @ NYM (Alcantara/Stock) | NEUTRAL | 52% | _model-only_ | TBD | Stock still has no verifiable 2026 gamelog (E4 gate) — no reliable SP-quality read either way; Alcantara (3.82 ERA) solid. |
+| 8/2 | TEX @ HOU (Rocker/Lambert) | NRFI | 55% | _model-only_ | TBD | Lambert sharp (3.06 ERA); Rocker middling (4.03 ERA). Mild lean. |
+| 8/2 | NYY @ CHC (Cole/Rea) | NRFI | 56% | _model-only_ | TBD | Cole elite when on the mound (3.57 ERA/9.66 K9); Rea middling (4.67 ERA). |
+| 8/2 | KC @ COL (Lugo/Freeland) | YRFI | 60% | _model-only_ | TBD | Freeland's line has collapsed (7.34 ERA) at Coors; Lugo also middling (4.22 ERA). Strongest YRFI lean of the day besides STL@TOR. |
+| 8/2 | MIL @ LAA (Misiorowski/Ureña) | NRFI | 60% | _model-only_ | TBD | Misiorowski dominant (1.58 ERA/13.88 K9) and Ureña also sharp (2.70 ERA) — both elite arms, strongest NRFI of the day. |
+| 8/2 | DET @ ATH (Montero/Jump) | NRFI | 55% | _model-only_ | TBD | Montero solid (3.34 ERA); Jump middling small-sample (12 GS, 4.00 ERA). Mild lean. |
+| 8/2 | SF @ SD (Roupp/King) | NRFI | 55% | _model-only_ | TBD | King sharp (3.38 ERA); Roupp middling (4.12 ERA). Mild lean. |
+| 8/2 | MIN @ SEA (Bradley/Kirby) | YRFI | 55% | _model-only_ | TBD | Kirby was just shelled last start (4.0 IP/7 ER/3 K) — recent-form risk despite a decent season line; Bradley solid (3.65 ERA). |
+| 8/2 | BOS @ LAD (Bennett/Sheehan) | YRFI | 55% | _model-only_ | TBD | Sheehan's ERA has climbed (4.95); Bennett a small-sample rookie (11 GS) — real variance on both sides. |
 
 ---
 
 ## Running totals (update on every settle)
-- **Record:** **116-100** (tracker opened 6/10/26). **NRFI:** **57-52** · **YRFI:** **59-48**.
+- **Record:** **117-101** (tracker opened 6/10/26). **NRFI:** **57-53** · **YRFI:** **60-48**.
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
-- **Open:** **7/31 fully settled** (auto via `nrfi_settle.py --apply` at this session's start — 14
-  decided, record moved to 110-93). **8/1: 15 games** — STL@TOR settled **L** at the 18:00 Build C lock
-  (110-94); the other 14 remain in-progress/pre-game. Settle the rest via `nrfi_settle.py --apply` next
-  session.
+- **Open:** **8/1 fully settled** (auto via `nrfi_settle.py --apply` at this session's start — 15
+  decided, record moved to 117-101). **8/2: 15 games, all pre-game** — today's reads above, settle
+  next session via `nrfi_settle.py --apply`.
 - **Settled 7/26** (auto via `nrfi_settle.py --apply`, run 7/30): 14 decided, 7W-7L (NRFI 2-3, YRFI 5-4).
   Record updated from 91-74 to 98-81. LAA@SF (Soriano/Whisenhunt, NEUTRAL) still TBD — game likely
   postponed/unresolved, left open. **No parlay builds ran 7/27-7/29** (session gap) — those slates have
