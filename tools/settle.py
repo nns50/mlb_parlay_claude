@@ -244,6 +244,17 @@ def propose_kprop(leg, d):
         if not hits:
             return (leg, "MANUAL", f"K-prop: no pitcher matched {surname!r} — resolve by hand")
 
+        # HARD gate: the pitcher's team's game must be FINAL. The gamelog reports a LIVE
+        # line mid-game — an Under settled while the arm is still pitching can flip as the
+        # K count rises (caught live 8/2: Sheehan U5.5 proposed W at 4 K in the 3rd inning).
+        if leg_abbrs:
+            gstates = [g["state"] for g in _schedule(d)
+                       if any(ABBR2NICK.get(a, "") and ABBR2NICK[a] in g["names"]
+                              for a in leg_abbrs)]
+            if gstates and not all(s.lower().startswith("final") for s in gstates):
+                return (leg, "—", f"game not Final yet ({'/'.join(gstates)}) — K count can "
+                                  f"still rise; settle at Final")
+
         def k_on_date(pid):
             """(K, opponent) from the pitcher's gamelog on the settle date, else None."""
             for ln in _sh(["bash", MLB_API, "gamelog", pid, season]).splitlines():
