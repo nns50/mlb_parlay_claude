@@ -29,30 +29,26 @@ Its own ledger lives here; the dashboard renders it from this file.
 
 ---
 
-## Tonight's reads — 2026-08-01 (model leans, un-priced; pull `totals_1st_1_innings` at the book)
+## Tonight's reads — 2026-08-03 (model leans, un-priced; pull `totals_1st_1_innings` at the book)
 
-> 11:00 ET morning reads — 15-game slate. One model-lean per game, model-only/no-bet (pull the real 1st-inning total at the book; promote only a read clearing +2pp after devig). Weather still PENDING for all games at build time.
+> 11:00 ET morning reads — 8-game slate, all first pitches 18:40 ET or later. One model-lean per game,
+> model-only/no-bet (pull the real 1st-inning total at the book; promote only a read clearing +2pp after
+> devig). Weather PENDING for all games at build time. Two games carry a TBD starter (LAD away, TEX home)
+> → E4 gate, leans held deliberately mild.
 
 | # | Matchup | Starters | Lean | TrueP | Why (1st-inning read) |
 |---|---------|----------|------|-------|------------------------|
-| 1 | STL @ TOR | Mathews / Gausman | **YRFI** | ~54% | Mathews has zero 2026 MLB data — likely an MLB debut; first-inning jitters are a real risk. Gausman (4.51 ERA) unremarkable. |
-| 2 | MIN @ SEA | Prielipp / Gilbert | **NRFI** | ~57% | Gilbert is an established ace (3.44 ERA, 0.99 WHIP) who should retire MIN's top cleanly; Prielipp solid enough on the other side. |
-| 3 | CWS @ TB | Hicks / Rasmussen | **YRFI** | ~58% | Hicks is a pure reliever (0 GS all season) being run as CWS's opener tonight — real 1st-inning volatility on an unfamiliar bulk role. |
-| 4 | MIA @ NYM | T. Phillips / Thornton | **NRFI** | ~53% | Both reasonably clean arms (Phillips 3.52 ERA recently stretched to rotation length; Thornton 2.43 ERA small-sample rookie) — mild lean, no strong signal. |
-| 5 | PIT @ CIN | Ashcraft / Abbott | **NRFI** | ~53% | Both mid-tier, consistent full-time starters (4.05 / 3.85 ERA) — mild lean, no strong signal either way. |
-| 6 | PHI @ BAL | Sánchez / Baz | **NRFI** | ~57% | Sánchez is dominant (2.73 ERA, 10.19 K/9) — should keep BAL's top quiet; Baz solid enough on the other side. |
-| 7 | TEX @ HOU | deGrom / Blanco | **YRFI** | ~56% | Blanco is on just his 2nd start back from an apparent long absence (8.10 ERA on tiny sample) — real risk he doesn't navigate the 1st clean, even with deGrom dealing on the other side. |
-| 8 | AZ @ CLE | Drake / Messick | **YRFI** | ~56% | Drake is making just his 2nd career MLB start (5.00 ERA) — extreme small-sample risk on the AZ side outweighs Messick's quality on the other. |
-| 9 | WSH @ ATL | Mikolas / López | **YRFI** | ~56% | Mikolas has a bad season line (5.65 ERA) and a weak recent-form K/9 (2.92) — contact-prone, real early-run risk on the WSH side. |
-| 10 | NYY @ CHC | Fried / Peterson | **YRFI** | ~57% | Fried's SP-freshness is compromised by an apparent 2-month IL gap (small post-return sample); Peterson has a rough season line (5.80 ERA) — both sides carry real risk. |
-| 11 | KC @ COL | Avila / Feltner | **YRFI** | ~59% | Both shaky arms (4.95 / 5.73 ERA) at Coors Field — the day's strongest YRFI lean. |
-| 12 | SF @ SD | Mahle / Buehler | **YRFI** | ~54% | Both mediocre this season (4.96 / 5.13 ERA) — mild lean, no dominant arm on either side. |
-| 13 | BOS @ LAD | Tolle / Yamamoto | **NRFI** | ~58% | Yamamoto is elite (2.72 ERA, 0.90 WHIP) and Tolle has been solid in his rookie starter role (3.32 ERA) — the day's strongest NRFI lean. |
-| 14 | MIL @ LAA | Gasser / Soriano | **NRFI** | ~53% | Both decent enough (4.71 / 3.29 ERA) — mild lean, no strong signal. |
-| 15 | DET @ ATH | Valdez / Perkins | **YRFI** | ~55% | Perkins is a recent bullpen-to-rotation convert (31% GS, 6.45 ERA) — real risk on the ATH side even with Valdez established on the other. |
+| 1 | WSH @ PHI | Alvarez / Nola | **YRFI** | ~56% | Nola's line has collapsed (5.61 ERA / 1.45 WHIP) and he averages just 5.2 IP; Alvarez carries a 1.51 WHIP and has gone past 5 IP once in 6 starts. Traffic on both sides early, in a hitter park. |
+| 2 | STL @ NYY | McGreevy / Schlittler | **NRFI** | ~55% | Schlittler is the best arm on the board (2.04 ERA / 0.91 WHIP) and should retire a 21%-K STL top cleanly; McGreevy is contact-prone (5.90 K/9) but his damage usually comes later, not in the 1st. |
+| 3 | PIT @ MIL | Chandler / Sproat | **YRFI** | ~57% | Both arms are walk-prone and short (Chandler 4.56 / 1.41 WHIP, Sproat 5.05 / 1.39); MIL's top is .260/.341 vs RHP and PIT's is .263/.345. Two shaky arms vs two live tops. |
+| 4 | LAD @ CHC | TBD / Boyd | **YRFI** | ~55% | ⚠ E4 — LAD's starter is TBA, so half the read is unknown. Boyd (3.41 ERA) is the stabilizing side, but LAD's 1-2-3 (.267/.346 vs RHP, the best top on the slate) is the reason the lean stays YRFI at Wrigley. |
+| 5 | SF @ TEX | Webb / TBD | **NRFI** | ~54% | ⚠ E4 — TEX starter TBA. Webb is the archetypal NRFI arm (3.93 ERA, 1.12 WHIP, heavy ground-ball profile) and SF's top is a weak .255/.313 vs RHP inside a dome. Mild lean. |
+| 6 | TOR @ HOU | Bieber / Javier | **YRFI** | ~60% | **Day's strongest YRFI.** Bieber's command is gone (last start 0.2 IP / 4 ER / **6 BB**; 5.74 ERA / 1.63 WHIP) and Javier is 4 starts into a ramp-up at 7.17 ERA / 1.83 WHIP. Both sides are live in the 1st. |
+| 7 | TB @ COL | Seymour / Lorenzen | **YRFI** | ~60% | Coors + Lorenzen at 6.54 ERA / 1.81 WHIP (last two: 3.2 IP/6 ER, 4.0 IP/3 ER); TB's top is .262/.335 vs RHP. Seymour's 10.34 K/9 is the only NRFI argument and he's averaged 4.4 IP over his last five. |
+| 8 | SD @ AZ | King / Pfaadt | **NRFI** | ~55% | **Day's strongest NRFI.** King is steady (3.38 ERA, 1.17 WHIP, 6.0 IP in four of five) and Pfaadt has been sharp lately (7.0 IP / 0 ER last out, 4.00 ERA). Two competent arms in a dome. |
 
-**Day's strongest NRFI:** BOS @ LAD (Yamamoto elite, ~58%); MIN @ SEA (Gilbert ace-quality, ~57%)
-**Day's strongest YRFI:** KC @ COL (both shaky arms + Coors, ~59%); CWS @ TB (Hicks opener exposure, ~58%)
+**Day's strongest NRFI:** SD @ AZ (two competent arms in a dome, ~55%); STL @ NYY (Schlittler elite, ~55%)
+**Day's strongest YRFI:** TOR @ HOU (Bieber's command gone + Javier ramp-up, ~60%); TB @ COL (Coors + Lorenzen, ~60%)
 
 ---
 
@@ -331,19 +327,27 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 8/2 | NYY @ CHC (Cole/Rea) | NRFI | 56% | _model-only_ | **W** (1st 0-0 → NRFI) | Cole elite when on the mound (3.57 ERA/9.66 K9); Rea middling (4.67 ERA). |
 | 8/2 | KC @ COL (Lugo/Freeland) | YRFI | 60% | _model-only_ | **W** (1st 0-1 → YRFI) | Freeland's line has collapsed (7.34 ERA) at Coors; Lugo also middling (4.22 ERA). Strongest YRFI lean of the day besides STL@TOR. |
 | 8/2 | MIL @ LAA (Misiorowski/Ureña) | NRFI | 60% | _model-only_ | **W** (1st 0-0 → NRFI) | Misiorowski dominant (1.58 ERA/13.88 K9) and Ureña also sharp (2.70 ERA) — both elite arms, strongest NRFI of the day. |
-| 8/2 | DET @ ATH (Montero/Jump) | NRFI | 55% | _model-only_ | TBD | Montero solid (3.34 ERA); Jump middling small-sample (12 GS, 4.00 ERA). Mild lean. |
-| 8/2 | SF @ SD (Roupp/King) | NRFI | 55% | _model-only_ | TBD | King sharp (3.38 ERA); Roupp middling (4.12 ERA). Mild lean. **⚠ 16:00 recheck: HOME SP CHANGED King → Kyle Hart (E3 gate)** — read premised on King is invalid; game already Live/Warmup at flag time, unbettable either way. |
-| 8/2 | MIN @ SEA (Bradley/Kirby) | YRFI | 55% | _model-only_ | TBD | Kirby was just shelled last start (4.0 IP/7 ER/3 K) — recent-form risk despite a decent season line; Bradley solid (3.65 ERA). |
-| 8/2 | BOS @ LAD (Bennett/Sheehan) | YRFI | 55% | **Over 0.5 −102 (FanDuel)** | TBD | Sheehan's ERA has climbed (4.95); Bennett a small-sample rookie (11 GS) — real variance on both sides. **16:00: real line pulled, no-vig YRFI(Over) 49.1% vs model 55% = +5.9pp, clears the +2pp gate — promoted from model-only to a priced read** (lineups locked, hot/wind-out weather also supports early contact). |
+| 8/2 | DET @ ATH (Montero/Jump) | NRFI | 55% | _model-only_ | **L** (1st 2-0 → YRFI) | Montero solid (3.34 ERA); Jump middling small-sample (12 GS, 4.00 ERA). Mild lean. |
+| 8/2 | SF @ SD (Roupp/King) | NRFI | 55% | _model-only_ | **W** (1st 0-0 → NRFI) | King sharp (3.38 ERA); Roupp middling (4.12 ERA). Mild lean. **⚠ 16:00 recheck: HOME SP CHANGED King → Kyle Hart (E3 gate)** — read premised on King is invalid; game already Live/Warmup at flag time, unbettable either way. |
+| 8/2 | MIN @ SEA (Bradley/Kirby) | YRFI | 55% | _model-only_ | **W** (1st 0-2 → YRFI) | Kirby was just shelled last start (4.0 IP/7 ER/3 K) — recent-form risk despite a decent season line; Bradley solid (3.65 ERA). |
+| 8/2 | BOS @ LAD (Bennett/Sheehan) | YRFI | 55% | **Over 0.5 −102 (FanDuel)** | **W** (1st 2-0 → YRFI) | Sheehan's ERA has climbed (4.95); Bennett a small-sample rookie (11 GS) — real variance on both sides. **16:00: real line pulled, no-vig YRFI(Over) 49.1% vs model 55% = +5.9pp, clears the +2pp gate — promoted from model-only to a priced read** (lineups locked, hot/wind-out weather also supports early contact). |
+| 8/3 | WSH @ PHI (Alvarez/Nola) | YRFI | 56% | _model-only_ | TBD | Nola collapsed (5.61 ERA/1.45 WHIP, 5.2 IP/start) and Alvarez runs a 1.51 WHIP — traffic early on both sides in a hitter park. |
+| 8/3 | STL @ NYY (McGreevy/Schlittler) | NRFI | 55% | _model-only_ | TBD | Schlittler is the slate's best arm (2.04 ERA/0.91 WHIP) vs a 21%-K STL top; McGreevy's damage usually comes late, not in the 1st. |
+| 8/3 | PIT @ MIL (Chandler/Sproat) | YRFI | 57% | _model-only_ | TBD | Two walk-prone, short arms (4.56/1.41 and 5.05/1.39) vs two live tops (MIL .260/.341, PIT .263/.345 vs RHP). |
+| 8/3 | LAD @ CHC (TBD/Boyd) | YRFI | 55% | _model-only_ | TBD | ⚠ E4 — LAD starter TBA. Boyd (3.41) steadies one side, but LAD's .267/.346-vs-RHP top is the best on the slate. |
+| 8/3 | SF @ TEX (Webb/TBD) | NRFI | 54% | _model-only_ | TBD | ⚠ E4 — TEX starter TBA. Webb is a prototypical NRFI ground-ball arm (1.12 WHIP) and SF's top is weak (.255/.313 vs RHP), in a dome. Mild lean. |
+| 8/3 | TOR @ HOU (Bieber/Javier) | YRFI | 60% | _model-only_ | TBD | Day's strongest YRFI: Bieber's command gone (0.2 IP/4 ER/6 BB last out) and Javier 4 starts into a ramp-up at 7.17 ERA/1.83 WHIP. |
+| 8/3 | TB @ COL (Seymour/Lorenzen) | YRFI | 60% | _model-only_ | TBD | Coors + Lorenzen 6.54 ERA/1.81 WHIP (3.2 IP/6 ER and 4.0 IP/3 ER his last two) vs a .262/.335 TB top. |
+| 8/3 | SD @ AZ (King/Pfaadt) | NRFI | 55% | _model-only_ | TBD | Day's strongest NRFI: King steady (3.38/1.17, 6.0 IP in four of five) and Pfaadt sharp lately (7.0 IP/0 ER last out), in a dome. |
 
 ---
 
 ## Running totals (update on every settle)
-- **Record:** **124-104** (tracker opened 6/10/26). **NRFI:** **62-54** · **YRFI:** **62-50**.
+- **Record:** **127-105** (tracker opened 6/10/26). **NRFI:** **63-55** · **YRFI:** **64-50**.
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
-- **Open:** **8/1 fully settled** (auto via `nrfi_settle.py --apply` at this session's start — 15
-  decided, record moved to 117-101). **8/2: 15 games, all pre-game** — today's reads above, settle
-  next session via `nrfi_settle.py --apply`.
+- **Open:** **8/2 settled** (auto via `nrfi_settle.py --apply` at this session's start — 4 remaining
+  reads stamped, record moved to **127-105**; MIA@NYM excluded as a NEUTRAL 52% lean). **8/3: 8 games,
+  all pre-game at build time** — today's reads above, settle next session via `nrfi_settle.py --apply`.
 - **Settled 7/26** (auto via `nrfi_settle.py --apply`, run 7/30): 14 decided, 7W-7L (NRFI 2-3, YRFI 5-4).
   Record updated from 91-74 to 98-81. LAA@SF (Soriano/Whisenhunt, NEUTRAL) still TBD — game likely
   postponed/unresolved, left open. **No parlay builds ran 7/27-7/29** (session gap) — those slates have
