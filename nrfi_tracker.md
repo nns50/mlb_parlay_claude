@@ -60,7 +60,7 @@ Its own ledger lives here; the dashboard renders it from this file.
 > Coors weather still PENDING (populates near the 20:40 ET first pitch) — the TB@COL YRFI lean is
 > held at ~60% but is the one read a wind-in reading would move.
 
-> **18:00 ET update (Build C).** Coors weather populated: **89°F, wind 13 mph, In From CF.** The
+> **18:45 ET update (Build C-2).** Coors weather populated: **89°F, wind 13 mph, In From CF.** The
 > TB @ COL **YRFI ~60%** lean rested on the same Coors-plus-Lorenzen premise as the (now dropped)
 > Over 11.5 leg, and wind-in is exactly the switch that moves Coors toward its low-scoring mode —
 > supporting context: COL home games since 6/1 (n=28) are **bimodal**, 9 of them at ≤8 total runs.
@@ -365,6 +365,10 @@ Its own ledger lives here; the dashboard renders it from this file.
 - **Open:** **8/2 settled** (auto via `nrfi_settle.py --apply` at this session's start — 4 remaining
   reads stamped, record moved to **127-105**; MIA@NYM excluded as a NEUTRAL 52% lean). **8/3: 8 games,
   all pre-game at build time** — today's reads above, settle next session via `nrfi_settle.py --apply`.
+  **18:00 ET final verify:** `nrfi_settle.py 2026-08-03 --apply` re-run — all 8 still `Pre-Game/Scheduled`
+  (earliest FP 18:40 ET), nothing settleable. All 8 leans re-verified and unchanged across the 11:00 /
+  16:00 / 18:00 runs: **3 NRFI / 5 YRFI, all model-only / no-bet** (no 1st-inning total on the board
+  cleared the +2pp gate). Tonight's eight rows settle on the 8/4 morning run.
 - **Settled 7/26** (auto via `nrfi_settle.py --apply`, run 7/30): 14 decided, 7W-7L (NRFI 2-3, YRFI 5-4).
   Record updated from 91-74 to 98-81. LAA@SF (Soriano/Whisenhunt, NEUTRAL) still TBD — game likely
   postponed/unresolved, left open. **No parlay builds ran 7/27-7/29** (session gap) — those slates have
