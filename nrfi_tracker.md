@@ -50,6 +50,16 @@ Its own ledger lives here; the dashboard renders it from this file.
 **Day's strongest NRFI:** SD @ AZ (two competent arms in a dome, ~55%); STL @ NYY (Schlittler elite, ~55%)
 **Day's strongest YRFI:** TOR @ HOU (Bieber's command gone + Javier ramp-up, ~60%); TB @ COL (Coors + Lorenzen, ~60%)
 
+> **16:00 ET re-verify (Build B).** `nrfi_settle.py 2026-08-03 --apply` → all 8 games still pre-game,
+> nothing to settle. Lineups now posted for **PHI (home), STL + NYY (both), LAD (away), TEX (home)**;
+> PIT/MIL, TOR/HOU, TB/COL, SD/AZ still PENDING. **No lean flipped:** NYY's posted top
+> (Grisham / Rice / Vientos) keeps the STL@NYY NRFI premise intact, LAD's confirmed 1-2-3
+> (Ohtani / Pages / Edman) keeps the Wrigley YRFI, and PHI's posted top keeps the WSH@PHI YRFI.
+> LAD's starter is **still TBA** at 16:12, so game 4 stays E4-flagged and its lean stays mild.
+> **No read clears +2pp on a real `totals_1st_1_innings` line, so all 8 remain model-only / no-bet.**
+> Coors weather still PENDING (populates near the 20:40 ET first pitch) — the TB@COL YRFI lean is
+> held at ~60% but is the one read a wind-in reading would move.
+
 ---
 
 ## Tonight's reads — 2026-06-22 (model leans, un-priced; pull `totals_1st_1_innings` at the book)
