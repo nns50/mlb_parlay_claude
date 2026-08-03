@@ -60,6 +60,13 @@ Its own ledger lives here; the dashboard renders it from this file.
 > Coors weather still PENDING (populates near the 20:40 ET first pitch) — the TB@COL YRFI lean is
 > held at ~60% but is the one read a wind-in reading would move.
 
+> **18:00 ET update (Build C).** Coors weather populated: **89°F, wind 13 mph, In From CF.** The
+> TB @ COL **YRFI ~60%** lean rested on the same Coors-plus-Lorenzen premise as the (now dropped)
+> Over 11.5 leg, and wind-in is exactly the switch that moves Coors toward its low-scoring mode —
+> supporting context: COL home games since 6/1 (n=28) are **bimodal**, 9 of them at ≤8 total runs.
+> **Lean downgraded 60% → ~54% (NEUTRAL).** Still model-only/no-bet; no read on the slate clears
+> +2pp on a real `totals_1st_1_innings` line. All other leans unchanged.
+
 ---
 
 ## Tonight's reads — 2026-06-22 (model leans, un-priced; pull `totals_1st_1_innings` at the book)
