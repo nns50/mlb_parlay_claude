@@ -60,7 +60,7 @@ def load_rows(tracker, target):
         result = "W" if re.search(r"\bW\b", res) else ("L" if re.search(r"\bL\b", res) else "TBD")
         rows.append({
             "matchup": re.sub(r"\s*\([^)]*\)", "", c[1]).strip(),  # drop "(SP/SP)" tail
-            "pick": c[2].strip().upper(),
+            "pick": c[2].strip().strip("*").strip().upper(),
             "truep": c[3].strip(),
             "result": result,
         })
