@@ -29,7 +29,34 @@ Its own ledger lives here; the dashboard renders it from this file.
 
 ---
 
-## Tonight's reads — 2026-08-05 (15-game slate; **model-only — no 1st-inning line pulled this run**)
+## Tonight's reads — 2026-08-05 (15-game slate; **UPDATED 16:00 ET Build B — 5 reads now priced on a real `totals_1st_1_innings` line; 2 clear +2pp**)
+
+> **16:00 ET UPDATE (Build B).** Lineups are locked, so the priced sweep ran: `totals_1st_1_innings`
+> pulled for the five strongest pre-game reads (5 credits). Result — **2 bet-grade, 3 shaded out by
+> their own size.** The four early games (TOR@HOU, LAD@CHC, SF@TEX, TB@COL) are now Live and
+> unpriceable; their 11:00 model leans stand as calibration rows only.
+>
+> | Game | 11:00 lean | TrueP after 16:00 | Best price | No-vig | Edge | Verdict |
+> |---|---|---|---|---|---|---|
+> | **PIT @ MIL** | NRFI 60% | **60%** (unchanged) | **Under 0.5 −145 @Caesars** | **56.0%** | **+4.0** | ✅ **BET-GRADE** |
+> | **MIN @ KC** | YRFI 58% | **54%** (`market_disagrees −4`) | **Over 0.5 −110 @BetMGM** | **50.0%** | **+4.0** | ✅ **BET-GRADE** |
+> | ATH @ CIN | YRFI 63% | → market 52.6% | Over 0.5 −125 @BetMGM | 52.6% | 0.0 | ✗ shaded |
+> | WSH @ PHI | YRFI 61% | → market 52.4% | Over 0.5 −125 @BetMGM | 52.4% | 0.0 | ✗ shaded |
+> | CWS @ BOS | NRFI 60% | → market 52.0% | Under 0.5 −125 @Caesars | 52.0% | 0.0 | ✗ shaded |
+>
+> **Why three of five shaded themselves out.** Each showed an 8–10pp gap between the 11:00 model lean
+> and the market's no-vig, which fires `market_disagrees −4pp`; the shaded number then lands in the
+> **PULSE-shaded 55-59 band**, which resets TrueP to the market outright. **PIT@MIL survived precisely
+> because its gap (4.0pp) was too small to trigger the shade** — the mechanism rewards agreeing with
+> the market, which is the point. This is also a calibration finding about our own model: the
+> WHIP-driven YRFI lean is systematically higher than the market's, and this tracker's own history
+> (6/11, 6/22, 7/25) already recorded that the YRFI side is where the misses cluster.
+>
+> ⚠ **PIT@MIL carries one un-modelled risk:** Kyle Harrison has not pitched since **7/08 (28 days)**,
+> and rust argues for early traffic — i.e. against the NRFI. The 60% was pre-registered at 11:00 with
+> that flag already written, so it is not being revised now; but it is the reason this is a 60% and
+> not a 64%.
+
 
 > 11:00 ET morning reads — full 15-game slate. TOR@HOU / LAD@CHC / SF@TEX / TB@COL are early
 > (14:10-15:11 ET first pitch); the other 11 are 18:35 ET or later. All games `Preview/Scheduled` at
@@ -437,12 +464,12 @@ all 15 rows go to the ledger as model-only calibration.
 | 8/4 | SD @ AZ (Vásquez/E.Rodriguez) | YRFI | 55% | _model-only_ | **W** (1st 3-0 → YRFI) | Vásquez 1.47 WHIP is the YRFI half; E-Rod (2.48 ERA, best on board) caps it. Dome |
 | 8/4 | **DET @ SEA (Melton/Hancock)** | **NRFI** | **59%** | **Under 0.5 −125 (FanDuel)** — no-vig 52.4%, **+6.6pp** | **W** (1st 0-0 → NRFI) | **16:00 REVISED + PROMOTED (was NRFI 55%, E4-gated).** E4 lifted: DET's arm is **Troy Melton — 1.75 ERA / 0.93 WHIP, 6.09 IP/start over 11 GS**, opposite **Hancock 3.26 / 1.04**. The two lowest WHIPs on the board in the most run-suppressing park in the majors. Shaded 61%→59% because Hancock carries a 1.2-IP outing in the log and both lineups were still PENDING at 16:08. ✅ gate cleared |
 
-| 8/5 | ATH @ CIN (J.Lopez/Lowder) | YRFI | 63% | _model-only_ | TBD | Day's strongest: worst matched WHIP pair on the board (1.67 / 1.52) at GABP. |
-| 8/5 | WSH @ PHI (Irvin/Painter) | YRFI | 61% | _model-only_ | TBD | Two post-IL arms 2 starts back (6.72/1.61 and 5.56/1.32) at Citizens Bank Park. |
-| 8/5 | CWS @ BOS (Burke/Gray) | NRFI | 60% | _model-only_ | TBD | Best matched ERA pair on the slate (2.93/3.04), both sub-1.20 WHIP; Fenway caps it. |
-| 8/5 | PIT @ MIL (Skenes/Harrison) | NRFI | 60% | _model-only_ | TBD | Two lowest WHIPs on the board (1.11/1.08) in a dome. Harrison rust risk (no start since 7/08). |
+| 8/5 | ATH @ CIN (J.Lopez/Lowder) | YRFI | → market 52.6% *(11:00 lean 63%)* | -125 (BetMGM) — no-vig 52.6% | TBD | **16:00 Build B — PRICED, 0.0pp, NO BET.** Worst matched WHIP pair on the board (1.67 / 1.52) at GABP, but a **10.4pp** model-vs-market gap fires `market_disagrees -4` → 59% → PULSE-shaded 55-59 band → TrueP reset to market outright |
+| 8/5 | WSH @ PHI (Irvin/Painter) | YRFI | → market 52.4% *(11:00 lean 61%)* | -125 (BetMGM) — no-vig 52.4% | TBD | **16:00 Build B — PRICED, 0.0pp, NO BET.** Same mechanism (8.6pp gap → 57% → shaded). Note this game IS the Tier-1 Over 9.5: the full-game total clears the gate while the 1st-inning slice does not — a useful reminder they are different bets |
+| 8/5 | CWS @ BOS (Burke/Gray) | NRFI | → market 52.0% *(11:00 lean 60%)* | -125 (Caesars) — no-vig 52.0% | TBD | **16:00 Build B — PRICED, 0.0pp, NO BET.** Same mechanism (8.0pp gap → 56% → shaded). Best matched ERAs on the slate (2.93 / 3.04), but Fenway plus a 6.8% hold leave nothing |
+| 8/5 | PIT @ MIL (Skenes/Harrison) | **NRFI** | **60%** | **-145 (Caesars)** — no-vig 56.0% | TBD | **16:00 Build B — PRICED, +4.0pp, BET-GRADE.** (11:00 model-only lean: NRFI 60%.) Two lowest WHIPs on the board (1.11 / 1.08) in a dome. The 4.0pp model-vs-market gap is UNDER the 5pp `market_disagrees` trigger, so the pre-registered TrueP stands; band 60-64 is unshaded (11-5 / 69% in the pulse window). ⚠ Harrison hasn't pitched since 7/08 (28 d) — rust is the one-sided risk, already written into the 60% at 11:00 |
 | 8/5 | TB @ COL (Martinez/Sugano) | YRFI | 58% | _model-only_ | TBD | Coors + Sugano 4.47/1.26; Martinez 2.77/1.10 genuinely caps the other half. |
-| 8/5 | MIN @ KC (Kremer/Cameron) | YRFI | 58% | _model-only_ | TBD | Kremer 6.50/1.36 is tonight's worst starter ERA; Kauffman's size is the only brake. |
+| 8/5 | MIN @ KC (Kremer/Cameron) | **YRFI** | **54%** | **-110 (BetMGM)** — no-vig 50.0% | TBD | **16:00 Build B — PRICED, +4.0pp, BET-GRADE.** (11:00 model-only lean: YRFI 58%; `market_disagrees -4` applied on an 8pp gap → 54%.) Kremer 6.50 ERA / 1.36 WHIP over 7 GS is tonight's worst starter line, vs KC — a fades.md C1 contact-heavy lineup. The shaded 54% still clears a dead-even 50.0% market. Band 50-54 unshaded |
 | 8/5 | TOR @ HOU (Taillon/H.Brown) | YRFI | 57% | _model-only_ | TBD | One-sided: Taillon 5.92/1.36; Hunter Brown 3.42 caps the TOR half. |
 | 8/5 | NYM @ CLE (C.Scott/Bibee) | NRFI | 57% | _model-only_ | TBD | Two competent arms in a pitcher's park vs two below-average tops. |
 | 8/5 | SD @ AZ (Mize/Bratt) | YRFI | 57% | _model-only_ | TBD | Bratt 5.23 / 1.84 WHIP is the equity; Mize (2.70/0.99) shuts the other half. |
