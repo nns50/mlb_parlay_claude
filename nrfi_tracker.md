@@ -29,6 +29,38 @@ Its own ledger lives here; the dashboard renders it from this file.
 
 ---
 
+## Tonight's reads — 2026-08-05 (15-game slate; **model-only — no 1st-inning line pulled this run**)
+
+> 11:00 ET morning reads — full 15-game slate. TOR@HOU / LAD@CHC / SF@TEX / TB@COL are early
+> (14:10-15:11 ET first pitch); the other 11 are 18:35 ET or later. All games `Preview/Scheduled` at
+> build time. One model-lean per game with a pre-registered TrueP, derived from both SPs' WHIP /
+> start-quality plus park. **Weather PENDING for every park except Wrigley** (overcast, 78F, 9 mph
+> variable — no usable direction). No `totals_1st_1_innings` market was pulled this run (quota
+> discipline: the 16:00 run owns the priced prop sweep), so every read below is **model-only / no bet**.
+
+| Game (away SP / home SP) | Lean | TrueP | Why |
+|---|---|---|---|
+| ATH @ CIN (J.Lopez / Lowder) | **YRFI** | **63%** | Day's strongest. **Both WHIPs are the worst matched pair on the board — Lopez 1.67, Lowder 1.52** — at GABP, the slate's most hitter-friendly non-Coors park. |
+| WSH @ PHI (Irvin / Painter) | **YRFI** | **61%** | Two arms 2 starts into post-IL returns: Painter 6.72/1.61, Irvin 5.56/1.32, at Citizens Bank Park. Traffic in the 1st is the base case. |
+| CWS @ BOS (Burke / Gray) | **NRFI** | **60%** | The two best matched ERAs on the slate (2.93 / 3.04) and two sub-1.20 WHIPs. Fenway caps it at 60 rather than higher. |
+| PIT @ MIL (Skenes / Harrison) | **NRFI** | **60%** | The two lowest WHIPs on the board (1.11 / 1.08) in a dome. ⚠ Harrison has not pitched since 7/08 — rust is the one-sided risk. |
+| TB @ COL (Martinez / Sugano) | **YRFI** | **58%** | Coors. Sugano 4.47/1.26 is the YRFI half; Martinez (2.77/1.10) genuinely caps it, which is why 58 and not 62. |
+| MIN @ KC (Kremer / Cameron) | **YRFI** | **58%** | Kremer 6.50/1.36 over 7 GS is the worst ERA among tonight's starters; Kauffman's size is the only brake. |
+| TOR @ HOU (Taillon / H.Brown) | **YRFI** | **57%** | Wholly one-sided: Taillon 5.92/1.36 vs a HOU top; Brown (3.42) caps the other half. |
+| NYM @ CLE (C.Scott / Bibee) | **NRFI** | **57%** | Two competent arms (2.99/1.24, 3.81/1.15) in a pitcher's park vs two below-average tops. |
+| SD @ AZ (Mize / Bratt) | **YRFI** | **57%** | **Bratt 5.23 / 1.84 WHIP over 20.2 IP** is the equity; Mize (2.70/0.99) is the best arm on the slate and shuts the other half down. |
+| STL @ NYY (Pallante / Warren) | **YRFI** | **56%** | Warren 1.36 WHIP at Yankee Stadium; Pallante is a contact-manager (6.52 K/9) so STL put balls in play early. |
+| LAA @ BAL (Detmers / T.Rogers) | **NRFI** | **55%** | Two mid arms (4.03/1.10, 4.27/1.28) but the two weakest offences of the late slate (LAA RDiff −76, BAL −33). |
+| MIA @ ATL (E.Perez / Elder) | **NRFI** | **55%** | Perez 3.44/1.10 is the reason; Elder (3.84/1.25) vs a hot ATL-facing MIA top is the risk. |
+| SF @ TEX (Whisenhunt / Bradford) | **YRFI** | **55%** | ⚠ **E4-adjacent: Bradford has NO 2026 game data** — unverifiable. Whisenhunt (6.63 / **1.74 WHIP**, 4 GS) alone carries the lean; capped at 55 for the unknown half. |
+| LAD @ CHC (Lauer / Imanaga) | **NRFI** | **54%** | Imanaga 1.07 WHIP is elite in the 1st; Lauer 1.19 is fine. Held to 54 because both tops are top-5 offences and Wrigley wind is unreadable. |
+| DET @ SEA (D.Anderson / Woo) | **NRFI** | **54%** | T-Mobile, the most run-suppressing park in the majors. ⚠ **DET is effectively a bullpen game** — Anderson has 2 GS in 63.2 IP — so the "starter" half is really an opener, which caps this at 54. |
+
+**Slate split:** 7 NRFI / 8 YRFI leans. **0 priced reads** — no 1st-inning market pulled this run;
+all 15 rows go to the ledger as model-only calibration.
+
+---
+
 ## Tonight's reads — 2026-08-04 (15-game slate; **4 reads clear +2pp on a real 1st-inning line**)
 
 > 11:00 ET morning reads — full 15-game slate, all first pitches 18:35 ET or later, every game
@@ -389,40 +421,44 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 8/3 | TB @ COL (Seymour/Lorenzen) | YRFI | 60% | _model-only_ | **W** (1st 2-0 → YRFI) | Coors + Lorenzen 6.54 ERA/1.81 WHIP (3.2 IP/6 ER and 4.0 IP/3 ER his last two) vs a .262/.335 TB top. |
 | 8/3 | SD @ AZ (King/Pfaadt) | NRFI | 55% | _model-only_ | **W** (1st 0-0 → NRFI) | Day's strongest NRFI: King steady (3.38/1.17, 6.0 IP in four of five) and Pfaadt sharp lately (7.0 IP/0 ER last out), in a dome. |
 
-| 8/4 | LAA @ BAL (G.Rodriguez/Povich) | YRFI | 57% | _model-only_ | TBD | **16:00 REVISED (E4 LIFTED, was 56% w/ TBD):** BAL's arm is **Cade Povich — 5.12/1.34 but only 3 GS and last logged 5/07**, i.e. a return with real start-length uncertainty. Two bad arms, but two weak offences (LAA RDiff −74, BAL −35) and **7 mph wind IN from CF** cap it. Nudged +1pp only; the priced Over 0.5 doesn't clear the gate |
-| 8/4 | ATH @ CIN (Ginn/Singer) | YRFI | 56% | _model-only_ | TBD | GABP hitter park + Singer 1.43 WHIP, offset by the worst road offense on the slate (ATH .244/.325, RDiff −154) |
-| 8/4 | NYM @ CLE (Manaea/Cantillo) | YRFI | 55% | _model-only_ | TBD | Both WHIPs ≥1.34 (Cantillo 1.45) = traffic game; capped by NYM's .231/.301 top and a neutral park |
-| 8/4 | **WSH @ PHI (Palmquist/Luzardo)** | **YRFI** | **60%** | **Over 0.5 −115 (BetMGM)** — no-vig 50.5%, **+9.5pp** | TBD | **16:00 REVISED + PROMOTED (was YRFI 57% model-only on Littell).** ⚠ **E3 SP CHANGE: Littell → Carson Palmquist**, who is materially worse *and* materially shorter — **7.31 ERA / 1.63 WHIP**, last six outings **3.0, 0.1, 1.2, 1.1, 1.1, 2.0 IP** (C4-adjacent opener/bulk profile) — facing PHI's top three at CBP. Luzardo (3.57/1.19) still caps the WSH half, which is why 60% and not higher. ✅ gate cleared |
-| 8/4 | STL @ NYY (Dobbins/Weathers) | YRFI | 57% | _model-only_ | TBD | Yankee Stadium + NYY top vs a 4-start rookie (1.34 WHIP); STL's 18%-K top puts balls in play vs Weathers |
-| 8/4 | **CWS @ BOS (Martin/Sandoval)** | **YRFI** | **56%** | **Over 0.5 +102 (FanDuel)** — no-vig 48.6%, **+7.4pp** | TBD | ✅ gate cleared. Sandoval 1.58 WHIP, 4 starts / 19 IP into a return, at Fenway vs a BOS side on W5/L10 8-2. Shaded 60%→56% on CWS's 24% K vs LHP and the market's YRFI-side price |
-| 8/4 | MIA @ ATL (Gusto/Holmes) | YRFI | 59% | _model-only_ | TBD | Gusto 5.31/1.44 vs the hottest top on the slate (ATL 67-45, W5, +108). Strongest un-priced YRFI |
-| 8/4 | **MIN @ KC (J.Ryan/Dobnak)** | **NRFI** | **55%** | **Under 0.5 −104 (FanDuel)** — no-vig 48.8%, **+6.2pp** | TBD | ✅ gate cleared, market on the other side. Two sub-1.20 WHIPs + two weak tops (.313/.319 OBP) at Kauffman; shaded 57%→55% because Dobnak is a 26-IP/4.85-K/9 sample the market may be reading as short |
-| 8/4 | **PIT @ MIL (Jones/Henderson)** | **NRFI** | **58%** | **Under 0.5 −129 (BetRivers)** — no-vig 54.7%, **+3.3pp** | TBD | ✅ gate cleared. Cleanest premise of the day: the slate's two best WHIPs (1.02, 0.91) in a dome vs PIT's 23%-K top. Market agrees → smallest edge of the four |
-| 8/4 | LAD @ CHC (Skubal/Assad) | NRFI | 55% | _model-only_ | TBD | Skubal 0.91 WHIP elite, Assad competent — but two strong tops (CHC .333/.355 OBP) and **Wrigley wind PENDING**, the one park a wind reading would move |
-| 8/4 | SF @ TEX (Tidwell/Gore) | YRFI | 55% | _model-only_ | TBD | ⚠ C4-adjacent: Tidwell has **0 GS in 12 IP** (swingman/opener question). Gore's 4.77 ERA is the firmer signal. Dome |
-| 8/4 | TOR @ HOU (Yesavage/Wesneski) | YRFI | 58% | _model-only_ | TBD | Wesneski: **5.2 IP all season, 1 GS**, 1.59 WHIP — rust + short leash, effectively a HOU bullpen game; Yesavage steadier, so equity is one-sided |
-| 8/4 | **TB @ COL (Peralta/Hughes)** | **YRFI** | **61%** | **Over 0.5 −130 (FanDuel)** — no-vig 54.9%, **+6.1pp** | TBD | ✅ gate cleared, day's strongest. Peralta 1.48 WHIP / 4.5 IP-per-start vs the slate's most contact-heavy top (TB 18-19% K, .264) at Coors. **Yesterday's 22-run game on a wind-IN reading is why no suppression is applied** |
-| 8/4 | SD @ AZ (Vásquez/E.Rodriguez) | YRFI | 55% | _model-only_ | TBD | Vásquez 1.47 WHIP is the YRFI half; E-Rod (2.48 ERA, best on board) caps it. Dome |
-| 8/4 | **DET @ SEA (Melton/Hancock)** | **NRFI** | **59%** | **Under 0.5 −125 (FanDuel)** — no-vig 52.4%, **+6.6pp** | TBD | **16:00 REVISED + PROMOTED (was NRFI 55%, E4-gated).** E4 lifted: DET's arm is **Troy Melton — 1.75 ERA / 0.93 WHIP, 6.09 IP/start over 11 GS**, opposite **Hancock 3.26 / 1.04**. The two lowest WHIPs on the board in the most run-suppressing park in the majors. Shaded 61%→59% because Hancock carries a 1.2-IP outing in the log and both lineups were still PENDING at 16:08. ✅ gate cleared |
+| 8/4 | LAA @ BAL (G.Rodriguez/Povich) | YRFI | 57% | _model-only_ | **L** (1st 0-0 → NRFI) | **16:00 REVISED (E4 LIFTED, was 56% w/ TBD):** BAL's arm is **Cade Povich — 5.12/1.34 but only 3 GS and last logged 5/07**, i.e. a return with real start-length uncertainty. Two bad arms, but two weak offences (LAA RDiff −74, BAL −35) and **7 mph wind IN from CF** cap it. Nudged +1pp only; the priced Over 0.5 doesn't clear the gate |
+| 8/4 | ATH @ CIN (Ginn/Singer) | YRFI | 56% | _model-only_ | **L** (1st 0-0 → NRFI) | GABP hitter park + Singer 1.43 WHIP, offset by the worst road offense on the slate (ATH .244/.325, RDiff −154) |
+| 8/4 | NYM @ CLE (Manaea/Cantillo) | YRFI | 55% | _model-only_ | **L** (1st 0-0 → NRFI) | Both WHIPs ≥1.34 (Cantillo 1.45) = traffic game; capped by NYM's .231/.301 top and a neutral park |
+| 8/4 | **WSH @ PHI (Palmquist/Luzardo)** | **YRFI** | **60%** | **Over 0.5 −115 (BetMGM)** — no-vig 50.5%, **+9.5pp** | **W** (1st 0-1 → YRFI) | **16:00 REVISED + PROMOTED (was YRFI 57% model-only on Littell).** ⚠ **E3 SP CHANGE: Littell → Carson Palmquist**, who is materially worse *and* materially shorter — **7.31 ERA / 1.63 WHIP**, last six outings **3.0, 0.1, 1.2, 1.1, 1.1, 2.0 IP** (C4-adjacent opener/bulk profile) — facing PHI's top three at CBP. Luzardo (3.57/1.19) still caps the WSH half, which is why 60% and not higher. ✅ gate cleared |
+| 8/4 | STL @ NYY (Dobbins/Weathers) | YRFI | 57% | _model-only_ | **L** (1st 0-0 → NRFI) | Yankee Stadium + NYY top vs a 4-start rookie (1.34 WHIP); STL's 18%-K top puts balls in play vs Weathers |
+| 8/4 | **CWS @ BOS (Martin/Sandoval)** | **YRFI** | **56%** | **Over 0.5 +102 (FanDuel)** — no-vig 48.6%, **+7.4pp** | **W** (1st 0-6 → YRFI) | ✅ gate cleared. Sandoval 1.58 WHIP, 4 starts / 19 IP into a return, at Fenway vs a BOS side on W5/L10 8-2. Shaded 60%→56% on CWS's 24% K vs LHP and the market's YRFI-side price |
+| 8/4 | MIA @ ATL (Gusto/Holmes) | YRFI | 59% | _model-only_ | **L** (1st 0-0 → NRFI) | Gusto 5.31/1.44 vs the hottest top on the slate (ATL 67-45, W5, +108). Strongest un-priced YRFI |
+| 8/4 | **MIN @ KC (J.Ryan/Dobnak)** | **NRFI** | **55%** | **Under 0.5 −104 (FanDuel)** — no-vig 48.8%, **+6.2pp** | **L** (1st 0-2 → YRFI) | ✅ gate cleared, market on the other side. Two sub-1.20 WHIPs + two weak tops (.313/.319 OBP) at Kauffman; shaded 57%→55% because Dobnak is a 26-IP/4.85-K/9 sample the market may be reading as short |
+| 8/4 | **PIT @ MIL (Jones/Henderson)** | **NRFI** | **58%** | **Under 0.5 −129 (BetRivers)** — no-vig 54.7%, **+3.3pp** | **W** (1st 0-0 → NRFI) | ✅ gate cleared. Cleanest premise of the day: the slate's two best WHIPs (1.02, 0.91) in a dome vs PIT's 23%-K top. Market agrees → smallest edge of the four |
+| 8/4 | LAD @ CHC (Skubal/Assad) | NRFI | 55% | _model-only_ | **W** (1st 0-0 → NRFI) | Skubal 0.91 WHIP elite, Assad competent — but two strong tops (CHC .333/.355 OBP) and **Wrigley wind PENDING**, the one park a wind reading would move |
+| 8/4 | SF @ TEX (Tidwell/Gore) | YRFI | 55% | _model-only_ | **W** (1st 0-2 → YRFI) | ⚠ C4-adjacent: Tidwell has **0 GS in 12 IP** (swingman/opener question). Gore's 4.77 ERA is the firmer signal. Dome |
+| 8/4 | TOR @ HOU (Yesavage/Wesneski) | YRFI | 58% | _model-only_ | **L** (1st 0-0 → NRFI) | Wesneski: **5.2 IP all season, 1 GS**, 1.59 WHIP — rust + short leash, effectively a HOU bullpen game; Yesavage steadier, so equity is one-sided |
+| 8/4 | **TB @ COL (Peralta/Hughes)** | **YRFI** | **61%** | **Over 0.5 −130 (FanDuel)** — no-vig 54.9%, **+6.1pp** | **W** (1st 0-1 → YRFI) | ✅ gate cleared, day's strongest. Peralta 1.48 WHIP / 4.5 IP-per-start vs the slate's most contact-heavy top (TB 18-19% K, .264) at Coors. **Yesterday's 22-run game on a wind-IN reading is why no suppression is applied** |
+| 8/4 | SD @ AZ (Vásquez/E.Rodriguez) | YRFI | 55% | _model-only_ | **W** (1st 3-0 → YRFI) | Vásquez 1.47 WHIP is the YRFI half; E-Rod (2.48 ERA, best on board) caps it. Dome |
+| 8/4 | **DET @ SEA (Melton/Hancock)** | **NRFI** | **59%** | **Under 0.5 −125 (FanDuel)** — no-vig 52.4%, **+6.6pp** | **W** (1st 0-0 → NRFI) | **16:00 REVISED + PROMOTED (was NRFI 55%, E4-gated).** E4 lifted: DET's arm is **Troy Melton — 1.75 ERA / 0.93 WHIP, 6.09 IP/start over 11 GS**, opposite **Hancock 3.26 / 1.04**. The two lowest WHIPs on the board in the most run-suppressing park in the majors. Shaded 61%→59% because Hancock carries a 1.2-IP outing in the log and both lineups were still PENDING at 16:08. ✅ gate cleared |
+
+| 8/5 | ATH @ CIN (J.Lopez/Lowder) | YRFI | 63% | _model-only_ | TBD | Day's strongest: worst matched WHIP pair on the board (1.67 / 1.52) at GABP. |
+| 8/5 | WSH @ PHI (Irvin/Painter) | YRFI | 61% | _model-only_ | TBD | Two post-IL arms 2 starts back (6.72/1.61 and 5.56/1.32) at Citizens Bank Park. |
+| 8/5 | CWS @ BOS (Burke/Gray) | NRFI | 60% | _model-only_ | TBD | Best matched ERA pair on the slate (2.93/3.04), both sub-1.20 WHIP; Fenway caps it. |
+| 8/5 | PIT @ MIL (Skenes/Harrison) | NRFI | 60% | _model-only_ | TBD | Two lowest WHIPs on the board (1.11/1.08) in a dome. Harrison rust risk (no start since 7/08). |
+| 8/5 | TB @ COL (Martinez/Sugano) | YRFI | 58% | _model-only_ | TBD | Coors + Sugano 4.47/1.26; Martinez 2.77/1.10 genuinely caps the other half. |
+| 8/5 | MIN @ KC (Kremer/Cameron) | YRFI | 58% | _model-only_ | TBD | Kremer 6.50/1.36 is tonight's worst starter ERA; Kauffman's size is the only brake. |
+| 8/5 | TOR @ HOU (Taillon/H.Brown) | YRFI | 57% | _model-only_ | TBD | One-sided: Taillon 5.92/1.36; Hunter Brown 3.42 caps the TOR half. |
+| 8/5 | NYM @ CLE (C.Scott/Bibee) | NRFI | 57% | _model-only_ | TBD | Two competent arms in a pitcher's park vs two below-average tops. |
+| 8/5 | SD @ AZ (Mize/Bratt) | YRFI | 57% | _model-only_ | TBD | Bratt 5.23 / 1.84 WHIP is the equity; Mize (2.70/0.99) shuts the other half. |
+| 8/5 | STL @ NYY (Pallante/Warren) | YRFI | 56% | _model-only_ | TBD | Warren 1.36 WHIP at Yankee Stadium; Pallante a 6.52-K/9 contact-manager. |
+| 8/5 | LAA @ BAL (Detmers/T.Rogers) | NRFI | 55% | _model-only_ | TBD | Two mid arms but the two weakest offences of the late slate. |
+| 8/5 | MIA @ ATL (E.Perez/Elder) | NRFI | 55% | _model-only_ | TBD | Eury Perez 3.44/1.10 is the reason; Elder is the risk half. |
+| 8/5 | SF @ TEX (Whisenhunt/Bradford) | YRFI | 55% | _model-only_ | TBD | E4-adjacent: Bradford has NO 2026 data. Whisenhunt 6.63 / 1.74 WHIP alone carries it. |
+| 8/5 | LAD @ CHC (Lauer/Imanaga) | NRFI | 54% | _model-only_ | TBD | Imanaga 1.07 WHIP elite in the 1st; capped by two top-5 offences + unreadable Wrigley wind. |
+| 8/5 | DET @ SEA (D.Anderson/Woo) | NRFI | 54% | _model-only_ | TBD | T-Mobile suppression, but DET is effectively a bullpen game (Anderson 2 GS / 63.2 IP). |
 
 ---
 
 ## Running totals (update on every settle)
-- **Record:** **132-108** (tracker opened 6/10/26). **NRFI:** **65-56** · **YRFI:** **67-52**.
+- **Record:** **140-115** (tracker opened 6/10/26). **NRFI:** **68-57** · **YRFI:** **72-58**.
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
-- **Open:** **8/3 SETTLED** (auto via `nrfi_settle.py --apply` at this session's start — all 8 reads stamped,
-  **5W-3L**: WSH@PHI YRFI ✅, LAD@CHC YRFI ✅, SF@TEX NRFI ✅, TB@COL YRFI ✅, SD@AZ NRFI ✅; STL@NYY NRFI ❌
-  (1st went 2-0), PIT@MIL YRFI ❌ (0-0), TOR@HOU YRFI ❌ (0-0). Record moved to **132-108**. The 18:45
-  downgrade of TB@COL YRFI 60%→54% on the wind-IN reading was in the *wrong* direction — the 1st went 2-0
-  and the game went 22 runs; the lean would have been better left at 60%.) **8/4: 15 games, all pre-game at
-  build time** — today's reads above; at 11:00 **4 were priced reads clearing +2pp** (PIT@MIL NRFI −129,
-  MIN@KC NRFI −104, TB@COL YRFI −130, CWS@BOS YRFI +102), the other 11 model-only. **16:00 Build B revised
-  three reads on new SP information and promoted two of them → 6 priced reads today:** WSH@PHI
-  **YRFI 57→60%** (⚠ E3 SP change Littell→Palmquist, an opener profile at 7.31/1.63 → Over 0.5 −115,
-  **+9.5pp**), DET@SEA **NRFI 55→59%** (E4 lifted — Melton 0.93 WHIP + Hancock 1.04 at T-Mobile →
-  Under 0.5 −125, **+6.6pp**), LAA@BAL **YRFI 56→57%** (E4 lifted, but Povich is 3 GS / 3 months stale
-  and the wind is IN → stays model-only). All 15 games were still pre-game at 16:08, so nothing settled
-  mid-run. Settle next session via `nrfi_settle.py --apply`.
+- **Open:** **8/4 SETTLED** (auto via `nrfi_settle.py --apply` at this session's start — the 9 model-only reads auto-stamped, the 6 priced/bolded rows settled by hand this run from the 1st-inning line scores. **8/4 finished 8W-7L.** The four priced reads that cleared +2pp went **3-1** (WSH@PHI Over ✅, CWS@BOS Over ✅ on a 6-run 1st, PIT@MIL Under ✅, MIN@KC Under ❌), plus the DET@SEA Under ✅ — the priced subset materially outperformed the model-only subset, which is the first real evidence that the +2pp gate is selecting.) **8/5: 15 reads OPEN, all model-only** — no `totals_1st_1_innings` market pulled this run.
 - **Settled 7/26** (auto via `nrfi_settle.py --apply`, run 7/30): 14 decided, 7W-7L (NRFI 2-3, YRFI 5-4).
   Record updated from 91-74 to 98-81. LAA@SF (Soriano/Whisenhunt, NEUTRAL) still TBD — game likely
   postponed/unresolved, left open. **No parlay builds ran 7/27-7/29** (session gap) — those slates have
