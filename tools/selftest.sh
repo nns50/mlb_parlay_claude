@@ -480,6 +480,56 @@ echo "13d. dashboard parser invariants"
 DESC="generate_dashboard --selftest (parse counts + calib reconcile + empty-safe)"
 runblk python3 tools/generate_dashboard.py --selftest
 
+# ── 13e. calib.py FIELD-LEVEL parse assertions (offline) ─────────────────────
+# Three silent parse bugs in four days (8/3 placement, 8/4 verdict-token order,
+# 8/6 bold-vs-star) each slipped past checks that assert row COUNTS and section
+# PLACEMENT but never that an individual FIELD parses to the right value.
+#   - 8/6: parse_pct used a bare `"*" in s`, which also matched the markdown bold
+#     markers in `**54.5%**` — so every bold-wrapped TrueP was misread as a legacy
+#     reconstructed row and silently dropped from the bands, from the Brier
+#     scoreboard, and from pulse.py's window (172 -> 221 legs once fixed, and the
+#     headline skill flipped sign). These assertions pin that class down.
+echo "13e. calib.py field-level parse assertions"
+DESC="parse_pct: bold TrueP '**54.5%**' parses as NOT starred"
+runblk python3 -c "
+import importlib.util,sys
+spec=importlib.util.spec_from_file_location('c','tools/calib.py')
+m=importlib.util.module_from_spec(spec); m.__dict__['__file__']='tools/calib.py'
+exec(compile(open('tools/calib.py').read().split('def main')[0],'c','exec'), m.__dict__)
+v,st=m.parse_pct('**54.5%**')
+assert v==54.5, v
+assert st is False, 'bold TrueP misread as a legacy starred row'
+v,st=m.parse_pct('~72%*')
+assert v==72.0 and st is True, 'real legacy star marker no longer detected'
+v,st=m.parse_pct('60%')
+assert v==60.0 and st is False
+"
+
+DESC="parse_result: '**W** ✅ WON' -> W, '**L** ❌ LOST' -> L, TBD/SUPERSEDED -> None"
+runblk python3 -c "
+import importlib.util
+m=importlib.util.module_from_spec(importlib.util.spec_from_file_location('c','tools/calib.py'))
+m.__dict__['__file__']='tools/calib.py'
+exec(compile(open('tools/calib.py').read().split('def main')[0],'c','exec'), m.__dict__)
+assert m.parse_result('**W** ✅ WON (12 K)')=='W'
+assert m.parse_result('**L** ❌ LOST (5 runs)')=='L'
+assert m.parse_result('**would-L** (...)')=='L'
+assert m.parse_result('TBD — pending')is None
+assert m.parse_result('**SUPERSEDED → see Run 16:00**')is None
+assert m.parse_result('**n/a** — status row')is None
+"
+
+DESC="no 8/6+ ledger row has a broken column count (13 fields)"
+runblk python3 -c "
+import sys
+bad=[]
+for i,ln in enumerate(open('results_log.md'),1):
+    if ln.startswith('| 8/6 ') or ln.startswith('| 8/7 '):
+        n=ln.count('|')+1
+        if n!=13: bad.append((i,n))
+assert not bad, 'rows with wrong column count (injected pipes): %r'%bad[:5]
+"
+
 # ── 14. ONLINE (free StatsAPI only): resolver collision regression ───────────
 if [[ $QUICK -eq 0 ]]; then
   echo "14. mlb_api resolver (live StatsAPI — free, no odds quota)"

@@ -80,9 +80,17 @@ def parse_result(s):
 
 
 def parse_pct(s):
-    """'~72%*' -> (72.0, starred=True); '60%' -> (60.0, False); '—' -> (None, _)."""
-    starred = "*" in s
-    m = re.search(r"(\d+(?:\.\d+)?)", s)
+    """'~72%*' -> (72.0, starred=True); '60%' -> (60.0, False); '—' -> (None, _).
+
+    NOTE (bug fixed 8/6/26): the star test used to be a bare `"*" in s`, which also matched
+    the markdown BOLD markers in a cell like '**54.5%**'. Every bold-wrapped TrueP was
+    therefore misread as a reconstructed legacy row and silently dropped from the calibration
+    bands AND from the §1b Brier scoreboard — a large, invisible measurement loss, since the
+    build writes its headline legs in bold. Strip bold first, then look for a real '*'.
+    """
+    stripped = s.replace("**", "")
+    starred = "*" in stripped
+    m = re.search(r"(\d+(?:\.\d+)?)", stripped)
     return (float(m.group(1)) if m else None), starred
 
 
