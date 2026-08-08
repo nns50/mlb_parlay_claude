@@ -115,6 +115,8 @@ props tooling (kprice, prop CLV close) self-gates on the API reporting a rich qu
 tools/odds_api.sh check                    # key + reachability + remaining quota
 tools/odds_api.sh slate [date]             # pull+cache h2h/totals/spreads; best-ML table
 tools/odds_api.sh best h2h|totals|spreads [date]   # best line per game per side, with the book
+                                           # (⛔ excludes games already started — a cached in-game
+                                           #  price is not shoppable; banner shows the count)
 tools/odds_api.sh game "<team>" [date]     # full book-by-book board for one game
 tools/odds_api.sh events [date]            # event IDs (free; needed for props)
 tools/odds_api.sh props <eventId> pitcher_strikeouts[,batter_hits]   # PER-EVENT props (spends quota!)
@@ -233,8 +235,13 @@ User-directed 8/1/26 after the ace_edge decay and the Tier-1 K-prop monoculture 
 measurement output while nightly builds kept applying static doctrine. Principle: **recency governs
 EXPOSURE every build; the n≥20-30 evidence bar governs BELIEF** — you stop leaning on a dimension the
 moment it runs cold, without overfitting the doctrine to noise. Stateless: recomputed each run from
-`results_log.md` (last 14 days, or last 25 decided legs), per dimension (bet type, K-line bucket,
-`[adj:]` tag, TrueP band), with fixed mechanical thresholds:
+`results_log.md` (last 14 days, or last 25 decided **unique legs** — 8/7/26: reprice/supersede copies
+of one physical bet collapse to the latest row via `calib.leg_key`; row-counting had inflated the window
+131→107 and manufactured three MARKET-SHADEs from double-counted CLV. Row years anchor to the
+`<!-- ledger-epoch: YYYY -->` marker in `results_log.md` — the season-anniversary trap where Aug-2026
+rows would re-enter an Aug-2027 window as "3 days old" is closed, and the last-25 fallback ignores rows
+older than 45 days so a quiet ledger idles the governor rather than governing off a prior season), per
+dimension (bet type, K-line bucket, `[adj:]` tag, TrueP band), with fixed mechanical thresholds:
 
 ```
 COOL          n≥5, hit ≤ claimed−15pp   halve its adjustments; barred from Tier 1 + parlay-anchor

@@ -4,9 +4,12 @@ Generate docs/index.html — read-only analytics dashboard.
 Parses bankroll.md, results_log.md, parlays/*.md, fades.md.
 Run after any build to refresh the Pages site.
 """
-import re, json
+import re, json, sys
 from pathlib import Path
 from datetime import datetime
+
+sys.path.insert(0, str(Path(__file__).parent))
+from calib import leg_key, dedup_rows   # one leg-identity definition repo-wide (8/7 audit)
 
 
 def american_to_decimal(price_str: str):
@@ -148,6 +151,10 @@ def bankroll_chart_data(rolls: list[dict]) -> dict:
 # ─── Results log ──────────────────────────────────────────────────────────────
 
 def _outcome(result_raw: str):
+    # A superseded row must never settle, wherever the marker sits (8/7 audit — same
+    # class as calib.parse_result: 'SUPERSEDED @ 16:00 — … L (7 K)' double-counted).
+    if re.search(r'SUPERSEDED', result_raw, re.I):
+        return None
     # Read the verdict from the leading token only — the part BEFORE the first
     # parenthetical detail — so an embedded per-leg letter ("❌ LOST (MIA W 10-6 …)")
     # can't flip the ticket's own result. Resolve any residual ambiguity by position.
@@ -164,7 +171,7 @@ def _outcome(result_raw: str):
 
 def _leg_rows(section_text: str) -> list[dict]:
     rows = parse_md_table(section_text, ['Date', 'Leg', 'TrueP'])
-    out = []
+    out, keys = [], []
     for row in rows:
         date_s = strip_md(row.get('Date', ''))
         if not date_s or re.match(r'^-+$', date_s):
@@ -172,10 +179,12 @@ def _leg_rows(section_text: str) -> list[dict]:
         truep_raw = row.get('TrueP', '')
         result_raw = strip_md(row.get('Result', ''))
         clv_raw = strip_md(row.get('CLV', '')).replace('−', '-')
+        full_leg = strip_md(row.get('Leg (game)', '') or row.get('Leg', ''))
+        typ = strip_md(row.get('Type', ''))
         out.append({
             'date': date_s,
-            'leg': strip_md(row.get('Leg (game)', '') or row.get('Leg', ''))[:45],
-            'type': strip_md(row.get('Type', '')),
+            'leg': full_leg[:45],
+            'type': typ,
             'price': strip_md(row.get('Price', '')),
             'truep': parse_pct(truep_raw),
             'implp': parse_pct(row.get('ImplP', '')),
@@ -184,9 +193,13 @@ def _leg_rows(section_text: str) -> list[dict]:
             'played': strip_md(row.get('Played', '')).upper() == 'Y',
             'clv': clv_raw,
             'bucket': strip_md(row.get('Bucket', '')),
-            'legacy': '*' in truep_raw,
+            # legacy star is glued to the percent ('72%*') — italics/bold are NOT
+            # legacy markers (8/7 audit, mirrors calib.parse_pct)
+            'legacy': '%*' in truep_raw.replace('**', ''),
         })
-    return out
+        keys.append(leg_key(date_s, full_leg, typ))
+    # one row per PHYSICAL leg — reprice copies collapse to the latest (8/7 audit)
+    return dedup_rows(out, keys)
 
 
 def parse_results_log() -> dict:

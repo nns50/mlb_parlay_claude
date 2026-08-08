@@ -44,15 +44,24 @@ from datetime import date, timedelta
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from calib import parse_adj_tags, parse_pct, parse_result, table_rows  # noqa: E402
+from calib import (parse_adj_tags, parse_pct, parse_result, table_rows,  # noqa: E402
+                   leg_key, dedup_rows)
 from settle import parse_hprop, parse_kprop  # noqa: E402
 
 WINDOW_DAYS = 14
 MIN_ROWS = 15
 FALLBACK_ROWS = 25
+FALLBACK_MAX_AGE = 45   # days — the last-25 fallback must not resurrect a prior season
 COOL_N, COOL_GAP = 5, 15.0
 SUSP_N, SUSP_GAP = 6, 25.0
 CLV_MIN = 4
+
+# Optional season anchor in results_log.md: '<!-- ledger-epoch: 2026 -->'. Without it,
+# M/D-only dates are ambiguous at the season anniversary (an Aug 2027 run would re-import
+# Aug 2026 rows as 3 days old — audit 8/7/26). With it, years are assigned by a monotonic
+# walk from the epoch: the ledger is append-ordered per section, so a big backward M/D
+# jump (>120 days) marks a season wrap.
+EPOCH_RX = re.compile(r"<!--\s*ledger-epoch:\s*(\d{4})\s*-->")
 
 
 def norm_type(typ, leg):
@@ -77,55 +86,84 @@ def norm_type(typ, leg):
 
 
 def parse_rows(text, today):
-    """Decided leg rows → [{date, dims:[...], truep, y, clv}] within the window."""
-    rows = []
-    for c in (table_rows(text, "## Played legs")
-              + table_rows(text, "## Recommended but NOT played")):
-        if len(c) < 8:
-            continue
-        m = re.match(r"(\d{1,2})/(\d{1,2})", c[0].strip())
-        if not m:
-            continue
-        d = None
-        for yr in (today.year, today.year - 1):
-            try:
-                cand = date(yr, int(m.group(1)), int(m.group(2)))
-            except ValueError:
+    """Decided UNIQUE legs → [{date, dims:[...], truep, y, clv}].
+
+    One entry per PHYSICAL leg: reprice/supersede copies collapse to the latest row
+    (audit 8/7/26: 131 window rows were only 107 unique legs, and three MARKET-SHADEs
+    existed only because copies re-counted the same W/L + CLV). Sections are walked
+    Recommended-first so the keep-last dedup prefers a leg's Played row over its scan
+    row (the played copy carries the applied [adj:] tags)."""
+    epoch_m = EPOCH_RX.search(text)
+    epoch_year = int(epoch_m.group(1)) if epoch_m else None
+    rows, keys = [], []
+    for sec in ("## Recommended but NOT played", "## Played legs"):
+        year = epoch_year or today.year
+        prev = None
+        for c in table_rows(text, sec):
+            if len(c) < 8:
                 continue
-            if cand <= today:
-                d = cand
-                break
-        if d is None:
-            continue
-        res = parse_result(c[7])
-        if res not in ("W", "L"):
-            continue
-        truep, starred = parse_pct(c[4])
-        if truep is None or starred or not (1 <= truep <= 99):
-            continue
-        base = norm_type(c[2], c[1])
-        if base is None:
-            continue
-        dims = [f"type:{base}"]
-        for tag in (parse_adj_tags(c[1]) or []):
-            dims.append(f"adj:{tag}")
-        band = int(truep // 5 * 5)
-        dims.append(f"band:{band}-{band + 4}")
-        clv_cell = c[9].strip() if len(c) > 9 else ""
-        clv = ("+" if clv_cell.startswith("+") else
-               "−" if clv_cell.startswith(("−", "-")) else
-               "=" if clv_cell.startswith("=") else None)
-        implp, _ = parse_pct(c[5])
-        rows.append({"date": d, "dims": dims, "truep": truep,
-                     "implp": implp, "y": 1.0 if res == "W" else 0.0, "clv": clv})
-    return rows
+            m = re.match(r"(\d{1,2})/(\d{1,2})", c[0].strip())
+            if not m:
+                continue
+            mo, dy = int(m.group(1)), int(m.group(2))
+            d = None
+            if epoch_year:
+                try:
+                    cand = date(year, mo, dy)
+                except ValueError:
+                    continue
+                if prev and (prev - cand).days > 120:   # season wrap (10/xx → 3/xx)
+                    year += 1
+                    cand = date(year, mo, dy)
+                prev = cand
+                if cand <= today:
+                    d = cand
+            else:   # legacy two-candidate inference (ambiguous at the anniversary)
+                for yr in (today.year, today.year - 1):
+                    try:
+                        cand = date(yr, mo, dy)
+                    except ValueError:
+                        continue
+                    if cand <= today:
+                        d = cand
+                        break
+            if d is None:
+                continue
+            res = parse_result(c[7])
+            if res not in ("W", "L"):
+                continue
+            truep, starred = parse_pct(c[4])
+            if truep is None or starred or not (1 <= truep <= 99):
+                continue
+            base = norm_type(c[2], c[1])
+            if base is None:
+                continue
+            dims = [f"type:{base}"]
+            for tag in (parse_adj_tags(c[1]) or []):
+                dims.append(f"adj:{tag}")
+            band = int(truep // 5 * 5)
+            dims.append(f"band:{band}-{band + 4}")
+            # CLV verdicts may be bold-wrapped ('**+**', '**− (line moved…)**') — strip
+            # markdown before reading the sign (audit 8/7/26: bold verdicts were dropped)
+            clv_cell = (c[9] if len(c) > 9 else "").replace("**", "").strip()
+            clv = ("+" if clv_cell.startswith("+") else
+                   "−" if clv_cell.startswith(("−", "-")) else
+                   "=" if clv_cell.startswith("=") else None)
+            implp, _ = parse_pct(c[5])
+            rows.append({"date": d, "dims": dims, "truep": truep,
+                         "implp": implp, "y": 1.0 if res == "W" else 0.0, "clv": clv})
+            keys.append(leg_key(c[0].strip(), c[1], c[2]))
+    return dedup_rows(rows, keys)
 
 
 def window_rows(rows, today):
     rows = sorted(rows, key=lambda r: r["date"])
     recent = [r for r in rows if (today - r["date"]).days <= WINDOW_DAYS]
     if len(recent) < MIN_ROWS:
-        recent = rows[-FALLBACK_ROWS:]
+        # last-25 fallback, but never resurrect stale history: a quiet ledger must
+        # idle the governor, not govern off a prior season (audit 8/7/26)
+        recent = [r for r in rows[-FALLBACK_ROWS:]
+                  if (today - r["date"]).days <= FALLBACK_MAX_AGE]
     return recent
 
 
