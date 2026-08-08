@@ -53,6 +53,12 @@ CLAUDE.md is crisp **doctrine**; those files are **live data**. Burn tags below 
   - `tools/truep.py --base-prob <novig%> --adj <names> [--custom "+N:reason"]` — derive a pre-registered
     TrueP from the market no-vig baseline + FIXED written adjustments (`--list` for the registry), so
     calibration measures the adjustments, not a gut number. Run `devig.sh` first to get the baseline.
+    **Registry v2 (8/7/26 — first formal review; the n≥20 bar counts UNIQUE legs post-dedup, not rows):**
+    `--custom` HARD-CAPPED at ±3 (custom n=33 unique: 15-18, skill −0.0056 — a conviction >3pp must be
+    registered as a NAMED tag so it accrues its own §1c record); `ace_edge` STAYS +3 but ⚠ ON WATCH
+    (raw rows hit 20 but only n=15 unique legs — under the bar; pulse shades its exposure meanwhile;
+    auto-review at n≥20 unique → cut if skill still <0); `--adj ~name` mirrors a registry adjustment
+    onto the other side (sign-flip, e.g. `~own_sp_hi` = +5 on the dog), tagging the applied sign.
     **Paste the `[adj: …]` ledger tag it prints into the leg cell** (`[adj: none]` for pure-market rows) —
     `calib.py` §1c scores each adjustment's skill from tagged rows; at ~20+ decided rows per adjustment
     the registry magnitudes can be auto-calibrated instead of trusted. (Accrual started 7/30/26.)
@@ -71,7 +77,12 @@ CLAUDE.md is crisp **doctrine**; those files are **live data**. Burn tags below 
     16:00/18:00 lock runs diff live StatsAPI state vs it — ⚠ SP CHANGED / ⛔ started invalidates every
     leg premised on that arm/game BEFORE lock, not after the loss.
   - `tools/pulse.py` — **the recent-window EXPOSURE GOVERNOR (user-directed 8/1/26): run + APPLY every
-    build.** Mechanical rules over the last 14 days / 25 decided legs, per dimension (bet type, K-line
+    build.** Mechanical rules over the last 14 days / 25 decided **UNIQUE LEGS** (8/7/26: reprice/supersede
+    copies of the same physical bet dedup to the latest row via `calib.leg_key` — row-counting had
+    inflated the window 131→107 and three MARKET-SHADEs existed only because copies re-counted the same
+    W/L+CLV; same dedup applies in `calib.py` §1/1b/1c and the dashboard. Years anchor to the
+    `<!-- ledger-epoch: YYYY -->` marker atop `results_log.md` — don't remove it — and a stale ledger
+    idles the governor instead of governing off a prior season), per dimension (bet type, K-line
     bucket, adjustment tag, TrueP band): **COOL** (n≥5, hit ≤ claimed−15pp → halve its adjustments, barred
     from Tier 1/anchor), **SUSPEND** (n≥6, ≤ claimed−25pp → no new legs), **MARKET-SHADE** (recent CLV
     runs ≥2 net-negative → TrueP = market no-vig for that dimension), **GLOBAL SHRINK** (recent Brier loses
@@ -469,7 +480,9 @@ rejected candidates with reasons, and a `Result` section starting TBD.
   run; gated on the API reporting ≥5000 so the free tier never spends). Team totals stay manual. It also
   prints **⚠ EDGE GONE** when the closing no-vig has moved past a TBD leg's TrueP (or inside the +2pp
   gate) — a leg whose edge evaporated at the close must NOT be (re)bet, so read the warnings before
-  locking, not just the verdicts.
+  locking, not just the verdicts. **Stale-cache gate (8/7/26): a cache warmed AFTER a game's first
+  pitch holds an IN-GAME line, not a close — those legs print ⚠ MANUAL instead of writing a fake CLV
+  verdict (`odds_api.sh best` likewise excludes started games from line-shopping output).**
   ⚠️ The OLD `clv_capture.sh` gated on Played=Y and captured nothing (that was the real blank-CLV bug, not the
   cron) — it's deprecated; use the `.py --apply`. (Codified 6/4/26; auto-capture 6/6/26; retimed to 11/16/18 +
   switched to auto-applying `.py` 6/7/26.)

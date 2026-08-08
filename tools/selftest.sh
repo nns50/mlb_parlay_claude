@@ -251,8 +251,13 @@ assert m.verdict_from_close(48.0,"52.0%").startswith("−")
 assert "EDGE GONE" in m.edge_warning(56.8,"54%")
 assert "under the +2pp gate" in m.edge_warning(53.0,"54%")
 assert m.edge_warning(48.0,"54%") is None
+# in-game "close" guard (8/7): cache warmed AFTER first pitch = live line, NOT a close
+assert m.close_is_stale("2026-08-08T00:33:34Z","2026-08-07T22:42:14Z") is True
+assert m.close_is_stale("2026-08-07T20:00:00Z","2026-08-07T22:42:14Z") is False
+assert m.close_is_stale(None,"2026-08-07T22:42:14Z") is False  # unknown mtime → don't block
+assert m.close_is_stale("2026-08-07T20:00:00Z",None) is False
 PY
-then ok "classify + close_novig (3 markets) + verdict dead-band + edge-gone correct"; else no "clv_capture v2" "$(cat /tmp/_selftest_out)"; fi
+then ok "classify + close_novig (3 markets) + verdict dead-band + edge-gone + stale-cache gate correct"; else no "clv_capture v2" "$(cat /tmp/_selftest_out)"; fi
 has "session_start reuses a fresh slate cache (free-tier quota guard)" "Slate cache FRESH" "$(cat tools/session_start.sh)"
 
 # ── 5a3. kprice.py — K-prop line table (pure parse; no credits) ──────────────
@@ -321,6 +326,60 @@ r=m.parse_rows(hdr+row("7/30","Cease Over 7.5 K (STL @ TOR)","K-Over",58,"L"),T)
 assert any("type:K-Over ≥7.5" in x["dims"] for x in r), r
 PY
 then ok "COOL/SUSPEND on cold dims; ML-fav CLV shade; rewarm + margin guards; K-line buckets"; else no "pulse" "$(cat /tmp/_selftest_out)"; fi
+
+# ── 5a5. 8/7 deep-dive audit pins: leg dedup / epoch years / bold CLV / started-game gates ──
+echo "5a5. pulse dedup + epoch + live-price gates (8/7 audit)"
+if python3 - <<'PY' 2>/tmp/_selftest_out
+import importlib.util as u, datetime as dt, tempfile, os, json
+s=u.spec_from_file_location("p","tools/pulse.py"); m=u.module_from_spec(s); s.loader.exec_module(m)
+T=dt.date(2026,8,1)
+hdr="## Played legs\n\n| Date | Leg | Type | Price | TrueP | ImplP | Edge | Result | Played | CLV | Bucket |\n|-|-|-|-|-|-|-|-|-|-|-|\n"
+def row(d,leg,typ,tp,res,clv="—"):
+    return f"| {d} | {leg} | {typ} | -120 | {tp}% | 55% | +2 | **{res}** | Y | {clv} | P |\n"
+# DEDUP: the same physical leg logged 3x (scan + reprices) counts ONCE (131-rows-vs-107-legs bug)
+txtd =hdr+row("7/30","Holmes U4.5K +100","K-Under",55,"L","−")
+txtd+=row("7/30","**Holmes U4.5K** — 16:00 REPRICE +105","K-Under",55,"L","−")
+txtd+=row("7/30","Holmes U4.5K (re-derived; supersedes the 11:00 row)","K-Under",55,"L","−")
+txtd+=row("7/31","Gilbert O6.5K -110","K-Over",60,"W","+")
+rd=m.parse_rows(txtd,T)
+assert len(rd)==2, f"4 rows must dedup to 2 unique legs, got {len(rd)}"
+# bold-wrapped CLV verdict parses (was silently dropped)
+rb=m.parse_rows(hdr+row("7/30","Kirby U5.5K -113","K-Under",60,"W","**+**"),T)
+assert rb[0]["clv"]=="+", rb
+rb2=m.parse_rows(hdr+row("7/30","Sale U6.5K -120","K-Under",60,"W","**− (line moved, against)**"),T)
+assert rb2[0]["clv"]=="−", rb2
+# EPOCH anchor: a 2026 row must NOT re-enter an Aug-2027 window (season-anniversary trap)
+ep="<!-- ledger-epoch: 2026 -->\n"+hdr+row("8/5","Kirby U5.5K -113","K-Under",60,"W","+")
+T27=dt.date(2027,8,8)
+r27=m.parse_rows(ep,T27)
+assert r27 and r27[0]["date"].year==2026, r27
+assert m.window_rows(r27,T27)==[], "stale season must idle the governor, not govern it"
+# and the legacy (no-marker) inference DOES mis-date it — documents why the marker exists
+rleg=m.parse_rows(hdr+row("8/5","Kirby U5.5K -113","K-Under",60,"W","+"),T27)
+assert rleg[0]["date"].year==2027
+# season wrap inside the epoch walk: 10/xx -> 3/xx rolls the year forward
+wrap=("<!-- ledger-epoch: 2026 -->\n"+hdr
+      +row("10/1","Kirby U5.5K -113","K-Under",60,"W","+")
+      +row("3/28","Gilbert O6.5K -110","K-Over",60,"W","+"))
+rw=m.parse_rows(wrap,dt.date(2027,4,2))
+assert {x["date"].year for x in rw}=={2026,2027}, rw
+# kprice started-game gate (in-game props are not pre-game lines)
+ks=u.spec_from_file_location("k","tools/kprice.py"); km=u.module_from_spec(ks); ks.loader.exec_module(km)
+assert km.started("2026-08-07T22:40:00Z","2026-08-08T00:30:00Z") is True
+assert km.started("2026-08-08T01:40:00Z","2026-08-08T00:30:00Z") is False
+assert km.started(None) is False
+td=tempfile.mkdtemp(); os.environ["TMPDIR"]=td
+os.makedirs(os.path.join(td,"odds_cache"),exist_ok=True)
+json.dump([{"id":"ev1","commence_time":"2026-08-07T22:40:00Z"}],
+          open(os.path.join(td,"odds_cache","slate_2026-08-07.json"),"w"))
+assert km.event_commence("2026-08-07","ev1")=="2026-08-07T22:40:00Z"
+assert km.event_commence("2026-08-07","nope") is None
+PY
+then ok "leg dedup; epoch year anchor + wrap + stale-idle; bold CLV; kprice started gate"; else no "pulse dedup/epoch" "$(cat /tmp/_selftest_out)"; fi
+has "clv try_prop_close refuses a started game's live props feed" "game already started" "$(cat tools/clv_capture.py)"
+has "odds_api cmd_clv refuses a started game's feed as a close" "already STARTED" "$(cat tools/odds_api.sh)"
+has "odds_api cmd_game banners in-game cached boards" "GAME STARTED — cached prices" "$(cat tools/odds_api.sh)"
+has "results_log carries the ledger-epoch season anchor" "ledger-epoch: 2026" "$(head -3 results_log.md)"
 
 # ── 5b. nrfi_settle.py — verdict mapping + matchup parse ──────────────────────
 echo "5b. nrfi_settle (NRFI/YRFI W/L logic)"
@@ -392,8 +451,13 @@ has "devig -150/+130 → ~42% dog side"  "42" "$DV"
 # ── 8. truep.py — registry loads ─────────────────────────────────────────────
 echo "8. truep.py"
 has "truep --list shows the ace_edge adjustment" "ace_edge" "$(./tools/truep.py --list 2>&1)"
-has "truep emits the [adj: …] ledger tag" "[adj: ace_edge+3, custom-2]" \
+has "truep emits the [adj: …] ledger tag (ace_edge stays +3 — on watch, n<20 unique)" "[adj: ace_edge+3, custom-2]" \
     "$(./tools/truep.py --base-prob 54.3 --adj ace_edge --custom=-2:test 2>&1)"
+# registry review 8/7/26 pins: custom hard-cap ±3; ~name mirrors a registry adj (sign-flip)
+has "truep rejects a custom beyond the ±3 cap" "exceeds the ±3 cap" \
+    "$(./tools/truep.py --base-prob 50 --custom=+8:big 2>&1)"
+has "truep ~name mirror flips the sign and tags the applied sign" "[adj: own_sp_hi+5]" \
+    "$(./tools/truep.py --base-prob 43.4 --adj '~own_sp_hi' 2>&1)"
 if python3 - <<'PY' 2>/tmp/_selftest_out
 import importlib.util as u
 s=u.spec_from_file_location("c","tools/calib.py"); m=u.module_from_spec(s); s.loader.exec_module(m)
@@ -452,6 +516,22 @@ if eval "$(awk '/^filter_date\(\) \{/{p=1} p{print} p&&/^\}/{exit}' tools/odds_a
   eq "next-day afternoon game excluded from 6/7"            "0" "$(echo "$nxt"  | filter_date 2026-06-07 | jq 'length')"
 else no "extract filter_date from odds_api.sh"; fi
 
+# best_jq excludes already-started games (8/7: a live BOS −10000 showed as a
+# "best line"; in-game prices are not shoppable and poison devig/CLV)
+if eval "$(awk '/^best_jq\(\) \{/{p=1} p{print} p&&/^\}/{exit}' tools/odds_api.sh)" 2>/dev/null; then
+  mix='[{"commence_time":"2026-08-07T22:40:00Z","away_team":"Boston Red Sox","home_team":"Houston Astros",
+         "bookmakers":[{"title":"DK","markets":[{"key":"h2h","outcomes":[
+           {"name":"Boston Red Sox","price":-10000},{"name":"Houston Astros","price":2500}]}]}]},
+        {"commence_time":"2026-08-08T01:40:00Z","away_team":"San Diego Padres","home_team":"Los Angeles Dodgers",
+         "bookmakers":[{"title":"FD","markets":[{"key":"h2h","outcomes":[
+           {"name":"San Diego Padres","price":140},{"name":"Los Angeles Dodgers","price":-165}]}]}]}]'
+  BQ="$(echo "$mix" | jq -r --arg now "2026-08-08T00:30:00Z" "$(best_jq h2h)")"
+  has "best_jq banners the started-game exclusion" "⛔ 1 game(s) already started" "$BQ"
+  case "$BQ" in *"Boston Red Sox @"*) no "best_jq drops the started game's lines" "live BOS game still listed";;
+                *) ok "best_jq drops the started game's lines";; esac
+  has "best_jq keeps the not-yet-started game" "San Diego Padres @ Los Angeles Dodgers" "$BQ"
+else no "extract best_jq from odds_api.sh"; fi
+
 # ── 13b. odds_api quota command + cron reports credits each run (offline) ────
 echo "13b. odds credits reporting"
 OA="$(cat tools/odds_api.sh)"
@@ -460,6 +540,10 @@ has "odds_api.sh quota uses the FREE /sports endpoint" "FREE: the /sports" "$OA"
 CRED_N="$(grep -c 'Odds API credits remaining' tools/cron_build.sh)"
 [[ "${CRED_N:-0}" -ge 3 ]] && ok "all 3 builds report Odds API credits ($CRED_N mentions)" \
   || no "all 3 builds report Odds API credits" "only $CRED_N mentions (expect >=3)"
+# missed-run watchdog: 16:00 + 18:00 each self-heal a dropped earlier firing (8/7 gap)
+WD_N="$(grep -c 'MISSED-RUN WATCHDOG' tools/cron_build.sh)"
+[[ "${WD_N:-0}" -ge 2 ]] && ok "16:00 + 18:00 builds carry the missed-run watchdog ($WD_N)" \
+  || no "missed-run watchdog in 16:00+18:00 builds" "only $WD_N mentions (expect >=2)"
 
 # ── 13c. full prop universe expansion (offline) ──────────────────────────────
 echo "13c. prop universe (all/core expansion)"
@@ -517,6 +601,45 @@ assert m.parse_result('**would-L** (...)')=='L'
 assert m.parse_result('TBD — pending')is None
 assert m.parse_result('**SUPERSEDED → see Run 16:00**')is None
 assert m.parse_result('**n/a** — status row')is None
+"
+
+# 8/7 deep-dive pins — the fourth+fifth instances of the silent-parse class:
+#   (a) italics annotation '% *(pre-shade …)*' starred out 18 governor-audit rows;
+#   (b) 'SUPERSEDED @ 16:00 — … **L**' settled the same leg at multiple prices (9 dupes);
+#   (c) prose suffixes in [adj: …] minted garbage singleton dimensions in §1c + pulse.
+DESC="parse_pct: italics annotation NOT starred; star only when glued to % ('72%*')"
+runblk python3 -c "
+import importlib.util
+m=importlib.util.module_from_spec(importlib.util.spec_from_file_location('c','tools/calib.py'))
+m.__dict__['__file__']='tools/calib.py'
+exec(compile(open('tools/calib.py').read().split('def main')[0],'c','exec'), m.__dict__)
+assert m.parse_pct('51.4% *(pre-shade 56.4%)*')==(51.4,False), 'italics annotation must not star the row'
+assert m.parse_pct('~72%*')==(72.0,True)
+assert m.parse_pct('**54.5%**')==(54.5,False)
+"
+DESC="parse_result: SUPERSEDED anywhere vetoes a bold verdict; TBD mid-prose does NOT"
+runblk python3 -c "
+import importlib.util
+m=importlib.util.module_from_spec(importlib.util.spec_from_file_location('c','tools/calib.py'))
+m.__dict__['__file__']='tools/calib.py'
+exec(compile(open('tools/calib.py').read().split('def main')[0],'c','exec'), m.__dict__)
+assert m.parse_result('SUPERSEDED @ 16:00 — repriced; **L** (7 K, one short)') is None, 'superseded row must never settle'
+assert m.parse_result('**L** (TEX 2-4 MIN) — home vs MIN TBD/bullpen game (D5)')=='L', 'TBD in prose must not drop a decided row'
+"
+DESC="parse_adj_tags: prose suffixes dropped; PULSE-SHADED→control; n/a→untagged"
+runblk python3 -c "
+import importlib.util
+m=importlib.util.module_from_spec(importlib.util.spec_from_file_location('c','tools/calib.py'))
+m.__dict__['__file__']='tools/calib.py'
+exec(compile(open('tools/calib.py').read().split('def main')[0],'c','exec'), m.__dict__)
+assert m.parse_adj_tags('[adj: hot_dog+3 (fades.md B1)]')==['hot_dog']
+assert m.parse_adj_tags('[adj: pitcher_park_under+3 → **band-blocked**]')==['pitcher_park_under']
+assert m.parse_adj_tags('[adj: market_disagrees-4, custom+8]')==['market_disagrees','custom']
+assert m.parse_adj_tags('[adj: custom+3.2]')==['custom']
+assert m.parse_adj_tags('[adj: PULSE-SHADED to none]')==[]
+assert m.parse_adj_tags('[adj: none — pure line-shop]')==[]
+assert m.parse_adj_tags('[adj: n/a]') is None
+assert m.parse_adj_tags('untagged cell') is None
 "
 
 DESC="no 8/6+ ledger row has a broken column count (13 fields)"

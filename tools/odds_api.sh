@@ -140,20 +140,25 @@ cmd_slate() {
   local n; n=$(jq 'length' "$cf")
   echo "════ best ML lines — ${date} (${n} games, cached) ════"
   [[ "$n" -eq 0 ]] && { echo "(no games on this ET date in the feed)"; return 0; }
-  jq -r "$(best_jq h2h)" "$cf"
+  jq -r --arg now "$(date -u +%FT%TZ)" "$(best_jq h2h)" "$cf"
   echo "  (totals/spreads also cached → 'tools/odds_api.sh best totals ${date}' / 'best spreads ${date}')"
 }
 
 # Shared jq: best price per outcome across books, with the winning book's name.
+# STARTED games are EXCLUDED — a cache warmed mid-slate holds IN-GAME odds for them
+# (8/7: 9 of 15 cached games were live, showing -10000/-1700 "best lines"); an in-game
+# price is neither shoppable nor a close. Callers pass \$now (ISO UTC).
 best_jq() {
   cat <<JQ
 def sign(p): if p>0 then "+" else "" end;
-.[] | . as \$g
+( [ .[] | select(.commence_time <= \$now) ] | length ) as \$started
+| ( if \$started > 0 then "⛔ \(\$started) game(s) already started — excluded (in-game prices, not shoppable)" else empty end ),
+( .[] | select(.commence_time > \$now) | . as \$g
 | "── \(\$g.away_team) @ \(\$g.home_team)"
 , ( [ \$g.bookmakers[] | {bk:.title, o:(.markets[]?|select(.key=="$1").outcomes[]?) } ]
     | group_by(.o.name)[]
     | max_by(.o.price) as \$b
-    | "   \(\$b.o.name)\(if \$b.o.point != null then " "+(\$b.o.point|tostring) else "" end): \(sign(\$b.o.price))\(\$b.o.price)  @\(\$b.bk)" )
+    | "   \(\$b.o.name)\(if \$b.o.point != null then " "+(\$b.o.point|tostring) else "" end): \(sign(\$b.o.price))\(\$b.o.price)  @\(\$b.bk)" ) )
 JQ
 }
 
@@ -167,15 +172,18 @@ cmd_best() {
   local mk="${1:?market: h2h|totals|spreads}" date="${2:-$TODAY}" cf
   case "$mk" in h2h|totals|spreads) ;; *) die "market must be h2h, totals, or spreads" ;; esac
   cf="$(ensure_cache "$date")"
-  jq -r "$(best_jq "$mk")" "$cf"
+  jq -r --arg now "$(date -u +%FT%TZ)" "$(best_jq "$mk")" "$cf"
 }
 
 cmd_game() {
   local team="${1:?team name or city}" date="${2:-$TODAY}" cf
   cf="$(ensure_cache "$date")"
-  jq -r --arg t "$team" '
+  jq -r --arg t "$team" --arg now "$(date -u +%FT%TZ)" '
     .[] | select((.home_team+" "+.away_team)|ascii_downcase|contains($t|ascii_downcase))
     | "════ \(.away_team) @ \(.home_team)  (\(.commence_time)) ════",
+      ( if .commence_time <= $now
+        then "⛔ GAME STARTED — cached prices below are IN-GAME at cache-warm time, NOT shoppable/closing lines"
+        else empty end ),
       ( .bookmakers[] | "── \(.title)",
         ( .markets[] | "   [\(.key)] " + ([.outcomes[] | "\(.name)\(if .point then " "+(.point|tostring) else "" end) \(if .price>0 then "+" else "" end)\(.price)"]|join("  ")) ) )
   ' "$cf"
@@ -222,6 +230,15 @@ cmd_clv() {
     echo "Could not compute CLV: team \"$team\" matched no game in the $date closing feed (check spelling / use a unique nickname)."; return 0
   elif [[ "${n:-0}" -gt 1 ]]; then
     echo "Could not compute CLV: team \"$team\" is ambiguous — matched $n games on $date. Use a unique nickname."; return 0
+  fi
+  # A started game's feed price is IN-GAME, not a close — a live −300 passes every sanity
+  # guard and writes a fake CLV verdict (audit 8/7/26). Refuse; the close must be hand-pulled.
+  local live
+  live="$(echo "$games" | jq -r --arg t "$team" --arg now "$(date -u +%FT%TZ)" \
+        '[ .[] | select((.home_team+" "+.away_team)|ascii_downcase|contains($t|ascii_downcase))
+               | select(.commence_time <= $now) ] | length')"
+  if [[ "${live:-0}" -ge 1 ]]; then
+    echo "⛔ CLV not computed: the \"$team\" game already STARTED — the current feed price is IN-GAME, not a close. Pull the true close by hand."; return 0
   fi
   out="$(echo "$games" | jq -r --arg t "$team" --argjson bet "$bet" '
     def imp(p): if p>0 then 100/(p+100) else (-p)/((-p)+100) end;

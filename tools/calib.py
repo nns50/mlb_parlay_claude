@@ -23,6 +23,8 @@ import re
 import sys
 from collections import defaultdict
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))   # for leg_key's settle import
+
 LEDGER = sys.argv[1] if len(sys.argv) > 1 else os.path.join(
     os.path.dirname(os.path.abspath(__file__)), "..", "results_log.md")
 
@@ -63,11 +65,20 @@ def parse_result(s):
     Returns None for non-outcome cells (TBD / SUPERSEDED / pointer rows) so they don't leak
     into the record. (Bug 6/7/26: naive substring matched 'w' in 'would', 'l' in 'Build',
     counting would-L as W and SUPERSEDED rows as L — the §4 record was inverted/garbage.)
+
+    The SUPERSEDED check runs on the WHOLE cell, not just the first bold span (bug fixed
+    8/7/26: 'SUPERSEDED @ 16:00 — … **L** (7 K)' extracted the bold L and the same leg
+    settled at multiple prices into the bands, Brier AND pulse's window — 9 rows were
+    double-counted. A superseded row must never settle, wherever the marker sits). TBD and
+    pointer checks stay scoped to the bold segment — 'TBD' occurs mid-prose in genuinely
+    decided rows ('vs MIN TBD/bullpen game'), so a whole-cell veto would drop real results.
     """
+    if "superseded" in s.lower():
+        return None
     m = re.search(r"\*\*(.+?)\*\*", s)
     seg = (m.group(1) if m else s).strip()
     low = seg.lower()
-    if any(t in low for t in ("tbd", "superseded", "played →", "played ->", "n/a")):
+    if any(t in low for t in ("tbd", "played →", "played ->", "n/a")):
         return None
     if "push" in low:
         return "Push"
@@ -87,9 +98,14 @@ def parse_pct(s):
     therefore misread as a reconstructed legacy row and silently dropped from the calibration
     bands AND from the §1b Brier scoreboard — a large, invisible measurement loss, since the
     build writes its headline legs in bold. Strip bold first, then look for a real '*'.
+
+    NOTE (bug fixed 8/7/26, same class): '"*" in stripped' ALSO matched italics annotations
+    like '51.4% *(pre-shade 56.4%)*' — 18 rows, disproportionately the governor-audit rows,
+    silently starred out of bands/Brier/attribution/pulse. The legacy marker is always glued
+    to the percent ('72%*'); italics never are. Star = literal '%*' after bold-stripping.
     """
     stripped = s.replace("**", "")
-    starred = "*" in stripped
+    starred = "%*" in stripped
     m = re.search(r"(\d+(?:\.\d+)?)", stripped)
     return (float(m.group(1)) if m else None), starred
 
@@ -111,17 +127,75 @@ ADJ_TAG = re.compile(r"\[adj:\s*([^\]]*)\]")
 
 def parse_adj_tags(cell):
     """'… [adj: ace_edge+3, wind_in_under+3]' → ['ace_edge','wind_in_under'];
-    '[adj: none]' → [] (a tagged, market-anchored control row); untagged → None."""
+    '[adj: none]' (any 'none …' variant, incl. 'PULSE-SHADED to none') → [] (a tagged,
+    market-anchored control row); '[adj: n/a]' or untagged → None.
+
+    Names are EXTRACTED, not suffix-stripped (bug fixed 8/7/26: 'hot_dog+3 (fades.md B1)'
+    and 'pitcher_park_under+3 → **band-blocked…**' each minted a garbage singleton
+    dimension in §1c and pulse — prose after the magnitude defeated the old trailing-\\d
+    strip). A part yields a name only via 'name+N'/'name-N' or a clean bare name; prose
+    fragments are dropped."""
     m = ADJ_TAG.search(cell or "")
     if not m:
         return None
+    content = m.group(1).strip()
+    if content.lower() in ("n/a", "na", "-", "—"):
+        return None
     names = []
-    for part in m.group(1).split(","):
+    for part in content.split(","):
         part = part.strip()
-        if not part or part.lower() == "none":
+        low = part.lower()
+        if not part or low.startswith("none") or low.startswith("pulse-shaded"):
             continue
-        names.append(re.sub(r"[+-][\d.]+$", "", part))
+        g = re.match(r"([A-Za-z][A-Za-z0-9_]*)\s*[+\-−][\d.]", part)
+        if g:
+            names.append(g.group(1))
+        elif re.fullmatch(r"[A-Za-z][A-Za-z0-9_]*", part):
+            names.append(part)
     return names
+
+
+def leg_key(datecell, leg, typ):
+    """Canonical identity of the PHYSICAL bet a row describes — (date, market, side, line).
+
+    The ledger logs the same leg 2-4× per day (11:00 scan → 16:00/18:00 REPRICE →
+    'promoted'), and supersede markers are only half machine-readable. Counting ROWS
+    where doctrine means LEGS double/triple-counted the same W/L and the same CLV
+    verdict into the bands, §1b Brier, §1c attribution AND pulse's window — on 8/8
+    the 131-row window held only 107 unique legs, and three governor MARKET-SHADEs
+    existed only because of the copies (audit 8/7/26). Dedup by this key, keeping
+    the LAST row (latest reprice = the current state of that leg)."""
+    from settle import parse_kprop as _kp, parse_hprop as _hp, find_team as _ft
+    l = (leg or "").replace("**", "").replace("⭐", "").replace("⛔", "")
+    d = (datecell or "").strip()
+    kp = _kp(l)
+    if kp:
+        return (d, "K", kp[0].lower(), kp[1], kp[2])
+    hp = _hp(l)
+    if hp:
+        return (d, "H", hp[0].lower(), hp[1], hp[2], hp[3])
+    t = (typ or "").lower()
+    ft = _ft(l)
+    ab = ft[0] if ft else None
+    m = re.search(r"\b(over|under|o|u)\s*(\d+(?:\.\d+)?)", l, re.I)
+    if ab is not None:   # team-market keys need a resolved team, else two different
+        if "total" in t and m:   # unresolvable legs on one date would wrongly merge
+            return (d, "T", ab, m.group(1).lower()[0], m.group(2))
+        if "run line" in t or re.search(r"[+-]\d\.5\s*(alt\s*)?RL\b", l, re.I) or " RL" in l:
+            return (d, "RL", ab)
+        if "ml" in t:
+            return (d, "ML", ab)
+    return (d, "other", re.sub(r"\s+", " ", l).strip().lower()[:40])
+
+
+def dedup_rows(rows, keys):
+    """Keep the LAST row per leg_key (order-preserving otherwise). rows and keys are
+    parallel lists; returns the deduped row list."""
+    last = {}
+    for i, k in enumerate(keys):
+        last[k] = i
+    keep = sorted(last.values())
+    return [rows[i] for i in keep]
 
 
 def main():
@@ -131,6 +205,20 @@ def main():
     played = table_rows(text, "## Played legs")
     recs = table_rows(text, "## Recommended but NOT played")
     tickets = table_rows(text, "### Played-ticket record")
+
+    # One row per PHYSICAL leg (audit 8/7/26): reprice/supersede copies of the same bet
+    # collapse to the latest row, within each section and across the §1b/§1c pool
+    # (played version preferred over its scan row). Raw counts kept for transparency.
+    def _keys(rows):
+        return [leg_key(c[0] if c else "", c[1] if len(c) > 1 else "",
+                        c[2] if len(c) > 2 else "") for c in rows]
+
+    raw_counts = (len(played), len(recs))
+    played = dedup_rows(played, _keys(played))
+    recs = dedup_rows(recs, _keys(recs))
+    pool = dedup_rows(recs + played, _keys(recs + played))
+    dup_note = (f"   ({raw_counts[0] - len(played)} played + {raw_counts[1] - len(recs)} "
+                f"recommended duplicate reprice rows collapsed to latest)")
 
     print("=" * 60)
     print(f"  CALIBRATION / ROI RECOMPUTE  (read-only)")
@@ -164,6 +252,7 @@ def main():
 
     print("\n-- 1. Calibration bands  (played legs, explicit TrueP only) --")
     print(f"   ({excluded_star} reconstructed '*' rows excluded, per the ledger's rule)")
+    print(dup_note)
     print(f"   {'band':<8} {'n':>2}  {'W':>2}-{'L':<2}  {'hit%':>5}   vs band midpoint")
     total_n = total_w = 0
     for b in sorted(buckets, key=lambda x: int(x.split("-")[0])):
@@ -207,7 +296,7 @@ def main():
             out.append((truep / 100.0, implp / 100.0, 1.0 if res == "W" else 0.0))
         return out
 
-    pooled = scorable(played) + scorable(recs)
+    pooled = scorable(pool)   # cross-section deduped: one row per physical leg
     print("\n-- 1b. Brier skill vs market  (TrueP vs logged no-vig ImplP, every decided leg) --")
     if len(pooled) >= 10:
         b_model = sum((p - y) ** 2 for p, _, y in pooled) / len(pooled)
@@ -232,7 +321,7 @@ def main():
     # '[adj: none]' rows as the market-anchored control. This is the accrual path to
     # eventually auto-calibrating the registry magnitudes instead of trusting them.
     per = defaultdict(lambda: [0, 0, 0.0, 0.0])   # name -> [n, wins, Σbrier_model, Σbrier_mkt]
-    for c in played + recs:
+    for c in pool:
         if len(c) < 8:
             continue
         tags = parse_adj_tags(c[1])

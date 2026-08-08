@@ -29,8 +29,21 @@ import argparse
 import sys
 
 # Registry: name -> (pp, description). Magnitudes are the doctrine's written values.
+#
+# REGISTRY REVIEW v2 (2026-08-07 — first formal review; evidence bar = calib.py §1c n≥20,
+# counted over UNIQUE legs after the reprice-row dedup, not raw rows):
+#   • custom hard-capped at ±3 (was routinely +4..+10): custom n=33 unique decided legs,
+#     15-18 (45%), skill −0.0056/leg, CLV net-negative — the aggregate earns nothing, so
+#     no single ad-hoc read may claim more pp than the whole class has ever demonstrated.
+#     A conviction >3pp must be pre-registered as a NAMED tag here (so it accrues its
+#     own §1c record) — that's the split-the-custom-monolith path.
+#   • ace_edge STAYS +3 — ⚠ ON WATCH, not rewritten: raw rows hit n=20 but the dedup
+#     shows only n=15 unique legs (7-8, 47%, skill −0.0057, CLV 3+/9−). Under the bar →
+#     belief unchanged per doctrine; pulse.py already MARKET-SHADEs its per-build
+#     exposure. AUTO-REVIEW when §1c shows n≥20 unique: cut to +1 if skill still <0.
 ADJUSTMENTS = {
-    "ace_edge":        (+3, "clear SP quality edge for our side (ERA/xFIP/form)"),
+    "ace_edge":        (+3, "clear SP quality edge for our side (ERA/xFIP/form) "
+                            "[⚠ on watch: n=15 unique 47%/skill<0 — review at n≥20]"),
     "own_sp_hi":       (-5, "our fav's OWN SP ERA ~5.00+ / two-bad-SP shootout (fades D4)"),
     "fade_as_fav":     (-5, "team is on fades.md A-list (fade-as-favorite)"),
     "opponent_driven": (-4, "fav number is opponent-SP-driven, our team sub-.500/cold (D4 decompose)"),
@@ -85,11 +98,17 @@ def main():
     applied = []  # (label, pp)
 
     names = [a.strip() for a in args.adj.split(",") if a.strip()]
+    resolved = []  # (tag_name, signed_pp) — mirrors flip the sign, tag carries the applied sign
     for n in names:
-        if n not in ADJUSTMENTS:
-            ap.error(f"unknown adjustment '{n}'. Use --list to see valid names.")
-        pp, desc = ADJUSTMENTS[n]
-        applied.append((f"{n} ({desc})", pp))
+        mirrored = n.startswith("~")
+        key = n[1:] if mirrored else n
+        if key not in ADJUSTMENTS:
+            ap.error(f"unknown adjustment '{key}'. Use --list to see valid names.")
+        pp, desc = ADJUSTMENTS[key]
+        if mirrored:
+            pp = -pp   # e.g. ~own_sp_hi on the DOG side: the fav's −5 becomes our +5
+        applied.append((f"{key} ({'MIRRORED: ' if mirrored else ''}{desc})", pp))
+        resolved.append((key, pp))
 
     for c in args.custom:
         if ":" not in c:
@@ -99,6 +118,11 @@ def main():
             pp = float(mag)
         except ValueError:
             ap.error(f"--custom magnitude {mag!r} is not a number")
+        if abs(pp) > 3.0:
+            ap.error(f"--custom {pp:+g}pp exceeds the ±3 cap (registry review 8/7/26: custom "
+                     f"n=47 measures ~zero skill — no ad-hoc read may claim more than the "
+                     f"class has demonstrated). Re-run at ≤±3, or register a NAMED tag in "
+                     f"ADJUSTMENTS so the claim accrues its own §1c record.")
         applied.append((f"custom: {reason.strip()}", pp))
 
     total = sum(pp for _, pp in applied)
@@ -120,7 +144,7 @@ def main():
     # Machine-parseable attribution tag: paste it into the ledger leg cell so calib.py's
     # §1c can score each adjustment's skill as decided rows accrue (the prerequisite for
     # ever auto-calibrating these magnitudes instead of trusting the written values).
-    tag_parts = [f"{n}{ADJUSTMENTS[n][0]:+g}" for n in names]
+    tag_parts = [f"{key}{pp:+g}" for key, pp in resolved]
     tag_parts += [f"custom{float(c.partition(':')[0]):+g}" for c in args.custom]
     tag = f"[adj: {', '.join(tag_parts)}]" if tag_parts else "[adj: none]"
     print(f"Ledger tag — paste into the leg cell: {tag}")

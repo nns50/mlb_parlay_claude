@@ -184,22 +184,35 @@ def find_team(text):
 # ── cached-slate closing computation (0 credits) ──────────────────────────────
 
 def load_cached_slate(d, allow_warm=True):
-    """The slate cache session_start warms at run start (= near first pitch for 16/18 runs).
-    Missing + allow_warm → one `slate` call (3 credits) rebuilds it; else None."""
+    """(slate, cache_mtime_iso) — the slate cache session_start warms at run start.
+    Missing + allow_warm → one `slate` call (3 credits) rebuilds it; else (None, None).
+    The mtime matters: a price cached AFTER a game's first pitch is an IN-GAME line,
+    not a close (8/7: 9 of 15 cached games were live) — close_is_stale() gates on it."""
     p = os.path.join(CACHE_DIR, f"slate_{d}.json")
     if not os.path.exists(p) and allow_warm:
         try:
             subprocess.run(["bash", ODDS_API, "slate", d], capture_output=True,
                            text=True, timeout=45)
         except Exception:  # noqa: BLE001
-            return None
+            return None, None
     if not os.path.exists(p):
-        return None
+        return None, None
     try:
         with open(p, encoding="utf-8") as fh:
-            return json.load(fh)
+            data = json.load(fh)
+        from datetime import datetime, timezone
+        mt = datetime.fromtimestamp(os.path.getmtime(p), tz=timezone.utc)
+        return data, mt.strftime("%Y-%m-%dT%H:%M:%SZ")
     except Exception:  # noqa: BLE001
-        return None
+        return None, None
+
+
+def close_is_stale(cache_mtime_iso, commence_iso):
+    """True when the cache was warmed AFTER the game's first pitch — its price for this
+    game is an in-game line, not a close. ISO-Z strings compare lexically. Pure."""
+    if not cache_mtime_iso or not commence_iso:
+        return False
+    return cache_mtime_iso > commence_iso
 
 
 def match_game(slate, nick):
@@ -235,9 +248,22 @@ def close_novig(game, kind, info, nick):
                 if p is not None and pt is not None and abs(pt - point) < 1e-9]
         if not pool:
             pts = sorted({pt for _, pt, _ in outs if pt is not None})
+            extra = ""
+            if pts:   # hand the manual fill its number: the nearest quoted point's close
+                near = min(pts, key=lambda x: abs(x - point))
+                np_pool = [(n, p) for n, pt, p in outs
+                           if p is not None and pt is not None and abs(pt - near) < 1e-9]
+                overs = [p for n, p in np_pool if n.lower() == "over"]
+                unders = [p for n, p in np_pool if n.lower() == "under"]
+                if overs and unders:
+                    po, pu = imp(max(overs)), imp(max(unders))
+                    ov = po / (po + pu) * 100
+                    extra = (f"; nearest {near:g} closes Over {ov:.1f}% / Under {100 - ov:.1f}% "
+                             f"no-vig — log the moved number + this close in the CLV cell")
             return None, (f"closing board no longer quotes total {point:g} "
                           f"(available: {', '.join(f'{x:g}' for x in pts)}) — the NUMBER moved; "
-                          f"pull the {point:g} close by hand (a moved total is itself information)")
+                          f"pull the {point:g} close by hand (a moved total is itself information)"
+                          f"{extra}")
 
         def side_of(name):
             return name.lower() == side.lower()
@@ -393,7 +419,7 @@ def main():
         print("=" * 66)
         return
 
-    slate = load_cached_slate(target_date)
+    slate, cache_mtime = load_cached_slate(target_date)
     src = ("cached slate (0 credits — warmed by session_start near first pitch)"
            if slate else "NO cache — ML falls back to per-leg odds_api.sh clv (1 credit each)")
     print(f"\n  {len(open_legs)} open leg(s) to capture.  Closing source: {src}\n")
@@ -443,6 +469,9 @@ def main():
             return None, "no team in the leg text to resolve the odds event"
         try:
             eid = kprice.event_id_for_team(target_date, nick)
+            if kprice.started(kprice.event_commence(target_date, eid)):
+                return None, ("game already started — the live props feed is IN-GAME "
+                              "pricing, not a close. Pull the true close by hand")
             ck = (eid, market)
             if ck not in props_cache:
                 props_cache[ck] = kprice.fetch_event_props(eid, market)
@@ -502,6 +531,10 @@ def main():
         verdict = None
         if slate is not None:
             game = match_game(slate, team_nick)
+            if game is not None and close_is_stale(cache_mtime, game.get("commence_time")):
+                print("   ⚠ MANUAL — cache warmed AFTER this game's first pitch: the cached "
+                      "price is an IN-GAME line, not a close. Pull the true close by hand.\n")
+                continue
             got, err = close_novig(game, kind, info, team_nick)
             if err:
                 print(f"   ⚠ MANUAL — {err}\n")

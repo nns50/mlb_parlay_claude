@@ -1,4 +1,5 @@
 # Results & Calibration Ledger
+<!-- ledger-epoch: 2026 -->  <!-- season anchor for pulse.py's M/D year inference — do not remove -->
 
 **Purpose.** The quantitative twin of `fades.md`. Every **recommended leg** (and especially every
 **played** leg) gets logged here with my **true-prob estimate**, the **price**, the **closing
@@ -526,24 +527,28 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 > actually logged) — log the real stake each night so this becomes a true number. **This is exactly why
 > CLV (above) matters more than ROI at this sample** — beat the close consistently and the ROI follows.
 
-### Calibration buckets (⚠ **STALE — superseded by the 2026-08-06 16:25 reconcile above**; these were computed under the pre-fix `parse_pct`, which silently dropped every bold-TrueP row. Current authority: `python3 tools/calib.py`.)
+### Calibration buckets (✓ **RECONCILED to `calib.py` 2026-08-07 deep-dive** — the table below matches §1 exactly (played-leg rows carried no bold/italics annotations, so the parse fixes did not move them). Current authority remains `python3 tools/calib.py`; if these ever differ, the prose is wrong.)
 | Band (calib.py) | n | W-L | Hit% | vs mid | Read |
 |----------------|---|-----|------|--------|------|
 | 50–54 | 2 | 1-1 | 50% | 52.5 | tiny n |
-| 55–59 | 7 | 3-4 | 43% | 57.5 | ⚠ under (overconfident) — Skenes/Cease K-Over misses (7/31) pulled this down |
+| 55–59 | 6 | 3-3 | 50% | 57.5 | ⚠ under (overconfident) — was 3-4; a reprice copy of the same leg had double-counted a loss |
 | 60–64 | 14 | 9-5 | 64% | 62.5 | in line with midpoint |
-| 65–69 | 7 | 6-1 | 86% | 67.5 | ▲ over (room to bet more; TOR ML 65.7% W ×2 added 7/31) |
+| 65–69 | 6 | 5-1 | 83% | 67.5 | ▲ over (room to bet more; the 7/31 TOR ML double-played reprice row collapsed) |
 | 85–89 | 1 | 1-0 | 100% | 87.5 | Strider O4.5 (W) |
-| **TOTAL** | **31** | **20 won** | | | |
+| **TOTAL** | **29** | **19 won** | | | |
 
-> **⚠ SIGNAL STRENGTHENING (8/2/26, directional but growing — n=22, approaching the 20-row bar): the
-> `ace_edge` +3pp adjustment is now 10-12 (45%) with NEGATIVE per-leg Brier skill (−0.0072) vs the
-> market**, per calib.py §1c attribution — while situational `custom` adjustments run 9-5 (64%) with
-> POSITIVE skill (+0.0106). PULSE (the 14-day/25-leg recent-window governor) has already promoted this
-> from a static-doctrine watch-flag to a mechanical in-build override: `ace_edge` is MARKET-SHADED
-> (TrueP forced to market no-vig, adjustment = 0) for every build until its recent-window CLV recovers —
-> see `tools/pulse.py`. Registry magnitude itself stays untouched until n≥20-30 per the tiered bar, but
-> exposure is already governed every run.
+> **⚠ REGISTRY REVIEW v2 (8/7/26 deep-dive — the n≥20 bar is now counted over UNIQUE LEGS, and that
+> changed the verdicts.** The audit found the ledger logs the same physical leg 2-4×/day (scan →
+> 16:00/18:00 REPRICE), and calib/pulse counted ROWS: 55 duplicate rows collapsed (4 played + 51
+> recommended). Post-dedup: **`custom` n=33 unique, 15-18 (45%), skill −0.0056, CLV net-negative →
+> HARD-CAPPED at ±3pp in `truep.py`** (a >3pp conviction must be registered as a NAMED tag to accrue its
+> own §1c line — the split-the-monolith path). **`ace_edge` raw rows reached 20 but only n=15 unique
+> (7-8, 47%, skill −0.0057, CLV 3+/9−) — UNDER the bar → registry magnitude UNCHANGED at +3, ⚠ on
+> watch** (pulse continues to MARKET-SHADE its per-build exposure; auto-review at n≥20 unique). The
+> dedup also **flipped the headline Brier: skill +0.0008 over n=187 unique legs — TrueP narrowly BEATS
+> the logged no-vig price** (the previous −0.0005/−0.0008 "no edge" reads were counting reprice copies,
+> which concentrate in the most-governed legs). Margin is a hair above zero — keep shrinking toward
+> market where pulse says so, but the written adjustments are not dead weight on the honest count.
 
 > **Early signals (small samples — treat as directional, not conclusions):**
 > 1. **The 60-64 band now reads 64% (9-5)** — right on the 62.5 midpoint; n=14 still short of the 20-30
@@ -613,3 +618,12 @@ opposing lineup contact quality, result (hits allowed).
 **Angle B record: 1-0** (6/7 = 3 WATCH candidates; pull the real line + devig near first pitch — Gilbert/PHI passed: opener/start-length unknown). Watch: (a) hits-allowed correlates with IP — a quick hook (few outs) can CAP
 hits even in a blowup, so it has the same left-tail start-length risk as K-Overs; (b) books shade these
 up on public "blowup" narratives. Pull the real number, devig, and treat like a K-Over alt decision.
+
+**⚠ CORRECTION (8/7/26 deep-dive audit) — the "Angle B 5-0 would-have / every candidate has cashed"
+claim written into the 8/6–8/7 rows above is WRONG.** It silently excluded the four 8/5 candidates
+logged in this very section (Kremer **would-L** 3 H, Bratt **would-L** 1 H, Irvin **would-L**, Anderson
+**would-W**). The honest ALL-candidate would-have record through 8/6 is **6-3 (67%)**, and the candidate
+set is now FIXED as "every Angle B row in this section" — no narrative selection. The left tail bit 3 of
+9, which is what the hook-risk shade prices; the shade-magnitude question stays open but with a much
+weaker fact pattern than "one-sided for two months." (The 8/6–8/7 row prose is left as written per the
+supersede-don't-edit doctrine; this correction row governs. `fades.md` entry corrected in place.)

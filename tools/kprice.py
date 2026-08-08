@@ -29,7 +29,7 @@ import re
 import subprocess
 import sys
 import unicodedata
-from datetime import date
+from datetime import date, datetime, timezone
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -113,6 +113,29 @@ def event_id_for_team(d, team_name):
     listing = "\n  ".join(f"{i}  {m}" for i, m in ids)
     raise SystemExit(f"{len(ids)} events match {team_name!r} (doubleheader?) — "
                      f"re-run with --event <id>:\n  {listing}")
+
+
+def event_commence(d, eid):
+    """commence_time ISO-Z for an event id, from the cached slate; None if unknown."""
+    cf = os.path.join(os.environ.get("TMPDIR", "/tmp"), "odds_cache", f"slate_{d}.json")
+    try:
+        with open(cf, encoding="utf-8") as fh:
+            for g in json.load(fh):
+                if g.get("id") == eid:
+                    return g.get("commence_time")
+    except Exception:  # noqa: BLE001 — no cache → unknown, caller decides
+        pass
+    return None
+
+
+def started(commence_iso, now_iso=None):
+    """True when first pitch has passed — the props feed then serves IN-GAME prices,
+    which are not pre-game lines (audit 8/7/26: the 16:00 sweep priced 13:35 games
+    mid-start). ISO-Z strings compare lexically. Unknown commence → False (can't gate)."""
+    if not commence_iso:
+        return False
+    now_iso = now_iso or datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return commence_iso <= now_iso
 
 
 def fetch_event_props(event_id, markets):
@@ -204,6 +227,11 @@ def main():
     team = game[side]
     opp = game["home" if side == "away" else "away"]
     eid = args.event or event_id_for_team(args.date, team)
+    if not args.force and started(event_commence(args.date, eid)):
+        raise SystemExit(
+            f"⛔ {team} @/vs {opp} has already started — the props feed now serves "
+            f"IN-GAME prices, not pre-game lines. Refusing to spend {ncred} credit(s) "
+            f"on numbers that can't be bet pre-game (--force to override for research).")
     print(f"{full_name} ({team}, {'@' if side == 'away' else 'vs'} {opp}) — "
           f"event {eid}, markets: {markets} (~{ncred} credits, {rem} remaining)")
 

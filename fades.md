@@ -120,12 +120,16 @@ Not team fades, but recurring data errors to actively guard against each run.
   **23 runs**, the biggest total of the slate. **Governor 1-0, in-run human kills 0-2 on a single slate.**
   One sighting of a process claim; needs 2-3 to promote. Logged now so it is graded on its own ledger
   rather than remembered selectively.
-- **8/7/26 — Angle B (opposing-SP hits-allowed Over) is 5-0 would-have and the SHADE is what is wrong.**
-  8/6 added Mikolas **12 H** (O6.5) and Castillo **6 H** (O5.5), both no-bet on hook-risk shading, after
-  6/6 Kochanowicz and 8/3 Nola (6 H) + Lorenzen (7 H). Every candidate we have ever declined on this angle
-  has cashed. N=5 is under the 20-30 bar for a hit-rate claim so it is **not sized off yet**, but the
-  direction has been one-sided for two months and the *magnitude of the hook-risk shade*, not the thesis,
-  is the thing to revisit at the registry review.
+- **8/7/26 — Angle B (opposing-SP hits-allowed Over): the honest ALL-candidate record is 6-3 would-have,
+  NOT the "5-0 / every candidate has cashed" previously written here.** ⚠ **CORRECTED 8/7/26 (deep-dive
+  audit):** the 5-0 chain (6/6 Kochanowicz, 8/3 Nola 6 H + Lorenzen 7 H, 8/6 Mikolas 12 H + Castillo 6 H)
+  silently excluded the FOUR 8/5 candidates logged in `results_log.md` the day before — Kremer O5.5 (**3 H,
+  would-L**), Bratt O4.5 (**1 H, would-L**), Irvin O4.5 (**would-L**), Anderson O2.5 (**would-W**). Full
+  record: **6-3 (67%)** — a real positive lean, but the left tail (hook/short start) bit 3 of 9, which is
+  exactly what the shade prices. The candidate set for this record is now FIXED as "every Angle B row
+  logged in results_log.md User-angle tracking" — no narrative selection. N=9, under the 20-30 bar; the
+  shade-magnitude question stays open for the registry review but the "one-sided for two months" framing
+  was an artifact of the skipped rows.
 - **D1 (+200-chase):** 3-0 ✅ — most reliable fade.
 - **8/6/26 — a NEW fade-shaped observation, logged but NOT yet promoted (1 sighting):** the pulse
   **band-shade produced its cleanest single validation to date.** LAA@BAL Over 9.5 was the loudest
