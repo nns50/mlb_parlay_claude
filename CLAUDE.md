@@ -483,6 +483,11 @@ rejected candidates with reasons, and a `Result` section starting TBD.
   locking, not just the verdicts. **Stale-cache gate (8/7/26): a cache warmed AFTER a game's first
   pitch holds an IN-GAME line, not a close — those legs print ⚠ MANUAL instead of writing a fake CLV
   verdict (`odds_api.sh best` likewise excludes started games from line-shopping output).**
+  **Holes the live runs missed (early slates, dropped runs) are closed by `tools/clv_backfill.py
+  <date>` — historical board snapshots at commence−2min, 30cr/snapshot, plan-mode default; the 11:00
+  run plans yesterday's backfill and applies when cost ≤120cr.** A blank CLV cell on a decided leg
+  biases the governor's own shade trigger, so backfilling is part of meeting the mandate, not optional
+  hygiene.
   ⚠️ The OLD `clv_capture.sh` gated on Played=Y and captured nothing (that was the real blank-CLV bug, not the
   cron) — it's deprecated; use the `.py --apply`. (Codified 6/4/26; auto-capture 6/6/26; retimed to 11/16/18 +
   switched to auto-applying `.py` 6/7/26.)

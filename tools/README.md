@@ -129,6 +129,25 @@ the paid tier. At the **16:00 / 18:00 runs** → `clv_capture.py --apply` writes
 leg automatically (cached slate for ML/totals/RL; live props feed for counting props). Pairs with
 `parlay.py`/`ticket.py` (real prices → real combined EV).
 
+## `clv_backfill.py` — retro-fill blank CLV cells from HISTORICAL snapshots (paid tier)
+
+The live capture runs can only close games whose first pitch is still ahead of them — an early slate
+(8/2: the whole board went live before capture armed → the day's five decided picks logged 0/5 closes)
+or a dropped run leaves holes forever, and CLV is both the primary scoreboard and pulse's shade
+trigger. This pulls The Odds API's **historical** board snapshot at each missed game's `commence − 2min`
+(5-min grain) and writes the standard verdict with a ` bf` provenance marker.
+
+```
+tools/clv_backfill.py 2026-08-02              # PLAN: fillable rows, snapshots, exact cost — no spend
+tools/clv_backfill.py 2026-08-02 --apply      # spend + write (gated: paid tier, --max-credits 150)
+```
+
+**Cost:** 30 credits per snapshot timestamp (10 × 3 markets × 1 region); rows group by first pitch so a
+typical day is 3-8 snapshots. Scope v1 = ML / game totals / run lines; prop rows print MANUAL
+(historical props are per-event — the v2 extension). DH teams skip MANUAL (no G-hint disambiguation).
+Validated live 8/7: backfilled the 8/2 BOS@LAD Over 8.5 close (49.4% no-vig, `+ 49%cl bf`) for 30
+credits. The 11:00 cron plans yesterday's backfill every morning and applies when cost ≤ 120 credits.
+
 ## `session_start.sh` — one-shot session-open digest
 
 Composes the *mechanical* part of the CLAUDE.md "Session-start review" into a single command so the
@@ -144,6 +163,14 @@ tools/session_start.sh 2026-06-04 # treat this as "today" (yesterday derived)
 **READ-ONLY** — surfaces the inputs; it does not bet, settle, or edit files. The judgment steps
 (self-settle TBDs, apply calibration, the slate-wide scan) are still the routine's, done after reading
 the digest. Resilient to a BLOCKED `check`: the file-based sections (4, 5) still print.
+
+**Date semantics (documented 8/7/26): `today` is the UTC date.** For the 11:00/16:00/18:00 ET cron
+runs UTC and ET dates always agree, so every scheduled behavior is correct. An INTERACTIVE session
+opened 20:00–23:59 ET sees `today` = tomorrow-ET: the slate warm targets tomorrow's board (correct —
+it's pre-game) and "yesterday" = today-ET, whose in-progress games are protected by the Final-only
+gates in `settle.py`/`nrfi_settle.py` (partial slates settle only their finished games). CLV auto-apply
+is gated on the ET hour (16–19), so it never fires in that window. Known, benign — don't "fix" the date
+math without re-checking every consumer.
 
 ## `calib.py` — recompute calibration / ROI from `results_log.md`
 
