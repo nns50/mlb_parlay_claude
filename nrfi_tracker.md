@@ -575,24 +575,24 @@ all 15 rows go to the ledger as model-only calibration.
 
 ---
 
-| 8/7 | TB @ SEA (Rasmussen/Gilbert) | NRFI | 61% | _model-only_ | TBD | Best matched WHIP pair on the slate (0.93/0.99) at T-Mobile, the most run-suppressing park in MLB, roof available. Strongest read of either kind. |
-| 8/7 | DET @ SF (Montero/TBD) | NRFI | 58% | _model-only_ | TBD | Montero 1.00 WHIP at Oracle, cold marine night air. ⚠ E4 — SF starter unannounced, half the read is blind. |
-| 8/7 | LAA @ MIA (Klassen/Phillips) | YRFI | 57% | _model-only_ | TBD | Klassen's **3.64 WHIP** over 4.2 IP is the loudest single number on the board; capped by a 4.2 IP sample and MIA's mid top. [−5pp YRFI correction applied] |
-| 8/7 | LAD @ AZ (Sasaki/Kelly) | YRFI | 56% | _model-only_ | TBD | Two of the four worst WHIPs on the slate (1.30/1.49) at Chase; joint-highest total. Symmetric equity. [−5pp applied] |
-| 8/7 | NYM @ PIT (Thornton/Mlodzinski) | NRFI | 56% | _model-only_ | TBD | PNC pitcher park + two weak tops (NYM −46, PIT L10 2-8). Offence-driven suppression. |
-| 8/7 | ATH @ BOS (Perkins/Tolle) | YRFI | 54% | _model-only_ | TBD | Perkins 6.72/1.40 vs a BOS top 9-1 L10 at Fenway, but equity is one-sided — ATH is the worst road offence in baseball. [−5pp applied] |
-| 8/7 | BAL @ TEX (Baz/Eovaldi) | NRFI | 54% | _model-only_ | TBD | Board's lowest total (7.5/7.0) in a dome; both tops weak. Market corroborates. |
-| 8/7 | ATL @ NYY (Mahle/Fried) | YRFI | 53% | _model-only_ | TBD | Mahle 1.39 vs a strong NYY top is the equity; Fried's 0.99 caps the other half. [−5pp applied] |
-| 8/7 | CLE @ CWS (Messick/Schultz) | YRFI | 52% | _model-only_ | TBD | All equity is the bottom of the 1st (Schultz 5.82/1.38) in a hitter park; Messick 1.06 caps the top. [−5pp applied] |
-| 8/7 | MIN @ MIL (Matthews/Drohan) | YRFI | 52% | _model-only_ | TBD | Matthews 1.31 vs the best top in baseball; Drohan 1.17 vs a weak MIN top. Dome. [−5pp applied] |
-| 8/7 | COL @ STL (Feltner/Leahy) | YRFI | 51% | _model-only_ | TBD | Feltner 1.46 is the 3rd-worst on the board; pulled back by Busch (pitcher park) + COL's dire road top. [−5pp applied] |
-| 8/7 | CHC @ KC (TBD/Lynch IV) | YRFI | 51% | _model-only_ | TBD | ⚠ Least knowable game: CHC SP TBD (E4) and Lynch IV has **0 GS in 46.0 IP** = bullpen game (C4). Joint-highest total. [−5pp applied] |
-| 8/7 | TOR @ PHI (Soriano/Wheeler) | NRFI | 51% | _model-only_ | TBD | ⚠ FLIPPED by the correction (raw YRFI 54%). Wheeler 0.91 is the best 1st-inning arm on the slate; CBP hitter park offsets. Wheeler's last two starts 3.0 and 2.0 IP — start-length flag. |
-| 8/7 | CIN @ WSH (Petty/Cavalli) | NRFI | 51% | _model-only_ | TBD | ⚠ FLIPPED by the correction (raw YRFI 56%). Two ordinary WHIPs, two ordinary tops; Petty has 2 GS. Genuine coin flip. |
-| 8/7 | HOU @ SD (Blanco/Ray) | NRFI | 51% | _model-only_ | TBD | Sits exactly on the correction line. Blanco's 7.36 is a 14.2 IP post-layoff sample; Petco carries this narrowly. |
+| 8/7 | TB @ SEA (Rasmussen/Gilbert) | NRFI | 61% | _model-only_ | **W** (1st 0-0 → NRFI) | Best matched WHIP pair on the slate (0.93/0.99) at T-Mobile, the most run-suppressing park in MLB, roof available. Strongest read of either kind. |
+| 8/7 | DET @ SF (Montero/TBD) | NRFI | 58% | _model-only_ | **L** (1st 1-2 → YRFI) | Montero 1.00 WHIP at Oracle, cold marine night air. ⚠ E4 — SF starter unannounced, half the read is blind. |
+| 8/7 | LAA @ MIA (Klassen/Phillips) | YRFI | 57% | _model-only_ | **W** (1st 1-0 → YRFI) | Klassen's **3.64 WHIP** over 4.2 IP is the loudest single number on the board; capped by a 4.2 IP sample and MIA's mid top. [−5pp YRFI correction applied] |
+| 8/7 | LAD @ AZ (Sasaki/Kelly) | YRFI | 56% | _model-only_ | **L** (1st 0-0 → NRFI) | Two of the four worst WHIPs on the slate (1.30/1.49) at Chase; joint-highest total. Symmetric equity. [−5pp applied] |
+| 8/7 | NYM @ PIT (Thornton/Mlodzinski) | NRFI | 56% | _model-only_ | **L** (1st 1-0 → YRFI) | PNC pitcher park + two weak tops (NYM −46, PIT L10 2-8). Offence-driven suppression. |
+| 8/7 | ATH @ BOS (Perkins/Tolle) | YRFI | 54% | _model-only_ | **L** (1st 0-0 → NRFI) | Perkins 6.72/1.40 vs a BOS top 9-1 L10 at Fenway, but equity is one-sided — ATH is the worst road offence in baseball. [−5pp applied] |
+| 8/7 | BAL @ TEX (Baz/Eovaldi) | NRFI | 54% | _model-only_ | **W** (1st 0-0 → NRFI) | Board's lowest total (7.5/7.0) in a dome; both tops weak. Market corroborates. |
+| 8/7 | ATL @ NYY (Mahle/Fried) | YRFI | 53% | _model-only_ | **L** (1st 0-0 → NRFI) | Mahle 1.39 vs a strong NYY top is the equity; Fried's 0.99 caps the other half. [−5pp applied] |
+| 8/7 | CLE @ CWS (Messick/Schultz) | YRFI | 52% | _model-only_ | **W** (1st 2-0 → YRFI) | All equity is the bottom of the 1st (Schultz 5.82/1.38) in a hitter park; Messick 1.06 caps the top. [−5pp applied] |
+| 8/7 | MIN @ MIL (Matthews/Drohan) | YRFI | 52% | _model-only_ | **W** (1st 0-1 → YRFI) | Matthews 1.31 vs the best top in baseball; Drohan 1.17 vs a weak MIN top. Dome. [−5pp applied] |
+| 8/7 | COL @ STL (Feltner/Leahy) | YRFI | 51% | _model-only_ | **L** (1st 0-0 → NRFI) | Feltner 1.46 is the 3rd-worst on the board; pulled back by Busch (pitcher park) + COL's dire road top. [−5pp applied] |
+| 8/7 | CHC @ KC (TBD/Lynch IV) | YRFI | 51% | _model-only_ | **W** (1st 0-1 → YRFI) | ⚠ Least knowable game: CHC SP TBD (E4) and Lynch IV has **0 GS in 46.0 IP** = bullpen game (C4). Joint-highest total. [−5pp applied] |
+| 8/7 | TOR @ PHI (Soriano/Wheeler) | NRFI | 51% | _model-only_ | **W** (1st 0-0 → NRFI) | ⚠ FLIPPED by the correction (raw YRFI 54%). Wheeler 0.91 is the best 1st-inning arm on the slate; CBP hitter park offsets. Wheeler's last two starts 3.0 and 2.0 IP — start-length flag. |
+| 8/7 | CIN @ WSH (Petty/Cavalli) | NRFI | 51% | _model-only_ | **L** (1st 0-3 → YRFI) | ⚠ FLIPPED by the correction (raw YRFI 56%). Two ordinary WHIPs, two ordinary tops; Petty has 2 GS. Genuine coin flip. |
+| 8/7 | HOU @ SD (Blanco/Ray) | NRFI | 51% | _model-only_ | **W** (1st 0-0 → NRFI) | Sits exactly on the correction line. Blanco's 7.36 is a 14.2 IP post-layoff sample; Petco carries this narrowly. |
 
 ## Running totals (update on every settle)
-- **Record:** **148-125** (tracker opened 6/10/26). **NRFI:** **71-60** · **YRFI:** **77-65**. _(8/6's 11 reads are included; 8/7's 15 reads are open.)_
+- **Record:** **156-132** (tracker opened 6/10/26). **NRFI:** **75-63** · **YRFI:** **81-69**. _(8/6's 11 reads are included; 8/7's 15 reads are open.)_
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
 - **Open:** **8/6 FULLY SETTLED — 11 of 11 reads decided; the day finished 6W-5L** (all rows auto-stamped by `nrfi_settle.py --apply` at session start off `linescore.innings[0]`). ⚠ **The result cuts AGAINST the standing YRFI-bias hypothesis: YRFI leans went 5-3 and NRFI leans went 1-2**, including both of the highest-conviction NRFI reads losing (NYM@CLE 60% and DET@SEA 57%, the two built on the best WHIP numbers on the board). That is the second consecutive day the "best WHIP pair" shape has failed on the NRFI side. **The −5pp YRFI correction recommended on 8/6 is nevertheless APPLIED on today's 8/7 reads as a pre-registered graded experiment** — the market-disagreement evidence behind it (3 sightings; 4-for-4 on 8/6, every open YRFI lean pricing 5.4-8.6pp above the market) is independent of one night's W/L, and dropping a pre-registered adjustment after one favourable day is precisely the result-reading the doctrine forbids. It flipped two reads (TOR@PHI, CIN@WSH) from raw-YRFI to thin-NRFI and balanced the day's split to **8 YRFI / 7 NRFI** vs 8/6's 8-3. **Grade it on the ledger over the next ~10 slates, not on 8/6.** **8/7: 15 reads logged below, all model-only at 11:00 — the priced `totals_1st_1_innings` sweep is the 16:00 run's job (lineups are not posted yet). Two games are E4-gated (CHC@KC, DET@SF — starters TBD) and one of those (KC/Lynch IV, 0 GS in 46.0 IP) is a bullpen game.**
 - **Settled 7/26** (auto via `nrfi_settle.py --apply`, run 7/30): 14 decided, 7W-7L (NRFI 2-3, YRFI 5-4).

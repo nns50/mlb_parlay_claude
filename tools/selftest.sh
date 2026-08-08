@@ -242,6 +242,7 @@ got,err=m.close_novig(game,"totals",("Over",8.0),"rays"); assert err is None
 assert abs(got[0]-0.4814)<0.002, got   # best O -101 vs best U -118 → no-vig 48.1%
 got,err=m.close_novig(game,"totals",("Over",9.5),"rays")
 assert got is None and "NUMBER moved" in err, err   # moved total = info, not silence
+assert "nearest 8" in err and "no-vig" in err, err  # 8/7: hand-fill gets the nearest close
 got,err=m.close_novig(game,"h2h",None,"rays"); assert err is None and abs(got[0]-0.568)<0.005
 got,err=m.close_novig(game,"spreads",-1.5,"rays"); assert err is None
 # verdict dead-band + the pre-lock edge-gone warning
@@ -380,6 +381,44 @@ has "clv try_prop_close refuses a started game's live props feed" "game already 
 has "odds_api cmd_clv refuses a started game's feed as a close" "already STARTED" "$(cat tools/odds_api.sh)"
 has "odds_api cmd_game banners in-game cached boards" "GAME STARTED — cached prices" "$(cat tools/odds_api.sh)"
 has "results_log carries the ledger-epoch season anchor" "ledger-epoch: 2026" "$(head -3 results_log.md)"
+
+# ── 5a6. clv_backfill — historical-close retro-fill (pure helpers, no spend) ──
+echo "5a6. clv_backfill (snapshot targeting / grouping / gates)"
+if python3 - <<'PY' 2>/tmp/_selftest_out
+import importlib.util as u
+s=u.spec_from_file_location("b","tools/clv_backfill.py"); m=u.module_from_spec(s); s.loader.exec_module(m)
+sched=m.parse_sched('{"dates":[{"games":['
+ '{"gameDate":"2026-08-02T17:41:00Z","teams":{"away":{"team":{"name":"Pittsburgh Pirates"}},"home":{"team":{"name":"Cincinnati Reds"}}}},'
+ '{"gameDate":"2026-08-02T20:11:00Z","teams":{"away":{"team":{"name":"Minnesota Twins"}},"home":{"team":{"name":"Seattle Mariners"}}}}]}]}')
+assert sched["Cincinnati Reds"]==["2026-08-02T17:41:00Z"]
+# snapshot = commence − 2min, floored to the API's 5-min grain (groups same-minute starts)
+assert m.snap_ts("2026-08-02T17:41:00Z")=="2026-08-02T17:35:00Z"
+assert m.snap_ts("2026-08-02T20:11:00Z")=="2026-08-02T20:05:00Z"
+c,why=m.commence_for("reds",sched); assert c=="2026-08-02T17:41:00Z" and why is None
+c,why=m.commence_for("cubs",sched); assert c is None and "no StatsAPI game" in why
+dh=m.parse_sched('{"dates":[{"games":['
+ '{"gameDate":"2026-08-02T17:00:00Z","teams":{"away":{"team":{"name":"A"}},"home":{"team":{"name":"Detroit Tigers"}}}},'
+ '{"gameDate":"2026-08-02T23:00:00Z","teams":{"away":{"team":{"name":"A"}},"home":{"team":{"name":"Detroit Tigers"}}}}]}]}')
+c,why=m.commence_for("tigers",dh); assert c is None and "doubleheader" in why
+g,err=m.parse_snapshot('{"timestamp":"t","data":[{"id":"x"}]}'); assert err is None and g==[{"id":"x"}]
+g,err=m.parse_snapshot('{"message":"INVALID_KEY"}'); assert g is None and "INVALID_KEY" in err
+g,err=m.parse_snapshot('garbage'); assert "unparseable" in err
+# row targeting: blank-CLV + exact date + backfillable kind only
+hdr=("## Played legs\n\n| Date | Leg | Type | Price | TrueP | ImplP | Edge | Result | Played | CLV | Bucket |\n"
+     "|-|-|-|-|-|-|-|-|-|-|-|\n")
+txt=(hdr+"| 8/2 | Rays ML (vs TEX) | ML-fav | -139 | 58% | 56% | +2 | **W** | Y | — | P |\n"
+         "| 8/2 | Rays -1.5 RL (vs TEX) | Run line | +160 | 40% | 38% | +2 | **L** | Y | + 40%cl | P |\n"
+         "| 8/2 | Gilbert Over 6.5 K | K-Over | -110 | 60% | 55% | +5 | **W** | Y | — | P |\n"
+         "| 8/3 | Rays ML (vs TEX) | ML-fav | -139 | 58% | 56% | +2 | **W** | Y | — | P |\n")
+rows=m.target_rows(txt,"2026-08-02")
+assert len(rows)==2, rows                       # filled row + wrong-date row excluded
+kinds={r[3] for r in rows}
+assert "h2h" in kinds                           # the ML row is fillable
+assert any(r[6] and "hand-pull" in r[6] for r in rows), rows   # K-prop routed MANUAL
+PY
+then ok "backfill: sched parse, 5-min snap floor, DH refusal, snapshot shapes, row targeting"; else no "clv_backfill" "$(cat /tmp/_selftest_out)"; fi
+has "clv_backfill gates spend on the paid tier" "RICH_FLOOR" "$(cat tools/clv_backfill.py)"
+has "clv_backfill defaults to plan mode (no spend)" "PLAN (no spend)" "$(cat tools/clv_backfill.py)"
 
 # ── 5b. nrfi_settle.py — verdict mapping + matchup parse ──────────────────────
 echo "5b. nrfi_settle (NRFI/YRFI W/L logic)"
