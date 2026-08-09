@@ -445,11 +445,41 @@ for _n, _a in NICK.items():          # first nickname per abbr wins (AZ aliases 
     ABBR2NICK.setdefault(_a, _n)
 
 
+def _team_before_ml(low):
+    """Abbr of the team named immediately before an 'ML'/'moneyline' token, else None.
+    Scans left-to-right and keeps the FIRST such pairing, so 'MIA ML −138' wins over a
+    later mention. Mirror of the clv_capture.py helper — kept in sync by selftest."""
+    best = None  # (pos_of_ml, abbr)
+    for m in re.finditer(r"\b(?:ml|moneyline)\b", low):
+        head = low[max(0, m.start() - 24):m.start()]
+        cand = None
+        for nick in NICK_ORDER:
+            for hm in re.finditer(rf"\b{re.escape(nick)}\b", head):
+                if cand is None or hm.start() > cand[0]:
+                    cand = (hm.start(), NICK[nick])
+        for abbr, full_abbr in ABBREV.items():
+            for hm in re.finditer(rf"\b{re.escape(abbr)}\b", head):
+                if cand is None or hm.start() > cand[0]:
+                    cand = (hm.start(), full_abbr)
+        if cand and (best is None or m.start() < best[0]):
+            best = (m.start(), cand[1])
+    return best[1] if best else None
+
+
 def find_team(text):
     """The team the leg is ON — the EARLIEST team mention in the text (ledger convention
     writes the bet side first: 'BAL -1.5 RL (@ DET)' is a BAL leg). Position-based, not
-    dict-order — dict-order silently bound 'BAL … (@ DET)' to DET (side-flip bug, 7/30)."""
+    dict-order — dict-order silently bound 'BAL … (@ DET)' to DET (side-flip bug, 7/30).
+
+    EXCEPTION (8/9 Build C): an explicit '<TEAM> ML' / '<TEAM> moneyline' token OVERRIDES
+    earliest-mention. Build B added this to clv_capture.py only; settle.py carries its own
+    copy of find_team, so the SETTLE path still flipped sides — 'LAA @ MIA — MIA ML −138'
+    proposed L for a leg that WON. A mis-settle is worse than a mis-CLV: it writes the
+    wrong W/L into calibration."""
     low = text.lower()
+    explicit = _team_before_ml(low)
+    if explicit:
+        return explicit, ABBR2NICK.get(explicit, explicit)
     best = None  # (pos, abbr, token)
     for nick in NICK_ORDER:
         # word-boundary, not substring — "rays" inside "Grayson" bound TB (audit 8/1)
