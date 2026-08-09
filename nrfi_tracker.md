@@ -679,7 +679,7 @@ all 15 rows go to the ledger as model-only calibration.
 
 | 8/9 | TOR @ PHI (Bieber 1.68 / Luzardo 1.16) | YRFI | 61% | _model-only_ | **TBD** | The board's worst WHIP (1. |
 | 8/9 | COL @ STL (Lorenzen 1.85 / McGreevy 1.20) | YRFI | 58% | _model-only_ | **TBD** | Lorenzen's 1. |
-| 8/9 | ATH @ BOS (Ginn 1.21 / Miller 1.34 (opener)) | YRFI | 55% | _model-only_ | **TBD** | Asymmetric by design: Boston is opening with Erik Miller (0 GS in 35. |
+| 8/9 | ATH @ BOS (Ginn 1.21 / Miller 1.34 opener) | YRFI | 55% | _model-only_ | **TBD** | Asymmetric by design: Boston is opening with Erik Miller (0 GS in 35. |
 | 8/9 | CIN @ WSH (Singer 1.43 / Lord 1.20) | YRFI | 52% | _model-only_ | **TBD** | Singer's 1. |
 | 8/9 | CHC @ KC (Boyd 1.22 / Dobnak 1.19) | YRFI | 51% | _model-only_ | **TBD** | 91°F with 13 mph out to CF, the strongest wind of the day, and Chicago's top is the hotter of the two. |
 | 8/9 | LAA @ MIA (G. Rodriguez 1.59 / Gusto 1.36) | YRFI | 53% | _model-only_ | **TBD** | The worst ERA on the board (7. |
