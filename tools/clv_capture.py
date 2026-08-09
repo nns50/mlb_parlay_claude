@@ -157,12 +157,40 @@ def classify_leg(leg, typ):
     return "manual", f"unrecognized leg type {typ!r}"
 
 
+def _team_before_ml(low):
+    """Abbr of the team named immediately before an 'ML'/'moneyline' token, else None.
+    Scans left-to-right and keeps the FIRST such pairing, so 'MIA ML −138' wins over a
+    later mention. Returns the canonical abbr (same space as ABBREV's values)."""
+    best = None  # (pos_of_ml, abbr)
+    for m in re.finditer(r"\b(?:ml|moneyline)\b", low):
+        head = low[max(0, m.start() - 24):m.start()]
+        cand = None
+        for nick in NICK_ORDER:
+            for hm in re.finditer(rf"\b{re.escape(nick)}\b", head):
+                if cand is None or hm.start() > cand[0]:
+                    cand = (hm.start(), NICK[nick])
+        for abbr, full_abbr in ABBREV.items():
+            for hm in re.finditer(rf"\b{re.escape(abbr)}\b", head):
+                if cand is None or hm.start() > cand[0]:
+                    cand = (hm.start(), full_abbr)
+        if cand and (best is None or m.start() < best[0]):
+            best = (m.start(), cand[1])
+    return best[1] if best else None
+
+
 def find_team(text):
     """The team the leg is ON — the EARLIEST team mention in the text (ledger convention
     writes the bet side first: 'BAL ML (@ DET)' is a BAL leg). Position-based, not
     dict-order — dict-order bound 'BAL … (@ DET)' to DET and would capture the WRONG
-    side's closing line (side-flip bug, 7/30)."""
+    side's closing line (side-flip bug, 7/30).
+
+    EXCEPTION (8/9): an explicit '<TEAM> ML' / '<TEAM> moneyline' token OVERRIDES the
+    earliest-mention rule. A leg titled 'LAA @ MIA — MIA ML −138' is a MIA leg, but
+    earliest-mention bound it to the Angels and backfilled the WRONG side's close."""
     low = text.lower()
+    explicit = _team_before_ml(low)
+    if explicit:
+        return explicit, ABBR2NICK.get(explicit)
     best = None  # (pos, abbr)
     for nick in NICK_ORDER:
         # word-boundary, not substring — "rays" inside "Grayson" bound TB (audit 8/1)
