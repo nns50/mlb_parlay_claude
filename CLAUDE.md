@@ -366,6 +366,40 @@ No qualifying play → NO BET, balance carries. Update `bankroll.md` (commit/pus
   in-game variance (SP ERA >4.50, weak pen, hot opposing offense). A -310 fav is still ~25% to lose;
   W/L and margin-of-win are separate dimensions. (burn 5/25 LAD framed "safer" — trailed into the 7th)
 
+### Output format — TABLE-FIRST (user-directed 8/10/26; applies to the CHAT REPLY + EMAIL, not the audit file)
+The user's words: *"organize everything better, it's all over the place and hard to read. A table would be
+nice."* The analysis depth is right; the **presentation** was a wall of prose. Separate the two audiences:
+- **`parlays/*.md` + `results_log.md` keep the full narrative** — they are the audit record and the source of
+  every retrospective. Do NOT thin them out. Counter-signals, rejected legs and burn tags stay in prose there.
+- **The chat reply and the email lead with tables.** Prose is the *exception*, used only where a number can't
+  carry the meaning (a counter-signal, a judgement call, a flag).
+
+**Every build's reply opens with these four blocks, in this order, before any prose:**
+
+1. **🎯 THE CARD** — what to actually bet. One row per tier. Columns:
+   `Tier | Play | Line | Book | TrueP/Floor | Edge | Stake`. Bankroll bet is a row here, not a buried section.
+2. **⚠ BEFORE YOU BET** — one row per action item. Columns: `# | What to re-check | Why it matters`.
+   Omit the block entirely if there is genuinely nothing to re-check (don't pad it).
+3. **📋 STATUS STRIP** — the gate/tooling state at a glance, one line each: game-status, recheck, governor,
+   calibration, CLV, credits. Columns: `Check | Result`. This replaces the paragraph-form gate recap.
+4. **📊 THE LEGS** — every qualifying leg, bet or not. Columns:
+   `Leg | Price | Book | no-vig | TrueP | Edge | In ticket?`. Rejected legs get their own short table with a
+   one-line reason each — never a paragraph per rejection.
+
+**Then, and only then**, a short prose section (target ≤200 words) for: the counter-signals that could not be
+tabulated, any judgement call worth naming, and the honest floor framing. Keep the "this loses X times in Y"
+line — it is doctrine, not decoration.
+
+**Rules that survive the reformat (do not let tables become a way to drop them):**
+- Every leg still shows TrueP vs no-vig ImplP vs Edge — those are three separate columns, never merged.
+- The floor % and the decimal math still appear on the ticket row.
+- Rejected legs are still listed with reasons; a table cell is a fine reason, a silent omission is not.
+- The NEVER-say-"safe/lock" rule applies inside table cells too.
+- Counter-signals are NOT optional just because they don't fit a column — that is what the prose block is for.
+
+**Email:** same four blocks (markdown tables render in Gmail drafts), then the ≤200-word prose, then the
+NRFI/YRFI table. **Push notification:** unchanged — it is length-capped, so it stays one dense line.
+
 ### Default routine for "daily MLB parlay"
 1. **Probables — cross-check ≥2 sources** (MLB.com/StatsAPI + a beat preview); verify each
    pitcher→team attribution. Do NOT carry over yesterday's probables or accept a search hit that
@@ -622,6 +656,12 @@ Keep it findings-focused (calibration: which rules held, which missed), not a bo
   crisp rule + the burn tag.
 
 ## Notifications & email
+- **Email body follows the TABLE-FIRST format** (see "Output format" above): 🎯 THE CARD → ⚠ BEFORE YOU BET →
+  📋 STATUS STRIP → 📊 THE LEGS → ≤200 words of prose → the NRFI/YRFI table. Markdown tables render fine in a
+  Gmail draft; don't flatten them back into paragraphs. (User-directed 8/10/26.)
+- **Email recipient:** the SCHEDULED PROMPT's address wins over any address written here — as of 8/10/26 the
+  cron prompt says `nnshukla2007@yahoo.com` while the older cron directive text says `icecold67@live.com`.
+  Send to the prompt's address and note the discrepancy once per session rather than silently picking one.
 - After a parlay analysis, send a push notification with the summary unless the user says otherwise.
 - "Draft an email with Gmail" → the Gmail MCP connector IS configured (confirmed 5/27/26). Load
   `mcp__Gmail__create_draft` via ToolSearch, create the draft (to/subject/body), and show it inline.
