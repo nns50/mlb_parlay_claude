@@ -377,7 +377,14 @@ nice."* The analysis depth is right; the **presentation** was a wall of prose. S
 **Every build's reply opens with these four blocks, in this order, before any prose:**
 
 1. **🎯 THE CARD** — what to actually bet. One row per tier. Columns:
-   `Tier | Play | Line | Book | TrueP/Floor | Edge | Stake`. Bankroll bet is a row here, not a buried section.
+   `Tier | Play | Line | Book | TrueP/Floor | Edge | Stake | Why`. Bankroll bet is a row here, not a buried
+   section. **The `Why` column is REQUIRED (user-directed 8/10/26)** — a compressed one-line thesis so the card
+   is self-explaining and the user never has to scroll into the prose to learn *why* a leg is on the ticket.
+   Rules for it: **the concrete driver, not the label** — name the arm + its ERA/WHIP, the wind + temp, the
+   park, the mirrored tag ("Painter 6.48 → mirror"), never a bare "park tag" or "model likes it". Keep it to
+   ~10-12 words; if the real reason will not compress, that is a signal it belongs in the prose block AND a
+   short pointer goes in the cell. A NO BET row's `Why` states what blocked it (e.g. "all 10 favs shaded to
+   0.0pp; today's edges are a dog + a total"), never a blank.
 2. **⚠ BEFORE YOU BET** — one row per action item. Columns: `# | What to re-check | Why it matters`.
    Omit the block entirely if there is genuinely nothing to re-check (don't pad it).
 3. **📋 STATUS STRIP** — the gate/tooling state at a glance, one line each: game-status, recheck, governor,
