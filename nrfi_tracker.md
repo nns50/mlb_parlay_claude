@@ -29,6 +29,43 @@ Its own ledger lives here; the dashboard renders it from this file.
 
 ---
 
+## Tonight's reads — 2026-08-10 (10-game slate; model-only at 11:00 — the priced `totals_1st_1_innings` sweep is the 16:00 run)
+
+> **✅ 8/9 CLOSED 10W-10L (50%)** — the five rows still open at last night's Build C lock were auto-settled off
+> `linescore.innings[0]` by `nrfi_settle.py --apply` at session start (DET@SF **W**, TB@SEA **L**, LAD@AZ **L**,
+> CLE@CWS **L**, HOU@SD **L**) and the stamps are verified present. **Record now 173-145** (NRFI 84-73 · YRFI 89-72).
+>
+> ⚠ **The −5pp YRFI correction had its worst full slate yet, and the direction of the failure is the one already
+> flagged.** 8/9 finished with the **YRFI leans 5-1** and the **NRFI leans 5-9**. The correction subtracts 5pp from
+> YRFI leans only, so it systematically converts marginal YRFI reads into NRFI ones — and on 8/9 every one of the
+> five late settles that came in was a game the correction had pushed toward NRFI, four of which went YRFI.
+> **Four graded slates now: 8/6 raw-vs-corrected neutral, 8/7 neutral, 8/8 strongly positive, 8/9 strongly negative.**
+> Per the pre-registration it keeps running to the ~10-slate review and is **not** tapered after a bad day — the same
+> discipline that stopped it being tapered after 8/8's good one.
+>
+> ⚠ **Ratchet status, today:** the raw model splits this board **7 NRFI / 3 YRFI**; the correction pulls it to
+> **8 / 2**, reversing exactly one read — **BOS @ TOR**, from YRFI 53% to a nominal NRFI 52%. That row is marked so
+> the correction is graded on the reads it actually flips, not only on the slate total.
+>
+> **No priced line pulled at 11:00** (the 1st-inning market is thin pre-lineup and the sweep is the 16:00 duty), so
+> all ten rows go to the ledger as model-only calibration.
+
+| # | Matchup | SPs (WHIP) | Lean | TrueP | Price | Reasoning |
+|---|---|---|---|---|---|---|
+| 1 | MIL @ SD | Henderson **0.90** / Mize 1.09 | **NRFI** | **62%** | _model-only_ | Strongest read of either kind today, and it is the same game the main build took an Under 7.0 in. Petco plus **the two lowest WHIPs facing each other anywhere on the slate**; Henderson has walked almost nobody (0.90 WHIP over 10 GS) and Mize's 1.09 is real despite one 8-ER blowup. |
+| 2 | KC @ LAD | Skubal **0.92** / Cameron 1.29 | **NRFI** | **59%** | _model-only_ | Skubal is the best arm on the board and Cameron has thrown 23.0 IP / 1 ER across his last three. The only thing holding this under 62% is the Dodger top-of-order, which is a genuine YRFI engine even against elite pitching. |
+| 3 | HOU @ SF | Wesneski 1.29 / Tidwell 1.18 | **NRFI** | **57%** | _model-only_ | Oracle Park, the most run-suppressing venue on this slate. ⚠ Discounted from a higher raw read because **Tidwell has 1 GS in 9 appearances** — a converted reliever's first inning is the least predictable one he throws. |
+| 4 | TEX @ LAA | Gore 1.24 / Detmers **1.10** | **NRFI** | **56%** | _model-only_ | Two high-K arms (9.79 and 10.47 K/9) in a neutral park. Strikeouts are the cleanest first-inning suppressant there is; neither top-of-order is fearsome. |
+| 5 | NYM @ ATL | Scott 1.26 / Elder 1.20 | **NRFI** | **54%** | _model-only_ | Both sub-3.70 ERA with tidy WHIPs. Held down from the high-50s purely by Atlanta's 1-2-3, which is the best top-of-order on the board (+120 run differential, 8-2 L10). |
+| 6 | COL @ AZ | Hughes 1.18 / **Soroka — 7 weeks absent** | **NRFI** | **54%** | _model-only_ | The WHIP pair says 58%; **Soroka has not pitched in the majors since 6/19 and `currentTeam` returns Reno Aces**, so the first inning carries live rust risk that the season line cannot see. Discounted to 54% for exactly that. |
+| 7 | BAL @ MIN | Rogers 1.24 / Kremer 1.32 | **NRFI** | **52%** | _model-only_ | Two ordinary WHIPs, neutral park, neither top-of-order dangerous. Close to a coin-flip and priced as such. |
+| 8 | BOS @ TOR | Gray 1.15 / Taillon 1.39 | **NRFI** | **52%** | _model-only_ | ⚠ **THE FLIPPED READ.** Raw model says **YRFI 53%** — Rogers Centre, and Taillon has not completed five innings since June. The pre-registered **−5pp YRFI correction** takes that to 48%, so the nominal lean becomes NRFI 52%. **Gray's own first innings are the argument for the flip being right; the park and Taillon are the argument against it.** Marked so the correction is graded on this row specifically. |
+| 9 | PHI @ STL | **Painter 1.57** / Dobbins 1.30 | **YRFI** | **51%** | _model-only_ | Painter's 1.57 WHIP is the worst on the board outside the TB@ATH pair, and he is the arm the main build's Tier-1 leg is priced against. Raw lean **YRFI 56%**; the −5pp correction lands it at 51%. |
+| 10 | TB @ ATH | Peralta 1.52 / **Lopez 1.63** | **YRFI** | **57%** | _model-only_ | The day's clearest YRFI shape: **both starters over a 5.37 ERA**, the two worst WHIPs on the slate, in **the most hitter-friendly park in the majors**. Raw lean **YRFI 62%**, corrected to 57% — still the strongest YRFI of the day, and the same game the main build took an Over 10.0 in. |
+
+---
+
+
 ## Tonight's reads — 2026-08-09 (15-game slate; **11:00 run treated as the LOCK run** — Sunday getaway board, 10 of 15 first pitches precede the scheduled 16:00 run)
 
 > **✅ 8/8 CLOSED 11W-3L (79%)** — 14 rows auto-settled off the 1st-inning line score by
@@ -677,20 +714,31 @@ all 15 rows go to the ledger as model-only calibration.
 | 8/7 | CIN @ WSH (Petty/Cavalli) | NRFI | 51% | _model-only_ | **L** (1st 0-3 → YRFI) | ⚠ FLIPPED by the correction (raw YRFI 56%). Two ordinary WHIPs, two ordinary tops; Petty has 2 GS. Genuine coin flip. |
 | 8/7 | HOU @ SD (Blanco/Ray) | NRFI | 51% | _model-only_ | **W** (1st 0-0 → NRFI) | Sits exactly on the correction line. Blanco's 7.36 is a 14.2 IP post-layoff sample; Petco carries this narrowly. |
 
+| 8/10 | MIL @ SD (Henderson 0.90 / Mize 1.09) | NRFI | 62% | _model-only_ | **TBD** | Strongest read of the day. Petco plus the two lowest WHIPs facing each other anywhere on the slate. |
+| 8/10 | KC @ LAD (Skubal 0.92 / Cameron 1.29) | NRFI | 59% | _model-only_ | **TBD** | Best arm on the board opposite a Cameron at 23.0 IP / 1 ER over three starts; held under 62% by the LAD top-of-order. |
+| 8/10 | HOU @ SF (Wesneski 1.29 / Tidwell 1.18) | NRFI | 57% | _model-only_ | **TBD** | Oracle Park, the most run-suppressing venue on the slate; discounted for Tidwell having 1 GS in 9 appearances. |
+| 8/10 | TEX @ LAA (Gore 1.24 / Detmers 1.10) | NRFI | 56% | _model-only_ | **TBD** | Two high-K arms (9.79 / 10.47 K9) in a neutral park; strikeouts are the cleanest 1st-inning suppressant. |
+| 8/10 | NYM @ ATL (Scott 1.26 / Elder 1.20) | NRFI | 54% | _model-only_ | **TBD** | Both sub-3.70 ERA; held down only by Atlanta's 1-2-3, the best top-of-order on the board. |
+| 8/10 | COL @ AZ (Hughes 1.18 / **Soroka — 7 weeks absent**) | NRFI | 54% | _model-only_ | **TBD** | WHIP pair says 58%; Soroka's last MLB outing was 6/19 and currentTeam returns Reno Aces, so live rust risk the season line cannot see. |
+| 8/10 | BAL @ MIN (Rogers 1.24 / Kremer 1.32) | NRFI | 52% | _model-only_ | **TBD** | Two ordinary WHIPs, neutral park, neither top dangerous — close to a coin flip. |
+| 8/10 | BOS @ TOR (Gray 1.15 / Taillon 1.39) | NRFI | 52% | _model-only_ | **TBD** | ⚠ **THE FLIPPED READ.** Raw lean YRFI 53% (Rogers Centre; Taillon has not finished 5 IP since June); the pre-registered −5pp YRFI correction takes it to 48%, so the nominal lean becomes NRFI 52%. Marked for row-level grading of the correction. |
+| 8/10 | PHI @ STL (**Painter 1.57** / Dobbins 1.30) | YRFI | 51% | _model-only_ | **TBD** | Painter's 1.57 is the worst WHIP outside the TB@ATH pair. Raw lean YRFI 56%, corrected to 51%. |
+| 8/10 | TB @ ATH (Peralta 1.52 / **Lopez 1.63**) | YRFI | 57% | _model-only_ | **TBD** | Day's clearest YRFI: both SPs over 5.37 ERA, the two worst WHIPs on the slate, in the most hitter-friendly park in MLB. Raw 62% → corrected 57%. |
+
 | 8/9 | TOR @ PHI (Bieber 1.68 / Luzardo 1.16) | YRFI | 61% | _model-only_ | **L** (1st 0-0 → NRFI) | The board's worst WHIP (1. |
 | 8/9 | COL @ STL (Lorenzen 1.85 / McGreevy 1.20) | YRFI | 58% | _model-only_ | **W** (1st 1-1 → YRFI) | Lorenzen's 1. |
 | 8/9 | ATH @ BOS (Ginn 1.21 / Miller 1.34 opener) | YRFI | 55% | _model-only_ | **W** (1st 1-0 → YRFI) | Asymmetric by design: Boston is opening with Erik Miller (0 GS in 35. |
 | 8/9 | CIN @ WSH (Singer 1.43 / Lord 1.20) | YRFI | 52% | _model-only_ | **L** (1st 0-0 → NRFI) | Singer's 1. |
 | 8/9 | CHC @ KC (Boyd 1.22 / Dobnak 1.19) | YRFI | 51% | _model-only_ | **W** (1st 1-0 → YRFI) | 91°F with 13 mph out to CF, the strongest wind of the day, and Chicago's top is the hotter of the two. |
 | 8/9 | LAA @ MIA (G. Rodriguez 1.59 / Gusto 1.36) | YRFI | 53% | _model-only_ | **W** (1st 1-3 → YRFI) | The worst ERA on the board (7. |
-| 8/9 | DET @ SF (Melton 0.91 / Webb 1.11) | NRFI | 63% | _model-only_ | **TBD** | Strongest read of either kind today. |
+| 8/9 | DET @ SF (Melton 0.91 / Webb 1.11) | NRFI | 63% | _model-only_ | **W** (1st 0-0 → NRFI) | Strongest read of either kind today. |
 | 8/9 | MIN @ MIL (Prielipp 1.31 / Misiorowski 0.73) | NRFI | 61% | _model-only_ | **L** (1st 0-1 → YRFI) | Misiorowski's 0. |
-| 8/9 | TB @ SEA (Seymour 1.13 / Hancock 1.07) | NRFI | 60% | _model-only_ | **TBD** | T-Mobile Park, the most run-suppressing park in MLB, with a clean 1. |
-| 8/9 | LAD @ AZ (Wrobleski 1.07 / E. Rodriguez 1.24) | NRFI | 58% | _model-only_ | **TBD** | Closed dome at Chase, two starters with real command lines (Wrobleski 3. |
+| 8/9 | TB @ SEA (Seymour 1.13 / Hancock 1.07) | NRFI | 60% | _model-only_ | **L** (1st 0-1 → YRFI) | T-Mobile Park, the most run-suppressing park in MLB, with a clean 1. |
+| 8/9 | LAD @ AZ (Wrobleski 1.07 / E. Rodriguez 1.24) | NRFI | 58% | _model-only_ | **L** (1st 0-2 → YRFI) | Closed dome at Chase, two starters with real command lines (Wrobleski 3. |
 | 8/9 | NYM @ PIT (Manaea 1.38 / J. Jones 1.11) | NRFI | 56% | _model-only_ | **L** (1st 2-0 → YRFI) | PNC is a pitcher park and both tops are poor — NYM are 51-67 (−53) and PIT 58-61 on a 3-7 L10. |
 | 8/9 | BAL @ TEX (Povich 1.34 / Rocker 1.33) | NRFI | 54% | _model-only_ | **L** (1st 2-0 → YRFI) | Closed dome at Globe Life and two nearly identical ordinary WHIPs (1. |
-| 8/9 | CLE @ CWS (Cantillo 1.47 / D. Martin 1.31) | NRFI | 53% | _model-only_ | **TBD** | The one wind-IN game on the board — 11 mph in from RF at Rate Field — which is what drags a hitter park's read under. |
-| 8/9 | HOU @ SD (Javier 1.68 / **Vásquez 1.42**) | YRFI | 52% | O0.5 −130 / U0.5 +110 (FD) → YRFI no-vig **54.3%** | **TBD** | ⚠ **FLIPPED at 16:00 (was NRFI 52%).** **E4 CLEARED — San Diego posted Randy Vásquez (4.19 ERA / 1.42 WHIP / 5.79 K9, 18 GS).** Build A's NRFI 52% was written blind; with BOTH starters at WHIP ≥1.42 the raw lean is YRFI ~57%, and the pre-registered **−5pp YRFI correction** takes it to **52%**. ⚠ **The market is AHEAD of the model here** (YRFI no-vig 54.3%), so this is **model-only / NO BET** — the mirror NRFI side prices at 45.7% no-vig and `pitcher_park_under` (Petco) halved to +1.5 lands TrueP 47.2%, **+1.5pp, short of the +2pp gate.** First 8/9 read where a real 1st-inning line was pulled (1 credit). |
+| 8/9 | CLE @ CWS (Cantillo 1.47 / D. Martin 1.31) | NRFI | 53% | _model-only_ | **L** (1st 2-1 → YRFI) | The one wind-IN game on the board — 11 mph in from RF at Rate Field — which is what drags a hitter park's read under. |
+| 8/9 | HOU @ SD (Javier 1.68 / **Vásquez 1.42**) | YRFI | 52% | O0.5 −130 / U0.5 +110 (FD) → YRFI no-vig **54.3%** | **L** (1st 0-0 → NRFI) | ⚠ **FLIPPED at 16:00 (was NRFI 52%).** **E4 CLEARED — San Diego posted Randy Vásquez (4.19 ERA / 1.42 WHIP / 5.79 K9, 18 GS).** Build A's NRFI 52% was written blind; with BOTH starters at WHIP ≥1.42 the raw lean is YRFI ~57%, and the pre-registered **−5pp YRFI correction** takes it to **52%**. ⚠ **The market is AHEAD of the model here** (YRFI no-vig 54.3%), so this is **model-only / NO BET** — the mirror NRFI side prices at 45.7% no-vig and `pitcher_park_under` (Petco) halved to +1.5 lands TrueP 47.2%, **+1.5pp, short of the +2pp gate.** First 8/9 read where a real 1st-inning line was pulled (1 credit). |
 | 8/9 | ATL @ NYY (Holmes 1.34 / Schlittler 0.95) | NRFI | 51% | _model-only_ | **W** (1st 0-0 → NRFI) | ⚠ A FLIPPED READ, and the ratchet flag from 8/8 is exactly why it is being called out. |
 | 8/8 | TOR @ PHI (Scherzer/Nola) | YRFI | 63% | _model-only_ | **W** (1st 1-0 → YRFI) | Two worst WHIPs on the board (1.63/1.44) at CBP; Scherzer averaging 3.8 IP over 8 GS. Strongest read either way. [−5pp applied] |
 | 8/8 | HOU @ SD (Lambert/King) | NRFI | 61% | _model-only_ | **L** (1st 0-1 → YRFI) | Petco + best matched WHIP pair (1.13/1.20). Same shape as 8/7's winning TB@SEA read. |
@@ -710,9 +758,9 @@ all 15 rows go to the ledger as model-only calibration.
 
 
 ## Running totals (update on every settle)
-- **Record:** **172-141** (tracker opened 6/10/26). **NRFI:** **83-70** · **YRFI:** **89-71**. _(8/8's 14 settled reads are included — the day closed **11-3 (79%)**, the tracker's best slate. **8/9 is 10 of 15 decided at the 18:30 Build C lock and running 5W-5L (50%)**; the five still open are DET@SF, TB@SEA, LAD@AZ and CLE@CWS (all In Progress) plus HOU@SD, which has not started — the 11:00 run tomorrow settles them.)_
+- **Record:** **173-145** (tracker opened 6/10/26). **NRFI:** **84-73** · **YRFI:** **89-72**. _(**8/9 is now FULLY SETTLED — 15 of 15 reads decided, and the day finished 10W-10L (50%)**; the five rows still open at the 18:30 Build C lock were auto-stamped off `linescore.innings[0]` at session start — DET@SF **W**, TB@SEA **L**, LAD@AZ **L**, CLE@CWS **L**, HOU@SD **L**. 8/8's 11-3 remains the tracker's best slate.)_
 - **Staked:** $0 · **P/L:** $0.00 (model leans only — no priced bets yet; tracking calibration).
-- **Open:** **8/9 — 10 of 15 decided (5W-5L), 5 open.** ⚠ **The −5pp YRFI correction had its worst graded slate so far and it is worth stating plainly: the YRFI leans went 4-2 while the NRFI leans went 1-3.** The correction subtracts 5pp from YRFI leans only, so it systematically shifts reads toward NRFI, and on this board that is the direction that lost. **Third graded slate (8/7 neutral, 8/8 strong, 8/9 against) — no action, the pre-registration runs to the review.** **HOU@SD is the day's only priced 1st-inning line and stays model-only:** best two sides at 18:22 are NRFI **+108 (FanDuel)** / YRFI **−130 (BetMGM/Caesars/BetOnline.ag)** → devig **NRFI 46.0% / YRFI 54.0%, hold 4.6%**. Build B's registered lean is **YRFI 52%** (Vásquez 1.42 WHIP opposite Javier 1.68, then the −5pp correction), so **the market is past the model** and the NRFI mirror at +1.5pp is under the +2pp gate. **NO BET.**
+- **Open:** **8/10 — 10 reads logged, all model-only, all TBD** (8 NRFI / 2 YRFI after the correction; the raw model split is 7/3, so the ratchet reversed exactly one read, BOS@TOR). **8/9 is CLOSED at 10-10.** ⚠ **The −5pp YRFI correction had its worst graded slate: the YRFI leans went 5-1 while the NRFI leans went 5-9**, and all five of the late settles were games the correction had pushed toward NRFI — four of which went YRFI. That is now four graded slates (8/6 neutral, 8/7 neutral, 8/8 strongly positive, 8/9 strongly negative) and the pre-registration says it runs to the ~10-slate review regardless. **It is not being tapered after a bad day for the same reason it was not extended after 8/8's good one.** ⚠ The one-way-ratchet concern first raised on 8/7 is now supported by two slates of evidence rather than one: the correction only ever moves reads toward NRFI, and the NRFI side is the side that has lost on both of the slates where the split was lopsided.
 - **Open:** **8/7 FULLY SETTLED — 15 of 15 reads decided; the day finished 8W-7L (53%)** (auto-stamped by `nrfi_settle.py --apply` at session start off `linescore.innings[0]`). **The −5pp YRFI correction's first graded slate came back NEUTRAL**: YRFI leans **4-4**, NRFI leans **4-3**, and the two reads it flipped (TOR@PHI, CIN@WSH) went **1-1**. No evidence for it, none against — it keeps running per the pre-registration. ⚠ **New and worth watching: the correction is a one-way ratchet.** It subtracts 5pp from YRFI leans and nothing from NRFI leans, so each slate it pushes the split further under — raw 8-3 → 8-7 on 8/6, and today it pulls a **raw 8-7 down to 4 YRFI / 11 NRFI**. A calibration correction that moves the split monotonically in one direction is hard to distinguish from a standing directional bet on NRFI. Flagged for the graded-experiment review, **not acted on** — tapering a pre-registered adjustment after one neutral day is the result-reading the doctrine forbids. **8/8: 15 reads logged below, all model-only at 11:00** — the priced `totals_1st_1_innings` sweep is the 16:00 run's job. No game is E4-gated today (all 30 probables posted), but **DET@SF's Jackson Jobe has zero 2026 MLB data**, so that read is written at near-coin-flip.
 
 - **Settled 7/26** (auto via `nrfi_settle.py --apply`, run 7/30): 14 decided, 7W-7L (NRFI 2-3, YRFI 5-4).
