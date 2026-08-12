@@ -726,6 +726,12 @@ if [[ $QUICK -eq 0 ]]; then
   echo "14. mlb_api resolver (live StatsAPI — free, no odds quota)"
   if ./tools/mlb_api.sh check >/dev/null 2>&1; then
     has "teamform LAD → Dodgers (team 119, NOT Phillies 143)" "team 119" "$(./tools/mlb_api.sh teamform LAD 1 2>/dev/null | head -1)"
+    # 8/12/26: teamform now carries the contact-surge fields. Run differential is blind to a
+    # hits spike that has not yet converted to runs (MIN 8/12: L10 run diff -4 while hits/g ran
+    # 8.8 with three 13+ games), so the header must keep printing them or the signal silently
+    # disappears from every build that reads this line.
+    has "teamform header carries hits/g + median + 13+ blowup count" "hits/g" "$(./tools/mlb_api.sh teamform LAD 5 2>/dev/null | head -1)"
+    has "teamform per-game rows carry hits"                          "H"      "$(./tools/mlb_api.sh teamform LAD 5 2>/dev/null | sed -n 2p)"
     has "teamform PHI → Phillies (team 143)"                  "team 143" "$(./tools/mlb_api.sh teamform PHI 1 2>/dev/null | head -1)"
     has "teamform NYY → Yankees (team 147)"                   "team 147" "$(./tools/mlb_api.sh teamform NYY 1 2>/dev/null | head -1)"
   else

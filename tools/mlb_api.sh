@@ -31,7 +31,7 @@
 #   tools/mlb_api.sh weather [YYYY-MM-DD]       # condition/temp/wind + venue per game (totals/K signal; near first pitch)
 #   tools/mlb_api.sh splits <id|abbr|name> [Y]  # team K% vs LHP and vs RHP (K-Over handedness gate)
 #   tools/mlb_api.sh standings [SEASON]         # division standings: W-L, pct, GB, L10, streak, run diff
-#   tools/mlb_api.sh teamform <id|abbr|name> [N]# last-N results: W-L + run differential (fade re-verify)
+#   tools/mlb_api.sh teamform <id|abbr|name> [N]# last-N: W-L + run differential + HITS/G (mean, median, 13+ blowup count)
 #   tools/mlb_api.sh findteam "<name|abbr>"     # resolve a team name/abbr -> teamId
 #   tools/mlb_api.sh raw "<api-path-and-query>" # raw JSON passthrough (e.g. "schedule?sportId=1")
 #
@@ -382,15 +382,23 @@ cmd_teamform() {
         | (if $home then $g.teams.home.score else $g.teams.away.score end) as $ts
         | (if $home then $g.teams.away.score else $g.teams.home.score end) as $os
         | (if $home then $g.teams.away.team.abbreviation else $g.teams.home.team.abbreviation end) as $opp
+        | (if $home then ($g.linescore.teams.home.hits // 0) else ($g.linescore.teams.away.hits // 0) end) as $th
         | { date: $g.officialDate, loc: (if $home then "vs" else " @" end),
-            opp: $opp, ts: $ts, os: $os, win: ($ts > $os), diff: ($ts - $os) } )
+            opp: $opp, ts: $ts, os: $os, win: ($ts > $os), diff: ($ts - $os), h: $th } )
     | (map(select(.win)) | length) as $w
     | (length - $w) as $l
     | (map(.diff) | add // 0) as $rd
-    | "team " + $id + " last " + (length|tostring) + ": " + ($w|tostring) + "-" + ($l|tostring)
-      + "   run diff " + (if $rd>=0 then "+" else "" end) + ($rd|tostring),
+    | (map(.h) | add // 0) as $th
+    | (length) as $ng
+    | (($th*100/$ng)|round/100) as $hpg
+    | ((map(.h)|sort) as $s | if ($ng%2)==1 then $s[($ng-1)/2] else (($s[$ng/2-1]+$s[$ng/2])/2) end) as $hmed
+    | (map(select(.h>=13)) | length) as $blow
+    | "team " + $id + " last " + ($ng|tostring) + ": " + ($w|tostring) + "-" + ($l|tostring)
+      + "   run diff " + (if $rd>=0 then "+" else "" end) + ($rd|tostring)
+      + "   hits/g " + ($hpg|tostring) + " (median " + ($hmed|tostring) + ", " + ($blow|tostring) + " game(s) 13+)",
       ( .[] | "  " + .date + "  " + .loc + " " + .opp + "  "
-              + (if .win then "W" else "L" end) + " " + (.ts|tostring) + "-" + (.os|tostring) )'
+              + (if .win then "W" else "L" end) + " " + (.ts|tostring) + "-" + (.os|tostring)
+              + "   " + (.h|tostring) + "H" )'
 }
 
 cmd_raw() {
