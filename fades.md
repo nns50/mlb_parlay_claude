@@ -116,6 +116,41 @@ Not team fades, but recurring data errors to actively guard against each run.
 ---
 
 ### Running scoreboard (fades that have been tested)
+- **❌ 8/12/26 (settled same day) — `own_sp_hi` (mirrored) takes its FIRST LOSS, and the leg died on the
+  tag's own axis rather than on any counter-signal.** BAL ML +101 was the day's Tier 1 at +5.0pp: the mirror
+  fired because Minnesota's **Zebby Matthews (5.23 / 1.34, and 7.28 over his last six)** cleared the 5.00
+  threshold, against Baltimore's **Shane Baz (3.76 / 1.32, 2.55 over his last six)**, in a game the market
+  priced pick'em. **Minnesota won 7-5 — and the starting-pitcher gap inverted completely: Baz went 3.0 IP /
+  9 H / 5 ER / 2 K, his worst start in six, while Matthews went 5.0 IP / 4 ER.** Baltimore's pen then held
+  Minnesota to 2 ER over 4.2 IP, so the starter lost the game outright. `calib.py` §1c moves **2-0 → 2-1
+  across three unique rows** (`pulse.py`'s wider window reads 2-2). **Three rows is a story, not evidence** —
+  the +5pp registry magnitude is nowhere near the n≥20 bar and must not be treated as established.
+  ⚠ **Explicitly NOT promoted to a fade, and the reason matters:** one losing leg on an n=3 tag is exactly
+  the noise the tiered bar exists to ignore, and the recorded cause is a single bad start rather than a
+  defect in the tag's logic.
+- **⚠ 8/12/26 — the published counter-signal was RIGHT and was NOT the cause, and conflating the two would be
+  the retrospective error the doctrine forbids.** Counter-signal #1 on the card read *"Baltimore's last 15 is
+  7-8 with a −21 run differential; Minnesota's is 7-8 with −4. On recent form Minnesota is the marginally
+  better team, and the model is buying the worse one."* Minnesota did win. But the leg lost on a three-inning,
+  nine-hit start, not on team form, so **the counter-signal and the loss coincided without one causing the
+  other** — and reading a team-form conclusion out of this result would be scoring a signal on an outcome it
+  did not produce. ✅ **The doctrine that team-form transitions anchor on RUN DIFFERENTIAL over a window, not
+  W-L streaks, held up under a direct challenge today:** Minnesota's L10 was 3-7 and their L15 run diff was
+  −4, i.e. the streak said "cold" and the run differential said "fine" — the run differential was the useful
+  number and it was the one on the card.
+- **✅ 8/12/26 — thesis-conflict decline is 2-for-2 and is becoming a real gate (2 sightings).** BAL @ MIN
+  Under 9.0 had qualified at **+3.0pp** on `wind_in_under+3` and was declined because it contradicted the same
+  build's Tier 1 (backing Baltimore *because* Minnesota's starter is bad argues Over, not Under). **The game
+  finished 12 runs — the Under would have lost by three.** Second consecutive day an internal-consistency
+  check has removed a losing leg. ⚠ Not yet promoted to doctrine: the process bar is 2-3 sightings and this is
+  the second, so one more clean sighting promotes it.
+- **✅ 8/12/26 — E5 held again on a live board.** HOU @ SF was killed outright on the gate (Bryan King, **0 GS
+  across 49.1 IP**) and the game was 0-1 into the 5th at settle time — the low-scoring shape the gate implies.
+  Logged as directional; the full settle lands on tomorrow's 11:00 run.
+- **⚠ 8/12/26 — `type:ML-dog` is one loss from re-cooling and that, not the anecdote, is the signal to carry.**
+  It came off COOL this morning at **3-5 (38%) vs a 44% claim** — a narrow clearance the build flagged at the
+  time — and after today's loss it reads **3-6 (33%) vs 44%, i.e. −11pp against a −15pp trigger.** The next
+  losing dog leg re-arms the COOL.
 - **⛔ 8/11/26 (settled 8/12) — THE CORROBORATION CITED FOR THE 8/7 PARK-TAG PROMOTION WAS A PARSER BUG.
   1 sighting; the promotion is NOT overturned, but the §1c citation is WITHDRAWN.** `calib.py`'s
   `parse_adj_tags` could not read a tag name wrapped in bold, and `results_log.md` bolds every tag
