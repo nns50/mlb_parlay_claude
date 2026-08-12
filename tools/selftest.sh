@@ -681,6 +681,35 @@ assert m.parse_adj_tags('[adj: n/a]') is None
 assert m.parse_adj_tags('untagged cell') is None
 "
 
+DESC="parse_adj_tags: BOLD/code-fenced tag names still resolve (8/12 silent-attribution bug)"
+runblk python3 -c "
+import importlib.util
+m=importlib.util.module_from_spec(importlib.util.spec_from_file_location('c','tools/calib.py'))
+m.__dict__['__file__']='tools/calib.py'
+exec(compile(open('tools/calib.py').read().split('def main')[0],'c','exec'), m.__dict__)
+# the ledger's house style bolds the magnitude; the leading '*' used to defeat the
+# name regex and silently dump every tagged row into the '(none)' control bucket
+assert m.parse_adj_tags('[adj: **hitter_park_over+3 (full magnitude)**]')==['hitter_park_over']
+assert m.parse_adj_tags('[adj: **wind_out_over+4**, **custom+2**]')==['wind_out_over','custom']
+assert m.parse_adj_tags('[adj: \`ace_edge+3\`]')==['ace_edge']
+assert m.parse_adj_tags('[adj: **none — market-anchored**]')==[]
+"
+
+DESC="leg_key: multi-line aggregate rows never steal a real single leg's key"
+runblk python3 -c "
+import importlib.util,sys
+sys.path.insert(0,'tools')
+m=importlib.util.module_from_spec(importlib.util.spec_from_file_location('c','tools/calib.py'))
+m.__dict__['__file__']='tools/calib.py'
+exec(compile(open('tools/calib.py').read().split('def main')[0],'c','exec'), m.__dict__)
+single=m.leg_key('8/11','TB @ ATH Total OVER 8.5 −205','Total')
+agg=m.leg_key('8/11','STRUCK BY DOCTRINE — TB @ ATH Over 8.5/10.5 AND MIL @ SD Under 7.5','Total')
+assert single!=agg, 'aggregate kill-list row must not collide with a real leg key'
+assert agg[1]=='aggregate', agg
+# a genuine single total still keys as a total
+assert single[1]=='T' and single[4]=='8.5', single
+"
+
 DESC="no 8/6+ ledger row has a broken column count (13 fields)"
 runblk python3 -c "
 import sys

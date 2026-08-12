@@ -95,7 +95,7 @@ Not team fades, but recurring data errors to actively guard against each run.
 | E2 | **Stale SP stat aggregate** (frozen at a prior start) | Season ERA/WHIP can lag 2+ starts in a hot/cold swing | 5/29/26 | 5/29/26 | Caught 5/29 Imanaga 2.32→4.04 | **ACTIVE GATE** |
 | E3 | **Carried-over / mis-attributed probables** | Rotations rotate; search surfaces yesterday's matchup; wrong team attribution | 5/26/26 | **8/4/26** | Caught 6/3 Peralta-to-Brewers mislabel; 5/27 Cole/Cameron. **8/4 16:00: `recheck.py` fired on WSH @ PHI — Zack Littell → Carson Palmquist.** No leg was built on that game so nothing was invalidated, but the replacement changes it completely (Palmquist 7.31/1.63 with his last six outings at 3.0/0.1/1.2/1.1/1.1/2.0 IP = an opener profile, i.e. a WSH bullpen game → D5, no PHI boost). The mechanical snapshot-diff caught it without any judgment call | **ACTIVE GATE** |
 | E4 | **TBA starter** (build leans on an unannounced SP) | Fails SP-freshness gate → no bet | 5/x/26 | **8/4/26** | 6/3 MIL TBA → no bet (correct). **8/4: both gated games lifted at 16:00 and the gate paid off in an unexpected direction** — DET@SEA (Melton posted, 1.75/0.93) produced a genuine +3.0pp Under read, but LAA@BAL, which the 11:00 build had called "a screaming Over signal" pending the other arm, priced at **+0.8pp** once Povich (5.12/1.34 but 3 GS and last logged 5/07) and a 7 mph wind-IN were actually known. **Calibration note: a loud ERA on one side is not a total read** — the gate protected us from a leg the pre-gate narrative wanted | **ACTIVE GATE** |
-| E5 | **Undetected opener / bullpen game** — `slate` names a "probable" who is not a starter | `mlb_api.sh slate` prints a probable pitcher with no indication of ROLE; an arm with 0-2 GS across 35-55 IP is an opener, and the whole leg (ML *or* total) is built on a starter who does not exist | **8/10/26** | **8/10/26** | **Promoted 8/10 on the 3rd sighting.** 8/9 ran **three** undetected bullpen games on one 15-game board — BOS (Erik Miller, 1.0 IP opener), WSH (Brad Lord, 2.2 IP, 1 GS in 59.0 IP) and **both** sides of CLE@CWS (1.0 IP each) — and the ATH@BOS Over 9.5 we published lost *because* of the shape (7 runs). Prior sightings: 8/7 (SF/Brubaker, 0 GS in 54.0 IP, caught by hand) and 8/4 (WSH/Palmquist, caught by `recheck.py`). ⚠ **The two caught sightings were caught by a human remembering to check; the three missed ones were missed on the same day the check was skipped.** | **ACTIVE GATE — mechanical check required: for EVERY SP in a scanned leg, read `GS` from `mlb_api.sh pitcher <id>`; GS ≤ 2 with IP ≥ 30 = opener/bullpen flag, and D5 then applies to EVERY market in that game, not just the ML · ✅ **W 8/11** — CLE @ DET. `wind_in_under+3` had qualified the Under 8.0 at **+3.0pp** and it was heading for the card. Drew Anderson's aggregate reads **3 GS / 67.1 IP**, which reads like a starter at a glance; `gamelog` shows his last twelve appearances are **1.0 · 2.0 · 1.0 · 1.0 · 1.1 · 1.1 · 1.0 · 1.0 · 1.2 · 1.1 · 1.1 · 3.2 IP** — all relief. Detroit is an opener/bullpen game and the leg was dropped. ⚠ **REFINEMENT — the written trigger (`GS ≤ 2 with IP ≥ 30`) would NOT have fired here: Anderson has 3 GS, one over the bar.** The ratio is what gives it away — **67.1 IP / 3 GS = 22 IP per "start", an impossible number for a real starter.** Trigger updated below. Tally **1-0.**
+| E5 | **Undetected opener / bullpen game** — `slate` names a "probable" who is not a starter | `mlb_api.sh slate` prints a probable pitcher with no indication of ROLE; an arm with 0-2 GS across 35-55 IP is an opener, and the whole leg (ML *or* total) is built on a starter who does not exist | **8/10/26** | **8/10/26** | **Promoted 8/10 on the 3rd sighting.** 8/9 ran **three** undetected bullpen games on one 15-game board — BOS (Erik Miller, 1.0 IP opener), WSH (Brad Lord, 2.2 IP, 1 GS in 59.0 IP) and **both** sides of CLE@CWS (1.0 IP each) — and the ATH@BOS Over 9.5 we published lost *because* of the shape (7 runs). Prior sightings: 8/7 (SF/Brubaker, 0 GS in 54.0 IP, caught by hand) and 8/4 (WSH/Palmquist, caught by `recheck.py`). ⚠ **The two caught sightings were caught by a human remembering to check; the three missed ones were missed on the same day the check was skipped.** | **ACTIVE GATE — mechanical check required: for EVERY SP in a scanned leg, read `GS` from `mlb_api.sh pitcher <id>`; GS ≤ 2 with IP ≥ 30 = opener/bullpen flag, and D5 then applies to EVERY market in that game, not just the ML · ✅ **W 8/11** — CLE @ DET. `wind_in_under+3` had qualified the Under 8.0 at **+3.0pp** and it was heading for the card. Drew Anderson's aggregate reads **3 GS / 67.1 IP**, which reads like a starter at a glance; `gamelog` shows his last twelve appearances are **1.0 · 2.0 · 1.0 · 1.0 · 1.1 · 1.1 · 1.0 · 1.0 · 1.2 · 1.1 · 1.1 · 3.2 IP** — all relief. Detroit is an opener/bullpen game and the leg was dropped. ⚠ **REFINEMENT — the written trigger (`GS ≤ 2 with IP ≥ 30`) would NOT have fired here: Anderson has 3 GS, one over the bar.** The ratio is what gives it away — **67.1 IP / 3 GS = 22 IP per "start", an impossible number for a real starter.** Trigger updated below. Tally **2-0** — ✅ **W 8/11 (settled 8/12): the leg it killed LOST.** CLE @ DET finished **4-6 = 10 runs** vs the Under 8.0 the gate removed at +3.0pp. Second live test, second save.
 
 **Trigger (updated 8/11/26):** flag when `GS ≤ 3` **OR** `IP / GS ≥ 8` (i.e. the innings cannot have come from those starts). Either condition → read `gamelog` before using ANY market in that game. The IP/GS ratio catches the swingman with a handful of spot starts that the raw GS count lets through.** |
 
@@ -116,6 +116,44 @@ Not team fades, but recurring data errors to actively guard against each run.
 ---
 
 ### Running scoreboard (fades that have been tested)
+- **⛔ 8/11/26 (settled 8/12) — THE CORROBORATION CITED FOR THE 8/7 PARK-TAG PROMOTION WAS A PARSER BUG.
+  1 sighting; the promotion is NOT overturned, but the §1c citation is WITHDRAWN.** `calib.py`'s
+  `parse_adj_tags` could not read a tag name wrapped in bold, and `results_log.md` bolds every tag
+  (`[adj: **hitter_park_over+3 (full magnitude)**]`) — so every tagged row was silently filed under
+  `(none — market-anchored)`. After the fix (asserted in `selftest.sh` 8/12): **`hitter_park_over` 15 rows
+  9-6 skill +0.0005** (was "6-5, −0.0034"), **`pitcher_park_under` 14 rows 9-5 skill +0.0004** (was "3-4,
+  −0.0092"), **`wind_out_over` 15 rows 9-6 skill +0.0032** (was n=1). Both park tags measure **at or slightly
+  above zero**, not below it. **The 8/7 promotion was made on the process bar (3 sightings) and stands on that
+  basis alone** — it is not being reversed on one day's finding, and the tiered bar forbids rewriting doctrine
+  off a single re-read. But the sentence in the promotion entry that says "`calib.py` §1c corroborates" was
+  reading a broken parser and is struck. **Carry to the n≥20 review: if the tags keep measuring ≥0, the
+  tiebreaker-only restriction needs re-argument from the three sightings alone.** A second bug found the same
+  day: an aggregate ledger row naming two lines minted a real leg's `leg_key` and swallowed a settled 16-run
+  WIN out of the bands, §1b, §1c and the governor's window; `leg_key` now returns `aggregate` for multi-line
+  cells. Both are the silent-measurement class and both now have selftest assertions.
+- **🆕 8/11/26 (settled 8/12) — the park-tag strike COST two winning legs and SAVED the ticket. Both halves
+  recorded; 1 sighting.** Build C struck TB@ATH O8.5 (**16 runs ✅**), TB@ATH O10.5 (**✅**) and MIL@SD U7.5
+  (**❌**) — struck set **2-1 against the strike**. But Build B's actual recommendation was TB O8.5 × MIL U7.5,
+  Milwaukee lost, and **the +182 ticket would have lost anyway**. Quoting only the leg-level half would say the
+  doctrine cost us; quoting only the ticket-level half would say it saved us. Neither alone is true.
+- **🆕 8/11/26 (settled 8/12) — the band-55-59 shade was a WASH across the full day, and the morning-only
+  read was misleading.** Kill-list at 11:00/16:00 went **3-1 against** the shade (TB O9.5 ✅, TB O10.0 ✅,
+  BOS@TOR O6.5 ✅, MIL U8.0 ❌) — identical to 8/10 and the tempting headline. The three rungs it killed at
+  **18:00 went 0-3 for it** (PHI@STL O7.5 ❌ 2 runs, TEX@LAA O9.0 ❌ 5, CIN@CWS U8.5 ❌ 9). **Full-day net 3-4 —
+  a coin flip.** This is the pre-registered-candidate-set rule doing real work: the narrative subset would have
+  manufactured a two-slate losing streak the complete set does not support. Applied unchanged; far under n≥20.
+- **✅ 8/11/26 (settled 8/12) — E5 is 2-0 and remains the cleanest gate on the board.** CLE@DET Under 8.0 had
+  qualified at +3.0pp, was killed on the bullpen-game gate, and the game went **10 runs**. See the E5 row for
+  the IP-per-GS refinement that caught it.
+- **❌ 8/11/26 (settled 8/12) — two rejections missed winners, same shape both times.** HOU@SF Under 8.0 was
+  rejected at 11:00 (E4/TBA) and again at 16:00 (Whisenhunt 7.25 ERA) — the game went **5 runs**, so it wins
+  twice over. BOS@TOR Over 7.0 **qualified at 11:00 and was withdrawn at 16:00** when a fresh `wind_in_under`
+  mirror cancelled its park tag — it went **8 runs**. `wind_in_under` as a *cancelling* device is now **1-1**
+  (n=2, directional only). ⚠ **Watch item, 1 sighting: un-qualifying an already-qualified leg on a newly-posted
+  tag is a different and less-tested operation than qualifying one.**
+- **🆕 8/11/26 (settled 8/12) — `type:ML-fav` MARKET-SHADE, second control slate: favourites went 7-8 (47%)**
+  against a market price of roughly 58-60% (W: DET, CHC, NYY, TOR, ATL, TB, LAD; L: PIT, MIN, CWS, PHI, TEX,
+  AZ, MIL, HOU). With 8/10's 6-4 that is two slates at 13-12 combined. Not evidence; measured either way.
 - **🆕 8/10/26 (settled 8/11) — the governor was a WASH on a slate where it was loud, and both halves are recorded.**
   The band-55-59 COOL+MARKET-SHADE **saved two bets** — KC@LAD Under 7.5 (game went **11**) and Jacob Lopez
   Under 4.5 K (**5 K**) — and **cost three**, because the four alternate-total rungs it zeroed would have gone
