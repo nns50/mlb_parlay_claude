@@ -80,12 +80,50 @@ def fmt_registry():
     return "\n".join(out)
 
 
+def governor_shrink():
+    """Ask pulse.py whether GLOBAL SHRINK is armed → (factor, reason) with factor 1.0 or 0.5.
+
+    WHY THIS IS AUTOMATIC (audit 8/12/26). The shrink was a line of prose the build was
+    trusted to remember, and the trigger that produces it had a dilution bug that kept it
+    from ever firing — so every adjustment ran at full magnitude for 92 decided legs whose
+    measured directional accuracy was 53% and whose Brier skill was −0.0007. Both halves of
+    that failure were silent. Applying it here means a haircut cannot be forgotten, and it
+    shows up in the printed ledger tag so the record says what was actually used.
+
+    Fails OPEN (factor 1.0) if pulse cannot run — a broken governor must not silently
+    halve live numbers either.
+    """
+    try:
+        import io
+        import contextlib
+        import pulse
+        buf = io.StringIO()
+        argv = sys.argv
+        try:
+            sys.argv = ["pulse.py"]        # pulse.main() re-parses argv; ours is not its
+            with contextlib.redirect_stdout(buf):
+                pulse.main()
+        finally:
+            sys.argv = argv
+        for line in buf.getvalue().splitlines():
+            if "GLOBAL SHRINK" in line:
+                return 0.5, line.strip().lstrip("🌐 ").strip()
+    except Exception as exc:                      # noqa: BLE001 — advisory, never fatal
+        return 1.0, f"(pulse unavailable: {exc.__class__.__name__} — no shrink applied)"
+    return 1.0, ""
+
+
 def main():
     ap = argparse.ArgumentParser(description="Derive a pre-registered TrueP from baseline + fixed adjustments.")
     ap.add_argument("--base-prob", type=float, help="market NO-VIG prob in %% (from devig.sh)")
     ap.add_argument("--adj", default="", help="comma-separated named adjustments (see --list)")
     ap.add_argument("--custom", action="append", default=[], help='ad-hoc "+N:reason" (repeatable)')
     ap.add_argument("--list", action="store_true", help="print the adjustment registry and exit")
+    ap.add_argument("--no-governor", action="store_true",
+                    help="print RAW registry magnitudes — skip the pulse.py GLOBAL SHRINK "
+                         "haircut. For inspecting the registry itself; never for pricing a "
+                         "live leg, because the haircut is the governor's measured verdict "
+                         "on whether these magnitudes are currently earning their pp.")
     args = ap.parse_args()
 
     if args.list:
@@ -125,6 +163,10 @@ def main():
                      f"ADJUSTMENTS so the claim accrues its own §1c record.")
         applied.append((f"custom: {reason.strip()}", pp))
 
+    factor, shrink_why = (1.0, "") if args.no_governor else governor_shrink()
+    if factor != 1.0 and applied:
+        applied = [(f"{lab}  [×{factor} GLOBAL SHRINK]", pp * factor) for lab, pp in applied]
+
     total = sum(pp for _, pp in applied)
     truep = max(1.0, min(99.0, base + total))
 
@@ -140,12 +182,22 @@ def main():
     print(f"net adjustment                   {total:+6.1f}pp")
     print(f"TrueP (clamped 1–99)             {truep:6.1f}%")
     print(f"pre-registered edge vs baseline  {truep - base:+6.1f}pp")
+    if factor != 1.0:
+        print(f"⚠ GLOBAL SHRINK APPLIED (×{factor}) — every magnitude above is already halved.")
+        print(f"  {shrink_why}")
+    elif shrink_why:
+        print(f"  {shrink_why}")
     print("─" * 60)
     # Machine-parseable attribution tag: paste it into the ledger leg cell so calib.py's
     # §1c can score each adjustment's skill as decided rows accrue (the prerequisite for
     # ever auto-calibrating these magnitudes instead of trusting the written values).
     tag_parts = [f"{key}{pp:+g}" for key, pp in resolved]
     tag_parts += [f"custom{float(c.partition(':')[0]):+g}" for c in args.custom]
+    if factor != 1.0:
+        tag_parts = [f"{key}{pp * factor:+g}" for key, pp in resolved]
+        tag_parts += [f"custom{float(c.partition(':')[0]) * factor:+g}" for c in args.custom]
+        if tag_parts:
+            tag_parts.append("GLOBAL_SHRINK×%g" % factor)
     tag = f"[adj: {', '.join(tag_parts)}]" if tag_parts else "[adj: none]"
     print(f"Ledger tag — paste into the leg cell: {tag}")
     print("  (calib.py §1c attributes per-adjustment skill from these; '[adj: none]' rows")

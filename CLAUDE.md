@@ -102,6 +102,45 @@ CLAUDE.md is crisp **doctrine**; those files are **live data**. Burn tags below 
     never hand-pick a 3rd leg the search didn't rank first. (Codified 7/29/26: legs hit ~70% but
     hand-built tickets ran ~50%, and D1 went 4-1 — construction, not leg-picking, was the leak.)
 
+### ⛔ WHAT THE LEDGER ACTUALLY SAYS ABOUT OUR EDGE (audit 8/12/26 — read before trusting any pp)
+
+The user asked for every gap to be found and closed, with permission to overrule anything written
+here. This is the finding, and it outranks the optimism elsewhere in this file.
+
+**Measured over the deduped ledger, decided legs only:**
+
+| Claim doctrine makes | What the ledger measures |
+|---|---|
+| The written adjustments add signal | **n=92 tagged legs, 53% directional, Brier skill −0.0007.** They do not. |
+| TrueP beats the market | True only *because* ~60% of rows are market-anchored controls that score 0 by construction. **On tagged legs alone: Brier 0.2506 vs market 0.2495 — worse.** |
+| CLV is our best signal | **42% of decided legs carry no CLV at all**, and among those that do the net is **−10** (35+ / 45−). |
+| Line-shopping is free EV | It is **vig REDUCTION, not edge.** On a live 26-side board the *best* price of 11 books still sat **−0.5pp** behind the consensus no-vig. Shopping moves you from paying ~2.5pp to ~0.5pp. |
+
+**Four consequences, now binding:**
+
+1. **A "+Npp edge" IS the adjustment.** TrueP = market no-vig + tags, so the edge number and the tag
+   are the same object. When tags measure at zero skill, **the min-edge gate is not selecting +EV
+   legs — it is selecting legs where a tag happened to fire.** A gate-clearing edge is a reason to
+   look closer, never proof of value.
+2. **GLOBAL SHRINK is automatic and non-optional.** `truep.py` now calls `pulse.py` itself, halves
+   every magnitude while the shrink is armed, and stamps `GLOBAL_SHRINK×0.5` into the ledger tag.
+   (`--no-governor` prints raw registry numbers for inspection only — never to price a live leg.)
+   It had never fired before 8/12 because its trigger was diluted by untagged rows; that is *why*
+   92 legs ran at full magnitude while measuring negative.
+3. **Adding new pp-tags is the WRONG response to a missing thesis.** The 8/12 registry gap ("no tag
+   says both starters are bad") is real, but a `two_bad_sp+3` would just add another zero-skill
+   number to a stack that already measures negative. **A thesis with no registered tag prices at
+   market**, and the leg is taken only if something outside the tag system justifies it.
+4. **A dimension we cannot measure cannot be governed.** `pulse.py` will no longer MARKET-SHADE a
+   dimension whose decided legs are under 50% CLV-covered; it prints ⚠ MEASUREMENT-BLIND instead.
+
+**What HAS demonstrated value — put the effort here:**
+- **The gates.** E5 bullpen-game **2-0**, thesis-conflict decline **2-0**, E1-E4 data traps, D1
+  +200-chase **4-1**. Error-prevention is the only part of this process with a positive record.
+- **Price.** Always take the best of the board — it halves the vig even though it creates no edge.
+- **Not betting.** NO BET on a board with no non-tag thesis is a *winning* action when the
+  alternative is paying ~0.5-1pp of vig on a coin flip.
+
 ### Pre-publish GATE HEADER — every build opens with this; a ✗ blocks the dependent leg
 | Gate | ✓/⚠/✗ | Evidence |
 |---|---|---|
@@ -288,7 +327,11 @@ surface only props clearing +2pp standalone / +3-4pp to anchor.** Prop-specific 
 - **Line-shop every leg across ≥2-3 books; bet the BEST available number.** Taking the best of −198 vs
   −207 is ~+1pp of EV — *larger than most edges we hunt by analysis*, and free. The min-edge gate is
   computed against the BEST price found, and the chosen book is logged. Not shopping is the same as
-  conceding edge we worked to find. (Codified 6/4/26 — highest-ROI non-tooling fix.) **Do it with
+  conceding edge we worked to find. (Codified 6/4/26 — highest-ROI non-tooling fix.)
+  ⚠ **Framing corrected 8/12/26: this is VIG REDUCTION, not edge.** On a live 26-side board the
+  best price of 11 books still sat ~0.5pp behind the consensus no-vig, so shopping moves you from
+  paying ~2.5pp to ~0.5pp — it never makes a market-priced bet +EV on its own. Always do it; never
+  count it as edge in the gate. **Do it with
   `tools/odds_api.sh best <market>`** when live (every US book in one cached call) → pipe into `devig.sh`;
   fall back to manual book pulls only when `check` is BLOCKED.
 - **Heavy-mismatch matchups (fav ≥70% AND clear SP edge) blow up the alt-K + fav-ML recipe** — ML
@@ -352,8 +395,22 @@ Strider — the safer 4.5K saved the ticket)
 Separate from unit-staking the regular plays. **Start $10; bet the WHOLE balance each roll on the day's
 single safest qualifying favorite; roll the full return; 4 consecutive wins → STOP & withdraw; any loss
 → restart at $10.** Full rollover is median-bust / jackpot-tail, capped at $10/attempt — full honest
-framing + live ledger live in `bankroll.md`. Each build: surface the **bankroll bet** = the single
-highest-floor favorite **on the whole board, chosen INDEPENDENTLY of the parlay legs**, that clears the
+framing + live ledger live in `bankroll.md`.
+
+**⚠ INSTRUMENT RULE REMOVED 8/12/26 — the ladder was frozen by its own wording, not by the market.**
+It sat NO BET on **11 of 14 slates**, and on the last three the binding constraint was *not* the
+governor: it was the clause "must be a favourite moneyline". On 8/10 the day's sharpest leg (STL ML
++108, +5.0pp) was a dog; on 8/11 every qualifier was a total; on 8/12 the one qualifying leg (BAL
++101) was priced 49.8% and therefore not a "favourite". The ladder does not actually want a
+favourite — **it wants the highest-probability single on the board.** Requiring a specific instrument
+throws away exactly the legs it exists to take. **New rule: the bankroll bet is the highest-floor
+qualifying leg in ANY market** (moneyline either side, total, team total, run line, alt rung) that
+(a) clears the min-edge gate, (b) has **TrueP ≥ 60%**, and (c) is not a `fades.md` A-list team. If
+nothing clears, NO BET is still correct and the balance carries — the fix removes an artificial
+block, it does not license forcing a roll.
+
+Each build: surface the **bankroll bet** = the single
+highest-floor qualifying leg **on the whole board, chosen INDEPENDENTLY of the parlay legs**, that clears the
 min-edge gate (devigged ≥ +2pp) AND is **not** a `fades.md` A-list (fade-as-fav) team; prefer 62-66%
 ace-edge favs over the soft 56-61% band; single leg, no parlay.
 No qualifying play → NO BET, balance carries. Update `bankroll.md` (commit/push/merge) on build + settle.
@@ -602,6 +659,15 @@ the outcome shows the analysis was wrong (calibration both ways).
   own-SP ERA >5 −5pp, contact-lineup K-Over −1 tier, 2nd-meeting −1 tier); (3) the result is TrueP. Calibration
   then measures the ADJUSTMENTS, which is the thing worth measuring. A bare gut number is the `*`-equivalent of
   TrueP. (Codified 6/4/26.)
+- **⚠ CLV COVERAGE IS NOW A MEASURED NUMBER, NOT A PROMISE (added 8/12/26).** Run
+  **`tools/clv_audit.py`** — it prints coverage overall, by bet type and by adjustment tag, and it runs
+  in `session_start.sh` §7b every session. The 8/12 audit found the mandate below was being honoured on
+  **42% of decided legs**, with the rate varying 0-49% *by type* (run lines 0%, hitter props 27%, ML 49%)
+  and `wind_out_over` — a tag fired three days running — sitting at **0/15**. That is not hygiene: the
+  governor's MARKET-SHADE triggers on CLV sign counts, so **the dimensions we measured least were being
+  governed hardest.** `pulse.py` now refuses to shade any dimension under 50% coverage and prints
+  ⚠ MEASUREMENT-BLIND instead. **Backfilling a blind dimension is therefore a higher-value action than
+  finding one more leg** — it is what lets every future governor call mean anything.
 - **CLV is MANDATORY, not optional — capture the closing line for EVERY logged leg** (bet or not), at/near
   first pitch — **the best +EV signal at this sample size** (converges far faster than ROI). The CLV column
   going blank is the biggest measurement leak we have; a row without a closing line is half-logged. CLV `+` if

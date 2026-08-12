@@ -491,12 +491,12 @@ has "devig -150/+130 → ~42% dog side"  "42" "$DV"
 echo "8. truep.py"
 has "truep --list shows the ace_edge adjustment" "ace_edge" "$(./tools/truep.py --list 2>&1)"
 has "truep emits the [adj: …] ledger tag (ace_edge stays +3 — on watch, n<20 unique)" "[adj: ace_edge+3, custom-2]" \
-    "$(./tools/truep.py --base-prob 54.3 --adj ace_edge --custom=-2:test 2>&1)"
+    "$(./tools/truep.py --no-governor --base-prob 54.3 --adj ace_edge --custom=-2:test 2>&1)"
 # registry review 8/7/26 pins: custom hard-cap ±3; ~name mirrors a registry adj (sign-flip)
 has "truep rejects a custom beyond the ±3 cap" "exceeds the ±3 cap" \
     "$(./tools/truep.py --base-prob 50 --custom=+8:big 2>&1)"
 has "truep ~name mirror flips the sign and tags the applied sign" "[adj: own_sp_hi+5]" \
-    "$(./tools/truep.py --base-prob 43.4 --adj '~own_sp_hi' 2>&1)"
+    "$(./tools/truep.py --no-governor --base-prob 43.4 --adj '~own_sp_hi' 2>&1)"
 if python3 - <<'PY' 2>/tmp/_selftest_out
 import importlib.util as u
 s=u.spec_from_file_location("c","tools/calib.py"); m=u.module_from_spec(s); s.loader.exec_module(m)
@@ -708,6 +708,58 @@ assert single!=agg, 'aggregate kill-list row must not collide with a real leg ke
 assert agg[1]=='aggregate', agg
 # a genuine single total still keys as a total
 assert single[1]=='T' and single[4]=='8.5', single
+"
+
+DESC="pulse GLOBAL SHRINK triggers on TAGGED legs only (dilution bug 8/12/26)"
+runblk python3 -c "
+import sys; sys.path.insert(0,'tools')
+import pulse
+# 6 tagged legs where TrueP was badly wrong + 20 market-anchored rows that carry no
+# adjustment. The untagged rows have TrueP == ImplP, so they contribute IDENTICAL terms to
+# both Briers; before the fix they diluted the mean and the shrink could not fire.
+rows=[]
+for i in range(6):
+    rows.append({'date':None,'dims':['adj:custom','type:total'],'truep':80.0,'implp':50.0,'y':0.0,'clv':None})
+for i in range(20):
+    rows.append({'date':None,'dims':['type:ML-fav'],'truep':50.0,'implp':50.0,'y':1.0,'clv':None})
+_,acts=pulse.actions_for(rows)
+assert not any('GLOBAL SHRINK' in a[0] for a in acts), 'n=6 tagged is under SHRINK_MIN_N — must not fire'
+rows += [{'date':None,'dims':['adj:custom'],'truep':80.0,'implp':50.0,'y':0.0,'clv':None} for _ in range(8)]
+_,acts=pulse.actions_for(rows)
+assert any('GLOBAL SHRINK' in a[0] for a in acts), 'tagged legs are badly calibrated — shrink MUST fire despite 20 diluting rows'
+"
+
+DESC="pulse will not MARKET-SHADE a dimension with <50% CLV coverage"
+runblk python3 -c "
+import sys; sys.path.insert(0,'tools')
+import pulse
+# 5 CLV verdicts, 4 of them negative -> would shade; but only 5 of 20 decided legs measured
+rows=[{'date':None,'dims':['type:total'],'truep':50.0,'implp':50.0,'y':1.0,
+       'clv':(['−','−','−','−','+']+[None]*15)[i]} for i in range(20)]
+_,acts=pulse.actions_for(rows)
+kinds=[a[0] for a in acts]
+assert not any('MARKET-SHADE' in k for k in kinds), 'must not shade a 25%-covered dimension'
+assert any('MEASUREMENT-BLIND' in k for k in kinds), 'must say WHY it declined to shade'
+# same signal, now well covered -> shade fires
+rows=[{'date':None,'dims':['type:total'],'truep':50.0,'implp':50.0,'y':1.0,
+       'clv':(['−','−','−','−','+','=','=','=','=','='])[i]} for i in range(10)]
+_,acts=pulse.actions_for(rows)
+assert any('MARKET-SHADE' in a[0] for a in acts), 'a fully covered dimension must still shade'
+"
+
+DESC="truep.py applies the governor shrink automatically and stamps it in the ledger tag"
+runblk python3 -c "
+import subprocess,sys
+o=subprocess.run([sys.executable,'tools/truep.py','--base-prob','50','--adj','wind_out_over'],
+                 capture_output=True,text=True).stdout
+assert 'Ledger tag' in o, o
+# whatever the governor says, the tag must be self-describing: either full magnitude or
+# an explicit shrink stamp — never a halved number that looks like a full one
+if 'GLOBAL SHRINK APPLIED' in o:
+    assert 'GLOBAL_SHRINK' in o, 'shrunk run must stamp the haircut into the [adj: ...] tag'
+    assert 'wind_out_over+2' in o, o
+else:
+    assert 'wind_out_over+4' in o, o
 "
 
 DESC="no 8/6+ ledger row has a broken column count (13 fields)"
