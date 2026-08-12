@@ -75,6 +75,23 @@ Its own ledger lives here; the dashboard renders it from this file.
 | 14 | COL @ AZ | Feltner **1.45** / Kelly **1.47** | **YRFI** | **55%** | _model-only_ | Raw **YRFI 60%** → 55%. **The worst ERA pair on the board** (5.71 and 4.88) with two 1.45+ WHIPs and two low strikeout rates (6.48 and 6.00 K/9) — both arms need contact to go their way in the inning where they have the least feel. Chase Field with the roof shut is the only thing holding this down. |
 | 15 | TEX @ LAA | Quantrill 1.19 / **Klassen 2.88 (8.2 IP)** | **YRFI** | **58%** | _model-only_ | Raw **YRFI 63%** → 58% — **the strongest YRFI of the day, and by the widest margin of any read this week.** George Klassen has a **2.88 WHIP across 8.2 IP in 3 GS**: that is roughly three baserunners per inning, the most extreme number in either direction on this board. ⚠ Two honest caveats: **8.2 innings is a tiny sample** (the E2 trap with the sign flipped), and **Quantrill's 3.56 / 1.19 half is genuinely competent**, so only one side of this game is soft. |
 
+> **🔄 16:00 ET Build B — priced sweep (lineups locked).** The two strongest pre-game reads were pulled
+> against a real `totals_1st_1_innings` market (2 credits). **Neither is promoted to a bet.**
+>
+> | Read | Model TrueP | Priced | no-vig | Edge | Verdict |
+> |---|---|---|---|---|---|
+> | **TEX @ LAA YRFI** (Over 0.5) | 58% | −136 / +106 FanDuel · best Over **−130** BetOnline | 54.3% | **+3.7** | ⛔ **model-only** — TrueP 58% lands in the **COOL + MARKET-SHADED 55-59 band** → zeroed; lineups also still PENDING |
+> | **BOS @ TOR NRFI** (Under 0.5) | 56% | −160 / +130 Caesars | 58.6% | **−2.6** | ⛔ **negative edge** — the market has this richer than the model |
+>
+> **TEX @ LAA is the painful one:** it clears the raw +2pp gate at +3.7pp and dies purely on the band shade —
+> the same mechanism that ran **3-1 against itself on 8/10 and again on 8/11**. Applied unchanged anyway,
+> because one slate is far under the n≥20 belief bar and the governor governs EXPOSURE on recency, not belief.
+> **BOS @ TOR is the cleaner decline:** the model said 56%, the market says 58.6%, and the honest read is that
+> the market is right about two 3.2-ERA arms under a roof. All 15 rows stay model-only calibration.
+>
+> **No read was changed by the lineup lock** — no scratched or rested leadoff bat turned up in the seven
+> confirmed pre-game line-ups. KC @ LAD and TEX @ LAA are still PENDING and belong to the 18:00 run.
+
 ---
 
 ## Tonight's reads — 2026-08-11 (15-game slate; model-only at 11:00 — the priced `totals_1st_1_innings` sweep is the 16:00 run)
