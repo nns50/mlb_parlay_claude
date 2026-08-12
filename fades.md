@@ -116,6 +116,40 @@ Not team fades, but recurring data errors to actively guard against each run.
 ---
 
 ### Running scoreboard (fades that have been tested)
+- **🆕 8/12/26 — CONTACT SURGE: run differential is BLIND to a hits spike that has not yet converted to
+  runs. 1 sighting, NOT promoted — the test is PRE-REGISTERED below so it cannot be reverse-fitted.**
+  Raised by the user after the BAL ML loss, and the data supports it. Minnesota's build-time profile read
+  *cold* on both metrics doctrine actually uses — **L10 4-6, L15 run differential −4** — and both were blind
+  to what was really happening:
+
+  | Window | MIN hits/g | vs own season (8.26) | vs league (8.18) |
+  |---|---|---|---|
+  | Season | 8.26 (12th of 30) | — | +0.08 |
+  | Last 10 | **8.80** | **+0.54** | **+0.62** — would rank 2nd in MLB |
+  | Last 5 | **9.40** | **+1.14** | **+1.22** |
+
+  ⚠ **The shape matters more than the mean, and it is what makes the user's word "dangerous" more precise
+  than "hot": the median game is 7 hits — BELOW league average — but THREE of the last ten were 13-14 hits.**
+  It is a fat right tail, not a uniform surge. **And runs/g went the other way: 4.50 over the last 10 vs 4.68
+  on the season** — the hits have not converted, which is exactly *why* run differential could not see it.
+  **The signal and the doctrine's anchor metric are, in this specific case, structurally opposed.**
+  ✅ **It was predictive on the day it was raised:** Minnesota put up **14 hits** and Shane Baz — the arm the
+  build bought at +5.0pp — gave up **9 hits in 3.0 IP**. The leg did not lose to team form; it lost to the
+  blowup tail this metric measures and the build's metrics did not.
+  **PRE-REGISTERED TRIGGER (fixed now, before any forward results exist):** a team is flagged
+  `contact_surge` when **(a) last-10 hits/g ≥ its own season hits/g + 0.5, AND (b) ≥2 of the last 10 games
+  at 13+ hits.** Read it off `mlb_api.sh teamform <team> 10`, whose header now prints **hits/g, median and
+  the 13+ blowup count** (added 8/12, asserted in `selftest.sh`).
+  **What it is allowed to do while unpromoted: NOTHING to a price.** No registry tag, no pp adjustment. It is
+  a **counter-signal that must be READ AND STATED** on any leg whose thesis is the opposing starter, and on
+  any Under in that team's game. Per the tiered bar this is a probabilistic claim, so it needs **n≥20 flagged
+  team-games** before it can carry a magnitude — and the honest confound is on the record from day one:
+  **two of Minnesota's three blowup games came against Baltimore, whose pitching is poor (−34 run diff)**, so
+  part of the surge may be opponent quality rather than the bats.
+  ⚠ **Corollary already visible in the same tool, and it cuts both ways:** **Pittsburgh lead MLB in season
+  hits/g (8.83) but are at 6.4 over their last 10 (median 5.5, zero 13+ games)** — the season number is
+  actively misleading in the other direction. **Detroit are at 10.7 (median 11.5, four 13+ games)** and are
+  the clearest un-flagged contact surge on the board right now.
 - **❌ 8/12/26 (settled same day) — `own_sp_hi` (mirrored) takes its FIRST LOSS, and the leg died on the
   tag's own axis rather than on any counter-signal.** BAL ML +101 was the day's Tier 1 at +5.0pp: the mirror
   fired because Minnesota's **Zebby Matthews (5.23 / 1.34, and 7.28 over his last six)** cleared the 5.00
