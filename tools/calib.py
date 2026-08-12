@@ -134,7 +134,14 @@ def parse_adj_tags(cell):
     and 'pitcher_park_under+3 → **band-blocked…**' each minted a garbage singleton
     dimension in §1c and pulse — prose after the magnitude defeated the old trailing-\\d
     strip). A part yields a name only via 'name+N'/'name-N' or a clean bare name; prose
-    fragments are dropped."""
+    fragments are dropped.
+
+    Markdown emphasis is STRIPPED before matching (bug fixed 8/12/26): the ledger writes
+    '[adj: **hitter_park_over+3 (full magnitude)**]' — bold is the house style for the
+    magnitude — and the leading '*' defeated the name regex, so EVERY bolded tag silently
+    attributed to the '(none — market-anchored)' bucket. The whole 8/11 slate's park/wind
+    tags landed there; §1c and pulse's per-adjustment dimensions were reading a subset of
+    the rows that actually carried a tag."""
     m = ADJ_TAG.search(cell or "")
     if not m:
         return None
@@ -143,7 +150,7 @@ def parse_adj_tags(cell):
         return None
     names = []
     for part in content.split(","):
-        part = part.strip()
+        part = part.strip().strip("*").strip("`").strip()
         low = part.lower()
         if not part or low.startswith("none") or low.startswith("pulse-shaded"):
             continue
@@ -164,7 +171,16 @@ def leg_key(datecell, leg, typ):
     verdict into the bands, §1b Brier, §1c attribution AND pulse's window — on 8/8
     the 131-row window held only 107 unique legs, and three governor MARKET-SHADEs
     existed only because of the copies (audit 8/7/26). Dedup by this key, keeping
-    the LAST row (latest reprice = the current state of that leg)."""
+    the LAST row (latest reprice = the current state of that leg).
+
+    MULTI-LEG AGGREGATE rows get a text key, never a team-market one (bug fixed
+    8/12/26). The ledger logs kill-lists and doctrine-strike rows that NAME several
+    lines at once — 'STRUCK BY DOCTRINE — TB @ ATH Over 8.5/10.5 AND MIL @ SD Under
+    7.5'. The old regex took the FIRST over/under it saw, minted the key of a real
+    single leg, and — being the last row of the day with that key — swallowed it.
+    On 8/11 that erased a settled WIN (TB@ATH Over 8.5) from the bands, §1b, §1c and
+    pulse's window entirely. Two or more distinct over/under lines in one cell means
+    the row is not one physical bet."""
     from settle import parse_kprop as _kp, parse_hprop as _hp, find_team as _ft
     l = (leg or "").replace("**", "").replace("⭐", "").replace("⛔", "")
     d = (datecell or "").strip()
@@ -174,6 +190,8 @@ def leg_key(datecell, leg, typ):
     hp = _hp(l)
     if hp:
         return (d, "H", hp[0].lower(), hp[1], hp[2], hp[3])
+    if len(set(re.findall(r"\b(?:over|under|o|u)\s*(\d+(?:\.\d+)?)", l, re.I))) > 1:
+        return (d, "aggregate", re.sub(r"\s+", " ", l).strip().lower()[:60])
     t = (typ or "").lower()
     ft = _ft(l)
     ab = ft[0] if ft else None
