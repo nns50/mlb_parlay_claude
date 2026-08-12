@@ -256,6 +256,18 @@ else
 fi
 
 echo
+echo "────────────────────────────────────────────────────────"
+echo " 7b. CLV COVERAGE — can the governor actually see? (audit 8/12/26)"
+echo "────────────────────────────────────────────────────────"
+if [[ -x "./tools/clv_audit.py" ]]; then
+  python3 ./tools/clv_audit.py 2>/dev/null | sed -n '5,12p' | sed 's/^/  /' \
+    || echo "  (clv_audit failed — run tools/clv_audit.py manually)"
+  echo "  (full table: tools/clv_audit.py · per-date holes: --dates)"
+else
+  echo "  (tools/clv_audit.py not present)"
+fi
+
+echo
 echo "════════════════════════════════════════════════════════"
 echo "  NEXT (routine judgment — not automated):"
 echo "   • Self-settle any TBD above; write W/L + retro into the dated file."

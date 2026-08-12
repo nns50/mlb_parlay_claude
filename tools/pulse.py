@@ -55,6 +55,8 @@ FALLBACK_MAX_AGE = 45   # days — the last-25 fallback must not resurrect a pri
 COOL_N, COOL_GAP = 5, 15.0
 SUSP_N, SUSP_GAP = 6, 25.0
 CLV_MIN = 4
+CLV_COVERAGE_MIN = 0.50   # a MARKET-SHADE needs ≥50% of the dimension's decided legs to carry a CLV verdict
+SHRINK_MIN_N = 12         # GLOBAL SHRINK needs this many TAGGED (adjusted) decided legs in the window
 
 # Optional season anchor in results_log.md: '<!-- ledger-epoch: 2026 -->'. Without it,
 # M/D-only dates are ambiguous at the season anniversary (an Aug 2027 run would re-import
@@ -169,20 +171,35 @@ def window_rows(rows, today):
 
 def actions_for(recent):
     """Pure: window rows → (per-dim stats, [(severity, dim, message)])."""
-    dims = defaultdict(lambda: {"n": 0, "w": 0, "tp": 0.0,
+    dims = defaultdict(lambda: {"n": 0, "w": 0, "tp": 0.0, "clvN": 0,
                                 "clv+": 0, "clv-": 0, "last": []})
     bm = bk = scored = 0.0
+    bmT = bkT = scoredT = 0.0
     for r in recent:
+        tagged = any(d.startswith("adj:") for d in r["dims"])
         if r["implp"] is not None:
             bm += (r["truep"] / 100 - r["y"]) ** 2
             bk += (r["implp"] / 100 - r["y"]) ** 2
             scored += 1
+            # GLOBAL SHRINK asks "are the ADJUSTMENTS earning their pp?" — only rows where
+            # one actually fired are evidence. Market-anchored rows have TrueP == ImplP, so
+            # they contribute IDENTICAL terms to both Briers and drag the difference toward
+            # zero. (Bug fixed 8/12/26: the trigger was computed over the whole window, which
+            # on this ledger is ~60% untagged, so it was mathematically near-unreachable —
+            # the adjustment stack ran at full magnitude for 92 decided legs at 53%
+            # directional accuracy / skill −0.0007 and the shrink never once fired.)
+            if tagged:
+                bmT += (r["truep"] / 100 - r["y"]) ** 2
+                bkT += (r["implp"] / 100 - r["y"]) ** 2
+                scoredT += 1
         for dname in r["dims"]:
             e = dims[dname]
             e["n"] += 1
             e["w"] += int(r["y"] == 1.0)
             e["tp"] += r["truep"]
             e["last"].append(r["y"])
+            if r["clv"] is not None:
+                e["clvN"] += 1
             if r["clv"] == "+":
                 e["clv+"] += 1
             elif r["clv"] == "−":
@@ -204,13 +221,30 @@ def actions_for(recent):
                          f"adjustments; barred from Tier 1 and parlay-anchor this build"))
         # margin of ≥2 so a 3−/2+ coin-flip split can't shade a healthy dimension
         if e["clv+"] + e["clv-"] >= CLV_MIN and e["clv-"] - e["clv+"] >= 2:
-            acts.append(("📉 MARKET-SHADE", dname,
-                         f"CLV {e['clv+']}+/{e['clv-']}− recent — set TrueP = market no-vig "
-                         f"(adjustments 0) for this dimension until CLV recovers"))
-    if scored >= 10 and bm > bk:
+            # COVERAGE GUARD (added 8/12/26). A MARKET-SHADE zeroes a whole dimension, so it
+            # must not fire off a biased sliver. Ledger audit that day: CLV was filled on only
+            # 43% of decided legs overall and the rate varied 0-49% BY BET TYPE — hitter props
+            # 27%, run lines 0% — i.e. the dimensions being shaded hardest were the ones we
+            # measured least. A shade computed from a quarter of the rows is a claim about the
+            # rows that happened to get captured, not about the dimension.
+            cov = e["clvN"] / e["n"] if e["n"] else 0.0
+            if cov < CLV_COVERAGE_MIN:
+                acts.append(("⚠ MEASUREMENT-BLIND", dname,
+                             f"CLV {e['clv+']}+/{e['clv-']}− WOULD shade, but only "
+                             f"{e['clvN']}/{e['n']} decided legs ({cov*100:.0f}%) carry a CLV "
+                             f"verdict (<{CLV_COVERAGE_MIN*100:.0f}% floor) — NOT shading. "
+                             f"Backfill this dimension's closes before trusting the signal"))
+            else:
+                acts.append(("📉 MARKET-SHADE", dname,
+                             f"CLV {e['clv+']}+/{e['clv-']}− recent ({cov*100:.0f}% covered) — "
+                             f"set TrueP = market no-vig (adjustments 0) for this dimension "
+                             f"until CLV recovers"))
+    if scoredT >= SHRINK_MIN_N and bmT > bkT:
         acts.append(("🌐 GLOBAL SHRINK", "ALL adjustments",
-                     f"recent Brier(TrueP) {bm/scored:.4f} WORSE than market "
-                     f"{bk/scored:.4f} over n={scored:.0f} — halve every adjustment this build"))
+                     f"on TAGGED legs only, recent Brier(TrueP) {bmT/scoredT:.4f} WORSE than "
+                     f"market {bkT/scoredT:.4f} over n={scoredT:.0f} adjusted legs — halve "
+                     f"every adjustment this build (whole-window n={scored:.0f} reads "
+                     f"{bm/scored:.4f} vs {bk/scored:.4f}, diluted by market-anchored rows)"))
     return dims, acts
 
 
