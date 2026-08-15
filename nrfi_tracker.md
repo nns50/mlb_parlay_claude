@@ -38,7 +38,18 @@ Its own ledger lives here; the dashboard renders it from this file.
 >
 > ### ⚠ 16:00 RUN — the priced sweep, and why the one big number is NOT being promoted
 >
-> **CWS @ DET settled: 1st inning 1-1 → YRFI, our NRFI 60% read LOST.** Today's daily line is **0-1**;
+> ### ⚠ 18:00 BUILD C — three settled, twelve still open
+>
+> **Daily line now 1-2 (33%).** ✅ **NYY @ TOR NRFI 54% — WON** (1st inning 0-0). ⛔ **STL @ CHC NRFI 56% — LOST.**
+> ⛔ CWS @ DET NRFI 60% — LOST. **Twelve reads remain open** (3 games In Progress/Warmup, 8 pre-game); the
+> next session's auto-settle closes them off `linescore.innings[0]`. **Running record 208-176 (54%)** —
+> NRFI 108-89 · YRFI 100-87. ⚠ **The day's three settled reads are all NRFI leans and they went 1-2**, which
+> is a reversal of the three straight slates where the NRFI side carried the board — noted as one day of
+> noise, not a trend at n=3.
+>
+> ---
+>
+> > **CWS @ DET settled: 1st inning 1-1 → YRFI, our NRFI 60% read LOST.** Today's daily line is **0-1**;
 > **14 reads remain open**; lineups are now CONFIRMED for every pre-game game and **no scratch flips any
 > read** (the tracker's leans are SP-driven, and `recheck.py` reports no SP change beyond SD's TBA
 > resolving — see below).
@@ -1103,9 +1114,9 @@ all 15 rows go to the ledger as model-only calibration.
 | 8/15 | MIL @ LAD (Misiorowski/Wrobleski) | NRFI | 61% | **U0.5 −136 BetRivers → no-vig 52.9%** | TBD | 0.74 WHIP — lowest on the board; baserunners are the input. ⚠ **16:00: PRICED. Raw gap +8.1pp — DECLINED**, not promoted: model number is unanchored to market, `market_disagrees` fires, 8.9% hold. See the 16:00 block above. |
 | 8/15 | AZ @ ATL (E-Rodriguez/Holmes) | NRFI | 57% | _model-only_ | TBD | Two sub-3.50 ERA arms, no park/air help. |
 | 8/15 | SEA @ HOU (Hancock/Wesneski) | NRFI | 56% | _model-only_ | TBD | Dome, neutral air, two 1.1x WHIPs. |
-| 8/15 | STL @ CHC (McGreevy/Boyd) | NRFI | 56% | _model-only_ | TBD | Matched 1.22 WHIPs; Wrigley wind PENDING at 14:20 first pitch. |
+| 8/15 | STL @ CHC (McGreevy/Boyd) | NRFI | 56% | _model-only_ | **L** (1st 3-0 → YRFI) | Matched 1.22 WHIPs; Wrigley wind PENDING at 14:20 first pitch. |
 | 8/15 | BAL @ TB (Bradish/Seymour) | NRFI | 54% | _model-only_ | TBD | Seymour 10.56 K/9 in a dome; Bradish 1.34 the drag. |
-| 8/15 | NYY @ TOR (Schlittler/Fisher-OPENER) | NRFI | 54% | _model-only_ | TBD | Schlittler 0.93 WHIP; fresh 1-inning opener is not a soft first frame. |
+| 8/15 | NYY @ TOR (Schlittler/Fisher-OPENER) | NRFI | 54% | _model-only_ | **W** (1st 0-0 → NRFI) | Schlittler 0.93 WHIP; fresh 1-inning opener is not a soft first frame. |
 | 8/15 | KC @ LAA (Dobnak/Detmers) | NRFI | 54% | _model-only_ | TBD | Detmers 10.40 K/9 vs a KC offence at −113 run diff. |
 | 8/15 | PHI @ MIN (Luzardo/Prielipp) | NRFI | 53% | _model-only_ | TBD | Luzardo 11.03 K/9 carries it; Prielipp vs the PHI top is the risk. |
 | 8/15 | BOS @ PIT (Gray/Jones) | NRFI | 53% | _model-only_ | TBD | PNC suppresses; Jones gave 8 ER in 3.0 IP last out — the live YRFI half. |
