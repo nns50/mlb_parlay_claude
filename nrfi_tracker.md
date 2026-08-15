@@ -34,6 +34,38 @@ Its own ledger lives here; the dashboard renders it from this file.
 > **✅ 8/14 AUTO-SETTLED at session start** — 13 rows stamped off `linescore.innings[0]` by
 > `nrfi_settle.py --apply`. **Record now 207-174 (54%)** (NRFI 107-87 · YRFI 100-87).
 >
+> ---
+>
+> ### ⚠ 16:00 RUN — the priced sweep, and why the one big number is NOT being promoted
+>
+> **CWS @ DET settled: 1st inning 1-1 → YRFI, our NRFI 60% read LOST.** Today's daily line is **0-1**;
+> **14 reads remain open**; lineups are now CONFIRMED for every pre-game game and **no scratch flips any
+> read** (the tracker's leans are SP-driven, and `recheck.py` reports no SP change beyond SD's TBA
+> resolving — see below).
+>
+> **1 credit was spent pricing the single strongest read rather than sweeping all fifteen:**
+> **MIL @ LAD NRFI (Misiorowski, 0.74 WHIP — the lowest on the board).** Best **Under 0.5 −136
+> (BetRivers)**, devigged against that book's own Over 0.5 −105 → **market no-vig 52.9%, hold 8.9%.**
+>
+> **Model 61% vs market 52.9% = a raw +8.1pp gap — and it is being DECLINED. Three reasons, in order of
+> weight:**
+> 1. ⛔ **The 61% is not a derived TrueP.** It is a model-only number, pre-registered but *not* built from
+>    the market no-vig baseline plus registered tags — which is precisely what CLAUDE.md calls the
+>    `*`-equivalent of TrueP. **No registered tag exists for NRFI at all**, so under the 8/12 audit's
+>    finding #3 this thesis prices at market: **52.9%, edge 0.0pp.**
+> 2. ⛔ **`market_disagrees` fires.** An ~8pp gap on a liquid market is the doctrine's own warning sign —
+>    *a surprisingly long price is information; defer to the line.* The registered magnitude is −4pp,
+>    halved to **−2pp** by GLOBAL SHRINK, which alone cuts the gap to +6.1pp before the point above
+>    zeroes it.
+> 3. ⚠ **The hold is 8.9%** — roughly triple a main-market total. Even were the edge real, the vig on the
+>    best of five books eats most of it, and **−136 is an expensive price for a 52.9% event.**
+>
+> ⚠ **Named plainly because it is the tracker's own trap:** the rule says *promote if a real line clears
+> +2pp*, and read literally this clears by four times that. **A +8.1pp gap against a liquid market is far
+> more likely to be a model artifact than an edge** — the tracker's model numbers have never been
+> calibrated against prices, because until today essentially none of them were ever priced. **This is the
+> first data point in that calibration, and it says the model runs hot.** Logged, not bet.
+>
 > ⚠ **Two data flags on today's board, named before the numbers.** (1) **SD @ CLE carries a TBA starter**
 > (San Diego's), so that row has half an input and is marked **LOW CONFIDENCE** rather than quietly
 > modelled as complete (E4). (2) **TWO games are bullpen/opener constructions on one side** — **Braydon
@@ -1067,8 +1099,8 @@ all 15 rows go to the ledger as model-only calibration.
 | 8/8 | DET @ SF (Jobe/Roupp) | NRFI | 52% | _model-only_ | **W** (1st 0-0 → NRFI) | ⚠ Lowest conviction: Jobe has ZERO 2026 MLB data (StatsAPI `stats: []`). The read is Oracle Park alone. |
 
 
-| 8/15 | CWS @ DET (Kay/Melton) | NRFI | 60% | _model-only_ | TBD | Melton 1.46/0.90; Comerica + 7mph wind IN. |
-| 8/15 | MIL @ LAD (Misiorowski/Wrobleski) | NRFI | 61% | _model-only_ | TBD | 0.74 WHIP — lowest on the board; baserunners are the input. |
+| 8/15 | CWS @ DET (Kay/Melton) | NRFI | 60% | _model-only_ | **L** (1st 1-1 → YRFI) | Melton 1.46/0.90; Comerica + 7mph wind IN. |
+| 8/15 | MIL @ LAD (Misiorowski/Wrobleski) | NRFI | 61% | **U0.5 −136 BetRivers → no-vig 52.9%** | TBD | 0.74 WHIP — lowest on the board; baserunners are the input. ⚠ **16:00: PRICED. Raw gap +8.1pp — DECLINED**, not promoted: model number is unanchored to market, `market_disagrees` fires, 8.9% hold. See the 16:00 block above. |
 | 8/15 | AZ @ ATL (E-Rodriguez/Holmes) | NRFI | 57% | _model-only_ | TBD | Two sub-3.50 ERA arms, no park/air help. |
 | 8/15 | SEA @ HOU (Hancock/Wesneski) | NRFI | 56% | _model-only_ | TBD | Dome, neutral air, two 1.1x WHIPs. |
 | 8/15 | STL @ CHC (McGreevy/Boyd) | NRFI | 56% | _model-only_ | TBD | Matched 1.22 WHIPs; Wrigley wind PENDING at 14:20 first pitch. |
