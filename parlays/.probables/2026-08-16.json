@@ -1,0 +1,167 @@
+[
+ {
+  "pk": 822940,
+  "state": "Preview",
+  "detail": "Pre-Game",
+  "away": "Baltimore Orioles",
+  "away_sp_id": 669432,
+  "away_sp": "Trevor Rogers",
+  "home": "Tampa Bay Rays",
+  "home_sp_id": 642547,
+  "home_sp": "Freddy Peralta"
+ },
+ {
+  "pk": 823344,
+  "state": "Preview",
+  "detail": "Pre-Game",
+  "away": "Boston Red Sox",
+  "away_sp_id": 663776,
+  "away_sp": "Patrick Sandoval",
+  "home": "Pittsburgh Pirates",
+  "home_sp_id": 669199,
+  "home_sp": "Lake Bachar"
+ },
+ {
+  "pk": 824880,
+  "state": "Preview",
+  "detail": "Pre-Game",
+  "away": "Arizona Diamondbacks",
+  "away_sp_id": 647336,
+  "away_sp": "Michael Soroka",
+  "home": "Atlanta Braves",
+  "home_sp_id": 693821,
+  "home_sp": "Bryce Elder"
+ },
+ {
+  "pk": 822774,
+  "state": "Preview",
+  "detail": "Pre-Game",
+  "away": "New York Yankees",
+  "away_sp_id": 677960,
+  "away_sp": "Ryan Weathers",
+  "home": "Toronto Blue Jays",
+  "home_sp_id": 656302,
+  "home_sp": "Dylan Cease"
+ },
+ {
+  "pk": 823590,
+  "state": "Preview",
+  "detail": "Pre-Game",
+  "away": "Washington Nationals",
+  "away_sp_id": 663623,
+  "away_sp": "Jake Irvin",
+  "home": "New York Mets",
+  "home_sp_id": 681035,
+  "home_sp": "Christian Scott"
+ },
+ {
+  "pk": 824397,
+  "state": "Preview",
+  "detail": "Pre-Game",
+  "away": "San Diego Padres",
+  "away_sp_id": 663554,
+  "away_sp": "Casey Mize",
+  "home": "Cleveland Guardians",
+  "home_sp_id": 676440,
+  "home_sp": "Tanner Bibee"
+ },
+ {
+  "pk": 824236,
+  "state": "Preview",
+  "detail": "Pre-Game",
+  "away": "Chicago White Sox",
+  "away_sp_id": 680732,
+  "away_sp": "Sean Burke",
+  "home": "Detroit Tigers",
+  "home_sp_id": 623454,
+  "home_sp": "Drew Anderson"
+ },
+ {
+  "pk": 824477,
+  "state": "Preview",
+  "detail": "Pre-Game",
+  "away": "Miami Marlins",
+  "away_sp_id": 691587,
+  "away_sp": "Eury P\u00e9rez",
+  "home": "Cincinnati Reds",
+  "home_sp_id": 666157,
+  "home_sp": "Nick Lodolo"
+ },
+ {
+  "pk": 823670,
+  "state": "Preview",
+  "detail": "Pre-Game",
+  "away": "Philadelphia Phillies",
+  "away_sp_id": 691725,
+  "away_sp": "Andrew Painter",
+  "home": "Minnesota Twins",
+  "home_sp_id": 665152,
+  "home_sp": "Dean Kremer"
+ },
+ {
+  "pk": 824642,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "St. Louis Cardinals",
+  "away_sp_id": 690928,
+  "away_sp": "Hunter Dobbins",
+  "home": "Chicago Cubs",
+  "home_sp_id": 665795,
+  "home_sp": "Edward Cabrera"
+ },
+ {
+  "pk": 823182,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "Colorado Rockies",
+  "away_sp_id": 687312,
+  "away_sp": "Gabriel Hughes",
+  "home": "San Francisco Giants",
+  "home_sp_id": 694918,
+  "home_sp": "Blade Tidwell"
+ },
+ {
+  "pk": 824965,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "Texas Rangers",
+  "away_sp_id": 674003,
+  "away_sp": "Cody Bradford",
+  "home": "Athletics",
+  "home_sp_id": 682052,
+  "home_sp": "Jacob Lopez"
+ },
+ {
+  "pk": 823991,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "Kansas City Royals",
+  "away_sp_id": 702070,
+  "away_sp": "Noah Cameron",
+  "home": "Los Angeles Angels",
+  "home_sp_id": 696270,
+  "home_sp": "Ryan Johnson"
+ },
+ {
+  "pk": 823912,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "Milwaukee Brewers",
+  "away_sp_id": 701656,
+  "away_sp": "Logan Henderson",
+  "home": "Los Angeles Dodgers",
+  "home_sp_id": 669373,
+  "home_sp": "Tarik Skubal"
+ },
+ {
+  "pk": 824156,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "Seattle Mariners",
+  "away_sp_id": 693433,
+  "away_sp": "Bryan Woo",
+  "home": "Houston Astros",
+  "home_sp_id": 686613,
+  "home_sp": "Hunter Brown"
+ }
+]
