@@ -230,6 +230,15 @@ assert m.classify_leg("A × B (Tier 2)","Parlay (+corr)")[0]=="skip"
 assert m.classify_leg("Judge Over 0.5 HR (NYY @ CWS)","HR")[0]=="manual"
 assert m.classify_leg("Soto Over 0.5 walks (vs PHI)","BB")[0]=="manual"
 assert m.classify_leg("LAD -2.5 alt RL (vs SEA)","Run line")==("spreads",-2.5)
+# The [adj: …] ledger tag must NOT be read as a ticket join. truep.py stamps
+# 'GLOBAL_SHRINK×0.5' into every governed leg; its '×' silently skipped all 26
+# such rows as parlay tickets, which is why adj:wind_out_over read 0+/0− CLV
+# across 22 legs. A genuine 'A × B' ticket must still skip. (8/16 Build C)
+assert m.classify_leg("TEX @ TB Over 8.0 [adj: wind_out_over+2, GLOBAL_SHRINK×0.5]",
+                      "Total-Over")==("totals",("Over",8.0))
+assert m.classify_leg("Rays ML (vs TEX) [adj: own_sp_hi+2.5, GLOBAL_SHRINK×0.5]",
+                      "ML-fav")[0]=="h2h"
+assert m.classify_leg("A × B (Tier 2) [adj: GLOBAL_SHRINK×0.5]","Parlay (+corr)")[0]=="skip"
 # closing no-vig from a synthetic cached game (best-across-books, same-point pairing)
 game={"away_team":"Texas Rangers","home_team":"Tampa Bay Rays","bookmakers":[
  {"title":"A","markets":[

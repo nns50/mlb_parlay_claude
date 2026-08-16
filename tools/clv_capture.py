@@ -129,8 +129,16 @@ def classify_leg(leg, typ):
     """→ (kind, info): kind ∈ h2h | totals | spreads | manual | skip.
     totals info = ('Over'|'Under', point); spreads info = signed point (e.g. -1.5)."""
     t = (typ or "").lower()
-    l = (leg or "").lower().replace("−", "-")
-    if "parlay" in t or "×" in (leg or ""):
+    # The [adj: …] ledger tag is METADATA, never leg content, and must be stripped
+    # before ANY branch test reads the leg text. Two live misroutes it caused:
+    # 'GLOBAL_SHRINK×0.5' (stamped by truep.py into every governed leg since the
+    # shrink armed 8/12/26) tripped the '×' ticket-join test, silently skipping all
+    # 26 such rows — which is why adj:wind_out_over read 0+/0− CLV across 22 legs;
+    # and 'own_sp_hi+2.5' tripped the run-line test, routing an ML leg to spreads.
+    # (Found 8/16 Build C.)
+    leg = re.sub(r"\[adj:[^\]]*\]", "", leg or "")
+    l = leg.lower().replace("−", "-")
+    if "parlay" in t or "×" in leg:
         return "skip", "parlay ticket — no single closing line"
     # LEG-TEXT evidence outranks the free-text Type column: a player prop with a loose
     # type (e.g. just "HR") must never fall into the game-totals branch off its
