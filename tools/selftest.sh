@@ -773,6 +773,32 @@ for i,ln in enumerate(open('results_log.md'),1):
 assert not bad, 'rows with wrong column count (injected pipes): %r'%bad[:5]
 "
 
+# ── 13g. NO STRANDED LEDGER ROWS (offline) ───────────────────────────────────
+# 8/16/26: 32 main-schema leg rows (8/15 x22, 8/16 x10) were appended under
+# '### Angle B' instead of '## Recommended but NOT played'. Every consumer —
+# calib.py, pulse.py, clv_capture.py, generate_dashboard.py — reads ONLY the
+# '## Played legs' + '## Recommended but NOT played' sections, so those rows
+# were invisible: calib scored 239 legs instead of 244, the governor ran a
+# 125-leg window instead of 130, and clv_capture reported "no open TBD legs
+# with missing CLV" while ten of them sat blank. 13d/13e assert row COUNTS and
+# FIELD parsing; neither can see a row that is never offered to the parser.
+# This asserts the complement: no 11-column leg row may live outside the two
+# parsed sections. A stranded row is silent data loss, not a formatting nit.
+echo "13g. no stranded ledger rows outside the parsed sections"
+DESC="every 11-col leg row lives in '## Played legs' or '## Recommended but NOT played'"
+runblk python3 -c "
+import re
+SEC=('## Played legs','## Recommended but NOT played')
+cur=None; bad=[]
+for i,ln in enumerate(open('results_log.md',encoding='utf-8'),1):
+    if ln.startswith('## '):
+        cur=next((s for s in SEC if ln.startswith(s)), None)
+    if ln.count('|')==12 and re.match(r'\| +\d+/\d+ +\|', ln) and cur is None:
+        bad.append((i, ln.split('|')[1].strip()))
+assert not bad, ('%d leg row(s) stranded outside the parsed sections '
+                 '(line, date): %r' % (len(bad), bad[:8]))
+"
+
 # ── 14. ONLINE (free StatsAPI only): resolver collision regression ───────────
 if [[ $QUICK -eq 0 ]]; then
   echo "14. mlb_api resolver (live StatsAPI — free, no odds quota)"
