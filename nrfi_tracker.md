@@ -1233,7 +1233,7 @@ all 15 rows go to the ledger as model-only calibration.
 | 8/16 | KC @ LAA (Cameron/Johnson) | YRFI | 59% | _model-only_ | **L** (1st 0-0 → NRFI) | Johnson 6.71/1.56 is the worst line among today's probables. |
 | 8/16 | MIL @ LAD (Henderson/Skubal) | NRFI | 57% | _model-only_ | **W** (1st 0-0 → NRFI) | Best pitching matchup on the board — two sub-0.95 WHIPs. |
 | 8/16 | SEA @ HOU (Woo/Brown) | NRFI | 52% | **real line pulled 16:00: YRFI +118 / NRFI −150 BetMGM → no-vig NRFI 56.7%** | **L** (1st 1-0 → YRFI) | Woo 1.10 in a dome; Brown's 1.27 is the softer half. ⚠ **16:00 verification: HOU lineup CONFIRMED, SEA still PENDING.** **NO BET — our 52% model read sits UNDER the market's 56.7%**, i.e. the market is more confident in NRFI than we are, so there is no edge on either side. Model-only stands. |
-| 8/17 | STL @ CIN G1 (Mathews/Emanuel-BULLPEN) | YRFI | 62% | _model-only_ | TBD | ⭐ Two arms with no starting workload (Emanuel 0 career GS; Mathews 1 GS) at GABP, 81°F, 5mph out to LF. ⛔ E5 on the CIN side. |
+| 8/17 | STL @ CIN G1 (Mathews/Emanuel-BULLPEN) | YRFI | 62% | _model-only_ | **W** | ⭐ Two arms with no starting workload (Emanuel 0 career GS; Mathews 1 GS) at GABP, 81°F, 5mph out to LF. ⛔ E5 on the CIN side. |
 | 8/17 | STL @ CIN G2 (Pallante/Lowder) | YRFI | 58% | _model-only_ | TBD | Lowder 5.15/1.48 at GABP. ⚠ Counter: his last three starts are 2 ER apiece. |
 | 8/17 | BAL @ TB (Young/McClanahan) | NRFI | 54% | _model-only_ | TBD | McClanahan 3.09/1.12 is a real NRFI arm; Trop dome removes weather. Young's 1.32 is the softer half. |
 | 8/17 | MIA @ PHI (Junk/Sánchez) | NRFI | 55% | _model-only_ | TBD | ⭐ Strongest NRFI: Sánchez 2.54/1.19 with 10.46 K/9 vs the weaker top-of-order. |
