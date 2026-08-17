@@ -56,6 +56,28 @@ Its own ledger lives here; the dashboard renders it from this file.
 | CWS @ CHC | **Castillo 4.96/1.35** · Imanaga 3.74/1.10 | **YRFI** | 56% | Castillo at 4.96/1.35 at Wrigley. ⚠ Wind PENDING, so the park half is unresolved. |
 | **LAD @ COL** | **Snell 5.00 (9.0 IP, 2 GS)** · Sugano 4.43/1.25, **5.23 K/9** | **YRFI** | 64% | ⭐ **Board's strongest.** Coors is the tracker's auto-YRFI tilt, the Dodger 1-2-3 is the best on the slate, and Sugano's 5.23 K/9 means contact from pitch one. |
 
+> ### ⟵ 16:00 BUILD B RE-CHECK (lineups locked, weather at 9 of 11 parks)
+>
+> | Game | 11:00 | **16:00** | What changed |
+> |---|---|---|---|
+> | AZ @ BOS | YRFI 57% | **YRFI 54%** | ⛔ **E4 resolved into E5** — Boston's TBA is **Alec Gamboa, 0 GS / 17.0 IP**. His **1.59 ERA / 1.12 WHIP** is a *reliever's* line and is BETTER than the placeholder the 11:00 read assumed, so the YRFI lean weakens. Fenway 5 mph In From CF. |
+> | ATL @ MIN | YRFI 55% | **YRFI 57%** | Target Field posts the board's strongest wind — **10 mph Out To CF, 83°F**. |
+> | MIA @ PHI | NRFI 55% | **NRFI 53%** | CBP **86°F, 6 mph Out To RF** cuts against the NRFI; Sánchez's 10.46 K/9 is why it stays a lean. |
+> | SD @ NYM | YRFI 55% | **YRFI 53%** | Citi **6 mph In From CF** suppresses; McLean 10.47 K/9 on the other half. |
+> | DET @ PIT | YRFI 55% | **YRFI 56%** | PNC 6 mph Out To RF partly offsets the pitcher park. |
+> | ATH @ KC | YRFI 57% | **YRFI 56%** | Kauffman 3 mph In From CF (light). ⛔ Barnett confirmed **E5** — 3 GS / 38.0 IP, ratio 12.7. |
+> | BAL @ TB · CWS @ CHC · LAD @ COL · G2 | — | **hold** | Trop dome confirmed 0 mph; Wrigley 3 mph **R To L** crosswind fires no tag; Coors + G2 weather still PENDING. |
+>
+> ⛔ **The board-best read was PRICED and it does not clear.** **LAD @ COL YRFI** — 1st-inning **Over 0.5
+> −140** best (Caesars/BetMGM) / Under +110, **hold 5.9% → no-vig 55.1%**. Anchored per CLAUDE.md (market
+> no-vig + written tags, never a bare model number), the only available tag is `hitter_park_over` +3→**+1.5**
+> — **Coors weather is still PENDING so no wind tag is readable** — giving **TrueP 56.6%, +1.5pp: UNDER the
+> +2pp gate.** `market_disagrees` on the 9pp gap would push it negative. **Model-only, NO BET.** ⚠ The
+> calibration note worth keeping: *the first tracker lean ever carried to a real price disagreed with the
+> market by 9pp in our favour, and the disciplined read is that the market is right.*
+>
+> **Slate shape after re-check: 2 NRFI / 9 YRFI (unchanged). No read is bet.**
+
 **Slate shape: 2 NRFI / 9 YRFI.** The tilt is driven by four probables at or above 4.88 ERA (Lowder
 5.15, Barnett 6.16, Castillo 4.96, Buehler 4.88) plus Coors and two Great American games. ⚠ **Per the
 method note above, the two NRFI leans rest on WHIP (1.12, 1.19) rather than ERA, and the two strongest
