@@ -31,6 +31,31 @@ Its own ledger lives here; the dashboard renders it from this file.
 
 ## Tonight's reads — 2026-08-18 (15-game slate; model-only at 11:00 — the priced `totals_1st_1_innings` sweep is the 16:00 run)
 
+> ### 🔄 16:00 Build B re-check — reads RE-VERIFIED against posted lineups, two E4 halves resolved
+>
+> **`nrfi_settle.py 2026-08-18 --apply` returned 0 settles: no game has started** (all 15 `Pre-Game`
+> or `Scheduled` at 16:10 ET; first pitch 18:36 ET). **All 15 reads remain open — 5 NRFI / 10 YRFI.**
+>
+> **Lineups re-checked for leadoff/1-2-3 scratches: none found.** Every posted card matches the
+> top-of-order the morning leans were built on, so **no TrueP is adjusted.**
+>
+> ⛔ **Two E4-flagged halves resolved — and BOTH resolved into bullpen games, which changes the reads
+> rather than completing them.** **ATH @ KC**'s unlisted probable is **Daniel Lynch IV — 2 GS across
+> 50.0 IP, with no outing above 2.1 IP since mid-June**; **CWS @ CHC**'s is **Bryan Hudson — 6 GS
+> across 51.2 IP, last twelve appearances all ≤1.1 IP.** ⚠ **A reliever opening is a genuinely
+> different first-inning object from a starter, and it cuts BOTH ways: a fresh arm's single inning is
+> often his sharpest, but he is also the staff's least-protected option against the top of the order.**
+> **Both reads are therefore held at their morning numbers and flagged `E5 — opener`, not upgraded on
+> the resolution.** This is the same trap as the MIA @ PHI row, where Cade Gibson (0 GS) was already
+> tagged an opener at 11:00.
+>
+> ⛔ **No 1st-inning total is promoted to a bet.** Consistent with every prior run, **no
+> `totals_1st_1_innings` line on the board clears the +2pp gate** against a market-anchored TrueP, so
+> all 15 stay **model-only**. ⚠ **The 8/17 LAD @ COL row remains the cautionary case: the one read ever
+> priced was the board's strongest lean, the market said 55.1% and we wrote 56.6% — under the gate, and
+> correctly declined.** The tracker's 55% lifetime hit rate is a **model** record, not a betting one,
+> and the gap between those two things is the whole reason these stay un-bet.
+
 > **✅ 8/17 AUTO-SETTLED at session start** — 11 rows stamped off `linescore.innings[0]` by
 > `nrfi_settle.py --apply`. **Record now 232-190 (55%)** (NRFI 119-92 · YRFI 113-98).
 >
