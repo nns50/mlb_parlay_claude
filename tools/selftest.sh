@@ -771,6 +771,22 @@ else:
     assert 'wind_out_over+4' in o, o
 "
 
+DESC="truep.py --adj: repeated flags and the comma form give IDENTICAL output (silent-drop guard)"
+runblk python3 -c "
+import subprocess,sys
+# 8/17-8/18 burn: --adj was a plain default='' string, so argparse's last-wins behaviour
+# silently DISCARDED every earlier --adj flag. The tool printed a clean, plausible, WRONG
+# TrueP and a clean, plausible, WRONG [adj: ...] ledger tag -- corrupting calib.py 1c too.
+def run(*a):
+    return subprocess.run([sys.executable,'tools/truep.py','--base-prob','60']+list(a),
+                          capture_output=True,text=True).stdout
+repeated = run('--adj','ace_edge','--adj','~own_sp_hi','--adj','opponent_driven')
+comma    = run('--adj','ace_edge,~own_sp_hi,opponent_driven')
+assert repeated == comma, 'repeated --adj flags must not drop tags:\\n'+repeated+'\\n---\\n'+comma
+for tag in ('ace_edge','own_sp_hi','opponent_driven'):
+    assert tag in repeated, tag+' missing from repeated-flag output'
+"
+
 DESC="no 8/6+ ledger row has a broken column count (13 fields)"
 runblk python3 -c "
 import sys

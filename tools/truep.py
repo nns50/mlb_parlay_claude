@@ -116,7 +116,13 @@ def governor_shrink():
 def main():
     ap = argparse.ArgumentParser(description="Derive a pre-registered TrueP from baseline + fixed adjustments.")
     ap.add_argument("--base-prob", type=float, help="market NO-VIG prob in %% (from devig.sh)")
-    ap.add_argument("--adj", default="", help="comma-separated named adjustments (see --list)")
+    # action="append" (not a bare default) so that BOTH invocation forms work:
+    #   --adj a,b,c        (comma-separated, the documented form)
+    #   --adj a --adj b    (repeated flag — argparse would otherwise keep only the LAST,
+    #                       silently dropping every earlier tag and mis-pricing the leg).
+    # That silent drop was a real mis-price on 8/17/26; see results_log.md "TOOLING TRAP".
+    ap.add_argument("--adj", action="append", default=[],
+                    help="named adjustments (see --list) — comma-separated and/or repeatable")
     ap.add_argument("--custom", action="append", default=[], help='ad-hoc "+N:reason" (repeatable)')
     ap.add_argument("--list", action="store_true", help="print the adjustment registry and exit")
     ap.add_argument("--no-governor", action="store_true",
@@ -135,7 +141,7 @@ def main():
     base = args.base_prob
     applied = []  # (label, pp)
 
-    names = [a.strip() for a in args.adj.split(",") if a.strip()]
+    names = [a.strip() for chunk in args.adj for a in chunk.split(",") if a.strip()]
     resolved = []  # (tag_name, signed_pp) — mirrors flip the sign, tag carries the applied sign
     for n in names:
         mirrored = n.startswith("~")
