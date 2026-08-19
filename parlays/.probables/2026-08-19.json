@@ -1,0 +1,167 @@
+[
+ {
+  "pk": 823342,
+  "state": "Preview",
+  "detail": "Pre-Game",
+  "away": "Detroit Tigers",
+  "away_sp_id": 695549,
+  "away_sp": "Jackson Jobe",
+  "home": "Pittsburgh Pirates",
+  "home_sp_id": 694973,
+  "home_sp": "Paul Skenes"
+ },
+ {
+  "pk": 823587,
+  "state": "Preview",
+  "detail": "Pre-Game",
+  "away": "San Diego Padres",
+  "away_sp_id": 650633,
+  "away_sp": "Michael King",
+  "home": "New York Mets",
+  "home_sp_id": 476594,
+  "home_sp": "Robert Stock"
+ },
+ {
+  "pk": 823664,
+  "state": "Preview",
+  "detail": "Pre-Game",
+  "away": "Atlanta Braves",
+  "away_sp_id": 700363,
+  "away_sp": "AJ Smith-Shawver",
+  "home": "Minnesota Twins",
+  "home_sp_id": 671737,
+  "home_sp": "Taj Bradley"
+ },
+ {
+  "pk": 824640,
+  "state": "Preview",
+  "detail": "Pre-Game",
+  "away": "Chicago White Sox",
+  "away_sp_id": 656794,
+  "away_sp": "Sean Newcomb",
+  "home": "Chicago Cubs",
+  "home_sp_id": 605280,
+  "home_sp": "Clay Holmes"
+ },
+ {
+  "pk": 824722,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "Arizona Diamondbacks",
+  "away_sp_id": 694297,
+  "away_sp": "Brandon Pfaadt",
+  "home": "Boston Red Sox",
+  "home_sp_id": 801139,
+  "home_sp": "Payton Tolle"
+ },
+ {
+  "pk": 823424,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "Miami Marlins",
+  "away_sp_id": 645261,
+  "away_sp": "Sandy Alcantara",
+  "home": "Philadelphia Phillies",
+  "home_sp_id": 605400,
+  "home_sp": "Aaron Nola"
+ },
+ {
+  "pk": 824801,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "New York Yankees",
+  "away_sp_id": 701542,
+  "away_sp": "Will Warren",
+  "home": "Baltimore Orioles",
+  "home_sp_id": 605135,
+  "home_sp": "Chris Bassitt"
+ },
+ {
+  "pk": 824394,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "San Francisco Giants",
+  "away_sp_id": 683363,
+  "away_sp": "Matt Wilkinson",
+  "home": "Cleveland Guardians",
+  "home_sp_id": 800048,
+  "home_sp": "Parker Messick"
+ },
+ {
+  "pk": 824476,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "St. Louis Cardinals",
+  "away_sp_id": 669461,
+  "away_sp": "Matthew Liberatore",
+  "home": "Cincinnati Reds",
+  "home_sp_id": 695505,
+  "home_sp": "Chase Burns"
+ },
+ {
+  "pk": 822937,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "Toronto Blue Jays",
+  "away_sp_id": 453286,
+  "away_sp": "Max Scherzer",
+  "home": "Tampa Bay Rays",
+  "home_sp_id": 656876,
+  "home_sp": "Drew Rasmussen"
+ },
+ {
+  "pk": 824076,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "Athletics",
+  "away_sp_id": null,
+  "away_sp": null,
+  "home": "Kansas City Royals",
+  "home_sp_id": null,
+  "home_sp": null
+ },
+ {
+  "pk": 823748,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "Seattle Mariners",
+  "away_sp_id": 669302,
+  "away_sp": "Logan Gilbert",
+  "home": "Milwaukee Brewers",
+  "home_sp_id": 669160,
+  "home_sp": "Dustin May"
+ },
+ {
+  "pk": 822860,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "Washington Nationals",
+  "away_sp_id": 676917,
+  "away_sp": "Cade Cavalli",
+  "home": "Texas Rangers",
+  "home_sp_id": 677958,
+  "home_sp": "Kumar Rocker"
+ },
+ {
+  "pk": 824155,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "Los Angeles Angels",
+  "away_sp_id": 700712,
+  "away_sp": "Walbert Ure\u00f1a",
+  "home": "Houston Astros",
+  "home_sp_id": 814490,
+  "home_sp": "Ethan Pecko"
+ },
+ {
+  "pk": 824318,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "Los Angeles Dodgers",
+  "away_sp_id": 808963,
+  "away_sp": "Roki Sasaki",
+  "home": "Colorado Rockies",
+  "home_sp_id": 607536,
+  "home_sp": "Kyle Freeland"
+ }
+]

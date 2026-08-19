@@ -41,9 +41,32 @@ import sys
 #     shows only n=15 unique legs (7-8, 47%, skill −0.0057, CLV 3+/9−). Under the bar →
 #     belief unchanged per doctrine; pulse.py already MARKET-SHADEs its per-build
 #     exposure. AUTO-REVIEW when §1c shows n≥20 unique: cut to +1 if skill still <0.
+#
+# Registry v3 (8/19/26 — the scheduled ace_edge auto-review, plus two park/weather
+# verdicts, all read off calib.py §1c AFTER the GLOBAL_SHRINK× parsing bug was fixed
+# in pulse/calib/settle the same run; before that fix §1c and §1b were scoring a
+# BIASED SUBSAMPLE, so these are the first registry calls made on the full ledger):
+#   • ace_edge  → OFF WATCH, STAYS +3. The auto-review triggered at n=20 unique and
+#     the verdict is the opposite of the watch's expectation: 12-8 (60%), skill
+#     +0.0008/leg. Positive, so the scheduled cut-to-+1 does NOT fire. It is the
+#     thinnest possible pass (+0.0008 is ~zero) — re-review at n≥30, cut then if it
+#     has not separated from zero.
+#   • wind_out_over  → CUT +4 → 0 (RETIRED to narrative-only). Second consecutive
+#     review past the evidence bar and still negative: n=28, 13-15 (46%) against a
+#     ~53% claim, skill −0.0025/leg, and CLV coverage 0+/0− — we have never once seen
+#     this tag's close. A tag that is measurably negative AND unmeasurable at the
+#     close has no business pricing a leg. Wind-out stays a *reason to look*; it
+#     contributes 0.0pp. (It priced 8/18's ATL/MIN Over 8.5, which lost by 3.5.)
+#   • hitter_park_over  → HALVED +3 → +1.5, ⚠ ON WATCH. First crossing of the bar
+#     (n=20) at exactly 10-10 / 50% vs a 53% claim, skill −0.0030. Graduated action
+#     per the ace_edge precedent: halve now, AUTO-CUT to 0 at n≥30 if skill is still
+#     <0. Do not stack it with pitcher_park_under's mirror.
+#   • custom cap UNCHANGED at ±3 (n=33, 15-18/45%, skill −0.0056 — still the worst
+#     class in the registry).
 ADJUSTMENTS = {
     "ace_edge":        (+3, "clear SP quality edge for our side (ERA/xFIP/form) "
-                            "[⚠ on watch: n=15 unique 47%/skill<0 — review at n≥20]"),
+                            "[✅ off watch 8/19: n=20 unique 12-8/60%, skill +0.0008 — "
+                            "auto-review cut did NOT fire; re-review at n≥30]"),
     "own_sp_hi":       (-5, "our fav's OWN SP ERA ~5.00+ / two-bad-SP shootout (fades D4)"),
     "fade_as_fav":     (-5, "team is on fades.md A-list (fade-as-favorite)"),
     "opponent_driven": (-4, "fav number is opponent-SP-driven, our team sub-.500/cold (D4 decompose)"),
@@ -60,9 +83,13 @@ ADJUSTMENTS = {
     # --- Park / weather / umpire (softer-market signal; NOISIER than SP/lineup —
     #     keep magnitudes modest and don't stack several. Pick the one matching your
     #     BET DIRECTION; each is framed as "aids <this side>". Use mlb_api.sh weather/ump.)
-    "wind_out_over":       (+4, "wind blowing OUT aids a total/team-total OVER (and HR)"),
+    "wind_out_over":       (0,  "⛔ RETIRED 8/19 (was +4) — wind OUT aids an OVER is a "
+                                "REASON TO LOOK, not a price: n=28, 13-15/46% vs a 53% "
+                                "claim, skill −0.0025, CLV coverage 0+/0−. Contributes 0.0pp"),
     "wind_in_under":       (+3, "wind IN / cold aids a total/team-total UNDER"),
-    "hitter_park_over":    (+3, "hitter-friendly park aids an OVER"),
+    "hitter_park_over":    (+1.5, "hitter-friendly park aids an OVER [⚠ HALVED 8/19 from "
+                                  "+3: n=20 10-10/50%, skill −0.0030 — auto-cut to 0 at n≥30 "
+                                  "if still <0]"),
     "pitcher_park_under":  (+3, "pitcher-friendly park aids an UNDER"),
     "cold_aids_kover":     (+3, "cold / wind-in aids a K-OVER (more whiffs)"),
     "hot_hurts_kover":     (-3, "hot / wind-out hurts a K-OVER"),
@@ -75,7 +102,8 @@ ADJUSTMENTS = {
 def fmt_registry():
     out = ["Adjustment registry (name: pp — description):"]
     for k, (pp, desc) in ADJUSTMENTS.items():
-        out.append(f"  {k:<18} {pp:+d}pp   {desc}")
+        # magnitudes may be fractional after a halving review (hitter_park_over 8/19)
+        out.append(f"  {k:<18} {pp:+g}pp  {desc}")
     out.append("  custom             ±N    ad-hoc, via --custom \"+N:reason\" (repeatable)")
     return "\n".join(out)
 

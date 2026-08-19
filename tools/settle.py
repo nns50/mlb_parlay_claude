@@ -531,7 +531,7 @@ def main():
         # Parlay/SGP ticket rows settle from their COMPONENT legs, never from one team's
         # final — without this guard a "TB ML × Rasmussen O5.5K" row settled off whichever
         # single leg parsed first (audit 8/1).
-        if "×" in leg or "parlay" in typ.lower():
+        if "×" in re.sub(r"\[adj:[^\]]*\]", "", leg) or "parlay" in typ.lower():
             proposals.append((leg, "MANUAL", "parlay ticket — settle from its component legs"))
             continue
         # K-props FIRST — compact notation ("Sánchez O7.5K") slips past PROP_HINT's \b and
