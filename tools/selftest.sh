@@ -756,19 +756,45 @@ _,acts=pulse.actions_for(rows)
 assert any('MARKET-SHADE' in a[0] for a in acts), 'a fully covered dimension must still shade'
 "
 
+DESC="the [adj: ...] tag's GLOBAL_SHRINK× is never read as a parlay-ticket join"
+runblk python3 -c "
+import sys; sys.path.insert(0,'tools')
+import pulse, calib, settle, clv_capture
+# 8/19 burn: truep.py stamps 'GLOBAL_SHRINK×0.5' into the ledger tag, and four tools
+# tested a raw '×' in the leg cell to detect parlay TICKET rows. From the day the
+# shrink armed (8/12) every governed leg was therefore classified as a ticket and
+# dropped -- pulse's window read 96 legs when it should have read 127, and its
+# GLOBAL SHRINK action was computed on a biased subsample of its own making.
+leg = 'SEA @ MIL Over 7.5 -114 [adj: wind_out_over+2.0, GLOBAL_SHRINK×0.5]'
+assert pulse.norm_type('Total', leg) == 'total', 'pulse dropped a shrunk leg as a ticket'
+assert pulse.norm_type('ML-fav', leg) == 'ML-fav'
+# a REAL ticket row (× joining two legs in the description) must still be excluded
+assert pulse.norm_type('ML-fav', 'TB ML × Rasmussen O5.5K') is None
+"
+
 DESC="truep.py applies the governor shrink automatically and stamps it in the ledger tag"
 runblk python3 -c "
 import subprocess,sys
-o=subprocess.run([sys.executable,'tools/truep.py','--base-prob','50','--adj','wind_out_over'],
+sys.path.insert(0,'tools')
+from truep import ADJUSTMENTS
+# read the magnitude from the REGISTRY, never hardcode it: the 8/19 review retired
+# wind_out_over to 0 and this assertion still said '+4', so a legitimate registry
+# rewrite broke a test about shrink stamping. Pick any nonzero tag at run time.
+TAG='pitcher_park_under'
+full=ADJUSTMENTS[TAG][0]
+assert full, TAG+' went to zero — pick another nonzero tag for this assertion'
+o=subprocess.run([sys.executable,'tools/truep.py','--base-prob','50','--adj',TAG],
                  capture_output=True,text=True).stdout
 assert 'Ledger tag' in o, o
+def shown(v):
+    return TAG+('%+g'%v)
 # whatever the governor says, the tag must be self-describing: either full magnitude or
 # an explicit shrink stamp — never a halved number that looks like a full one
 if 'GLOBAL SHRINK APPLIED' in o:
     assert 'GLOBAL_SHRINK' in o, 'shrunk run must stamp the haircut into the [adj: ...] tag'
-    assert 'wind_out_over+2' in o, o
+    assert shown(full/2) in o, o
 else:
-    assert 'wind_out_over+4' in o, o
+    assert shown(full) in o, o
 "
 
 DESC="truep.py --adj: repeated flags and the comma form give IDENTICAL output (silent-drop guard)"

@@ -68,7 +68,15 @@ EPOCH_RX = re.compile(r"<!--\s*ledger-epoch:\s*(\d{4})\s*-->")
 
 def norm_type(typ, leg):
     t = (typ or "").lower()
-    if "parlay" in t or "×" in (leg or ""):
+    # Strip the machine-written [adj: …] ledger tag BEFORE the '×' ticket test: truep.py
+    # stamps 'GLOBAL_SHRINK×0.5' into it, and the raw '×' test then classified every
+    # governed leg as a parlay ticket and dropped it from the window entirely. Since the
+    # shrink armed 8/12 that silently hid EVERY tagged leg from the governor — pulse read
+    # adj:wind_out_over as 7-7 while calib.py read 13-15 off the same rows. clv_capture.py
+    # carried this fix from 8/16; it was never propagated here or to calib/settle.
+    # (Found 8/19 Build A.)
+    leg = re.sub(r"\[adj:[^\]]*\]", "", leg or "")
+    if "parlay" in t or "×" in leg:
         return None                     # tickets are outcomes of legs, not a dimension
     kp = parse_kprop(leg or "")
     if kp or "k-over" in t or "k-under" in t:

@@ -302,8 +302,10 @@ def main():
         for c in rows:
             if len(c) < 8:
                 continue
-            if "×" in c[1] or "parlay" in c[2].lower():   # leg-level only (no ticket rows)
-                continue
+            # strip the [adj: …] tag first — 'GLOBAL_SHRINK×0.5' is not a parlay join
+            # (same bug clv_capture.py fixed 8/16; propagated here 8/19)
+            if "×" in re.sub(r"\[adj:[^\]]*\]", "", c[1]) or "parlay" in c[2].lower():
+                continue                                   # leg-level only (no ticket rows)
             truep, starred = parse_pct(c[4])
             implp, _ = parse_pct(c[5])
             res = parse_result(c[7])
