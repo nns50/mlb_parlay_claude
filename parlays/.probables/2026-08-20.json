@@ -1,0 +1,101 @@
+[
+ {
+  "pk": 824474,
+  "state": "Preview",
+  "detail": "Pre-Game",
+  "away": "St. Louis Cardinals",
+  "away_sp_id": 700241,
+  "away_sp": "Michael McGreevy",
+  "home": "Cincinnati Reds",
+  "home_sp_id": 663903,
+  "home_sp": "Brady Singer"
+ },
+ {
+  "pk": 824395,
+  "state": "Preview",
+  "detail": "Pre-Game",
+  "away": "San Francisco Giants",
+  "away_sp_id": 694738,
+  "away_sp": "Landen Roupp",
+  "home": "Cleveland Guardians",
+  "home_sp_id": 668909,
+  "home_sp": "Gavin Williams"
+ },
+ {
+  "pk": 822934,
+  "state": "Preview",
+  "detail": "Pre-Game",
+  "away": "Toronto Blue Jays",
+  "away_sp_id": 669456,
+  "away_sp": "Shane Bieber",
+  "home": "Tampa Bay Rays",
+  "home_sp_id": 693855,
+  "home_sp": "Ian Seymour"
+ },
+ {
+  "pk": 824074,
+  "state": "Preview",
+  "detail": "Pre-Game",
+  "away": "Athletics",
+  "away_sp_id": 695611,
+  "away_sp": "Gage Jump",
+  "home": "Kansas City Royals",
+  "home_sp_id": 677976,
+  "home_sp": "Randy Dobnak"
+ },
+ {
+  "pk": 824589,
+  "state": "Preview",
+  "detail": "Pre-Game",
+  "away": "Atlanta Braves",
+  "away_sp_id": 656550,
+  "away_sp": "Grant Holmes",
+  "home": "Chicago White Sox",
+  "home_sp_id": 641743,
+  "home_sp": "Anthony Kay"
+ },
+ {
+  "pk": 823747,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "Seattle Mariners",
+  "away_sp_id": 669923,
+  "away_sp": "George Kirby",
+  "home": "Milwaukee Brewers",
+  "home_sp_id": 688107,
+  "home_sp": "Robert Gasser"
+ },
+ {
+  "pk": 824802,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "New York Yankees",
+  "away_sp_id": 543037,
+  "away_sp": "Gerrit Cole",
+  "home": "Baltimore Orioles",
+  "home_sp_id": 680694,
+  "home_sp": "Kyle Bradish"
+ },
+ {
+  "pk": 822861,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "Washington Nationals",
+  "away_sp_id": 674841,
+  "away_sp": "Andrew Alvarez",
+  "home": "Texas Rangers",
+  "home_sp_id": 594798,
+  "home_sp": "Jacob deGrom"
+ },
+ {
+  "pk": 824153,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "Los Angeles Angels",
+  "away_sp_id": 680570,
+  "away_sp": "Grayson Rodriguez",
+  "home": "Houston Astros",
+  "home_sp_id": 663567,
+  "home_sp": "Peter Lambert"
+ }
+]
