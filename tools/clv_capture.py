@@ -138,7 +138,12 @@ def classify_leg(leg, typ):
     # (Found 8/16 Build C.)
     leg = re.sub(r"\[adj:[^\]]*\]", "", leg or "")
     l = leg.lower().replace("−", "-")
-    if "parlay" in t or "×" in leg:
+    # An explicit single-leg Type column also protects against the '×' test, which
+    # scans the whole narrative cell: a leg whose prose CITES another construction
+    # ("pushed Tier 3 (AZ × CLE) out of the band", "ticket.py ranked CLE × TEX #1")
+    # is not itself a parlay, and on 8/22 that cost the AZ and TEX rows their close.
+    explicit_single = bool(re.fullmatch(r"ml(-(fav|dog))?", t))
+    if "parlay" in t or ("×" in leg and not explicit_single):
         return "skip", "parlay ticket — no single closing line"
     # LEG-TEXT evidence outranks the free-text Type column: a player prop with a loose
     # type (e.g. just "HR") must never fall into the game-totals branch off its
@@ -146,6 +151,17 @@ def classify_leg(leg, typ):
     # ("… Over 8.5", no stat word) still pass through to the totals branch below.
     if _parse_kprop(leg or "") or _parse_hprop(leg or ""):
         return "manual", "player prop — closes via the live props feed (paid tier)"
+    # An EXPLICIT ML type column outranks the loose prose heuristics below. Those
+    # heuristics scan the whole narrative cell, and an ML leg's reasoning routinely
+    # quotes an SP's "10.69 K/9" or a "hits-allowed" counter-signal — which tripped
+    # the K-token / 'hits' tests and sent the leg to manual, so it never closed.
+    # On 8/22 this silently blanked EVERY ML row on the board (all five card legs
+    # cite a K/9), i.e. it is a direct cause of type:ML-fav sitting at 35% CLV
+    # coverage and printing ⚠ MEASUREMENT-BLIND in pulse.py. The real-prop guard is
+    # the parse_kprop/parse_hprop test above, which requires an actual
+    # Over/Under <n> <stat> token and still runs first. (Found 8/22 Build C.)
+    if re.fullmatch(r"ml(-(fav|dog))?", t):
+        return "h2h", None
     if (re.search(r"k-over|k-under|hitter|prop", t)
             or re.search(r"\d+(?:\.\d+)?\s*k\b", l)
             or "hits" in l or "team total" in l or re.search(r"\btt\b", l)):
