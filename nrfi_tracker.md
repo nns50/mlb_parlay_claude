@@ -49,6 +49,31 @@ Its own ledger lives here; the dashboard renders it from this file.
 > ⚠ **Registry state unchanged:** `wind_out_over` RETIRED (0.0pp), `hitter_park_over` HALVED at +1.5, the −5pp YRFI
 > correction RETIRED. Today's reads are **raw model, no correction**.
 >
+> ### ⚙ 16:00 BUILD B — THE PRICED SWEEP RAN, AND IT REACHED EXACTLY ONE GAME
+>
+> ⛔ **Fourteen of fifteen games were past the status gate at 16:07 ET** (ten `In Progress`, four `Warmup`),
+> so the `totals_1st_1_innings` sweep this section promised at 11:00 could only be run on **ATL @ MIL**.
+> The other fourteen reads stay **model-only and unpriced**; they settle tonight off `linescore.innings[0]`
+> and still count toward the record, but none was ever bettable at this firing.
+>
+> ⭐ **ATL @ MIL priced — and it is the closest leg on the entire board today, missing the gate by 0.1pp.**
+> Model **56.0%** (pre-registered here at 11:00, before any price existed). Three books posted it:
+> Caesars +110/−140 (U no-vig **55.1%**), BetMGM +105/−135 (U **54.1%**), BetRivers −106/−125 (U **51.9%**).
+> **Consensus = median of each book's own pair = 54.1%** → edge **+1.9pp** against the tracker's own **+2pp**
+> promotion rule. ⛔ **NOT PROMOTED.** The cross-book best-pair devig reads 53.8% and would clear at +2.2pp,
+> and that route is refused per the 8/12 audit — **line-shopping is vig reduction, not edge**. At the actual
+> −125 the vig-included EV is **+0.4pp**: action, not value.
+>
+> ⚠ **Two structural cautions worth carrying forward.** (1) **`type:nrfi` carries CLV 0+/0− in the pulse
+> window — this dimension has never once been measured against a close**, so its 55% lifetime record says
+> the model is directionally decent and says *nothing* about whether it beats a price. (2) **The three books
+> disagreed by 3.2pp** on this market; "consensus" is a thin concept at first-inning liquidity.
+>
+> ✔ **The 11:00 counter-signal on this read RESOLVED IN ITS FAVOUR:** Drohan's 2.0 IP outing was **8/18 in a
+> 22-0 Milwaukee win** — nobody is hooked for performance in that game state — **and C3 is a START-LENGTH
+> gate, which is structurally irrelevant to a first-inning market.** ⚠ It remains unlockable anyway:
+> **Atlanta's lineup is PENDING**, and the top of the 1st is decided by Atlanta's 1-2-3. Re-verify at 18:00.
+>
 | Game | Lean | TrueP | Why |
 |---|---|---|---|
 | CHC @ SEA (Imanaga/B.Miller) | **NRFI** | **62%** | ⭐ **Board's strongest lean.** The two lowest WHIPs on the slate face each other — **Imanaga 1.09** (last four 6.2/5.0/4.2/6.0 IP, 10 K in his last start) and **Bryce Miller 1.04** — inside **T-Mobile Park, the most run-suppressing venue on the board**, retractable roof. ⚠ Counter-signal stated: Miller's 1.04 is **stale-LOW** — his last three read 15.2 IP / 14 ER = 8.04 — so half of this read rests on a number the E2 gate distrusts. |
