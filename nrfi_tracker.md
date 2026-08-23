@@ -1095,21 +1095,21 @@ all 15 rows go to the ledger as model-only calibration.
 
 | Date | Matchup | Pick | TrueP | Price | Result | Reasoning (why this pick) |
 |------|---------|------|-------|-------|--------|----------------------------|
-| 8/23 | CHC @ SEA (Imanaga/B.Miller) | NRFI | 62% | _model-only_ | TBD | ⭐ **Board's strongest lean. |
-| 8/23 | CLE @ COL (Griffin/Sugano) | YRFI | 63% | _model-only_ | TBD | **Coors is the auto-YRFI tilt and nothing here fights it. |
-| 8/23 | LAA @ TEX (Kikuchi/Quantrill) | YRFI | 60% | _model-only_ | TBD | **Kikuchi has not pitched since April 29** — a four-month absence — and his last logged line was **5. |
-| 8/23 | WSH @ MIA (Kent/Junk) | YRFI | 60% | _model-only_ | TBD | **Jackson Kent has walked 8 in 7. |
-| 8/23 | CIN @ AZ (Abbott/Bratt) | YRFI | 59% | _model-only_ | TBD | Two of the three highest WHIPs among today's priceable starters — **Abbott 1. |
-| 8/23 | TB @ BAL (N.Martinez/Baz) | YRFI | 59% | _model-only_ | TBD | **Nick Martinez's 3. |
-| 8/23 | SF @ BOS (Wilkinson/Bennett) | YRFI | 58% | _model-only_ | TBD | **Matt Wilkinson has thrown 2. |
-| 8/23 | ATH @ HOU (Basso/Javier) | YRFI | 57% | _model-only_ | TBD | **Cristian Javier at 6. |
-| 8/23 | TOR @ NYY (Soriano/Rodón) | YRFI | 57% | _model-only_ | TBD | **Rodón's first start back from a seven-week absence went 4. |
-| 8/23 | PIT @ LAD (Bachar/Snell) | YRFI | 56% | _model-only_ | TBD | **Pittsburgh are running an opener** — Lake Bachar's last six outings are 3. |
-| 8/23 | DET @ KC (Waguespack/Lynch IV) | NRFI | 57% | _model-only_ | TBD | **Both clubs are running bullpen games** — Waguespack has **0 starts in 27. |
-| 8/23 | STL @ PHI (Leahy/C.Sánchez) | NRFI | 56% | _model-only_ | TBD | **Cristopher Sánchez 2. |
-| 8/23 | MIN @ SD (Ober/Buehler) | NRFI | 57% | _model-only_ | TBD | **Petco Park** is the second-most suppressing venue on the board and both tops are quiet — Minnesota are 63-67 with a −47 run differential. |
+| 8/23 | CHC @ SEA (Imanaga/B.Miller) | NRFI | 62% | _model-only_ | **L** (1st 0-1 → YRFI) | ⭐ **Board's strongest lean. |
+| 8/23 | CLE @ COL (Griffin/Sugano) | YRFI | 63% | _model-only_ | **W** (1st 3-0 → YRFI) | **Coors is the auto-YRFI tilt and nothing here fights it. |
+| 8/23 | LAA @ TEX (Kikuchi/Quantrill) | YRFI | 60% | _model-only_ | **L** (1st 0-0 → NRFI) | **Kikuchi has not pitched since April 29** — a four-month absence — and his last logged line was **5. |
+| 8/23 | WSH @ MIA (Kent/Junk) | YRFI | 60% | _model-only_ | **W** (1st 0-1 → YRFI) | **Jackson Kent has walked 8 in 7. |
+| 8/23 | CIN @ AZ (Abbott/Bratt) | YRFI | 59% | _model-only_ | **L** (1st 0-0 → NRFI) | Two of the three highest WHIPs among today's priceable starters — **Abbott 1. |
+| 8/23 | TB @ BAL (N.Martinez/Baz) | YRFI | 59% | _model-only_ | **L** (1st 0-0 → NRFI) | **Nick Martinez's 3. |
+| 8/23 | SF @ BOS (Wilkinson/Bennett) | YRFI | 58% | _model-only_ | **W** (1st 2-0 → YRFI) | **Matt Wilkinson has thrown 2. |
+| 8/23 | ATH @ HOU (Basso/Javier) | YRFI | 57% | _model-only_ | **W** (1st 0-3 → YRFI) | **Cristian Javier at 6. |
+| 8/23 | TOR @ NYY (Soriano/Rodón) | YRFI | 57% | _model-only_ | **L** (1st 0-0 → NRFI) | **Rodón's first start back from a seven-week absence went 4. |
+| 8/23 | PIT @ LAD (Bachar/Snell) | YRFI | 56% | _model-only_ | **W** (1st 0-1 → YRFI) | **Pittsburgh are running an opener** — Lake Bachar's last six outings are 3. |
+| 8/23 | DET @ KC (Waguespack/Lynch IV) | NRFI | 57% | _model-only_ | **L** (1st 1-0 → YRFI) | **Both clubs are running bullpen games** — Waguespack has **0 starts in 27. |
+| 8/23 | STL @ PHI (Leahy/C.Sánchez) | NRFI | 56% | _model-only_ | **L** (1st 1-0 → YRFI) | **Cristopher Sánchez 2. |
+| 8/23 | MIN @ SD (Ober/Buehler) | NRFI | 57% | _model-only_ | **W** (1st 0-0 → NRFI) | **Petco Park** is the second-most suppressing venue on the board and both tops are quiet — Minnesota are 63-67 with a −47 run differential. |
 | 8/23 | ATL @ MIL (Mahle/Drohan) | NRFI | 56% | _model-only_ | TBD | **Mahle's 4. |
-| 8/23 | NYM @ CWS (McLean/Newcomb) | NRFI | 55% | _model-only_ | TBD | **McLean 3. |
+| 8/23 | NYM @ CWS (McLean/Newcomb) | NRFI | 55% | _model-only_ | **W** (1st 0-0 → NRFI) | **McLean 3. |
 | 6/17 | NYM @ CIN (McLean/Lodolo) | YRFI | 55% | _model-only_ | **L** (1st 0-0 → NRFI) | GABP hitter park + two live tops; 1st-inning risk despite McLean K-stuff. |
 | 6/17 | KC @ WSH (Avila/Littell) | YRFI | 56% | _model-only_ | **W** (1st 1-0 → YRFI) | Two-bad-SP shootout (6.19 / 5.32) — strongest YRFI lean. |
 | 6/17 | MIA @ PHI (Alcantara/Painter) | NRFI | 54% | _model-only_ | **L** (1st 2-2 → YRFI) | Alcantara clean 1sts; rookie Painter the lone risk. |
