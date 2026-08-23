@@ -128,7 +128,7 @@ tbody tr:hover{background:var(--surf2)}
 <body>
 <header>
   <h1>⚾ MLB Parlay Dashboard</h1>
-  <span class="updated"><span class="freshdot fresh">● live</span> · Updated 2026-08-23 20:16 ET</span>
+  <span class="updated"><span class="freshdot fresh">● live</span> · Updated 2026-08-23 22:20 ET</span>
 </header>
 <nav class="jump">
   <a href="#overview">Overview</a>
@@ -193,7 +193,7 @@ tbody tr:hover{background:var(--surf2)}
     <div class="stat" style="border-left:3px solid var(--blue,#3b82f6)">
       <div class="lbl">Latest build</div>
       <div class="val" style="font-size:18px">2026-08-23</div>
-      <div class="sub">runs: 11:00 · 16:00</div>
+      <div class="sub">runs: 11:00 · 16:00 · 18:00</div>
     </div>
     <div class="stat" style="border-left:3px solid var(--yellow)">
       <div class="lbl">Open tickets (TBD)</div>
@@ -208,25 +208,17 @@ tbody tr:hover{background:var(--surf2)}
   </div>
 
   <div class="card" style="margin:4px 0 6px">
-    <h2>Today's board — 2026-08-23 · Run 16:00 ET ET</h2>
+    <h2>Today's board — 2026-08-23 · Run 18:00 ET ET</h2>
     <div class="sub">Picks from the latest run block (best-effort parse — the parlay file is the source of truth)</div>
     
       <div style="padding:8px 0;border-bottom:1px solid var(--border)">
-        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">Tier 1 — best standalone +EV play</div>
-        <div style="font-size:13px;line-height:1.45">∅ NO BET.</div>
-      </div>
-      <div style="padding:8px 0;border-bottom:1px solid var(--border)">
-        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">Tier 2 — highest-floor 2-leg</div>
-        <div style="font-size:13px;line-height:1.45">∅ NO BET — and today it is arithmetically unavailable, not merely declined.</div>
-      </div>
-      <div style="padding:8px 0;border-bottom:1px solid var(--border)">
-        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">Tier 3 — the +200 build</div>
-        <div style="font-size:13px;line-height:1.45">∅ NO BET.</div>
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">Tier 1 / Tier 2 / Tier 3 — NO BET</div>
+        <div style="font-size:13px;line-height:1.45">Tier 1 (best standalone):</div>
       </div>
     
       <div style="margin-top:12px">
         <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:4px">
-          <span>Odds API credits</span><span class="mono">17,589 left · used 2,411 / 20,000-mo</span>
+          <span>Odds API credits</span><span class="mono">17,571 left · used 2,429 / 20,000-mo</span>
         </div>
         <div style="height:7px;background:var(--border);border-radius:4px;overflow:hidden">
           <div style="height:100%;width:12.1%;background:var(--green)"></div>
@@ -556,8 +548,8 @@ tbody tr:hover{background:var(--surf2)}
 
   <div class="section-title" id="nrfi">First-inning tracker (NRFI / YRFI)</div>
   <div class="tcard">
-    <h2>NRFI / YRFI record &amp; tracked reads <span class="mono pos">132-108</span></h2>
-    <div class="sub">From nrfi_tracker.md · NRFI = Under 0.5 runs in the 1st, YRFI = Over 0.5 · overall NRFI 65-56 · YRFI 67-52 · grouped by day with daily win% · separate from the parlay ledger</div>
+    <h2>NRFI / YRFI record &amp; tracked reads <span class="mono pos">139-115</span></h2>
+    <div class="sub">From nrfi_tracker.md · NRFI = Under 0.5 runs in the 1st, YRFI = Over 0.5 · overall NRFI 67-59 · YRFI 72-56 · grouped by day with daily win% · separate from the parlay ledger</div>
     
     <details class="nrfi-day" open>
       <summary>
@@ -2703,8 +2695,8 @@ tbody tr:hover{background:var(--surf2)}
     <details class="nrfi-day" open>
       <summary>
         <span class="nrfi-day-date mono">8/23</span>
-        <span class="mono muted">pending</span>
-        <span class="muted small">15 open</span>
+        <span class="mono pos">7-7 · 50% W</span>
+        <span class="muted small">14 settled · 1 open</span>
       </summary>
       <table><thead><tr><th>Matchup</th><th>Pick</th><th>TrueP</th><th>Price</th><th>Result</th><th>Reasoning</th></tr></thead>
       <tbody>
@@ -2713,7 +2705,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag pos">NRFI</span></td>
         <td class="mono">62%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono loss">L</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">⭐ Board's strongest lean.</td>
       </tr>
       <tr>
@@ -2721,7 +2713,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag ">YRFI</span></td>
         <td class="mono">63%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono win">W</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Coors is the auto-YRFI tilt and nothing here fights it.</td>
       </tr>
       <tr>
@@ -2729,7 +2721,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag ">YRFI</span></td>
         <td class="mono">60%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono loss">L</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Kikuchi has not pitched since April 29 — a four-month absence — and his last logged line was 5.</td>
       </tr>
       <tr>
@@ -2737,7 +2729,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag ">YRFI</span></td>
         <td class="mono">60%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono win">W</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Jackson Kent has walked 8 in 7.</td>
       </tr>
       <tr>
@@ -2745,7 +2737,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag ">YRFI</span></td>
         <td class="mono">59%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono loss">L</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Two of the three highest WHIPs among today's priceable starters — Abbott 1.</td>
       </tr>
       <tr>
@@ -2753,7 +2745,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag ">YRFI</span></td>
         <td class="mono">59%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono loss">L</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Nick Martinez's 3.</td>
       </tr>
       <tr>
@@ -2761,7 +2753,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag ">YRFI</span></td>
         <td class="mono">58%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono win">W</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Matt Wilkinson has thrown 2.</td>
       </tr>
       <tr>
@@ -2769,7 +2761,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag ">YRFI</span></td>
         <td class="mono">57%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono win">W</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Cristian Javier at 6.</td>
       </tr>
       <tr>
@@ -2777,7 +2769,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag ">YRFI</span></td>
         <td class="mono">57%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono loss">L</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Rodón's first start back from a seven-week absence went 4.</td>
       </tr>
       <tr>
@@ -2785,7 +2777,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag ">YRFI</span></td>
         <td class="mono">56%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono win">W</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Pittsburgh are running an opener — Lake Bachar's last six outings are 3.</td>
       </tr>
       <tr>
@@ -2793,7 +2785,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag pos">NRFI</span></td>
         <td class="mono">57%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono loss">L</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Both clubs are running bullpen games — Waguespack has 0 starts in 27.</td>
       </tr>
       <tr>
@@ -2801,7 +2793,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag pos">NRFI</span></td>
         <td class="mono">56%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono loss">L</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Cristopher Sánchez 2.</td>
       </tr>
       <tr>
@@ -2809,7 +2801,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag pos">NRFI</span></td>
         <td class="mono">57%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono win">W</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Petco Park is the second-most suppressing venue on the board and both tops are quiet — Minnesota are 63-67 with a −47 run differential.</td>
       </tr>
       <tr>
@@ -2825,7 +2817,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag pos">NRFI</span></td>
         <td class="mono">55%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono win">W</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">McLean 3.</td>
       </tr></tbody></table>
     </details>
@@ -3495,7 +3487,7 @@ tbody tr:hover{background:var(--surf2)}
     <table><thead><tr><th>Date</th><th>Runs</th><th>Result</th><th>Summary</th></tr></thead><tbody>
       <tr>
         <td class="mono">2026-08-23</td>
-        <td class="mono muted">11:00 / 16:00</td>
+        <td class="mono muted">11:00 / 16:00 / 18:00</td>
         <td><span class="badge tbd">TBD</span></td>
         <td class="muted small">—</td>
       </tr>
