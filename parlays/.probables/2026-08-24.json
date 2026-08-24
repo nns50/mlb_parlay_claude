@@ -1,0 +1,112 @@
+[
+ {
+  "pk": 824235,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "Tampa Bay Rays",
+  "away_sp_id": 656876,
+  "away_sp": "Drew Rasmussen",
+  "home": "Detroit Tigers",
+  "home_sp_id": 664285,
+  "home_sp": "Framber Valdez"
+ },
+ {
+  "pk": 823828,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "Boston Red Sox",
+  "away_sp_id": 624133,
+  "away_sp": "Ranger Suarez",
+  "home": "Miami Marlins",
+  "home_sp_id": 645261,
+  "home_sp": "Sandy Alcantara"
+ },
+ {
+  "pk": 822695,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "Colorado Rockies",
+  "away_sp_id": 663372,
+  "away_sp": "Ryan Feltner",
+  "home": "Washington Nationals",
+  "home_sp_id": 676917,
+  "home_sp": "Cade Cavalli"
+ },
+ {
+  "pk": 824557,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "Texas Rangers",
+  "away_sp_id": 677958,
+  "away_sp": "Kumar Rocker",
+  "home": "Chicago White Sox",
+  "home_sp_id": 664353,
+  "home_sp": "Jos\u00e9 Urquidy"
+ },
+ {
+  "pk": 823992,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "Cleveland Guardians",
+  "away_sp_id": 800048,
+  "away_sp": "Parker Messick",
+  "home": "Los Angeles Angels",
+  "home_sp_id": 691946,
+  "home_sp": "George Klassen"
+ },
+ {
+  "pk": 825041,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "Chicago Cubs",
+  "away_sp_id": 592332,
+  "away_sp": "Kevin Gausman",
+  "home": "Arizona Diamondbacks",
+  "home_sp_id": 518876,
+  "home_sp": "Merrill Kelly"
+ },
+ {
+  "pk": 823260,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "Pittsburgh Pirates",
+  "away_sp_id": 677952,
+  "away_sp": "Braxton Ashcraft",
+  "home": "San Diego Padres",
+  "home_sp_id": 592662,
+  "home_sp": "Robbie Ray"
+ },
+ {
+  "pk": 824964,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "Minnesota Twins",
+  "away_sp_id": 805673,
+  "away_sp": "Zebby Matthews",
+  "home": "Athletics",
+  "home_sp_id": 605488,
+  "home_sp": "Jeffrey Springs"
+ },
+ {
+  "pk": 823097,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "Philadelphia Phillies",
+  "away_sp_id": 554430,
+  "away_sp": "Zack Wheeler",
+  "home": "Seattle Mariners",
+  "home_sp_id": 669302,
+  "home_sp": "Logan Gilbert"
+ },
+ {
+  "pk": 823183,
+  "state": "Preview",
+  "detail": "Scheduled",
+  "away": "Cincinnati Reds",
+  "away_sp_id": 695505,
+  "away_sp": "Chase Burns",
+  "home": "San Francisco Giants",
+  "home_sp_id": null,
+  "home_sp": null
+ }
+]

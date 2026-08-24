@@ -128,7 +128,7 @@ tbody tr:hover{background:var(--surf2)}
 <body>
 <header>
   <h1>⚾ MLB Parlay Dashboard</h1>
-  <span class="updated"><span class="freshdot fresh">● live</span> · Updated 2026-08-23 22:20 ET</span>
+  <span class="updated"><span class="freshdot fresh">● live</span> · Updated 2026-08-24 15:34 ET</span>
 </header>
 <nav class="jump">
   <a href="#overview">Overview</a>
@@ -192,13 +192,13 @@ tbody tr:hover{background:var(--surf2)}
   <div class="stats">
     <div class="stat" style="border-left:3px solid var(--blue,#3b82f6)">
       <div class="lbl">Latest build</div>
-      <div class="val" style="font-size:18px">2026-08-23</div>
-      <div class="sub">runs: 11:00 · 16:00 · 18:00</div>
+      <div class="val" style="font-size:18px">2026-08-24</div>
+      <div class="sub">runs: 11:00</div>
     </div>
     <div class="stat" style="border-left:3px solid var(--yellow)">
       <div class="lbl">Open tickets (TBD)</div>
-      <div class="val" style="font-size:18px">18</div>
-      <div class="sub">08-14, 08-17, 08-18, 08-23</div>
+      <div class="val" style="font-size:18px">19</div>
+      <div class="sub">08-17, 08-18, 08-23, 08-24</div>
     </div>
     <div class="stat" style="border-left:3px solid var(--green)">
       <div class="lbl">Ladder progress</div>
@@ -208,20 +208,28 @@ tbody tr:hover{background:var(--surf2)}
   </div>
 
   <div class="card" style="margin:4px 0 6px">
-    <h2>Today's board — 2026-08-23 · Run 18:00 ET ET</h2>
+    <h2>Today's board — 2026-08-24 · Run 11:00 ET ET</h2>
     <div class="sub">Picks from the latest run block (best-effort parse — the parlay file is the source of truth)</div>
     
       <div style="padding:8px 0;border-bottom:1px solid var(--border)">
-        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">Tier 1 / Tier 2 / Tier 3 — NO BET</div>
-        <div style="font-size:13px;line-height:1.45">Tier 1 (best standalone):</div>
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">Tier 1 — best standalone</div>
+        <div style="font-size:13px;line-height:1.45">CHC @ AZ — Chicago Cubs ML −138 (BetUS).</div>
+      </div>
+      <div style="padding:8px 0;border-bottom:1px solid var(--border)">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">Tier 2 — highest-floor 2-leg (best win chance, regardless of +200)</div>
+        <div style="font-size:13px;line-height:1.45">CLE ML −156 × WSH ML −180 = +155 (dec 2.55), floor 39.4%.</div>
+      </div>
+      <div style="padding:8px 0;border-bottom:1px solid var(--border)">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">Tier 3 — the +200 build (what the user asked for)</div>
+        <div style="font-size:13px;line-height:1.45">CHC ML −138 × CLE ML −156 = +183 (dec 2.83), floor 36.8%, EV +4.1%.</div>
       </div>
     
       <div style="margin-top:12px">
         <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:4px">
-          <span>Odds API credits</span><span class="mono">17,571 left · used 2,429 / 20,000-mo</span>
+          <span>Odds API credits</span><span class="mono">17,359 left · used 2,641 / 20,000-mo</span>
         </div>
         <div style="height:7px;background:var(--border);border-radius:4px;overflow:hidden">
-          <div style="height:100%;width:12.1%;background:var(--green)"></div>
+          <div style="height:100%;width:13.2%;background:var(--green)"></div>
         </div>
       </div>
   </div>
@@ -246,7 +254,7 @@ tbody tr:hover{background:var(--surf2)}
     <div class="stat" style="border-left:3px solid var(--green)">
       <div class="lbl">Brier skill vs market</div>
       <div class="val">+0.0005 <span style="font-size:13px;color:var(--muted)">· TrueP beats the price</span></div>
-      <div class="sub">Brier(TrueP) 0.2389 vs market 0.2395 · n=331 decided legs</div>
+      <div class="sub">Brier(TrueP) 0.2384 vs market 0.2389 · n=341 decided legs</div>
     </div>
   </div>
   <p class="note">Doctrine claims parlays run near -EV chalk+vig. This split is the measurement: if standalones (S) outrun parlay legs (P) over a real sample, that's the evidence to keep the +200 chase eyes-open as entertainment, not strategy.</p>
@@ -548,8 +556,8 @@ tbody tr:hover{background:var(--surf2)}
 
   <div class="section-title" id="nrfi">First-inning tracker (NRFI / YRFI)</div>
   <div class="tcard">
-    <h2>NRFI / YRFI record &amp; tracked reads <span class="mono pos">139-115</span></h2>
-    <div class="sub">From nrfi_tracker.md · NRFI = Under 0.5 runs in the 1st, YRFI = Over 0.5 · overall NRFI 67-59 · YRFI 72-56 · grouped by day with daily win% · separate from the parlay ledger</div>
+    <h2>NRFI / YRFI record &amp; tracked reads <span class="mono pos">140-115</span></h2>
+    <div class="sub">From nrfi_tracker.md · NRFI = Under 0.5 runs in the 1st, YRFI = Over 0.5 · overall NRFI 68-59 · YRFI 72-56 · grouped by day with daily win% · separate from the parlay ledger</div>
     
     <details class="nrfi-day" open>
       <summary>
@@ -2695,8 +2703,8 @@ tbody tr:hover{background:var(--surf2)}
     <details class="nrfi-day" open>
       <summary>
         <span class="nrfi-day-date mono">8/23</span>
-        <span class="mono pos">7-7 · 50% W</span>
-        <span class="muted small">14 settled · 1 open</span>
+        <span class="mono pos">8-7 · 53% W</span>
+        <span class="muted small">15 settled</span>
       </summary>
       <table><thead><tr><th>Matchup</th><th>Pick</th><th>TrueP</th><th>Price</th><th>Result</th><th>Reasoning</th></tr></thead>
       <tbody>
@@ -2809,7 +2817,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag pos">NRFI</span></td>
         <td class="mono">56%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono win">W</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Mahle's 4.</td>
       </tr>
       <tr>
@@ -2819,6 +2827,95 @@ tbody tr:hover{background:var(--surf2)}
         <td class="mono muted small">_model-only_</td>
         <td class="mono win">W</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">McLean 3.</td>
+      </tr></tbody></table>
+    </details>
+    <details class="nrfi-day" open>
+      <summary>
+        <span class="nrfi-day-date mono">8/24</span>
+        <span class="mono muted">pending</span>
+        <span class="muted small">10 open</span>
+      </summary>
+      <table><thead><tr><th>Matchup</th><th>Pick</th><th>TrueP</th><th>Price</th><th>Result</th><th>Reasoning</th></tr></thead>
+      <tbody>
+      <tr>
+        <td>PHI @ SEA (Wheeler/Gilbert)</td>
+        <td><span class="tag pos">NRFI</span></td>
+        <td class="mono">63%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono muted">TBD</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Board's strongest lean — Wheeler 1.01 / Gilbert 1.01, two best WHIPs, T-Mobile most suppressing park.</td>
+      </tr>
+      <tr>
+        <td>MIN @ ATH (Z.Matthews/Springs)</td>
+        <td><span class="tag ">YRFI</span></td>
+        <td class="mono">60%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono muted">TBD</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Two of the worst arms (5.12/6.02) at hot small Sutter Health Park.</td>
+      </tr>
+      <tr>
+        <td>CHC @ AZ (Gausman/M.Kelly)</td>
+        <td><span class="tag ">YRFI</span></td>
+        <td class="mono">59%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono muted">TBD</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Two mediocre arms + loaded CHC top; Kelly 5.37/1.52 last start 6 ER.</td>
+      </tr>
+      <tr>
+        <td>TEX @ CWS (Rocker/Urquidy)</td>
+        <td><span class="tag ">YRFI</span></td>
+        <td class="mono">58%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono muted">TBD</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Urquidy 16-IP fresh sample, Rocker 1.40 WHIP; Rate Field hitter park.</td>
+      </tr>
+      <tr>
+        <td>COL @ WSH (Feltner/Cavalli)</td>
+        <td><span class="tag ">YRFI</span></td>
+        <td class="mono">57%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono muted">TBD</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Feltner 5.97/1.53 worst real-SP line; Cavalli 3.22 caps it at 57%.</td>
+      </tr>
+      <tr>
+        <td>CLE @ LAA (Messick/Klassen)</td>
+        <td><span class="tag ">YRFI</span></td>
+        <td class="mono">56%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono muted">TBD</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Messick elite but Klassen (rookie) 1.62 WHIP leaks early — one-sided.</td>
+      </tr>
+      <tr>
+        <td>TB @ DET (Rasmussen/Valdez)</td>
+        <td><span class="tag pos">NRFI</span></td>
+        <td class="mono">57%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono muted">TBD</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Rasmussen 0.95 best WHIP, Valdez GB arm; spacious Comerica.</td>
+      </tr>
+      <tr>
+        <td>PIT @ SD (Ashcraft/R.Ray)</td>
+        <td><span class="tag pos">NRFI</span></td>
+        <td class="mono">57%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono muted">TBD</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Petco 2nd-most suppressing; PIT top weak; both arms solid.</td>
+      </tr>
+      <tr>
+        <td>BOS @ MIA (Suarez/Alcantara)</td>
+        <td><span class="tag pos">NRFI</span></td>
+        <td class="mono">56%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono muted">TBD</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Two steady arms (3.41/3.46), loanDepot dome; BOS top counterweight.</td>
+      </tr>
+      <tr>
+        <td>CIN @ SF (Burns/TBD)</td>
+        <td><span class="tag pos">NRFI</span></td>
+        <td class="mono">55%</td>
+        <td class="mono muted small">_model-only_</td>
+        <td class="mono muted">TBD</td>
+        <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">E4 — SF probable TBD; rests on Burns 2.51/1.11 + Oracle. LOW CONF.</td>
       </tr></tbody></table>
     </details>
   </div>
@@ -3486,10 +3583,16 @@ tbody tr:hover{background:var(--surf2)}
     <div class="sub">Most recent first</div>
     <table><thead><tr><th>Date</th><th>Runs</th><th>Result</th><th>Summary</th></tr></thead><tbody>
       <tr>
+        <td class="mono">2026-08-24</td>
+        <td class="mono muted">11:00</td>
+        <td><span class="badge tbd">TBD</span></td>
+        <td class="muted small">—</td>
+      </tr>
+      <tr>
         <td class="mono">2026-08-23</td>
         <td class="mono muted">11:00 / 16:00 / 18:00</td>
         <td><span class="badge tbd">TBD</span></td>
-        <td class="muted small">—</td>
+        <td class="muted small">— SETTLED 2026-08-24. All three builds were **NO BET**; the day's record is measurement, not P/L. - **Bets placed: 0** (Build A NO</td>
       </tr>
       <tr>
         <td class="mono">2026-08-22</td>
