@@ -374,6 +374,20 @@ def parse_latest_build() -> dict:
             bm = re.search(r'\*\*(.+?)\*\*', tm.group(2), re.DOTALL)
             pick = re.sub(r'\s+', ' ', bm.group(1)).strip() if bm else ''
             found.append({'title': title[:90], 'pick': pick[:130]})
+        # Fallback: parse tier rows from THE CARD table (table-first format)
+        if not found:
+            for cm in re.finditer(r'###[^\n]*(?:THE CARD|🎯)[^\n]*\n', block):
+                card_text = block[cm.end():]
+                nx = re.search(r'\n### ', card_text)
+                if nx:
+                    card_text = card_text[:nx.start()]
+                for row_m in re.finditer(r'^\|([^|\n]*Tier \d[^|]*)\|([^|\n]*)\|', card_text, re.MULTILINE):
+                    title = strip_md(row_m.group(1)).strip()
+                    pick = strip_md(row_m.group(2)).strip()
+                    if title:
+                        found.append({'title': title[:90], 'pick': pick[:130]})
+                if found:
+                    break
         return found
 
     out['run'] = re.sub(r'\s*—.*$', '', runs[-1].group(1)).strip()

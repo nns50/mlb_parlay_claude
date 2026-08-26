@@ -128,7 +128,7 @@ tbody tr:hover{background:var(--surf2)}
 <body>
 <header>
   <h1>⚾ MLB Parlay Dashboard</h1>
-  <span class="updated"><span class="freshdot fresh">● live</span> · Updated 2026-08-26 15:42 ET</span>
+  <span class="updated"><span class="freshdot fresh">● live</span> · Updated 2026-08-26 20:22 ET</span>
 </header>
 <nav class="jump">
   <a href="#overview">Overview</a>
@@ -193,7 +193,7 @@ tbody tr:hover{background:var(--surf2)}
     <div class="stat" style="border-left:3px solid var(--blue,#3b82f6)">
       <div class="lbl">Latest build</div>
       <div class="val" style="font-size:18px">2026-08-26</div>
-      <div class="sub">runs: 11:00</div>
+      <div class="sub">runs: 11:00 · 16:00</div>
     </div>
     <div class="stat" style="border-left:3px solid var(--yellow)">
       <div class="lbl">Open tickets (TBD)</div>
@@ -208,16 +208,28 @@ tbody tr:hover{background:var(--surf2)}
   </div>
 
   <div class="card" style="margin:4px 0 6px">
-    <h2>Today's board — 2026-08-26 · Run 11:00 ET ET</h2>
+    <h2>Today's board — 2026-08-26 · Run 16:00 ET ET</h2>
     <div class="sub">Picks from the latest run block (best-effort parse — the parlay file is the source of truth)</div>
-    <div class="muted" style="font-size:12px;padding:8px 0">No tier headings parsed from the latest run — read the parlay file directly.</div>
+    
+      <div style="padding:8px 0;border-bottom:1px solid var(--border)">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">Tier 1 — Best standalone</div>
+        <div style="font-size:13px;line-height:1.45">MIL Brewers ML</div>
+      </div>
+      <div style="padding:8px 0;border-bottom:1px solid var(--border)">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">Tier 2 — Highest-floor 2-leg</div>
+        <div style="font-size:13px;line-height:1.45">MIL −145 × LAD −119</div>
+      </div>
+      <div style="padding:8px 0;border-bottom:1px solid var(--border)">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:3px">Tier 3 — +200 build</div>
+        <div style="font-size:13px;line-height:1.45">MIL −145 × LAD −119</div>
+      </div>
     
       <div style="margin-top:12px">
         <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:4px">
-          <span>Odds API credits</span><span class="mono">17,233 left / 20,000-mo</span>
+          <span>Odds API credits</span><span class="mono">17,200 left · used 2,800 / 20,000-mo</span>
         </div>
         <div style="height:7px;background:var(--border);border-radius:4px;overflow:hidden">
-          <div style="height:100%;width:13.8%;background:var(--green)"></div>
+          <div style="height:100%;width:14.0%;background:var(--green)"></div>
         </div>
       </div>
   </div>
@@ -544,8 +556,8 @@ tbody tr:hover{background:var(--surf2)}
 
   <div class="section-title" id="nrfi">First-inning tracker (NRFI / YRFI)</div>
   <div class="tcard">
-    <h2>NRFI / YRFI record &amp; tracked reads <span class="mono pos">147-125</span></h2>
-    <div class="sub">From nrfi_tracker.md · NRFI = Under 0.5 runs in the 1st, YRFI = Over 0.5 · overall NRFI 72-63 · YRFI 75-62 · grouped by day with daily win% · separate from the parlay ledger</div>
+    <h2>NRFI / YRFI record &amp; tracked reads <span class="mono pos">148-125</span></h2>
+    <div class="sub">From nrfi_tracker.md · NRFI = Under 0.5 runs in the 1st, YRFI = Over 0.5 · overall NRFI 73-63 · YRFI 75-62 · grouped by day with daily win% · separate from the parlay ledger</div>
     
     <details class="nrfi-day" open>
       <summary>
@@ -2909,8 +2921,8 @@ tbody tr:hover{background:var(--surf2)}
     <details class="nrfi-day" open>
       <summary>
         <span class="nrfi-day-date mono">8/26</span>
-        <span class="mono muted">pending</span>
-        <span class="muted small">15 open</span>
+        <span class="mono pos">1-0 · 100% W</span>
+        <span class="muted small">1 settled · 14 open</span>
       </summary>
       <table><thead><tr><th>Matchup</th><th>Pick</th><th>TrueP</th><th>Price</th><th>Result</th><th>Reasoning</th></tr></thead>
       <tbody>
@@ -2943,7 +2955,7 @@ tbody tr:hover{background:var(--surf2)}
         <td><span class="tag pos">NRFI</span></td>
         <td class="mono">61%</td>
         <td class="mono muted small">_model-only_</td>
-        <td class="mono muted">TBD</td>
+        <td class="mono win">W</td>
         <td class="small" style="max-width:420px;white-space:normal;line-height:1.45">Two elite arms — Rasmussen 0.95 WHIP, Melton 1.70 ERA. Comerica spacious. 75°F/14mph R→L.</td>
       </tr>
       <tr>
@@ -3766,7 +3778,7 @@ tbody tr:hover{background:var(--surf2)}
     <table><thead><tr><th>Date</th><th>Runs</th><th>Result</th><th>Summary</th></tr></thead><tbody>
       <tr>
         <td class="mono">2026-08-26</td>
-        <td class="mono muted">11:00</td>
+        <td class="mono muted">11:00 / 16:00</td>
         <td><span class="badge tbd">TBD</span></td>
         <td class="muted small">—</td>
       </tr>

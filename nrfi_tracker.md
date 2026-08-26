@@ -1163,7 +1163,7 @@ all 15 rows go to the ledger as model-only calibration.
 | 8/26 | PHI @ SEA (Luzardo/Woo) | NRFI | 62% | _model-only_ | TBD | Board's strongest NRFI — Luzardo 3.23/11.19 K/9 + Woo at T-Mobile, most suppressing park. |
 | 8/26 | KC @ TOR (Dobnak/Miles) | YRFI | 62% | _model-only_ | TBD | ⛔ E5 on Miles (opener). Rogers Centre dome. Opener's first inning vs KC top = live YRFI. LOW CONF. |
 | 8/26 | HOU @ NYY (Lambert/E.Rodríguez) | YRFI | 61% | _model-only_ | TBD | Elmer Rodríguez 2+ months from IL (last start 6/21). Yankee top loaded (Judge, Soto). |
-| 8/26 | TB @ DET (Rasmussen/Melton) | NRFI | 61% | _model-only_ | TBD | Two elite arms — Rasmussen 0.95 WHIP, Melton 1.70 ERA. Comerica spacious. 75°F/14mph R→L. |
+| 8/26 | TB @ DET (Rasmussen/Melton) | NRFI | 61% | _model-only_ | **W** (1st 0-0 → NRFI) | Two elite arms — Rasmussen 0.95 WHIP, Melton 1.70 ERA. Comerica spacious. 75°F/14mph R→L. |
 | 8/26 | PIT @ SD (Chandler/Vásquez) | NRFI | 59% | _model-only_ | TBD | Petco Park 2nd-most suppressing. PIT top one of weakest in NL. |
 | 8/26 | MIN @ ATH (Prielipp/Ginn) | YRFI | 59% | _model-only_ | TBD | Two young/uncertain arms at hitter-friendly Sutter Health Park. |
 | 8/26 | CIN @ SF (Lodolo/Roupp) | NRFI | 58% | _model-only_ | TBD | Oracle Park + two decent arms. CIN top not strong. |
