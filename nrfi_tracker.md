@@ -1172,7 +1172,7 @@ all 15 rows go to the ledger as model-only calibration.
 | 8/26 | COL @ WSH (Gordon/Waldron) | YRFI | 57% | _model-only_ | TBD | Gordon (COL) bad arm drives lean. Waldron submarine suppresses other half. |
 | 8/26 | TEX @ CWS (Gore/Burke) | YRFI | 57% | _model-only_ | TBD | Burke young arm + Rate Field hitter-friendly. Gore suppresses his half. |
 | 8/26 | MIL @ NYM (May/Stock) | YRFI | 57% | _model-only_ | TBD | Stock 5.40/1.86 (3 GS) drives YRFI. May competent on his half. |
-| 8/26 | CHC @ AZ (Boyd/E.Rodriguez) | YRFI | 56% | _model-only_ | TBD | Two mediocre arms. Chase Field retractable dome removes weather. |
+| 8/26 | CHC @ AZ (Boyd/E.Rodriguez) | YRFI | 56% | _model-only_ | **L** (1st 0-0 → NRFI) | Two mediocre arms. Chase Field retractable dome removes weather. |
 | 8/26 | CLE @ LAA (Cantillo/G.Rodriguez) | NRFI | 56% | _model-only_ | TBD | Cantillo 2.54/1.03 elite. G.Rodriguez E2 (season stale, last start 8/20: 7 IP/0 ER). |
 | 8/26 | LAD @ ATL (Sasaki/Smith-Shawver) | NRFI | 55% | _model-only_ | TBD | Sasaki elite (3.15 ERA/10.8 K/9). Smith-Shawver 6.23 ERA only 2 GS — thin sample. |
 | 8/24 | PHI @ SEA (Wheeler/Gilbert) | NRFI | 63% | _model-only_ | **L** (1st 1-5 → YRFI) | Board's strongest lean — Wheeler 1.01 / Gilbert 1.01, two best WHIPs, T-Mobile most suppressing park. |
