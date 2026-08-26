@@ -136,3 +136,18 @@ P(4 straight wins in an attempt) ≈ 0.60⁴ ≈ **13%** → expect ~8 attempts 
 - **Net P/L (withdrawn − deposited, completed attempts only):** **+$139.74** realized (attempt 1 −$10; attempt 2 +$55.48; attempt 3 −$10; attempt 4 −$10; attempt 5 +$65.63; attempt 6 −$10; attempt 7 −$10; attempt 8 −$10; attempt 9 +$58.98; attempt 10 −$10; attempt 11 −$10; attempt 12 +$49.65; **attempt 13 −$10**) — **4 successful 4-win ladders against 8 busts.** ⚠ Read as a small-n jackpot-tail distribution, not an edge: the realized total is carried by four tail events and the median attempt loses its $10.
 
 > Tracked like `fades.md` / `results_log.md`: any change → commit → push → PR → squash-merge.
+
+---
+
+### 8/26 — Attempt 14, Roll 3
+
+| Attempt | Date | Roll | Balance | Bet | TrueP | Result | Return |
+|---|---|---|---|---|---|---|---|
+| **14** | **8/26** | **3** | **$19.70** | **MIL Brewers ML −145 (FanDuel, dec 1.6897)** | **61.1%** | TBD | **WIN → $33.29 / LOSS → restart at $10** |
+
+**Selection rationale:** MIL -145 is the board's highest-floor qualifying leg that clears BOTH clauses of the 8/12 rule: TrueP **61.1% ≥ 60%** floor threshold ✓; edge **+2.5pp ≥ +2pp** gate ✓; not an A-list fade team ✓. Chosen **independently of the parlay legs** per doctrine. Robert Stock (NYM, 5.40 ERA / 1.86 WHIP, 3 GS) is today's worst confirmed arm; `~own_sp_hi` fires mechanically. MIL 81-50 (.618), best record in NL. DET -114 (+4.0pp) has higher edge but at TrueP 56.8% misses the 60% floor.
+
+⚠ D5 note: Stock reads borderline E5 (3 GS, ~4.1 IP per start). Per D5, MIL is NOT shaded *up* by Stock's opener profile — the mirror fires on ERA magnitude only, not as a D5 boost. The 8/19 D5 W (Stock voided SD's ML boost) is the precedent; today the same arm is the OPPONENT, and D5 only restrains the boost direction.
+
+**If WIN: $19.70 × 1.6897 = $33.29 → Roll 4 pending. One win from 4-win target ($33.29 × ~1.67 = ~$55.60 withdrawal).**
+**If LOSS: Attempt 14 busts at roll 3. Restart at $10 as Attempt 15.**
