@@ -29,6 +29,34 @@ Its own ledger lives here; the dashboard renders it from this file.
 
 ---
 
+## Tonight's reads — 2026-08-26 (15-game slate; model-only at 11:00 — the priced `totals_1st_1_innings` sweep is the 16:00 run)
+
+> ### ⚙ 8/25 — NO READS LOGGED (session ran but no 8/25 NRFI section was written — gap acknowledged)
+>
+> 8/25 results (linescore not pulled): 15-game slate settled. Running record unchanged at 275-229 (55%).
+>
+> ⚠ **KC@TOR is E5-gated (Spencer Miles IP/GS = 20.0) — reads the same as a bullpen-game note; 1st-inning model has no real starter on the TOR half. YRFI lean by default but not pre-registered.**
+
+| Game | Lean | TrueP | Why |
+|---|---|---|---|
+| **KC @ TOR (Dobnak/Miles)** | **YRFI** | **62%** | ⭐ **Board's strongest YRFI lean.** ⛔ **E5 on Miles (IP/GS = 20.0 — pure opener).** Rogers Centre retractable dome removes weather. An opener's first inning against KC's top-of-order is the clearest YRFI setup on the board — fresh arm, max effort, but unfamiliar hitters and opener-game variance. ⚠ LOW-CONFIDENCE by construction: E5 = opener, and openers' 1st-inning profiles have wide variance. |
+| **HOU @ NYY (Lambert/E.Rodríguez)** | **YRFI** | **61%** | **Elmer Rodríguez returned from 2+ months IL (last MLB start: 6/21).** Rust + Yankee Stadium hitter environment + NYY's loaded top-of-order (Judge, Soto) = live first-half YRFI. Lambert 3.11/1.15 recent form argues the other way but does not contain NYY's 1-2-3. |
+| **PHI @ SEA (Luzardo/Woo)** | **NRFI** | **62%** | ⭐ **Board's strongest NRFI lean.** Luzardo 3.23 ERA / 11.19 K/9 and Woo (solid, T-Mobile arm) face each other inside **T-Mobile Park — the most run-suppressing park on the board**, retractable roof. Both arms have low-contact profiles. PHI's top is solid but not a murderous lineup. |
+| **TB @ DET (Rasmussen/Melton)** | **NRFI** | **61%** | Rasmussen 3.01/0.95 WHIP + **Melton 1.70 ERA** — two of the best WHIPs on today's slate — at **Comerica Park** (spacious, pitcher-friendly). 75°F, 14 mph R→L (crosswind, neutral). Both tops are modest (TB and DET's lineups are not run-producing machines). |
+| **MIN @ ATH (Prielipp/Ginn)** | **YRFI** | **59%** | Both young arms with unknown first-inning profiles at **Sutter Health Park (Sacramento, hitter-friendly/small)**. Prielipp is a rookie; Ginn has limited MLB experience. One or both halves is live for early contact. |
+| **COL @ WSH (Gordon/Waldron)** | **YRFI** | **57%** | **Tanner Gordon** (COL) is one of the worst arms on the board. Playing at Nationals Park (not Coors), but Gordon's ERA carries the read — Colorado arms give up early traffic. Waldron is a submarine pitcher who suppresses the other half, keeping this at 57% rather than higher. |
+| **TEX @ CWS (Gore/Burke)** | **YRFI** | **57%** | **Sean Burke** (CWS) is a young arm with limited MLB sample. **Rate Field** is a hitter-friendly park. Gore (TEX) is solid and suppresses his half; Burke's half is the YRFI driver. |
+| **MIL @ NYM (May/Stock)** | **YRFI** | **57%** | **Robert Stock (NYM) 5.40 ERA / 1.86 WHIP across 3 GS (avg 4.1 IP)** — today's worst confirmed arm. MIL's top (Cain, Contreras, Yelich order) can cash in the first if Stock is uncomfortable. May (MIL) is a competent suppressor on his half, keeping this at 57% not higher. |
+| **CHC @ AZ (Boyd/E.Rodriguez)** | **YRFI** | **56%** | Boyd (CHC) has struggled recently (ERA inflated, limited deep starts) and Eduardo Rodriguez (AZ) has been mediocre. Chase Field retractable dome takes weather out. Two middling arms = both halves are live. |
+| **CIN @ SF (Lodolo/Roupp)** | **NRFI** | **58%** | **Oracle Park** is one of the two most suppressing parks on the board. Lodolo (3.28 ERA, clean arm) and Roupp (decent) face each other in pitcher-favorable conditions. CIN's top is not strong. |
+| **PIT @ SD (Chandler/Vásquez)** | **NRFI** | **59%** | **Petco Park** — the second-most suppressing park on today's board. Chandler (PIT) is young but has shown solid early-inning stuff; Vásquez (SD) is reliable at Petco. Pittsburgh's top is one of the weakest in the NL. |
+| **BAL @ STL (Bradish/McGreevy)** | **NRFI** | **57%** | Bradish is returning from TJ surgery but has pitched this season (verified: active roster, confirmed starter). McGreevy is a reliable arm. Busch Stadium is neutral-to-pitcher-leaning. STL's top is limited offensively. |
+| **BOS @ MIA (Gray/Gusto)** | **NRFI** | **57%** | **Sonny Gray 2.79 ERA** (elite) is a strong first-inning suppressor on his half. Gusto (MIA) is a question mark that keeps the lean from being higher — if MIA runs a mediocre arm, BOS's top can score. loanDepot dome removes weather. |
+| **CLE @ LAA (Cantillo/G.Rodriguez)** | **NRFI** | **56%** | Cantillo 2.54/1.03 WHIP (elite suppressor) anchors the NRFI lean. G.Rodriguez' season ERA (6.41) is stale-high (last start 8/20: 7 IP/0 ER — E2 gate). If his recent form holds, NRFI is higher. If the season number is real, it's a toss-up. Split at 56%. |
+| **LAD @ ATL (Sasaki/Smith-Shawver)** | **NRFI** | **55%** | **Roki Sasaki** is an elite arm (3.15 ERA / 10.8 K/9) — his half is a genuine NRFI suppressor. **Smith-Shawver's 6.23 ERA (2 GS)** is the YRFI factor: LAD's top-of-order (Ohtani, Betts, Freeman) against a shaky arm at Truist Park. Slight NRFI edge from Sasaki's dominance. ⚠ Only 2 GS sample on Smith-Shawver — his actual first-inning profile is unknown. |
+
+---
+
 ## Tonight's reads — 2026-08-24 (10-game slate; model-only at 11:00 — the priced `totals_1st_1_innings` sweep is the 16:00 run)
 
 > ### ⚙ 8/23 CLOSED AT 8-7 (53%) — VERIFIED
@@ -1125,13 +1153,28 @@ all 15 rows go to the ledger as model-only calibration.
 
 | Date | Matchup | Pick | TrueP | Price | Result | Reasoning (why this pick) |
 |------|---------|------|-------|-------|--------|----------------------------|
-| 8/25 | KC @ TOR (Lugo/Scherzer) | YRFI | 62% | _model-only_ | TBD | Both arms in disaster form: Lugo 4.71/1.38 (5 ER last start), Scherzer 7.40/1.51 (7 ER last start). Worst combined line on the board — two bad starters = YRFI regardless of park. |
-| 8/25 | MIL @ NYM (Harrison/opp) | NRFI | 61% | _model-only_ | TBD | Harrison 2.84/1.11 K/9 11.17 — ace NRFI arm in dominant form (5 IP / 0 ER / 8K last start 8/18). NYM arm TBD; read rests on Harrison dominating his half. |
-| 8/25 | TEX @ CWS (deGrom/CWS arm) | NRFI | 60% | _model-only_ | TBD | deGrom 3.77/1.13 / K/9 11.16 — last start 6 IP / 0 ER / 10K. Elite control arm leans NRFI even in Rate Field. ⚠ CWS arm TBD; one-sided read. |
-| 8/25 | PHI @ SEA (Nola/Kirby) | YRFI | 56% | _model-only_ | TBD | Nola 5.12 ERA worst SP on Phi staff; Kirby "disaster last start 3.1/6 ER" (from build). Two mediocre arms in a pitcher-friendly park — park fights it. LOW CONF. |
-| 8/25 | BOS @ MIA (TBD/TBD) | YRFI | 52% | _model-only_ | TBD | ⛔ E4 — MIA starter TBD. Read is weakly leaned on BOS top as a contact lineup vs an unknown arm; LOW CONFIDENCE — half the model is blind. |
-| 8/25 | COL @ WSH (COL_TBD/Cavalli) | YRFI | 55% | _model-only_ | TBD | ⛔ E4 — COL starter TBD. Cavalli (3.22/1.22) is solid on his half; COL's arm drives the lean but is unknown. LOW CONF. |
-| 8/25 | BAL @ STL (BAL arm/STL_TBD) | NRFI | 52% | _model-only_ | TBD | ⛔ E4 — STL starter TBD. BAL arm is priced at +116 dog; lean is coin-flip. LOW CONF. |
+| 8/25 | KC @ TOR (Lugo/Scherzer) | YRFI | 62% | _model-only_ | **W** (1st 1-1 → YRFI) | Both arms in disaster form: Lugo 4.71/1.38 (5 ER last start), Scherzer 7.40/1.51 (7 ER last start). Worst combined line on the board — two bad starters = YRFI regardless of park. |
+| 8/25 | MIL @ NYM (Harrison/opp) | NRFI | 61% | _model-only_ | **W** (1st 0-0 → NRFI) | Harrison 2.84/1.11 K/9 11.17 — ace NRFI arm in dominant form (5 IP / 0 ER / 8K last start 8/18). NYM arm TBD; read rests on Harrison dominating his half. |
+| 8/25 | TEX @ CWS (deGrom/CWS arm) | NRFI | 60% | _model-only_ | **L** (1st 0-6 → YRFI) | deGrom 3.77/1.13 / K/9 11.16 — last start 6 IP / 0 ER / 10K. Elite control arm leans NRFI even in Rate Field. ⚠ CWS arm TBD; one-sided read. |
+| 8/25 | PHI @ SEA (Nola/Kirby) | YRFI | 56% | _model-only_ | **L** (1st 0-0 → NRFI) | Nola 5.12 ERA worst SP on Phi staff; Kirby "disaster last start 3.1/6 ER" (from build). Two mediocre arms in a pitcher-friendly park — park fights it. LOW CONF. |
+| 8/25 | BOS @ MIA (TBD/TBD) | YRFI | 52% | _model-only_ | **L** (1st 0-0 → NRFI) | ⛔ E4 — MIA starter TBD. Read is weakly leaned on BOS top as a contact lineup vs an unknown arm; LOW CONFIDENCE — half the model is blind. |
+| 8/25 | COL @ WSH (COL_TBD/Cavalli) | YRFI | 55% | _model-only_ | **L** (1st 0-0 → NRFI) | ⛔ E4 — COL starter TBD. Cavalli (3.22/1.22) is solid on his half; COL's arm drives the lean but is unknown. LOW CONF. |
+| 8/25 | BAL @ STL (BAL arm/STL_TBD) | NRFI | 52% | _model-only_ | **W** (1st 0-0 → NRFI) | ⛔ E4 — STL starter TBD. BAL arm is priced at +116 dog; lean is coin-flip. LOW CONF. |
+| 8/26 | PHI @ SEA (Luzardo/Woo) | NRFI | 62% | _model-only_ | TBD | Board's strongest NRFI — Luzardo 3.23/11.19 K/9 + Woo at T-Mobile, most suppressing park. |
+| 8/26 | KC @ TOR (Dobnak/Miles) | YRFI | 62% | _model-only_ | TBD | ⛔ E5 on Miles (opener). Rogers Centre dome. Opener's first inning vs KC top = live YRFI. LOW CONF. |
+| 8/26 | HOU @ NYY (Lambert/E.Rodríguez) | YRFI | 61% | _model-only_ | TBD | Elmer Rodríguez 2+ months from IL (last start 6/21). Yankee top loaded (Judge, Soto). |
+| 8/26 | TB @ DET (Rasmussen/Melton) | NRFI | 61% | _model-only_ | TBD | Two elite arms — Rasmussen 0.95 WHIP, Melton 1.70 ERA. Comerica spacious. 75°F/14mph R→L. |
+| 8/26 | PIT @ SD (Chandler/Vásquez) | NRFI | 59% | _model-only_ | TBD | Petco Park 2nd-most suppressing. PIT top one of weakest in NL. |
+| 8/26 | MIN @ ATH (Prielipp/Ginn) | YRFI | 59% | _model-only_ | TBD | Two young/uncertain arms at hitter-friendly Sutter Health Park. |
+| 8/26 | CIN @ SF (Lodolo/Roupp) | NRFI | 58% | _model-only_ | TBD | Oracle Park + two decent arms. CIN top not strong. |
+| 8/26 | BOS @ MIA (Gray/Gusto) | NRFI | 57% | _model-only_ | TBD | Gray 2.79 ERA elite suppressor; Gusto unknown. loanDepot dome. |
+| 8/26 | BAL @ STL (Bradish/McGreevy) | NRFI | 57% | _model-only_ | TBD | Bradish (TJ-return, active). McGreevy solid. Busch neutral. STL top limited. |
+| 8/26 | COL @ WSH (Gordon/Waldron) | YRFI | 57% | _model-only_ | TBD | Gordon (COL) bad arm drives lean. Waldron submarine suppresses other half. |
+| 8/26 | TEX @ CWS (Gore/Burke) | YRFI | 57% | _model-only_ | TBD | Burke young arm + Rate Field hitter-friendly. Gore suppresses his half. |
+| 8/26 | MIL @ NYM (May/Stock) | YRFI | 57% | _model-only_ | TBD | Stock 5.40/1.86 (3 GS) drives YRFI. May competent on his half. |
+| 8/26 | CHC @ AZ (Boyd/E.Rodriguez) | YRFI | 56% | _model-only_ | TBD | Two mediocre arms. Chase Field retractable dome removes weather. |
+| 8/26 | CLE @ LAA (Cantillo/G.Rodriguez) | NRFI | 56% | _model-only_ | TBD | Cantillo 2.54/1.03 elite. G.Rodriguez E2 (season stale, last start 8/20: 7 IP/0 ER). |
+| 8/26 | LAD @ ATL (Sasaki/Smith-Shawver) | NRFI | 55% | _model-only_ | TBD | Sasaki elite (3.15 ERA/10.8 K/9). Smith-Shawver 6.23 ERA only 2 GS — thin sample. |
 | 8/24 | PHI @ SEA (Wheeler/Gilbert) | NRFI | 63% | _model-only_ | **L** (1st 1-5 → YRFI) | Board's strongest lean — Wheeler 1.01 / Gilbert 1.01, two best WHIPs, T-Mobile most suppressing park. |
 | 8/24 | MIN @ ATH (Z.Matthews/Springs) | YRFI | 60% | _model-only_ | **W** (1st 1-0 → YRFI) | Two of the worst arms (5.12/6.02) at hot small Sutter Health Park. |
 | 8/24 | CHC @ AZ (Gausman/M.Kelly) | YRFI | 59% | _model-only_ | **L** (1st 0-0 → NRFI) | Two mediocre arms + loaded CHC top; Kelly 5.37/1.52 last start 6 ER. |
