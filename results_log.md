@@ -1053,3 +1053,12 @@ set is now FIXED as "every Angle B row in this section" — no narrative selecti
 9, which is what the hook-risk shade prices; the shade-magnitude question stays open but with a much
 weaker fact pattern than "one-sided for two months." (The 8/6–8/7 row prose is left as written per the
 supersede-don't-edit doctrine; this correction row governs. `fades.md` entry corrected in place.)
+
+## 2026-08-28 — Morning scan (11:00 ET)
+
+| Leg | Price | Book | Bet | no-vig | TrueP | Edge | Result | CLV | Grade | Notes |
+|---|---|---|---|---|---|---|---|---|---|---|
+| MIL −145 | −145 | FanDuel | BANKROLL | 59.0% | 59.1% | +2.0pp | TBD | TBD | PROCESS ✓ (highest-floor leg; edge clears gate; not fade-listed) | Bankroll Roll 3 ($19.70); MIL 81-50 best NL record; Henderson ok arm; TEX +167 |
+| AZ −115 | −115 | DraftKings | NO | 53.4% | 56.0% | +2.6pp | TBD | TBD | PROCESS ✓ (second-highest edge; Drake ok, Tidwell soft) | Parlay-ready but below 60% anchor; not played; only 2 qualifying legs on board = NO PARLAY |
+
+**Scan decision: NO PARLAY (chalk-heavy slate, only 2 legs clear +2pp gate, both sub-60% TrueP). MIL −145 = bankroll bet + best standalone.**
