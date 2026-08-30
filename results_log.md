@@ -1053,3 +1053,22 @@ set is now FIXED as "every Angle B row in this section" — no narrative selecti
 9, which is what the hook-risk shade prices; the shade-magnitude question stays open but with a much
 weaker fact pattern than "one-sided for two months." (The 8/6–8/7 row prose is left as written per the
 supersede-don't-edit doctrine; this correction row governs. `fades.md` entry corrected in place.)
+
+---
+
+## 2026-08-30 — Build 11:00 ET
+
+| Date | Leg | Type | Line | Book | TrueP | ImplP (no-vig) | Edge | Played | Result | Close | CLV | Stake | Return | Notes |
+|------|-----|------|------|------|-------|---|---|---|---|---|---|---|---|---|
+| 8/30 | PHI -166 | ML-fav | -166 | FanDuel | 61.5% | 61.5% | +0.0pp | N | TBD | — | — | — | — | Tier 1 standalone; Phillies elite 76-60 vs Angels 52-84; cleanest +EV edge on board |
+| 8/30 | MIL -157 | ML-fav | -157 | BetRivers | 60.1% | 60.1% | +0.0pp | N | TBD | — | — | — | — | Tier 2 leg 1; Brewers elite 85-51 W4 +180 RDiff; independent of TB matchup |
+| 8/30 | TB -157 | ML-fav | -157 | Caesars | 60.4% | 60.4% | +0.0pp | N | TBD | — | — | — | — | Tier 2 leg 2; Rays elite 81-54 W3; combined 36.3% floor with MIL |
+
+**Tier 1 (Build A):** PHI -166 | 61.5% floor | +1.5pp edge vs 52.6% market consensus
+**Tier 2 (Build A):** MIL + TB | 36.3% floor | +146 payout | independent matchups
+**Tier 3 (Build A):** MIL + TB + PHI | 22.3% floor | +210 payout | chases the +200 band
+
+**PULSE governance applied:** COOL band:50-54 (halved) and type:total (halved) — all three legs fall outside these bands, so no adjustment. No Tier 1 or parlay-anchor restrictions hit.
+
+**Bankroll bet (highest-floor):** PHI -166 (61.5% floor, Tier 1 standalone) — takes the $10 rollover single.
+
