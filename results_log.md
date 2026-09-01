@@ -98,6 +98,9 @@ calibration (do my "70%" legs hit ~70%?), hit rate & ROI by bet type, and closin
 | 7/31 | TB ML (Martinez, vs CWS) [adj: ace_edge+3] — 18:00 repriced | ML-fav | -126 | 59.0% | 55.8% | **+3.2** | **L** (CWS 6-1 TB — Martinez's contact management didn't hold; CWS jumped him). Grade: **+EV (clears gate) — LOST** | Y | − 55%cl | P |
 | 7/31 | Bibee Under 4.5 K (AZ @ CLE) [adj: custom+5] — 18:00 repriced | K-Under | -128 | 57.5% | 53.5% | **+4.0** | **W** (3 K, gamelog-confirmed — under 4.5) — scan candidate, not needed for final construction. Grade: **+EV (clears gate) — WON** | N | = 52%cl | S |
 | 7/31 | BOS@LAD Over 8.5 [adj: custom+4] — 18:00 repriced | Total | +103 | 56.1% | 49.6% | **+6.5** | **W** (BOS 9-4 LAD, 13 total runs — well over 8.5; the bullpen-game volatility read cashed) — Build C Tier 1 standalone. Grade: **+EV (clears gate) — WON** | Y | − 48%cl | S |
+| 9/1 | Pittsburgh Pirates ML (Skenes, vs SF) [adj: ace_edge+1.5] | ML-fav | −157 | 61.0% | 61.4% | **+3.2** | TBD | N | — | S |
+| 9/1 | Cleveland Guardians ML (opener, vs TOR) [adj: opener_pen+2] | ML-fav | −173 | 63.4% | 62.1% | **+2.8** | TBD | N | — | P |
+| 9/1 | Toronto Blue Jays ML (vs CLE) | ML-dog | +158 | 37.9% | 37.9% | 0.0 | TBD | N | — | P |
 | 6/24 | Ryan O5.5K -142 (FD) — Tier 1 standalone | K-Over | -142 | 66.9% | 55.9% | +11.0 | **W** (6.0 IP / 4 ER / **9 K** vs LAD — Over 5.5K cashed easily). Grade: **+EV (clears gate by +11pp) — WON** | Y | — | STANDALONE |
 | 6/24 | ATH ML -108 (LowVig) — Tier 2/3 parlay leg | ML-fav | -108 | 55.2% | 51.2% | +4.0 | ❌ **LOST** (ATH 1, SF 2 — Jump's SP edge didn't translate to offense; ATH stranded runners). Grade: **+EV ✓** (ace-edge gate cleared, thin team offense was the risk not fully priced). | Y | — | P |
 | 6/24 | LAD ML -153 (LowVig) — Bankroll Attempt 9 Roll 1 | ML-fav | -153 | 62.1% | 59.1% | +3.0 | **W** (LAD 4-3 MIN — Ohtani ace-edge held). Grade: **+EV (clears gate) — WON** | Y | — | STANDALONE |
