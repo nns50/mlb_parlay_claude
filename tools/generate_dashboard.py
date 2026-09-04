@@ -340,11 +340,11 @@ def parse_latest_build() -> dict:
     out['date'] = f.stem
 
     # Latest credit line anywhere in the file (each run appends one)
-    for m in re.finditer(r'Odds API credits remaining:?\**\s*\**([\d,]+)\**'
-                         r'(?:\s*\(used\s*([\d,]+))?', text):
-        out['credits_remaining'] = int(m.group(1).replace(',', ''))
-        if m.group(2):
-            out['credits_used'] = int(m.group(2).replace(',', ''))
+    # Flexible pattern: "Odds API credits" ... (number) ... (optionally "used" + number)
+    for m in re.finditer(r'Odds API credits[^0-9]*?(\d{4,5})(?:[^0-9]*(used\s+(\d{4,5}))?)?', text):
+        out['credits_remaining'] = int(m.group(1))
+        if m.group(3):
+            out['credits_used'] = int(m.group(3))
 
     # Explicit "credits unavailable" marker (deactivated key / quota call failed). An
     # EXPLICIT marker satisfies the credits-recorded guard — a missing line still fails,
@@ -381,7 +381,7 @@ def parse_latest_build() -> dict:
                 nx = re.search(r'\n### ', card_text)
                 if nx:
                     card_text = card_text[:nx.start()]
-                for row_m in re.finditer(r'^\|([^|\n]*Tier \d[^|]*)\|([^|\n]*)\|', card_text, re.MULTILINE):
+                for row_m in re.finditer(r'^\|([^|\n]*tier \d[^|]*)\|([^|\n]*)\|', card_text, re.MULTILINE | re.IGNORECASE):
                     title = strip_md(row_m.group(1)).strip()
                     pick = strip_md(row_m.group(2)).strip()
                     if title:
