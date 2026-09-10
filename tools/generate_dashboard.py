@@ -381,7 +381,7 @@ def parse_latest_build() -> dict:
                 nx = re.search(r'\n### ', card_text)
                 if nx:
                     card_text = card_text[:nx.start()]
-                for row_m in re.finditer(r'^\|([^|\n]*tier \d[^|]*)\|([^|\n]*)\|', card_text, re.MULTILINE | re.IGNORECASE):
+                for row_m in re.finditer(r'^\|([^|\n]*(?:tier \d|NO BET)[^|]*)\|([^|\n]*)\|', card_text, re.MULTILINE | re.IGNORECASE):
                     title = strip_md(row_m.group(1)).strip()
                     pick = strip_md(row_m.group(2)).strip()
                     if title:
