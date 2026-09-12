@@ -1053,3 +1053,14 @@ set is now FIXED as "every Angle B row in this section" — no narrative selecti
 9, which is what the hook-risk shade prices; the shade-magnitude question stays open but with a much
 weaker fact pattern than "one-sided for two months." (The 8/6–8/7 row prose is left as written per the
 supersede-don't-edit doctrine; this correction row governs. `fades.md` entry corrected in place.)
+
+---
+
+## Recommended but NOT played — 9/12/26 Build A (11:00 ET)
+
+| Date | Leg (game) | Type | Price | TrueP | ImplP | Edge | Result | Played | CLV | Bucket |
+|------|------------|------|-------|-------|-------|------|--------|--------|-----|--------|
+| 9/12 | **Glasnow ML** (LAD @ MIA) | ML-fav | **−182** | **70%** | 63.0% | **+7.0pp** | TBD | N | — | S |
+| 9/12 | Suarez ML (BOS vs KC) [BANKROLL ROLL 1, Attempt 11] | ML-fav | −212 | 68% | 66.5% | +1.5pp | TBD | N | — | S |
+| 9/12 | MIL ML (vs CIN) [Tier 2/3 anchor] | ML-fav | −175 | 67% | 63.6% | +3.4pp | TBD | N | — | P |
+| 9/12 | Cole ML (NYY vs NYM) [Rejected — thin edge for parlay anchor] | ML-fav | −155 | 62% | 58.3% | +3.7pp | TBD | N | — | P |
