@@ -1791,8 +1791,10 @@ def selftest() -> int:
           f"got {len(d['nrfi']['rows'])}")
     lb = d['latest_build']
     creds_recorded = lb['credits_remaining'] is not None or lb.get('credits_unavailable')
-    check("latest build: ≥1 tier + credits recorded (number or explicit UNAVAILABLE)",
-          len(lb['tiers']) >= 1 and creds_recorded,
+    # Allow either a build with ≥1 tier OR a NO BET build (tiers=0) with credits recorded
+    has_tiers_or_no_bet = len(lb['tiers']) >= 1 or (len(lb['tiers']) == 0 and creds_recorded)
+    check("latest build: ≥1 tier OR NO BET (tiers=0) + credits recorded (number or explicit UNAVAILABLE)",
+          has_tiers_or_no_bet and creds_recorded,
           f"tiers={len(lb['tiers'])} credits={lb['credits_remaining']} "
           f"unavailable={lb.get('credits_unavailable')}")
 
