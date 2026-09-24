@@ -1053,3 +1053,13 @@ set is now FIXED as "every Angle B row in this section" — no narrative selecti
 9, which is what the hook-risk shade prices; the shade-magnitude question stays open but with a much
 weaker fact pattern than "one-sided for two months." (The 8/6–8/7 row prose is left as written per the
 supersede-don't-edit doctrine; this correction row governs. `fades.md` entry corrected in place.)
+
+---
+
+## 2026-09-24 Build A (11:00 ET)
+
+| Date | Leg (game) | Type | Price | TrueP | ImplP | Edge | Result | Played | CLV | Bucket |
+|------|------------|------|-------|-------|-------|------|--------|--------|-----|--------|
+| 9/24 | Glasnow O6.5K (SD @ LAD, 02:10 ET) [adj: ace_edge+1.5] | K-Over | -140 | 57% | 55.2% | **+1.8** | TBD | N | — | S |
+| 9/24 | Boston Red Sox ML (CLE @ BOS, 22:45 ET) [adj: ace_edge+1.5] | ML-fav | -123 | 57% | 54.5% | **+2.5** | TBD | N | — | S |
+| 9/24 | Glasnow O6.5K + BOS ML (parlay, 2-leg) [correlation: none expected] | Parlay | +263 | 32.5% | 31.1% | **+1.4** | TBD | N | — | P |
