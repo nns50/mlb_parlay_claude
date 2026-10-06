@@ -340,11 +340,11 @@ def parse_latest_build() -> dict:
     out['date'] = f.stem
 
     # Latest credit line anywhere in the file (each run appends one)
-    # Flexible pattern: "Odds API credits" ... (number) ... (optionally "used" + number)
-    for m in re.finditer(r'Odds API credits[^0-9]*?(\d{4,5})(?:[^0-9]*(used\s+(\d{4,5}))?)?', text):
-        out['credits_remaining'] = int(m.group(1))
+    # Flexible pattern: "Odds API credits" ... (number, possibly with commas) ... (optionally "used" + number)
+    for m in re.finditer(r'Odds API credits[^0-9]*?([\d,]{4,6})(?:[^0-9]*(used\s+([\d,]{4,6}))?)?', text):
+        out['credits_remaining'] = int(m.group(1).replace(',', ''))
         if m.group(3):
-            out['credits_used'] = int(m.group(3))
+            out['credits_used'] = int(m.group(3).replace(',', ''))
 
     # Explicit "credits unavailable" marker (deactivated key / quota call failed). An
     # EXPLICIT marker satisfies the credits-recorded guard — a missing line still fails,
